@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components'
 
 type WrapperProps = {
-  focus?: boolean
   success?: boolean
   error?: boolean
 }
@@ -10,15 +9,13 @@ const Wrapper = styled.fieldset<WrapperProps>`
   position: relative;
 
   padding: 0;
+  /* background-color: transparent; */
   background-color: ${({ theme: { colors } }) => colors.layout.level0};
-  border-radius: ${({ theme: { radii } }) => `${radii[3]}px `};
-  border: 1px solid ${({ theme: { colors } }) => colors.layout.divider};
+  border: 0;
   box-shadow: none;
-  transition: all 0.2s ease-out;
 
-  ${({ focus, success, error, theme: { colors } }) => css`
-    border-color: ${(focus && colors.brand.primary) ||
-    (success && colors.utility.confirmation) ||
+  ${({ success, error, theme: { colors } }) => css`
+    border-color: ${(success && colors.utility.confirmation) ||
     (error && colors.utility.critical)};
   `}
 
@@ -31,7 +28,7 @@ const SupportiveText = styled.span`
   font-size: ${({ theme }) => theme.fontSizes[0]}px;
   line-height: ${({ theme }) => theme.lineHeights[1]};
   color: ${({ theme }) => theme.colors.content.subtle};
-  display: inline-block;
+  display: block;
   margin-top: ${({ theme: { space } }) => `${space[0]}px `};
 
   &:first-letter {

@@ -1,7 +1,12 @@
 import styled, { css } from 'styled-components'
 
-const Fieldset = styled.fieldset<{ error: boolean }>`
-  /* height: 100%; */
+const Wrapper = styled.div<{ error: boolean }>`
+  height: inherit;
+  overflow-x: scroll;
+  display: flex;
+  min-width: 100%;
+  position: relative;
+  height: 156px;
 
   ${({ error, theme: { colors } }) =>
     error &&
@@ -23,15 +28,6 @@ const Fieldset = styled.fieldset<{ error: boolean }>`
         color: ${colors.utility.critical};
       }
     `}
-`
-
-const Wrapper = styled.div`
-  height: inherit;
-  overflow-x: scroll;
-  display: flex;
-  min-width: 100%;
-  position: relative;
-  height: 156px;
 `
 
 const Overlay = styled.div`
@@ -136,7 +132,6 @@ const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
 `
 
 const ImgInput = {
-  Fieldset,
   Wrapper,
   Overlay,
   Input,

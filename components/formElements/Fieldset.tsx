@@ -1,42 +1,25 @@
-import {
-  useState,
-  useEffect,
-  InputHTMLAttributes,
-  Children,
-  cloneElement,
-} from 'react'
 import { FieldError } from 'react-hook-form'
 import Fieldset from '../../styles/components/FieldsetStyle'
 import Label from '../../styles/components/LabelStyle'
-import { useController, UseControllerProps } from 'react-hook-form'
 
-type Props<T> = {
-  name: string
+type Props = {
   children: JSX.Element
-  focus?: boolean
   label?: string
   supportiveText?: string
   disabled?: boolean
-  control: UseControllerProps<T>
+  error: FieldError | undefined
 }
 
-function FieldsetComp<T>(props: Props<T>) {
-  const { label, focus, disabled, children, supportiveText, control } = props
-  console.log(props)
+function FieldsetComp(props: Props) {
+  const { label, disabled, error, children, supportiveText } = props
 
-  const {
-    field: { onChange, value, name },
-    fieldState: { invalid, isTouched, isDirty, error },
-    formState: { touchedFields, dirtyFields },
-  } = useController(control)
+  // console.log('error: ', error)
 
   return (
     <fieldset>
       {label && <Label color={error && 'utility.critical'}>{label}</Label>}
-      <Fieldset.Wrapper focus={focus} error={error && true} disabled={disabled}>
-        {Children.map(children, (child, index) =>
-          cloneElement(child, { value, onChange })
-        )}
+      <Fieldset.Wrapper error={error && true} disabled={disabled}>
+        {children}
       </Fieldset.Wrapper>
 
       {supportiveText && (

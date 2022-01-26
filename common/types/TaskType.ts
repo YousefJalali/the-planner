@@ -15,16 +15,17 @@ export type TaskType = {
   id: string
   title: string
   description: string
-  project: {
-    id: string
-    title: string
-    color: string
-  }
+  project: string
+  // project: {
+  //   id: string
+  //   title: string
+  //   color: string
+  // }
   isOpen: boolean
   startDate: string
-  startTime: string
-  endDate: string
-  endTime: string
-  attachments: imgType[]
+  startTime?: string
+  endDate?: string
+  endTime?: string
+  attachments?: imgType[]
   status: Status
 }

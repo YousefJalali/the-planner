@@ -3,11 +3,12 @@ import { ImgType } from '../../components/formElements/ImageInput'
 
 export type TaskFormType = {
   title: string
-  project: NestedValue<{
-    id: string
-    title: string
-    color: string
-  }>
+  project: string
+  // project: NestedValue<{
+  //   id: string
+  //   title: string
+  //   color: string
+  // }>
   isOpen: boolean
   startDate: string
   startTime: string

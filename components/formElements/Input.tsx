@@ -1,12 +1,20 @@
 import { InputHTMLAttributes } from 'react'
+import Input from '../../styles/components/InputStyle'
 
-type Props<T> = {} & InputHTMLAttributes<HTMLInputElement>
+type Props = {
+  hasError: boolean
+} & InputHTMLAttributes<HTMLInputElement>
 
-function InputComp<T>(props: Props<T>) {
-  return <input {...props} />
+function InputComp(props: Props) {
+  return (
+    <Input.Wrapper>
+      <input {...props} />
+    </Input.Wrapper>
+  )
 }
 
 export default InputComp
+
 // import { useState, InputHTMLAttributes } from 'react'
 // import Fieldset from './Fieldset'
 // import { useController, UseControllerProps } from 'react-hook-form'
