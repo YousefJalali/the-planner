@@ -3,16 +3,22 @@ import styled, { css } from 'styled-components'
 type WrapperProps = {
   success?: boolean
   error?: boolean
+  noBorder?: boolean
 }
 const Wrapper = styled.fieldset<WrapperProps>`
   width: 100%;
   position: relative;
 
   padding: 0;
-  /* background-color: transparent; */
   background-color: ${({ theme: { colors } }) => colors.layout.level0};
-  border: 0;
+  border-radius: ${({ theme: { radii } }) => `${radii[3]}px `};
+  border: 1px solid ${({ theme: { colors } }) => colors.layout.divider};
   box-shadow: none;
+  transition: all 0.2s ease-out;
+
+  &:focus-within {
+    border-color: ${({ theme: { colors } }) => colors.brand.primary};
+  }
 
   ${({ success, error, theme: { colors } }) => css`
     border-color: ${(success && colors.utility.confirmation) ||
@@ -22,6 +28,10 @@ const Wrapper = styled.fieldset<WrapperProps>`
   &:disabled {
     background-color: ${({ theme: { colors } }) => colors.layout.level1accent};
   }
+
+  ${({ noBorder }) => css`
+    border: ${noBorder && 'none'};
+  `}
 `
 
 const SupportiveText = styled.span`

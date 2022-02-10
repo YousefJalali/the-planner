@@ -1,50 +1,45 @@
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { Text } from '../../styles'
 import ImgInput from '../../styles/components/ImageInputStyle'
-import { X, Plus } from 'lucide-react'
+import { X, Plus, FileText } from 'lucide-react'
 import { ChangeEvent } from 'react'
-import { FieldError } from 'react-hook-form'
 import getBlobUrl from '../../common/utils/getBlobUrl'
+import { Box, Text } from '../../styles'
+import { ImageType } from '../../common/types/ImageType'
+import getImageDimensions from '../../common/utils/getImageDimensions'
 
-export type ImgType = {
-  id: string
-  name: string
-  path: string
-}
-
-type Props<T> = {
-  value: ImgType[]
-  error?: FieldError | undefined
-  onChange: (e: ChangeEvent<HTMLInputElement> | ImgType[]) => void
+type Props = {
+  value: ImageType[]
+  onChange: (e: ChangeEvent<HTMLInputElement> | ImageType[]) => void
   max: number
   multiple?: boolean
 }
 
-function ImageInput<T extends Record<string, any> = Record<string, any>>(
-  props: Props<T>
-) {
-  const { value, onChange, max, error, multiple } = props
+function ImageInput(props: Props) {
+  const { value, onChange, max, multiple } = props
 
   const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
     const images = await getBlobUrl(e.target.files)
+
     if (images) {
+      // const imagesWithSizes = await getImageDimensions(images)
+
       onChange([...value, ...images])
     }
   }
 
   const onDeleteHandler = (index: number) => {
-    onChange(value.filter((img: ImgType, i: number) => i !== index))
+    onChange(value.filter((img: ImageType, i: number) => i !== index))
   }
 
   const inputId = uuidv4()
 
   return (
-    <ImgInput.Wrapper error={_.isObject(error)}>
+    <ImgInput.Wrapper>
       {value.length > 0 &&
-        value.map((img: ImgType, i: number) => (
+        value.map((img: ImageType, i: number) => (
           <ImgInput.ImageWrapper key={img.id}>
             <img src={img.path} alt={`preview-${i + 1}`} />
             <ImgInput.DeleteButton
@@ -64,15 +59,30 @@ function ImageInput<T extends Record<string, any> = Record<string, any>>(
             accept='.png, .jpg, .jpeg'
             onChange={(e) => onChangeHandler(e)}
             multiple={multiple}
-
-            // {...props}
           />
           <label
             htmlFor={`image-input-${inputId}`}
             data-testid={`image-input-${inputId}`}
           >
-            <Plus height={20} width={20} />
-            <span>Add photos</span>
+            <Box display='flex' flexDirection='column' alignItems='center'>
+              <FileText height={32} width={32} />
+              <Box mt={2} mb={0} display='flex' alignItems='center'>
+                <Text
+                  as='span'
+                  color='content.subtle'
+                  textAlign='center'
+                  lineHeight={1}
+                >
+                  Drag your docs here, or{' '}
+                  <Text as='span' color='brand.primary'>
+                    browse
+                  </Text>
+                </Text>
+              </Box>
+              <Text as='span' color='content.nonessential'>
+                Supports: JPG, JPEG, PNG
+              </Text>
+            </Box>
           </label>
         </ImgInput.Input>
       )}

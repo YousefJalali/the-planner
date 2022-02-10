@@ -126,14 +126,14 @@ const Subhead = styled('h2')<SpaceProps & SubheadProps>(
 interface BodyProps {
   size: 'micro' | 'small' | 'default' | 'large'
 }
-const Body = styled('p')<SpaceProps & BodyProps>(
+const Body = styled('p')<BodyProps & ColorProps & TypographyProps>(
   variant({
     prop: 'size',
     variants: {
       micro: {
         fontSize: 0,
         lineHeight: 2,
-        fontWeight: 'default',
+        fontWeight: 'bold',
         color: 'content.default',
       },
       small: {
@@ -148,7 +148,7 @@ const Body = styled('p')<SpaceProps & BodyProps>(
         fontWeight: 'default',
         color: 'content.default',
       },
-      Large: {
+      large: {
         fontSize: 3,
         lineHeight: 2,
         fontWeight: 'light',

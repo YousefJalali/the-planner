@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import ProjectType from '../../common/types/ProjectType'
+import { ProjectType } from '../../common/types/ProjectType'
 import { Text, Box } from '../../styles'
 import ProjectItem from '../../styles/components/project/ProjectItemStyle'
 import { Circle } from 'lucide-react'

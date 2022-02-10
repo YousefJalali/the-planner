@@ -4,14 +4,14 @@ import { Text } from '../../styles'
 
 type Props = {
   variant: 'primary' | 'secondary' | 'textOnly'
-  text: string
+  children: string
   leftIcon?: ReactNode
   rightIcon?: ReactNode
 }
 
 const ButtonComp: FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = ({
   variant,
-  text,
+  children,
   leftIcon,
   rightIcon,
   ...props
@@ -20,7 +20,7 @@ const ButtonComp: FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = ({
     <Button variant={variant} {...props}>
       {leftIcon}
       <Text as='span' fontSize={2} lineHeight={1} letterSpacing={1}>
-        {text}
+        {children}
       </Text>
       {rightIcon}
     </Button>

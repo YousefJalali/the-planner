@@ -1,16 +1,10 @@
 import { InputHTMLAttributes } from 'react'
-import Input from '../../styles/components/InputStyle'
 
-type Props = {
-  hasError: boolean
-} & InputHTMLAttributes<HTMLInputElement>
+type Props = {} & InputHTMLAttributes<HTMLInputElement>
 
 function InputComp(props: Props) {
-  return (
-    <Input.Wrapper>
-      <input {...props} />
-    </Input.Wrapper>
-  )
+  return <input {...props} />
+  // return <input {...props} onFocus={props.setFocus} onBlur={props.setFocus} />
 }
 
 export default InputComp

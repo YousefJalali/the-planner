@@ -1,4 +1,5 @@
-import { useLayoutEffect } from 'react'
+// import { useLayoutEffect } from 'react'
+import useLayoutEffect from './useIsomorphicLayoutEffect'
 
 // Hook
 function useLockBodyScroll(): void {

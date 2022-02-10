@@ -1,40 +1,43 @@
-import useSWR from 'swr'
-import ProjectType from '../../common/types/ProjectType'
-import { Box, Headline } from '../../styles'
-import ProjectCard from './ProjectCard'
+import { FC } from 'react'
+import { ProjectType } from '../../common/types/ProjectType'
+import { Box, Headline, Text } from '../../styles'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
 
-const getProjects = async () => {
-  const res = await fetch('/projects')
-  const data: ProjectType[] = await res.json()
-  return data
+const List = styled(Box)`
+  > li {
+    flex: ${({ theme: { space } }) => `0 0 calc(100% - ${space[3]}px)`};
+
+    &:not(:last-child) {
+      margin-right: ${({ theme: { space } }) => space[3]}px;
+    }
+  }
+`
+
+type Props = {
+  projects: JSX.Element[]
 }
 
-const ProjectsList = () => {
-  const { data: projects, error } = useSWR('/projects', getProjects)
-
-  let content = <Box>loading</Box>
-
-  if (error) {
-    content = <Box>error</Box>
-  }
-
-  if (projects) {
-    content = (
-      <Box display='flex' overflowY='scroll' px={3}>
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </Box>
-    )
-  }
+const ProjectsList: FC<Props> = ({ projects }) => {
+  const router = useRouter()
 
   return (
     <Box as='section' mt={4}>
-      <Headline level='three' px={3} mb={1}>
-        Projects
-      </Headline>
+      <Box
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        px={3}
+      >
+        <Headline level='three' mb={1}>
+          Projects
+        </Headline>
+        <Text onClick={() => router.push('/projects')}>See all</Text>
+      </Box>
 
-      {content}
+      <List as='ul' px={3} pb={3} display='flex' overflowX='scroll'>
+        {projects}
+      </List>
     </Box>
   )
 }

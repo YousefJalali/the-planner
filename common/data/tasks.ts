@@ -1,6 +1,6 @@
-import { Status, TaskType } from '../types/TaskType'
-import ProjectType from '../types/ProjectType'
-import faker from 'faker'
+import { TaskType, Status } from '../types/TaskType'
+import { ProjectType } from '../types/ProjectType'
+import faker from '@faker-js/faker'
 import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
 
@@ -14,23 +14,23 @@ function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-const task: (projects: ProjectType[]) => TaskType = (projects) => {
+export const task: (projects: ProjectType[]) => TaskType = (projects) => {
   const project = _.sample(projects)!
 
   return {
     id: uuidv4(),
     title: faker.lorem.sentence(),
     description: faker.lorem.paragraph(),
-    project: {
-      id: project.id,
-      title: project.title,
-      color: project.color,
+    project: project.id,
+    date: {
+      startDate: faker.date.recent(),
+      endDate: faker.date.future(),
     },
-    isOpen: Math.random() < 0.5,
-    startDate: faker.date.recent().toString(),
-    startTime: faker.date.recent().toString(),
-    endDate: faker.date.future().toString(),
-    endTime: faker.date.future().toString(),
+    openTask: Math.random() < 0.5,
+    time: {
+      startTime: faker.date.recent(),
+      endTime: faker.date.future(),
+    },
     attachments: new Array(randomInteger(0, 10)).fill(0).map((e) => ({
       id: uuidv4(),
       width: 375,
@@ -38,12 +38,12 @@ const task: (projects: ProjectType[]) => TaskType = (projects) => {
       path: faker.image.imageUrl(375, 812),
     })),
     isHidden: Math.random() < 0.5,
-    status: randomEnumValue(Status),
+    status: _.sample(Object.values(Status)) as Status,
   }
 }
 
-const allTasks: (projects: ProjectType[]) => TaskType[] = (projects) => {
-  return Array.from({ length: 10 }, () => task(projects))
+export const multipleTasks: (projects: ProjectType[]) => TaskType[] = (
+  projects
+) => {
+  return Array.from({ length: 20 }, () => task(projects))
 }
-
-export default allTasks

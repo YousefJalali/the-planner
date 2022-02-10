@@ -1,6 +1,7 @@
 import { FieldError } from 'react-hook-form'
 import Fieldset from '../../styles/components/FieldsetStyle'
 import Label from '../../styles/components/LabelStyle'
+import { Text } from '../../styles'
 
 type Props = {
   children: JSX.Element
@@ -8,18 +9,50 @@ type Props = {
   supportiveText?: string
   disabled?: boolean
   error: FieldError | undefined
+  noBorder?: boolean
+  optionalField?: boolean
 }
 
 function FieldsetComp(props: Props) {
-  const { label, disabled, error, children, supportiveText } = props
-
-  // console.log('error: ', error)
+  const {
+    label,
+    disabled,
+    error,
+    children,
+    supportiveText,
+    noBorder,
+    optionalField,
+  } = props
 
   return (
     <fieldset>
-      {label && <Label color={error && 'utility.critical'}>{label}</Label>}
-      <Fieldset.Wrapper error={error && true} disabled={disabled}>
+      {label && (
+        <Label color={error && 'utility.critical'}>
+          {label}{' '}
+          {optionalField && (
+            <Text as='span' color='content.nonessential'>
+              (optional)
+            </Text>
+          )}
+        </Label>
+      )}
+      <Fieldset.Wrapper
+        error={error && true}
+        disabled={disabled}
+        noBorder={noBorder}
+      >
         {children}
+        {/* {Children.map(children, (child, index) =>
+          cloneElement(child, { setFocus })
+        )} */}
+        {/* {Children.map(children, (child, i) => {
+          // return child.type === 'input'
+          return i === 0
+            ? cloneElement(child, {
+                ref,
+              })
+            : child
+        })} */}
       </Fieldset.Wrapper>
 
       {supportiveText && (

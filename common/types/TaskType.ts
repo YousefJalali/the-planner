@@ -1,31 +1,41 @@
+import { ProjectType } from './ProjectType'
+import { ImageType } from './ImageType'
+
 export enum Status {
   PROPOSED = 'proposed',
   INPROGRESS = 'inprogress',
   COMPLETED = 'completed',
 }
 
-export type imgType = {
-  id: string
-  height: number
-  width: number
-  path: string
-}
+export type TaskProjectType = Omit<
+  ProjectType,
+  | 'description'
+  | 'tasks'
+  | 'proposed'
+  | 'inprogress'
+  | 'completed'
+  | 'progress'
+  | 'isHidden'
+>
 
 export type TaskType = {
   id: string
   title: string
   description: string
-  project: string
-  // project: {
-  //   id: string
-  //   title: string
-  //   color: string
-  // }
-  isOpen: boolean
-  startDate: string
-  startTime?: string
-  endDate?: string
-  endTime?: string
-  attachments?: imgType[]
+  project: string | TaskProjectType
+  openTask: boolean
+  date: {
+    startDate: Date
+    endDate: Date | null
+  }
+  time: {
+    startTime: Date | null
+    endTime: Date | null
+  }
+  // startDate: Date
+  // endDate: Date | null
+  // startTime: Date | null
+  // endTime: Date | null
+  attachments: ImageType[] | []
   status: Status
 }

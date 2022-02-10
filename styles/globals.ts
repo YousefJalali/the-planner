@@ -64,6 +64,7 @@ export default createGlobalStyle<{ theme: ThemeType }>`
   a {
     color: inherit;
     text-decoration: none;
+    cursor: pointer;
   }
 
   input, fieldset, textarea {
@@ -114,6 +115,7 @@ export default createGlobalStyle<{ theme: ThemeType }>`
     -webkit-appearance: none;
     }
   }
+  
 
   textarea {
     resize: none;
@@ -144,7 +146,7 @@ export default createGlobalStyle<{ theme: ThemeType }>`
     border-left-color: ${({ theme: { colors } }) => colors.brand.primary};
   }
 
-  #modal {
+  #modal, #notification {
     position: fixed;
     top: 0;
     left: 0;
@@ -152,9 +154,6 @@ export default createGlobalStyle<{ theme: ThemeType }>`
   }
 
   #notification {
-    position: fixed;
-    top: 0;
-    left: 0;
     z-index: 2000;
   }
 

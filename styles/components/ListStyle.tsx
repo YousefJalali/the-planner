@@ -14,6 +14,7 @@ const UL = styled.ul<LayoutProps & SpaceProps & FlexboxProps>`
   ${space}
   ${layout}
   ${flexbox}
+  background-color: ${({ theme: { colors } }) => colors.layout.level0}; ;
 `
 const LI = styled.li<LayoutProps & SpaceProps & FlexboxProps & ColorProps>`
   ${space}

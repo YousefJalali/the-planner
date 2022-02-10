@@ -5,9 +5,8 @@ import Select from '../../styles/components/project/SelectProjectStyle'
 import List from '../../styles/components/ListStyle'
 import Modal from '../layout/Modal'
 import ProjectItem from './ProjectItem'
-import ProjectType from '../../common/types/ProjectType'
+import { ProjectType } from '../../common/types/ProjectType'
 import useSWR from 'swr'
-import Input from '../../styles/components/InputStyle'
 
 type Props = {
   onChange: (v: string) => void
@@ -86,33 +85,32 @@ function SelectProject({ value, onChange, placeholder }: Props) {
         <ChevronDown height={16} width={16} />
       </Select>
 
-      {modal && (
-        <Modal title='' onClose={closeModalHandler}>
-          <List.UL py={1} mb={1}>
-            {projects?.map((project) => (
-              <ProjectItem
-                key={project.id}
-                project={project}
-                onClick={() => onItemClickHandler(project.id)}
-              />
-            ))}
-            <hr />
-            <List.LI
-              as='li'
-              display='flex'
-              alignItems='center'
-              px={3}
-              mt={1}
-              color='brand.primary'
-            >
-              <Plus />
-              <Text as='span' ml={1}>
-                Create Project
-              </Text>
-            </List.LI>
-          </List.UL>
-        </Modal>
-      )}
+      <Modal isOpen={modal} onRequestClose={closeModalHandler}>
+        <List.UL py={1}>
+          {projects?.map((project) => (
+            <ProjectItem
+              key={project.id}
+              project={project}
+              onClick={() => onItemClickHandler(project.id)}
+            />
+          ))}
+          <hr />
+          <List.LI
+            as='li'
+            display='flex'
+            alignItems='center'
+            px={3}
+            py={1}
+            mt={1}
+            color='brand.primary'
+          >
+            <Plus />
+            <Text as='span' ml={1}>
+              Create Project
+            </Text>
+          </List.LI>
+        </List.UL>
+      </Modal>
     </>
   )
 }

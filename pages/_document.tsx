@@ -7,6 +7,7 @@ import Document, {
   DocumentInitialProps,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { getColorModeInitScriptElement } from '@xstyled/styled-components'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -53,6 +54,7 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
+          {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
           <div id='side-drawer' />

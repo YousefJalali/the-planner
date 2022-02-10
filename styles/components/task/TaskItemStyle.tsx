@@ -69,16 +69,17 @@ const Details = styled.div`
 `
 
 //check button
-const CheckButton = styled.div`
+const CheckButton = styled.label`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  /* z-index: 1; */
   height: 100%;
   width: 100%;
   border-radius: 100%;
   background-color: ${({ theme }) => theme.colors.layout.level0};
   border: 2px solid ${({ color }) => color};
+  cursor: pointer;
 
   display: flex;
   justify-content: center;
@@ -103,29 +104,30 @@ const CheckButton = styled.div`
   }
 `
 
-const Check = styled.div`
+const Check = styled.div<{ color: string }>`
   display: block;
   height: 24px;
   width: 24px;
   position: relative;
 
-  label {
-    z-index: 1;
+  /* label {
+    z-index: 10;
     margin: 0;
     line-height: 1;
     cursor: pointer;
     width: 100%;
     text-transform: none;
-  }
+    padding: 12px;
+  } */
 
-  input[type='radio'] {
+  input[type='checkbox'] {
     margin: 0;
     height: 0;
     width: 0;
     visibility: hidden;
   }
 
-  input[type='radio']:checked {
+  input[type='checkbox']:checked {
     & ~ ${CheckButton} {
       &:after {
         background-color: ${(props) => props.color};

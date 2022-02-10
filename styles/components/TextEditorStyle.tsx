@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ readonly?: boolean }>`
   .ql-container {
     background-color: ${({ theme: { colors } }) => colors.layout.level0};
     border: 0;
@@ -23,6 +23,20 @@ const Wrapper = styled.div`
       right: 0;
       font-style: normal;
     }
+
+    ${(props) =>
+      props.readonly &&
+      css`
+        background-color: transparent;
+        border-radius: 0;
+        .ql-editor {
+          min-height: auto;
+          max-height: calc(21px * 16 + 32px);
+          padding: 0;
+          font-size: ${({ theme }) => theme.fontSizes[2]}px;
+          color: ${({ theme: { colors } }) => colors.content.subtle};
+        }
+      `}
   }
 `
 

@@ -1,33 +1,12 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-const Wrapper = styled.div<{ error: boolean }>`
+const Wrapper = styled.div`
   height: inherit;
   overflow-x: scroll;
   display: flex;
   min-width: 100%;
   position: relative;
   height: 156px;
-
-  ${({ error, theme: { colors } }) =>
-    error &&
-    css`
-      ${Input} {
-        border-color: colors.utility.critical;
-
-        label {
-          svg {
-            stroke: colors.utility.critical;
-          }
-          span {
-            color: colors.utility.critical;
-          }
-        }
-      }
-
-      ${SupportiveText}, span {
-        color: ${colors.utility.critical};
-      }
-    `}
 `
 
 const Overlay = styled.div`
@@ -41,15 +20,15 @@ const Overlay = styled.div`
 `
 
 const Input = styled.div<{ stretch: boolean }>`
-  border: 1px dashed ${({ theme: { colors } }) => colors.layout.divider};
-  border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
   width: ${(props) => (props.stretch && '100%') || 'fit-content'};
   height: 100%;
+
+  border: 1px dashed ${({ theme: { colors } }) => colors.layout.divider};
+  border-radius: ${({ theme: { radii } }) => `${radii[3]}px `};
 
   input {
     width: 0.1px;
@@ -69,16 +48,7 @@ const Input = styled.div<{ stretch: boolean }>`
     justify-content: center;
     padding: 16px;
 
-    svg {
-      stroke: ${({ theme: { colors } }) => colors.content.contrast};
-      margin-right: 8px;
-    }
-
     span {
-      font-size: 1rem;
-      font-weight: 400;
-      text-transform: none;
-      color: ${({ theme: { colors } }) => colors.content.nonessential};
       white-space: nowrap;
     }
   }
@@ -115,30 +85,12 @@ const DeleteButton = styled.div`
   cursor: pointer;
 `
 
-const SupportiveText = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes[0]}px;
-  line-height: ${({ theme }) => theme.lineHeights[1]};
-  color: ${({ theme }) => theme.colors.content.subtle};
-  display: inline-block;
-  margin-top: ${({ theme: { space } }) => `${space[0]}px `};
-
-  &:first-letter {
-    text-transform: uppercase;
-  }
-`
-
-const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
-  color: ${({ theme: { colors } }) => colors.utility.critical};
-`
-
 const ImgInput = {
   Wrapper,
   Overlay,
   Input,
   ImageWrapper,
   DeleteButton,
-  SupportiveText,
-  ErrorMessage,
 }
 
 export default ImgInput

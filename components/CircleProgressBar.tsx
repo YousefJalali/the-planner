@@ -1,9 +1,14 @@
 import { FC } from 'react'
 import styled from 'styled-components'
 
+type Props = {
+  strokeColor: string
+  percentage: number
+}
+
 const Container = styled.figure`
-  height: 56px;
-  width: 56px;
+  height: 100%;
+  width: 100%;
   margin: 0;
 `
 
@@ -27,19 +32,7 @@ const circleConfig = {
   radio: '15.91549430918954',
 }
 
-type Props = {
-  trailStrokeColor: string
-  strokeColor: string
-  percentage: number
-  innerText: string
-}
-
-const CircleProgressBar: FC<Props> = ({
-  trailStrokeColor,
-  strokeColor,
-  percentage,
-  innerText,
-}) => {
+const CircleProgressBar: FC<Props> = ({ strokeColor, percentage }) => {
   return (
     <Container>
       <svg viewBox={circleConfig.viewBox}>
@@ -48,7 +41,7 @@ const CircleProgressBar: FC<Props> = ({
           cy={circleConfig.y}
           r={circleConfig.radio}
           fill='transparent'
-          stroke='transparent'
+          stroke={`${strokeColor}20`}
           strokeWidth={2}
         />
 

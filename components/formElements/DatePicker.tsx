@@ -1,17 +1,14 @@
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePickerWrapper from '../../styles/components/DatePickerStyle'
-import Input from '../../styles/components/InputStyle'
 
 type Props = {} & ReactDatePickerProps
 
 function DateInput(props: Props) {
   return (
-    <Input.Wrapper>
-      <DatePickerWrapper>
-        <DatePicker {...props} />
-      </DatePickerWrapper>
-    </Input.Wrapper>
+    <DatePickerWrapper>
+      <DatePicker {...props} />
+    </DatePickerWrapper>
   )
 }
 

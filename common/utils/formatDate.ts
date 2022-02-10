@@ -1,4 +1,4 @@
-const formatDate = (date: string) => {
+export const getDate = (date: Date) => {
   const options = {
     weekday: 'long',
     year: 'numeric',
@@ -8,14 +8,22 @@ const formatDate = (date: string) => {
 
   const format = new Date(date)
 
-  return [
-    format.toLocaleDateString('en-US'),
-    format.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    }),
-  ]
+  return format.toLocaleDateString('en-US')
 }
 
-export default formatDate
+export const getTime = (date: Date) => {
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }
+
+  const format = new Date(date)
+
+  return format.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+}
