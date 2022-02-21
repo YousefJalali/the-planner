@@ -1,12 +1,13 @@
+import { x } from '@xstyled/styled-components'
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import ImgInput from '../../styles/components/ImageInputStyle'
-import { X, Plus, FileText } from 'lucide-react'
+import ImgInput from '../../styles/ImageInputStyle'
+import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
 import getBlobUrl from '../../common/utils/getBlobUrl'
-import { Box, Text } from '../../styles'
 import { ImageType } from '../../common/types/ImageType'
 import getImageDimensions from '../../common/utils/getImageDimensions'
+import Icon from '../Icon'
 
 type Props = {
   value: ImageType[]
@@ -46,7 +47,7 @@ function ImageInput(props: Props) {
               onClick={() => onDeleteHandler(i)}
               data-testid={`delete-${i + 1}`}
             >
-              <X height={16} width={16} />
+              <FiX height={16} width={16} />
             </ImgInput.DeleteButton>
           </ImgInput.ImageWrapper>
         ))}
@@ -64,25 +65,18 @@ function ImageInput(props: Props) {
             htmlFor={`image-input-${inputId}`}
             data-testid={`image-input-${inputId}`}
           >
-            <Box display='flex' flexDirection='column' alignItems='center'>
-              <FileText height={32} width={32} />
-              <Box mt={2} mb={0} display='flex' alignItems='center'>
-                <Text
-                  as='span'
-                  color='content.subtle'
-                  textAlign='center'
-                  lineHeight={1}
-                >
+            <x.div display='flex' flexDirection='column' alignItems='center'>
+              <Icon icon={FiFileText} size='1.5rem' />
+              <x.div mt={2} display='flex' alignItems='center'>
+                <x.span color='content-subtle' textAlign='center'>
                   Drag your docs here, or{' '}
-                  <Text as='span' color='brand.primary'>
-                    browse
-                  </Text>
-                </Text>
-              </Box>
-              <Text as='span' color='content.nonessential'>
+                  <x.span color='brand-primary'>browse</x.span>
+                </x.span>
+              </x.div>
+              <x.span color='content-nonessential'>
                 Supports: JPG, JPEG, PNG
-              </Text>
-            </Box>
+              </x.span>
+            </x.div>
           </label>
         </ImgInput.Input>
       )}
@@ -91,118 +85,3 @@ function ImageInput(props: Props) {
 }
 
 export default ImageInput
-
-// import _ from 'lodash'
-// import { v4 as uuidv4 } from 'uuid'
-// import { Text } from '../../styles'
-// import ImgInput from '../../styles/components/ImageInputStyle'
-// import { X, Plus } from 'react-feather'
-// import { useController, UseControllerProps } from 'react-hook-form'
-// import { ChangeEvent, InputHTMLAttributes } from 'react'
-// import Label from '../../styles/components/LabelStyle'
-
-// type ImgType = {
-//   id: string
-//   path: string
-// }
-
-// type Props<T> = {
-//   max: number
-//   disabled?: boolean
-//   supportive?: string
-// } & UseControllerProps<T> &
-//   InputHTMLAttributes<HTMLInputElement>
-
-// function ImageInput<T extends Record<string, any> = Record<string, any>>(
-//   props: Props<T>
-// ) {
-//   const { max, disabled, supportive } = props
-
-//   const {
-//     field: { onChange, value },
-//     fieldState: { error },
-//   } = useController(props)
-
-//   const readAsDataURL = (file: File) => {
-//     let fileReader = new FileReader()
-//     return new Promise<ImgType>((resolve, reject) => {
-//       //in case of error
-//       fileReader.onerror = () => {
-//         fileReader.abort()
-//         reject(new DOMException('Problem parsing input file.'))
-//       }
-
-//       fileReader.onload = function () {
-//         return resolve({
-//           id: uuidv4(),
-//           path: fileReader.result as string,
-//         })
-//       }
-
-//       fileReader.readAsDataURL(file)
-//     })
-//   }
-
-//   const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
-//     if (!e.target.files) return
-
-//     //convert fileList obj to an array of File
-//     const files: File[] = _.values(e.target.files)
-
-//     try {
-//       const images: ImgType[] = await Promise.all(
-//         files.map((file) => readAsDataURL(file))
-//       )
-//       onChange([...value, ...images])
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-
-//   const onDeleteHandler = (index: number) => {
-//     onChange(value.filter((img: ImgType, i: number) => i !== index))
-//   }
-
-//   const inputId = uuidv4()
-
-//   return (
-//     <ImgInput.Fieldset error={_.isObject(error)}>
-//       <Label>Attachments</Label>
-//       <ImgInput.Wrapper>
-//         {value.length > 0 &&
-//           value.map((img: ImgType, i: number) => (
-//             <ImgInput.ImageWrapper key={img.id}>
-//               <img src={img.path} alt='alt' />
-//               <ImgInput.DeleteButton onClick={() => onDeleteHandler(i)}>
-//                 <X height={16} width={16} />
-//               </ImgInput.DeleteButton>
-//             </ImgInput.ImageWrapper>
-//           ))}
-
-//         {value.length >= max ? null : (
-//           <ImgInput.Input stretch={value.length <= 0}>
-//             <input
-//               id={`image-input-${inputId}`}
-//               type='file'
-//               accept='.png, .jpg, .jpeg'
-//               onChange={(e) => onChangeHandler(e)}
-//               {...props}
-//             />
-//             <label htmlFor={`image-input-${inputId}`}>
-//               <Plus height={20} width={20} />
-//               <span>Add photos</span>
-//             </label>
-//           </ImgInput.Input>
-//         )}
-//         {disabled && <ImgInput.Overlay />}
-//       </ImgInput.Wrapper>
-//       <ImgInput.SupportiveText as='span'>
-//         <Text>Photos • {value.length}/10 </Text>
-//         {!error && supportive}
-//       </ImgInput.SupportiveText>{' '}
-//       {error && <ImgInput.ErrorMessage>{error.message}</ImgInput.ErrorMessage>}
-//     </ImgInput.Fieldset>
-//   )
-// }
-
-// export default ImageInput

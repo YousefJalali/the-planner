@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@xstyled/styled-components'
 
 const Wrapper = styled.div`
   height: inherit;
@@ -16,7 +16,7 @@ const Overlay = styled.div`
   height: 100%;
   width: 100%;
   z-index: 99999;
-  border-radius: 10px;
+  border-radius: 3;
 `
 
 const Input = styled.div<{ stretch: boolean }>`
@@ -27,8 +27,9 @@ const Input = styled.div<{ stretch: boolean }>`
   width: ${(props) => (props.stretch && '100%') || 'fit-content'};
   height: 100%;
 
-  border: 1px dashed ${({ theme: { colors } }) => colors.layout.divider};
-  border-radius: ${({ theme: { radii } }) => `${radii[3]}px `};
+  border: 1px dashed;
+  border-color: layout-divider;
+  border-radius: 2;
 
   input {
     width: 0.1px;
@@ -46,7 +47,7 @@ const Input = styled.div<{ stretch: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 3;
 
     span {
       white-space: nowrap;
@@ -56,7 +57,7 @@ const Input = styled.div<{ stretch: boolean }>`
 
 const ImageWrapper = styled.div`
   flex: 0 0 auto;
-  border-radius: 10px;
+  border-radius: 2;
   overflow: hidden;
   position: relative;
 
@@ -66,7 +67,7 @@ const ImageWrapper = styled.div`
   }
 
   &:not(:last-child) {
-    margin-right: 8px;
+    margin-right: 2;
   }
 `
 
@@ -76,8 +77,8 @@ const DeleteButton = styled.div`
   left: 4px;
   height: 24px;
   width: 24px;
-  border-radius: 100px;
-  background-color: ${({ theme: { colors } }) => colors.layout.level3accent};
+  border-radius: full;
+  background-color: layout-level3accent;
 
   display: flex;
   justify-content: center;

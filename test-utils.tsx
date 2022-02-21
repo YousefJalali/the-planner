@@ -1,12 +1,15 @@
 import React, { FC, ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
-import getTheme from './common/utils/getTheme'
-
-const theme = getTheme('light')
+import theme from './styles/theme'
+import { ColorModeProvider } from '@xstyled/styled-components'
 
 const AllTheProviders: FC = ({ children }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>
+      <ColorModeProvider>{children}</ColorModeProvider>
+    </ThemeProvider>
+  )
 }
 
 const customRender = (

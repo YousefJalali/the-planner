@@ -1,18 +1,27 @@
+import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { Box, Text } from '../../styles'
 
 type Props = {
-  variant: 'proposed' | 'in progress' | 'completed'
+  variant: 'proposed' | 'in progress' | 'inprogress' | 'completed'
 }
 const Tag: FC<Props> = ({ variant }) => {
-  const v = `tag.${variant.replace(' ', '')}`
+  if (variant === 'inprogress') {
+    variant = 'in progress'
+  }
+  const v = `tag-${variant.replace(' ', '')}`
 
   return (
-    <Box backgroundColor={`${v}.bg`} borderRadius={2} width='fit-content'>
-      <Text color={`${v}.color`} p={0} fontSize={0} letterSpacing={1}>
+    <x.div backgroundColor={`${v}-bg`} borderRadius={1} w='fit-content'>
+      <x.span
+        color={`${v}-color`}
+        p={1}
+        fontSize='xs'
+        lineHeight='none'
+        letterSpacing={1}
+      >
         {variant.toUpperCase()}
-      </Text>
-    </Box>
+      </x.span>
+    </x.div>
   )
 }
 

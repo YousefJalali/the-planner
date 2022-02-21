@@ -6,16 +6,6 @@ import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import getBlobUrl from '../../common/utils/getBlobUrl'
 import { ImageType } from '../../common/types/ImageType'
-import Img from '../../public/83.jpeg'
-
-// const createFile = async () => {
-//   let response = await fetch('https://picsum.photos/200/300')
-//   let data = await response.blob()
-//   let metadata = {
-//     type: 'image/jpeg',
-//   }
-//   return new File([data], 'test.jpg', metadata)
-// }
 
 function setup({
   value = [],
@@ -60,19 +50,19 @@ function setup({
 //test upload a single file
 describe('Image input', () => {
   test('Upload one file', async () => {
-    // const file = [new File(['hello'], 'hello.png', { type: 'image/png' })]
+    const file = [new File(['hello'], 'hello.png', { type: 'image/png' })]
 
     // const file = await createFile()
 
-    const contentType = 'image/jpeg'
-    const blob = 'hello'
+    // const contentType = 'image/jpeg'
+    // const blob = 'hello'
 
-    const file = [
-      new File([blob], 'hello.png', {
-        type: contentType,
-        lastModified: +new Date(),
-      }),
-    ]
+    // const file = [
+    //   new File([blob], 'hello.png', {
+    //     type: contentType,
+    //     lastModified: +new Date(),
+    //   }),
+    // ]
 
     const { input, onChange } = setup({})
 

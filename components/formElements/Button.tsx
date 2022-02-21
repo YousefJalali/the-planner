@@ -1,6 +1,5 @@
+import { x } from '@xstyled/styled-components'
 import { ButtonHTMLAttributes, FC, ReactNode } from 'react'
-import Button from '../../styles/components/ButtonStyle'
-import { Text } from '../../styles'
 
 type Props = {
   variant: 'primary' | 'secondary' | 'textOnly'
@@ -17,13 +16,13 @@ const ButtonComp: FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = ({
   ...props
 }) => {
   return (
-    <Button variant={variant} {...props}>
+    <x.button {...props}>
       {leftIcon}
-      <Text as='span' fontSize={2} lineHeight={1} letterSpacing={1}>
+      <x.span fontSize={2} lineHeight={1} letterSpacing={1}>
         {children}
-      </Text>
+      </x.span>
       {rightIcon}
-    </Button>
+    </x.button>
   )
 }
 

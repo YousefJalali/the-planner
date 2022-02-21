@@ -1,8 +1,7 @@
-import { FC } from 'react'
+import { x } from '@xstyled/styled-components'
 import { useForm, Controller } from 'react-hook-form'
 import _ from 'lodash'
-
-import { Box, Text } from '../../styles'
+import { v4 as uuidv4 } from 'uuid'
 
 import Input from '../formElements/Input'
 import DatePicker from '../formElements/DatePicker'
@@ -15,35 +14,33 @@ import Fieldset from '../formElements/Fieldset'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
 
-import { TaskType } from '../../common/types/TaskType'
-import styled from 'styled-components'
-
-// type TaskFormType = Omit<TaskType, 'id' | 'completed'>
-
-const Form = styled.form`
-  > fieldset {
-    &:not(:last-child) {
-      margin-bottom: ${({ theme }) => theme.space[3]}px;
-    }
-  }
-
-  > input[type='submit'] {
-    visibility: hidden;
-    height: 0;
-    padding: 0;
-  }
-`
+import { Status, TaskType } from '../../common/types/TaskType'
+import { parseISO } from 'date-fns'
 
 type Props<T> = {
   // errors?: object
   id: string
-  defaultValues: T
-  onSubmit: (data: TaskType) => Promise<void>
+  defaultValues?: TaskType
+  onSubmit: (data: TaskType) => void
 }
 
-function TaskForm<T>(props: Props<T>) {
-  const { id, defaultValues, onSubmit } = props
+const initialDefaultValues: TaskType = {
+  id: uuidv4(),
+  title: '',
+  project: '',
+  openTask: false,
+  date: { startDate: new Date(), endDate: null },
+  time: { startTime: null, endTime: null },
+  description: '',
+  attachments: [],
+  status: Status.PROPOSED,
+}
 
+function TaskForm<T>({
+  id,
+  defaultValues = initialDefaultValues,
+  onSubmit,
+}: Props<T>) {
   const resolver = useYupValidationResolver<TaskType>(taskSchema)
 
   const {
@@ -57,6 +54,23 @@ function TaskForm<T>(props: Props<T>) {
     defaultValues,
     resolver,
   })
+
+  if (typeof defaultValues.project !== 'string') {
+    defaultValues.project = defaultValues.project.id
+  }
+
+  if (typeof defaultValues.date.startDate === 'string') {
+    defaultValues.date.startDate = parseISO(defaultValues.date.startDate)
+  }
+  if (typeof defaultValues.date.endDate === 'string') {
+    defaultValues.date.endDate = parseISO(defaultValues.date.endDate)
+  }
+  if (typeof defaultValues.time.startTime === 'string') {
+    defaultValues.time.startTime = parseISO(defaultValues.time.startTime)
+  }
+  if (typeof defaultValues.time.endTime === 'string') {
+    defaultValues.time.endTime = parseISO(defaultValues.time.endTime)
+  }
 
   //API errors
   // useEffect(() => {
@@ -72,11 +86,7 @@ function TaskForm<T>(props: Props<T>) {
 
   console.log('form errors ', errors)
 
-  const onSubmitHandler = async (data: TaskType) => {
-    console.log('form submitted')
-
-    onSubmit(data)
-  }
+  const onSubmitHandler = async (data: TaskType) => onSubmit(data)
 
   // const filterPassedTime = (time: Date | null) => {
   //   console.log(time)
@@ -94,7 +104,7 @@ function TaskForm<T>(props: Props<T>) {
   // console.log()
 
   return (
-    <Form onSubmit={handleSubmit(onSubmitHandler)}>
+    <x.form spaceY={4} onSubmit={handleSubmit(onSubmitHandler)}>
       {/* Title */}
       <Controller
         name='title'
@@ -118,10 +128,12 @@ function TaskForm<T>(props: Props<T>) {
         name='project'
         control={control}
         render={({ field: { value, onChange }, fieldState: { error } }) => {
+          const v = _.isObject(value) ? value.id : value
+
           return (
             <Fieldset label='Project' error={error}>
               <SelectProject
-                value={value as string}
+                value={v}
                 onChange={onChange}
                 placeholder='Select a project'
               />
@@ -132,18 +144,16 @@ function TaskForm<T>(props: Props<T>) {
 
       {/* Date */}
 
-      <Box as='fieldset'>
-        <Box
+      <x.fieldset>
+        <x.div
           display='flex'
           justifyContent='space-between'
           alignItems='center'
-          mb={0}
+          mb={1}
         >
-          <Text as='span'>From</Text>
-          <Box display='flex' alignItems='center'>
-            <Text as='span' mr={1}>
-              Open task?
-            </Text>
+          <x.span>From</x.span>
+          <x.div display='flex' alignItems='center'>
+            <x.span mr={2}>Open task?</x.span>
 
             <Controller
               name='openTask'
@@ -158,12 +168,12 @@ function TaskForm<T>(props: Props<T>) {
                 )
               }}
             />
-          </Box>
-        </Box>
+          </x.div>
+        </x.div>
 
         {/* Start Date */}
-        <Box display='flex' alignItems='flex-end'>
-          <Box flex='0 0 calc(100% - 8px - 85px)'>
+        <x.div display='flex' alignItems='flex-end'>
+          <x.div flex='0 0 calc(100% - 8px - 85px)'>
             <Controller
               name='date'
               control={control}
@@ -186,10 +196,10 @@ function TaskForm<T>(props: Props<T>) {
                 )
               }}
             />
-          </Box>
+          </x.div>
 
           {/* Start Time */}
-          <Box width={85} ml={1}>
+          <x.div w={85} ml={2}>
             <Controller
               name='time'
               control={control}
@@ -215,12 +225,12 @@ function TaskForm<T>(props: Props<T>) {
                 )
               }}
             />
-          </Box>
-        </Box>
+          </x.div>
+        </x.div>
 
         {/* End Date */}
-        <Box display='flex' alignItems='flex-end' mt={2}>
-          <Box flex='0 0 calc(100% - 8px - 85px)'>
+        <x.div display='flex' alignItems='flex-end' mt={3}>
+          <x.div flex='0 0 calc(100% - 8px - 85px)'>
             <Controller
               name='date'
               control={control}
@@ -249,10 +259,10 @@ function TaskForm<T>(props: Props<T>) {
                 )
               }}
             />
-          </Box>
+          </x.div>
 
           {/* End Time */}
-          <Box width={85} ml={1}>
+          <x.div w={85} ml={2}>
             <Controller
               name='time'
               control={control}
@@ -278,9 +288,9 @@ function TaskForm<T>(props: Props<T>) {
                 )
               }}
             />
-          </Box>
-        </Box>
-      </Box>
+          </x.div>
+        </x.div>
+      </x.fieldset>
 
       <Controller
         name='description'
@@ -291,7 +301,7 @@ function TaskForm<T>(props: Props<T>) {
               <TextEditor
                 value={value}
                 onChange={onChange}
-                placeholder='write something'
+                placeholder='A brief about the task...'
               />
             </Fieldset>
           )
@@ -316,8 +326,8 @@ function TaskForm<T>(props: Props<T>) {
         }}
       />
 
-      <input type='submit' id={id} />
-    </Form>
+      <x.input type='submit' id={id} visibility='hidden' h={0} p={0} />
+    </x.form>
   )
 }
 

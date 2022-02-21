@@ -37,7 +37,6 @@ export const task: (projects: ProjectType[]) => TaskType = (projects) => {
       height: 812,
       path: faker.image.imageUrl(375, 812),
     })),
-    isHidden: Math.random() < 0.5,
     status: _.sample(Object.values(Status)) as Status,
   }
 }

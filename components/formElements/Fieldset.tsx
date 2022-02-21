@@ -1,7 +1,70 @@
 import { FieldError } from 'react-hook-form'
-import Fieldset from '../../styles/components/FieldsetStyle'
-import Label from '../../styles/components/LabelStyle'
-import { Text } from '../../styles'
+import styled, { css, x } from '@xstyled/styled-components'
+
+export const Label = styled.label`
+  display: block;
+  margin-bottom: 1;
+  font-size: sm;
+  color: content-subtle;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+`
+
+const Wrapper = styled.fieldset<{
+  success?: boolean
+  error?: boolean
+  noBorder?: boolean
+}>`
+  width: 100%;
+  position: relative;
+
+  padding: 0;
+  background-color: layout-level0;
+  border-radius: 2;
+  border: 1px solid;
+  border-color: layout-divider;
+  box-shadow: none;
+  transition: all 0.2s ease-out;
+
+  input,
+  textarea,
+  button {
+    padding: 3 2;
+  }
+
+  &:focus-within {
+    border-color: brand-primary;
+  }
+
+  ${({ success, error, theme: { colors } }) => css`
+    border-color: ${(success && 'utility.confirmation') ||
+    (error && 'utility-critical')};
+  `}
+
+  &:disabled {
+    background-color: layout-level1accent;
+  }
+
+  ${({ noBorder }) => css`
+    border: ${noBorder && 'none'};
+  `}
+`
+
+const SupportiveText = styled.span`
+  font-size: xs;
+  line-height: tighter;
+  color: content-subtle;
+  display: block;
+  margin-top: 1;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
+`
+const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
+  color: utility-critical;
+`
 
 type Props = {
   children: JSX.Element
@@ -27,101 +90,24 @@ function FieldsetComp(props: Props) {
   return (
     <fieldset>
       {label && (
-        <Label color={error && 'utility.critical'}>
+        <Label color={error && 'utility-critical'}>
           {label}{' '}
           {optionalField && (
-            <Text as='span' color='content.nonessential'>
-              (optional)
-            </Text>
+            <x.span color='content-nonessential'>(optional)</x.span>
           )}
         </Label>
       )}
-      <Fieldset.Wrapper
-        error={error && true}
-        disabled={disabled}
-        noBorder={noBorder}
-      >
+      <Wrapper error={error && true} disabled={disabled} noBorder={noBorder}>
         {children}
-        {/* {Children.map(children, (child, index) =>
-          cloneElement(child, { setFocus })
-        )} */}
-        {/* {Children.map(children, (child, i) => {
-          // return child.type === 'input'
-          return i === 0
-            ? cloneElement(child, {
-                ref,
-              })
-            : child
-        })} */}
-      </Fieldset.Wrapper>
+      </Wrapper>
 
       {supportiveText && (
-        <Fieldset.SupportiveText as='span'>
-          {supportiveText}
-        </Fieldset.SupportiveText>
+        <SupportiveText as='span'>{supportiveText}</SupportiveText>
       )}
 
-      {error && (
-        <Fieldset.ErrorMessage as='span'>{error.message}</Fieldset.ErrorMessage>
-      )}
+      {error && <ErrorMessage as='span'>{error.message}</ErrorMessage>}
     </fieldset>
   )
 }
 
 export default FieldsetComp
-// import { useState, useEffect, FC } from 'react'
-// import { FieldError } from 'react-hook-form'
-// import Fieldset from '../../styles/components/FieldsetStyle'
-// import Label from '../../styles/components/LabelStyle'
-
-// type Props = {
-//   children: JSX.Element
-//   error: FieldError | undefined
-//   focus: boolean
-//   label?: string
-//   supportiveText?: string
-//   disabled?: boolean
-// }
-
-// const FieldsetComp: FC<Props> = ({
-//   error,
-//   focus,
-//   label,
-//   supportiveText,
-//   children,
-//   disabled,
-// }) => {
-//   const [hasError, setError] = useState(false)
-
-//   // console.log('error: ', error)
-
-//   //update error state
-//   useEffect(() => {
-//     if (error) {
-//       setError(true)
-//     } else {
-//       setError(false)
-//     }
-//   }, [error])
-
-//   return (
-//     <fieldset>
-//       {label && <Label color={error && 'utility.critical'}>{label}</Label>}
-//       <Fieldset.Wrapper focus={focus} error={hasError} disabled={disabled}>
-//         {children}
-//       </Fieldset.Wrapper>
-
-//       {supportiveText && (
-//         <Fieldset.SupportiveText as='span'>
-//           {supportiveText}
-//         </Fieldset.SupportiveText>
-//       )}
-
-//       {error && (
-//         <Fieldset.ErrorMessage as='span'>{error.message}</Fieldset.ErrorMessage>
-//       )}
-//     </fieldset>
-//   )
-// }
-
-// export default FieldsetComp

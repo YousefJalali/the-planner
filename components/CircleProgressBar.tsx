@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import styled from 'styled-components'
+import styled from '@xstyled/styled-components'
 
 type Props = {
   strokeColor: string
@@ -20,7 +20,7 @@ const Percentage = styled.text`
   line-height: 1;
   text-anchor: middle;
   transform: translateY(-0.6em);
-  fill: ${(props) => props.theme.colors.content.contrast};
+  fill: content-contrast;
   font-family: 'DM Sans';
 `
 

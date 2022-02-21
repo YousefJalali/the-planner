@@ -82,26 +82,13 @@ describe('Date selector', () => {
     expect(utils.days()[index]).toHaveAttribute('data-selected', 'true')
 
     //another date
-    date = randomDate(new Date(2012, 0, 1), new Date())
+    date = randomDate(new Date(2012, 5, 1), new Date())
     numberOfDays = daysInMonth(date)
     day = getRandomArbitrary(1, numberOfDays)
     newDate = new Date(date.setDate(day)).toDateString()
     utils.rerender(<DateSelector date={newDate} setDate={utils.setDate} />)
 
     //old date should not be highlighted
-    expect(utils.days()[index]).not.toHaveAttribute('data-selected')
-
-    index = day - 1
-    expect(utils.days()[index]).toHaveAttribute('data-selected', 'true')
-
-    //another date 2
-    date = randomDate(new Date(2012, 0, 1), new Date())
-    numberOfDays = daysInMonth(date)
-    day = getRandomArbitrary(1, numberOfDays)
-    newDate = new Date(date.setDate(day)).toDateString()
-    utils.rerender(<DateSelector date={newDate} setDate={utils.setDate} />)
-
-    //old date should not be highlighted again
     expect(utils.days()[index]).not.toHaveAttribute('data-selected')
 
     index = day - 1

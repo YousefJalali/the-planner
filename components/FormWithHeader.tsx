@@ -1,5 +1,5 @@
+import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { Subhead, Text, Box } from '../styles'
 import Modal from './layout/Modal'
 
 type Props = {
@@ -12,36 +12,33 @@ type Props = {
 const FormModal: FC<Props> = ({ children, onClose, title, id }) => {
   return (
     <>
-      <Box
-        backgroundColor='layout.level0'
+      <x.div
+        backgroundColor='layout-level0'
         display='flex'
         justifyContent='space-between'
         alignItems='center'
-        px={3}
-        py={2}
+        p={3}
         borderBottom='1px solid'
-        borderColor='layout.divider'
+        borderColor='layout-divider'
         position='sticky'
         zIndex={1}
-        width='100%'
+        w='100%'
         top='0px'
       >
-        <Box>
-          <Text as='a' onClick={onClose}>
-            Cancel
-          </Text>
-        </Box>
+        <x.div>
+          <x.a onClick={onClose}>Cancel</x.a>
+        </x.div>
 
-        <Subhead as='h3' size='default'>
+        <x.span color='content-contrast' fontWeight='bold'>
           {title}
-        </Subhead>
-        <Text as='label' htmlFor={id} color='brand.primary'>
-          <Box as='a'>Submit</Box>
-        </Text>
-      </Box>
-      <Box backgroundColor='layout.level0' p={3}>
+        </x.span>
+        <x.label htmlFor={id} color='brand-primary'>
+          <x.a>Submit</x.a>
+        </x.label>
+      </x.div>
+      <x.div backgroundColor='layout-level0' p={3}>
         {children}
-      </Box>
+      </x.div>
     </>
   )
 }

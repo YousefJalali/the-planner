@@ -3,8 +3,14 @@ import { multipleTasks } from '../common/data/tasks'
 import { multipleProjects } from '../common/data/projects'
 import { TaskType, Status, TaskProjectType } from '../common/types/TaskType'
 import { ProjectType } from '../common/types/ProjectType'
-import { completeTask, createTask, getDateTasks } from './taskControllers'
-import { getProjectById } from './projectControllers'
+import {
+  createTaskController,
+  deleteTaskController,
+  editTaskController,
+  getDateTasksController,
+  changeTaskStatusController,
+} from './controllers/taskControllers'
+import { getProjectById } from './controllers/projectControllers'
 
 const initialProjects = multipleProjects()
 const initialTasks = multipleTasks(initialProjects)
@@ -34,7 +40,7 @@ const projects: ProjectType[] = [...initialProjects].map((project) => {
 
   return {
     ...project,
-    tasks: [...project.tasks, ...addTasks] as TaskType[],
+    tasks: [...project.tasks, ...addTasks] as string[],
     proposed,
     inprogress,
     completed,
@@ -58,31 +64,62 @@ const tasks: TaskType[] = [...initialTasks].map((task) => {
   return task
 })
 
-type CreateTaskBody = {
-  task: TaskType
-}
-
 export const handlers = [
+  //get all tasks
   rest.get('/tasks', (_, res, ctx) => {
     return res(ctx.status(200), ctx.json(tasks))
   }),
+
+  //create a task
+  rest.post<{ task: TaskType }>('/tasks', (req, res, ctx) => {
+    if (req.body) {
+      return res(ctx.json(createTaskController(req.body.task, tasks, projects)))
+    }
+  }),
+
+  //UPDATE A TASK
+  rest.post<{ task: TaskType }>('/tasks/:id', (req, res, ctx) => {
+    if (req.body) {
+      return res(ctx.json(editTaskController(req.body.task, tasks, projects)))
+    }
+  }),
+
+  //get date tasks
+  rest.get('/tasks/:date', (req, res, ctx) => {
+    return res(
+      ctx.json(getDateTasksController(req.params.date as string, tasks))
+    )
+  }),
+
+  //change task status
+  rest.put('/tasks/:id', (req, res, ctx) => {
+    return res(
+      ctx.json(
+        changeTaskStatusController(
+          req.params.id as string,
+          req.url.searchParams.get('status') as Status,
+          tasks
+        )
+      )
+    )
+  }),
+
+  //delete a task
+  rest.delete('/tasks/:id', (req, res, ctx) => {
+    return res(ctx.json(deleteTaskController(req.params.id as string, tasks)))
+  }),
+
+  //--------------//
+
+  //get all projects
   rest.get('/projects', (_, res, ctx) => {
     return res(ctx.json(projects))
   }),
+
+  //get project by ID
   rest.get('/projects/:projectId', (req, res, ctx) => {
     return res(
       ctx.json(getProjectById(req.params.projectId as string, projects, tasks))
     )
-  }),
-  rest.get('/tasks/:date', (req, res, ctx) => {
-    return res(ctx.json(getDateTasks(req.params.date as string, tasks)))
-  }),
-  rest.put('/tasks/:id', (req, res, ctx) => {
-    return res(ctx.json(completeTask(req.params.id as string, tasks)))
-  }),
-  rest.post<CreateTaskBody>('/tasks', (req, res, ctx) => {
-    if (req.body) {
-      return res(ctx.json(createTask(req.body.task, tasks, projects)))
-    }
   }),
 ]

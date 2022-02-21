@@ -1,22 +1,49 @@
 import { FC } from 'react'
-import Task from '../../styles/components/task/TaskItemStyle'
+import { x } from '@xstyled/styled-components'
 import { TaskType, TaskProjectType, Status } from '../../common/types/TaskType'
-import { Paperclip, Clock, Trash2, Edit3, Check } from 'lucide-react'
-import { Box, Body, Text } from '../../styles'
 import { getTime } from '../../common/utils/formatDate'
-import { useSpring, animated } from '@react-spring/web'
-import { useDrag } from '@use-gesture/react'
 import TaskDetails from './TaskDetails'
 import Modal from '../layout/Modal'
 import useToggle from '../../common/hooks/useToggle'
+import { FiPaperclip, FiClock, FiMoreVertical } from 'react-icons/fi'
+import Icon from '../Icon'
+import Checkbox from '../formElements/Checkbox'
+import FormWithHeader from '../FormWithHeader'
+import TaskForm from './TaskForm'
+import TaskOptions from './TaskOptions'
 
 type Props = {
   task: TaskType
-  onCheck: () => void
+  onDelete: () => void
+  onEdit: (data: TaskType) => void
+  onChangeStatus: (taskIs: string, status: Status) => void
 }
 
-const TaskItem: FC<Props> = ({ task, onCheck }) => {
-  const [modal, setModal] = useToggle()
+const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
+  const [detailsModal, setDetailsModal] = useToggle()
+  const [optionsModal, setOptionsModal] = useToggle()
+  const [editTaskModal, setEditTaskModal] = useToggle()
+
+  const onDeleteHandler = () => {
+    onDelete()
+    setOptionsModal()
+  }
+
+  const onEditHandler = (data: TaskType) => {
+    onEdit(data)
+    setEditTaskModal()
+    setOptionsModal()
+  }
+
+  const onCheckHandler = () => {
+    const s =
+      task.status === Status.PROPOSED || task.status === Status.INPROGRESS
+        ? Status.COMPLETED
+        : Status.PROPOSED
+
+    onChangeStatus(task.id, s)
+  }
+
   //format time
   let time = null
 
@@ -33,90 +60,132 @@ const TaskItem: FC<Props> = ({ task, onCheck }) => {
       ? `${task.attachments.length} Files`
       : `${task.attachments.length} File`
 
-  //spring
-  const [{ x }, api] = useSpring(() => ({
-    x: 0,
-  }))
-  const bind = useDrag(({ active, movement: [x] }) =>
-    api.start({
-      x: active ? x : 0,
-    })
-  )
+  const isTaskCompleted = task.status === Status.COMPLETED
 
   return (
     <>
-      {/* <Task.Container as={animated.li} {...bind()} style={{ x }}> */}
-      <Task.Container>
-        {/* <Task.Cta>
-          <div>
-            <Trash2 height={20} width={20} />
-          </div>
-          <div>
-            <Edit3 height={20} width={20} />
-          </div>
-        </Task.Cta> */}
+      <x.div
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        position='relative'
+        p={2}
+        backgroundColor='layout-level0accent'
+        borderRadius={2}
+      >
+        <x.div
+          display='flex'
+          flexDirection='column'
+          flex='0 0 calc(100% - 24px - 12px - 16px)'
+        >
+          {/* Title text */}
+          <x.p
+            text='body'
+            textDecoration={isTaskCompleted && 'line-through'}
+            color={
+              isTaskCompleted ? 'content-nonessential' : 'content.contrast'
+            }
+            onClick={setDetailsModal}
+          >
+            {task.title}
+          </x.p>
 
-        <Task.Content>
-          <Task.Info completed={task.status === Status.COMPLETED}>
-            <Body onClick={setModal}>
-              {task.title}
-              {/* {new Date(task.startDate).toDateString()} */}
-            </Body>
+          {/* time & attachments */}
+          <x.div display='flex'>
+            {time && (
+              <x.div
+                display='flex'
+                alignItems='center'
+                mr={3}
+                mt={2}
+                data-testid='taskItem-time'
+              >
+                <Icon
+                  icon={FiClock}
+                  color={
+                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
+                  }
+                  size='0.875rem'
+                />
+                <x.span
+                  text='body.small'
+                  color={
+                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
+                  }
+                  ml={1}
+                >
+                  {time}
+                </x.span>
+              </x.div>
+            )}
 
-            <Task.Details>
-              {time && (
-                <Box display='flex' alignItems='center' mr={2} mt={1}>
-                  <Clock height={14} width={14} data-testid='taskItem-time' />
-                  <Text
-                    as='span'
-                    ml={0}
-                    color='content.nonessential'
-                    fontSize={1}
-                  >
-                    {time}
-                  </Text>
-                </Box>
-              )}
-              {task.attachments.length > 0 && (
-                <Box display='flex' alignItems='center' mt={1}>
-                  <Paperclip
-                    height={14}
-                    width={14}
-                    data-testid='taskItem-attachment'
-                  />
-                  <Text
-                    as='span'
-                    ml={0}
-                    color='content.nonessential'
-                    fontSize={1}
-                  >
-                    {attachment}
-                  </Text>
-                </Box>
-              )}
-            </Task.Details>
-          </Task.Info>
-          <Task.Check color={(task.project as TaskProjectType).color}>
-            <input
-              id={task.id}
-              type='checkbox'
-              checked={task.status === Status.COMPLETED}
-              onChange={onCheck}
-            />
-            <Task.CheckButton
-              color={(task.project as TaskProjectType).color}
-              as='label'
-              htmlFor={task.id}
-            >
-              <Check height={12} width={12} />
-            </Task.CheckButton>
-            {/* <label htmlFor={task.id}></label> */}
-          </Task.Check>
-        </Task.Content>
-      </Task.Container>
+            {task.attachments.length > 0 && (
+              <x.div
+                display='flex'
+                alignItems='center'
+                mt={2}
+                data-testid='taskItem-attachment'
+              >
+                <Icon
+                  icon={FiPaperclip}
+                  color={
+                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
+                  }
+                  size='0.875rem'
+                />
 
-      <Modal isOpen={modal} onRequestClose={setModal}>
-        <TaskDetails task={task} onClose={setModal} />
+                <x.span
+                  text='body.small'
+                  color={
+                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
+                  }
+                  ml={1}
+                >
+                  {attachment}
+                </x.span>
+              </x.div>
+            )}
+          </x.div>
+        </x.div>
+
+        {/* check button */}
+        <Checkbox
+          id={task.id}
+          checked={task.status === Status.COMPLETED}
+          onChange={onCheckHandler}
+          color={(task.project as TaskProjectType).color}
+        />
+
+        <x.div onClick={setOptionsModal}>
+          <Icon icon={FiMoreVertical} color='content-subtle' />
+        </x.div>
+      </x.div>
+
+      <Modal isOpen={detailsModal} onRequestClose={setDetailsModal}>
+        <TaskDetails task={task} onClose={setDetailsModal} />
+      </Modal>
+
+      <Modal isOpen={optionsModal} onRequestClose={setOptionsModal}>
+        <TaskOptions
+          status={task.status}
+          onEdit={setEditTaskModal}
+          onDelete={onDeleteHandler}
+          onStatusChange={(status) => onChangeStatus(task.id, status)}
+        />
+      </Modal>
+
+      <Modal isOpen={editTaskModal} onRequestClose={setEditTaskModal}>
+        <FormWithHeader
+          title='Edit task'
+          onClose={setEditTaskModal}
+          id='edit-task-form'
+        >
+          <TaskForm
+            id='edit-task-form'
+            defaultValues={task}
+            onSubmit={onEditHandler}
+          />
+        </FormWithHeader>
       </Modal>
     </>
   )

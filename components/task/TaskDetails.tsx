@@ -1,14 +1,13 @@
-import Image from 'next/image'
 import { FC } from 'react'
-import { X, XCircle } from 'lucide-react'
+import Image from 'next/image'
+import styled, { x } from '@xstyled/styled-components'
+import { FiX, FiXCircle } from 'react-icons/fi'
 import { TaskType, TaskProjectType } from '../../common/types/TaskType'
-import { getTime } from '../../common/utils/formatDate'
-import { Box, Text } from '../../styles'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
-import styled from 'styled-components'
 import format from 'date-fns/format'
 import TextEditor from '../formElements/TextEditor'
+import Icon from '../Icon'
 
 type Props = {
   task: TaskType
@@ -16,12 +15,12 @@ type Props = {
 }
 
 const Label = (props: { text: string }) => (
-  <Text fontFamily='roboto' fontSize={1} color='content.nonessential' mb={0}>
+  <x.p fontSize='sm' color='content-nonessential' mb={1}>
     {props.text}
-  </Text>
+  </x.p>
 )
 
-const AttachmentsList = styled(Box)`
+const AttachmentsList = styled(x.div)`
   display: flex;
   overflow-y: hidden;
   overflow-x: scroll;
@@ -43,75 +42,72 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
 
   let formatDate = format(new Date(date.startDate), 'MM/dd/yyyy')
 
-  // if (time.startTime && time.endTime) {
-  //   const start = getTime(startTime)
-  //   const end = getTime(endTime)
-
-  //   time = `${start} - ${end}`
-  // }
-
-  // console.log(task)
   return (
     <>
-      <Box
-        backgroundColor='layout.level0accent'
-        borderRadius='10px 10px 0 0'
+      <x.div
+        backgroundColor='layout-level0accent'
+        borderRadius='3 3 0 0'
         overflow='hidden'
-        pb={3}
+        pb={4}
       >
-        <Box px={3} mt={3}>
+        <x.div px={4} mt={4}>
           {/* project */}
-          <Box display='flex' justifyContent='space-between'>
-            <Box display='flex'>
-              <Box
+          <x.div display='flex' justifyContent='space-between'>
+            <x.div display='flex'>
+              <x.div
                 backgroundColor={(project as TaskProjectType).color}
-                width={4}
-                mr={1}
+                w='0.3rem'
+                mr={2}
+                borderRadius={4}
               />
-              <Box>
+              <x.div>
                 <Label text='Project' />
-                <Text fontSize={4} fontWeight='bold' color='content.contrast'>
+                <x.h1
+                  text='headline.three'
+                  lineHeight='tight'
+                  color='content-contrast'
+                >
                   {(project as TaskProjectType).title}
-                </Text>
-              </Box>
-            </Box>
-            <Box onClick={onClose}>
-              <XCircle />
-            </Box>
-          </Box>
+                </x.h1>
+              </x.div>
+            </x.div>
+            <x.div onClick={onClose}>
+              <Icon icon={FiXCircle} size='xl' color='content-contrast' />
+            </x.div>
+          </x.div>
 
           {/* task */}
-          <Box mt={2}>
+          <x.div mt={3}>
             <Label text='Task' />
-            <Text fontSize={3} fontWeight='bold' color='content.contrast'>
+            <x.p text='body.large' color='content-contrast'>
               {title}
-            </Text>
+            </x.p>
             {description?.length > 0 && (
-              <Box mt={1} maxHeight={200} overflowY='scroll'>
+              <x.div mt={2} maxHeight='200px' overflowY='scroll'>
                 <TextEditor value={description} readOnly />
-              </Box>
+              </x.div>
             )}
-          </Box>
+          </x.div>
 
           {/* time */}
-          <Box mt={2}>
+          <x.div mt={3}>
             <Label text='Date' />
-            <Text color='content.subtle'>{formatDate}</Text>
-          </Box>
-        </Box>
+            <x.p color='content.subtle'>{formatDate}</x.p>
+          </x.div>
+        </x.div>
 
         {/* attachments */}
         {attachments.length > 0 && (
-          <Box mt={2}>
-            <Box ml={3}>
+          <x.div mt={3}>
+            <x.div ml={4}>
               <Label text='Attachments' />
-            </Box>
-            <AttachmentsList pl={3}>
+            </x.div>
+            <AttachmentsList pl={4}>
               {attachments.map((img) => (
-                <Box
+                <x.div
                   flex='0 0 calc(30% - 24px)'
                   key={img.id}
-                  mr={2}
+                  mr={3}
                   overflow='hidden'
                 >
                   {(img.width && img.height && (
@@ -124,12 +120,12 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
                       />
                     </Zoom>
                   )) || <div>cant display image (no dimensions)</div>}
-                </Box>
+                </x.div>
               ))}
             </AttachmentsList>
-          </Box>
+          </x.div>
         )}
-      </Box>
+      </x.div>
     </>
   )
 }

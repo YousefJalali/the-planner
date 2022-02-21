@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Box, Subhead } from '../../styles'
+import { x } from '@xstyled/styled-components'
 
 type Props = {
   tasks: JSX.Element[]
@@ -9,18 +9,17 @@ type Props = {
 const TasksList: FC<Props> = ({ tasks, title, titleColor }) => {
   return (
     <>
-      <Subhead
-        size='subtle'
-        px={3}
-        mb={1}
-        mt={3}
+      <x.span
+        display='block'
+        px={4}
+        mb={2}
         color={titleColor || 'content.subtle'}
       >
         • {title}
-      </Subhead>
-      <Box as='ul' px={3} pb={3}>
+      </x.span>
+      <x.ul px={4} pb={4} spaceY={3}>
         {tasks}
-      </Box>
+      </x.ul>
     </>
   )
 }

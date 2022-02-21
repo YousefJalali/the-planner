@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { ProjectType } from '../../common/types/ProjectType'
-import { Text, Box } from '../../styles'
-import ProjectItem from '../../styles/components/project/ProjectItemStyle'
-import { Circle } from 'lucide-react'
+import { FiCircle } from 'react-icons/fi'
+import { x } from '@xstyled/styled-components'
 
 type Props = {
   project: ProjectType
@@ -11,17 +10,12 @@ type Props = {
 
 const ProjectItemComp: FC<Props> = ({ project, onClick }) => {
   return (
-    <Box
-      as='li'
-      display='flex'
-      alignItems='center'
-      px={3}
-      py={1}
-      onClick={onClick}
-    >
-      <Circle fill={project.color} strokeWidth={0} />
-      <Text ml={1}>{project.title}</Text>
-    </Box>
+    <x.div display='flex' alignItems='center' onClick={onClick}>
+      <FiCircle fill={project.color} strokeWidth={0} />
+      <x.span text='body' ml={2}>
+        {project.title}
+      </x.span>
+    </x.div>
   )
 }
 

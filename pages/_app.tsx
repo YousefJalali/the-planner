@@ -3,13 +3,14 @@ import {
   Preflight,
   ColorModeProvider,
 } from '@xstyled/styled-components'
-import { SessionProvider } from 'next-auth/react'
+// import { SessionProvider } from 'next-auth/react'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { SWRConfig } from 'swr'
 
 import theme from '../styles/theme'
+import GlobalStyle from '../styles/GlobalStyle'
 
 import type { AppProps } from 'next/app'
 
@@ -30,20 +31,21 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <ColorModeProvider>
           <Preflight />
-          <SessionProvider
+          <GlobalStyle />
+          {/* <SessionProvider
             session={pageProps.session}
             refetchInterval={2 * 60 * 60}
+          > */}
+          <SWRConfig
+            value={{
+              // refreshInterval: 3000,
+              fetcher: (resource, init) =>
+                fetch(resource, init).then((res) => res.json()),
+            }}
           >
-            <SWRConfig
-              value={{
-                // refreshInterval: 3000,
-                fetcher: (resource, init) =>
-                  fetch(resource, init).then((res) => res.json()),
-              }}
-            >
-              <Component {...pageProps} />
-            </SWRConfig>
-          </SessionProvider>
+            <Component {...pageProps} />
+          </SWRConfig>
+          {/* </SessionProvider> */}
         </ColorModeProvider>
       </ThemeProvider>
     </>

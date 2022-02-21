@@ -1,108 +1,148 @@
+import { useState } from 'react'
 import type { GetStaticProps, NextPage } from 'next'
-import useSWR from 'swr'
 import { useRouter } from 'next/router'
-import { Headline, Text, Box } from '../styles'
+import { x, useColorMode } from '@xstyled/styled-components'
+import { FiPlus, FiSearch } from 'react-icons/fi'
+
+import Icon from '../components/Icon'
 import Header from '../components/layout/Header'
-import { Search } from 'lucide-react'
 import Emoji from '../components/Emoji'
 import TaskItem from '../components/task/TaskItem'
-import FloatingButton from '../components/FloatingButton'
-import { TaskType, Status } from '../common/types/TaskType'
 import ProjectsList from '../components/project/ProjectsList'
 import DateSelector from '../components/DateSelector'
-import { useState } from 'react'
 import TasksList from '../components/task/TasksList'
 import NoTasks from '../components/task/NoTasks'
-import { ProjectType } from '../common/types/ProjectType'
 import ProjectCard from '../components/project/ProjectCard'
-import { useColorMode } from '@xstyled/styled-components'
-import { x } from '@xstyled/styled-components'
+import SwitchButton from '../components/formElements/SwitchButton'
+import Modal from '../components/layout/Modal'
+import FormWithHeader from '../components/FormWithHeader'
+import TaskForm from '../components/task/TaskForm'
 
-const getProjects = async () => {
-  const res = await fetch('/projects')
-  const data: ProjectType[] = await res.json()
-  return data
-}
-
-const getDateTasks = async (date: string) => {
-  const res = await fetch(`/tasks/${date}`)
-  const data: TaskType[] = await res.json()
-  return data
-}
+import { Status, TaskType } from '../common/types/TaskType'
+import useFetchedProjects from '../common/data/useFetchedProjects'
+import useFetchedDateTasks from '../common/data/useFetchedDateTasks'
+import {
+  changeTaskStatus,
+  createTask,
+  deleteTask,
+  editTask,
+} from '../common/actions/taskActions'
+import useToggle from '../common/hooks/useToggle'
+import Grid from '../styles/Grid'
 
 type Props = {
   // projects: ProjectType[]
 }
 
 const Home: NextPage<Props> = () => {
+  const [createTaskModal, setCreateTaskModal] = useToggle()
+
+  const [colorMode, setColorMode] = useColorMode()
+
   const [date, setDate] = useState(new Date().toDateString())
 
   const router = useRouter()
 
   const {
-    data: dateTasks,
-    error: dateTasksError,
-    mutate: mutateTasks,
-  } = useSWR(date ? `/tasks/${date}` : null, () => getDateTasks(date))
+    projects,
+    setProjects,
+    error: projectsError,
+    isLoading: isProjectsLoading,
+  } = useFetchedProjects()
 
   const {
-    data: projects,
-    error: projectsError,
-    mutate: mutateProjects,
-  } = useSWR('/projects', getProjects)
+    dateTasks,
+    setDateTasks,
+    error: dateTasksError,
+    isLoading: isDateTasksLoading,
+  } = useFetchedDateTasks(date)
 
-  const onTaskCheckHandler = async (taskId: string) => {
-    mutateTasks((data) => {
-      return (
-        data && [
-          ...data.map((task) =>
-            task.id === taskId
-              ? {
-                  ...task,
-                  status:
-                    task.status === Status.COMPLETED
-                      ? Status.PROPOSED
-                      : Status.COMPLETED,
-                }
-              : task
-          ),
-        ]
-      )
-    }, false)
+  const createTaskHandler = async (formData: TaskType) => {
+    //mutate without revalidation
+    setDateTasks((data) => data && [...data, { ...formData }], false)
 
-    try {
-      const res = await fetch(`/tasks/${taskId}`, {
-        method: 'PUT',
-        body: JSON.stringify(taskId),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-
-      const { success, data } = await res.json()
-
-      if (success) {
-        console.log('res', data)
-        mutateTasks()
-      }
-    } catch (error) {
-      console.log(error)
-    }
+    createTask(formData, () => {
+      setCreateTaskModal(false)
+      setDateTasks()
+    })
   }
 
+  const deleteTaskHandler = (taskId: string) => {
+    setDateTasks((data) => {
+      return data && [...data.filter((task) => task.id !== taskId)]
+    }, false)
+
+    deleteTask(taskId, () => {
+      setDateTasks()
+    })
+  }
+
+  const editTaskHandler = (updatedTask: TaskType) => {
+    // setDateTasks((data) => {
+    //   const project = projects.find((p) => p.id === updatedTask.project)
+    //   if (project) {
+    //     return (
+    //       data && [
+    //         ...data.map((task) =>
+    //           task.id === updatedTask.id
+    //             ? {
+    //                 ...updatedTask,
+    //                 project: {
+    //                   id: project.id,
+    //                   title: project.title,
+    //                   color: project.color,
+    //                 },
+    //               }
+    //             : task
+    //         ),
+    //       ]
+    //     )
+    //   }
+    // }, false)
+
+    editTask(updatedTask, () => {
+      setDateTasks()
+      setProjects()
+    })
+  }
+
+  const changeTaskStatusHandler = (taskId: string, status: Status) => {
+    //   setDateTasks((data) => {
+    //     return (
+    //       data && [
+    //         ...data.map((task) =>
+    //           task.id === taskId
+    //             ? {
+    //                 ...task,
+    //                 status:
+    //                   task.status === Status.COMPLETED
+    //                     ? Status.PROPOSED
+    //                     : Status.COMPLETED,
+    //               }
+    //             : task
+    //         ),
+    //       ]
+    //     )
+    //   }, false)
+    changeTaskStatus(taskId, status, () => {
+      setDateTasks()
+    })
+  }
+
+  // render projects
   let renderProjects = null
   if (projects) {
-    renderProjects = projects
-      .slice(0, 5)
-      .map((project) => (
+    renderProjects = projects.slice(0, 5).map((project) => (
+      <x.li key={project.id} flex='0 0 calc(100% - 1.5rem)'>
         <ProjectCard
-          key={project.id}
           project={project}
           onClick={() => router.push(`/projects/${project.id}`)}
         />
-      ))
+      </x.li>
+    ))
   }
 
+  // render date tasks
   let inProgressTasks = null
   let proposedTasks = null
   let completedTasks = null
@@ -114,7 +154,9 @@ const Home: NextPage<Props> = () => {
         <TaskItem
           key={task.id}
           task={task}
-          onCheck={() => onTaskCheckHandler(task.id)}
+          onDelete={() => deleteTaskHandler(task.id)}
+          onEdit={editTaskHandler}
+          onChangeStatus={changeTaskStatusHandler}
         />
       ))
 
@@ -124,7 +166,9 @@ const Home: NextPage<Props> = () => {
         <TaskItem
           key={task.id}
           task={task}
-          onCheck={() => onTaskCheckHandler(task.id)}
+          onDelete={() => deleteTaskHandler(task.id)}
+          onEdit={editTaskHandler}
+          onChangeStatus={changeTaskStatusHandler}
         />
       ))
 
@@ -134,59 +178,71 @@ const Home: NextPage<Props> = () => {
         <TaskItem
           key={task.id}
           task={task}
-          onCheck={() => onTaskCheckHandler(task.id)}
+          onDelete={() => deleteTaskHandler(task.id)}
+          onEdit={editTaskHandler}
+          onChangeStatus={changeTaskStatusHandler}
         />
       ))
   }
 
-  const [colorMode, setColorMode] = useColorMode()
-
   return (
-    <x.div container mx='auto' backgroundColor='layout.level0'>
+    <x.div
+      container
+      mx='auto'
+      backgroundColor='layout-level0'
+      minHeight='100vh'
+    >
+      {/* <Grid /> */}
       <Header>
-        <Text
-          as='span'
-          fontFamily='Carter One'
-          fontSize={4}
-          color='content.contrast'
-        >
+        <x.span fontFamily='logo' fontSize='xl' color='content-contrast'>
           Za Blanner
-        </Text>
-        <button
-          onClick={(e) => {
-            setColorMode(colorMode === 'default' ? 'dark' : 'default')
-          }}
-        >
-          {colorMode === 'default' ? 'Dark' : 'Light'}
-        </button>
-        <Search />
+        </x.span>
+
+        <x.div display='flex' spaceX={4}>
+          <SwitchButton
+            height={22}
+            checked={colorMode === 'dark'}
+            onChange={(e) => {
+              setColorMode(colorMode === 'default' ? 'dark' : 'default')
+            }}
+          />
+
+          <Icon icon={FiSearch} size='xl' />
+        </x.div>
       </Header>
-      <Box as='main' overflow='hidden'>
-        <Box as='section' px={3} mt={4}>
+
+      <x.main overflow='hidden'>
+        <x.section px={4} mt={4}>
           <div>
-            <Text fontSize={4} fontWeight='light' color='content.contrast'>
+            <x.p
+              text='headline.three'
+              color='content-contrast'
+              fontWeight='light'
+            >
               Hello mate,{' '}
-              <Text as='span' fontWeight='bold'>
+              <x.span text='headline.three' fontWeight='medium'>
                 still in doubt?
-              </Text>
-            </Text>
+              </x.span>
+            </x.p>
           </div>
           <div>
-            <Text fontSize={3} color='content.subtle' mt={1}>
-              Check this out{' '}
+            <x.p text='body.large' mt={2}>
+              <x.span color='content-nonessential'>Check this out </x.span>
               <Emoji label='backhand index pointing down' symbol='👇' />
-            </Text>
+            </x.p>
           </div>
-        </Box>
+        </x.section>
 
-        {renderProjects && renderProjects.length > 0 && (
+        {/* {renderProjects && renderProjects.length > 0 && (
           <ProjectsList projects={renderProjects} />
-        )}
+        )} */}
 
-        <Box as='section' mt={4} mb={5}>
-          <Headline level='three' px={3} mb={1}>
+        <ProjectsList projects={renderProjects} />
+
+        <x.section my={4} mt={6}>
+          <x.h1 text='headline.two' px={4} mb={3}>
             Tasks
-          </Headline>
+          </x.h1>
 
           <DateSelector date={date} setDate={setDate} />
 
@@ -194,7 +250,7 @@ const Home: NextPage<Props> = () => {
             <TasksList
               title='In Progress'
               tasks={inProgressTasks}
-              titleColor='tag.inprogress.color'
+              titleColor='tag-inprogress-color'
             />
           )}
 
@@ -202,25 +258,52 @@ const Home: NextPage<Props> = () => {
             <TasksList
               title='Proposed tasks'
               tasks={proposedTasks}
-              titleColor='tag.proposed.color'
+              titleColor='tag-proposed-color'
             />
           ) : (
-            <Box px={3}>
+            <x.div px={4}>
               <NoTasks />
-            </Box>
+            </x.div>
           )}
 
           {completedTasks && completedTasks.length > 0 && (
             <TasksList
               title='Completed tasks'
               tasks={completedTasks}
-              titleColor='tag.completed.color'
+              titleColor='tag-completed-color'
             />
           )}
-        </Box>
+        </x.section>
 
-        <FloatingButton />
-      </Box>
+        {/* Floating Button */}
+        <x.button
+          position='fixed'
+          bottom='24px'
+          right='24px'
+          h={48}
+          w={48}
+          borderRadius='full'
+          backgroundColor='brand-primary'
+          boxShadow='0px 4px 19px rgba(0, 0, 0, 0.25)'
+          zIndex={800}
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+          onClick={setCreateTaskModal}
+        >
+          <Icon icon={FiPlus} size='2rem' color='layout-level0' />
+        </x.button>
+
+        <Modal isOpen={createTaskModal} onRequestClose={setCreateTaskModal}>
+          <FormWithHeader
+            title='Create task'
+            onClose={setCreateTaskModal}
+            id='create-task-form'
+          >
+            <TaskForm id='create-task-form' onSubmit={createTaskHandler} />
+          </FormWithHeader>
+        </Modal>
+      </x.main>
     </x.div>
   )
 }

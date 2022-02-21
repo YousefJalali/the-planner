@@ -16,6 +16,7 @@ export type TaskProjectType = Omit<
   | 'completed'
   | 'progress'
   | 'isHidden'
+  | 'progressPercentage'
 >
 
 export type TaskType = {

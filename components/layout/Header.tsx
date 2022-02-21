@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { FC } from 'react'
-
-import { Box } from '../../styles'
+import { x } from '@xstyled/styled-components'
 
 const Header: FC = ({ children }) => {
   return (
@@ -13,16 +12,14 @@ const Header: FC = ({ children }) => {
         ></meta>
         <meta charSet='utf-8' />
       </Head>
-      <Box
-        as='header'
+      <x.header
         display='flex'
         justifyContent='space-between'
         alignItems='center'
-        px={3}
-        mt={2}
+        p={4}
       >
         {children}
-      </Box>
+      </x.header>
     </>
   )
 }

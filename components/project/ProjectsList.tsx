@@ -1,44 +1,36 @@
 import { FC } from 'react'
-import { ProjectType } from '../../common/types/ProjectType'
-import { Box, Headline, Text } from '../../styles'
 import { useRouter } from 'next/router'
-import styled from 'styled-components'
-
-const List = styled(Box)`
-  > li {
-    flex: ${({ theme: { space } }) => `0 0 calc(100% - ${space[3]}px)`};
-
-    &:not(:last-child) {
-      margin-right: ${({ theme: { space } }) => space[3]}px;
-    }
-  }
-`
+import { x } from '@xstyled/styled-components'
 
 type Props = {
-  projects: JSX.Element[]
+  projects: JSX.Element[] | null
 }
 
 const ProjectsList: FC<Props> = ({ projects }) => {
   const router = useRouter()
 
-  return (
-    <Box as='section' mt={4}>
-      <Box
+  return projects && projects.length > 0 ? (
+    <x.section mt={6}>
+      <x.div
         display='flex'
         justifyContent='space-between'
         alignItems='center'
-        px={3}
+        px={4}
       >
-        <Headline level='three' mb={1}>
+        <x.h1 text='headline.two' mb={3}>
           Projects
-        </Headline>
-        <Text onClick={() => router.push('/projects')}>See all</Text>
-      </Box>
+        </x.h1>
+        <x.span color='content-subtle' onClick={() => router.push('/projects')}>
+          See All
+        </x.span>
+      </x.div>
 
-      <List as='ul' px={3} pb={3} display='flex' overflowX='scroll'>
+      <x.ul px={4} display='flex' overflowX='scroll' spaceX={4}>
         {projects}
-      </List>
-    </Box>
+      </x.ul>
+    </x.section>
+  ) : (
+    <div>create a project</div>
   )
 }
 

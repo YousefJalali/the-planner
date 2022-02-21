@@ -1,5 +1,5 @@
 import { FC, InputHTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled from '@xstyled/styled-components'
 
 type Props = {
   label?: string
@@ -23,8 +23,9 @@ const Check = styled.div`
   height: 1.25rem;
   width: 1.25rem;
   border-radius: 100%;
-  background-color: ${({ theme }) => theme.colors.layout.level0};
-  border: 2px solid ${({ theme }) => theme.colors.layout.divider};
+  background-color: layout-level0;
+  border: 2px solid;
+  border-color: layout-divider;
 
   &:after {
     content: '';
@@ -52,8 +53,8 @@ const Wrapper = styled.div`
     line-height: 1.25rem;
     cursor: pointer;
     width: 100%;
-    text-transform: none;
-    color: ${({ theme }) => theme.colors.content.default};
+    text-transform: capitalize;
+    color: content-default;
   }
 
   input[type='radio'] {
@@ -65,15 +66,16 @@ const Wrapper = styled.div`
 
   input[type='radio']:checked {
     & ~ ${Check} {
-      border: 2px solid ${({ theme }) => theme.colors.brand.primary};
+      border: 2px solid;
+      border-color: brand-primary;
 
       &:after {
-        background-color: ${({ theme }) => theme.colors.brand.primary};
+        background-color: brand-primary;
       }
     }
 
     & ~ label {
-      color: ${({ theme }) => theme.colors.content.contrast};
+      color: content-contrast;
     }
   }
 `

@@ -1,38 +1,8 @@
-import { Box, Subhead, Text } from '../styles'
-import styled, { css } from 'styled-components'
 import { FC, useEffect, useMemo, useRef } from 'react'
 import DatePicker from './formElements/DatePicker'
-import { ChevronDown } from 'lucide-react'
-
-const Item = styled.li<{ selected: true | null }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 48px;
-  border-radius: ${({ theme }) => `${theme.radii[3]}px`};
-  background-color: ${({ theme: { colors } }) => colors.layout.level0};
-  padding: ${({ theme }) => `${theme.space[1]}px`};
-  cursor: pointer;
-  &:not(:last-child) {
-    margin-right: ${({ theme }) => `${theme.space[1]}px`};
-  }
-
-  ${(props) =>
-    props.selected &&
-    css`
-      background-color: ${({ theme: { colors } }) => colors.brand.primary};
-      > span {
-        color: ${({ theme: { colors } }) => colors.layout.level0};
-      }
-    `}
-`
-
-const List = styled.ul`
-  display: flex;
-  overflow-x: scroll;
-  padding: 0 24px;
-  margin-top: ${({ theme }) => `${theme.space[1]}px`}; ;
-`
+import { FiChevronDown } from 'react-icons/fi'
+import styled, { x, css } from '@xstyled/styled-components'
+import Icon from './Icon'
 
 type Props = {
   date: string
@@ -87,8 +57,8 @@ const DateSelector: FC<Props> = (props) => {
   const month = `${monthNames[date.getMonth()]} ${date.getFullYear()}`
 
   return (
-    <Box mb={3}>
-      <Box mx={3}>
+    <x.div mb={4}>
+      <x.div mx={4}>
         <DatePicker
           selected={date}
           onChange={(date) => {
@@ -101,46 +71,69 @@ const DateSelector: FC<Props> = (props) => {
           showFourColumnMonthYearPicker
           popperPlacement='bottom-start'
           customInput={
-            <Box
-              p={1}
-              backgroundColor='layout.level0'
-              borderRadius={3}
+            <x.div
+              p={2}
+              backgroundColor='layout-level0accent'
+              borderRadius={2}
               display='flex'
               alignItems='center'
-              width='fit-content'
+              w='fit-content'
             >
-              <Subhead as='span' size='default' mr={1}>
+              <x.span color='content-contrast' fontWeight='bold' mr={3}>
                 {month}
-              </Subhead>
-              <ChevronDown size={20} />
-            </Box>
+              </x.span>
+              <Icon icon={FiChevronDown} />
+            </x.div>
           }
         />
-      </Box>
+      </x.div>
 
-      <List ref={listRef} aria-labelledby='days'>
+      <x.ul
+        ref={listRef}
+        aria-labelledby='days'
+        display='flex'
+        overflowX='scroll'
+        px={4}
+        mt={2}
+        spaceX={2}
+      >
         {new Array(daysInMonth).fill(0).map((item, i) => {
           const day = i + 1
+          const active = selected === day
           const constructDate = new Date(stringDate)
           constructDate.setDate(i)
           return (
-            <Item
+            <x.li
               key={i}
-              data-selected={selected === day ? 'true' : null}
-              selected={selected === day ? true : null}
+              data-selected={active ? 'true' : null}
               onClick={() => onSelectDateHandler(day)}
+              display='flex'
+              flexDirection='column'
+              alignItems='center'
+              minWidth='3rem'
+              borderRadius={2}
+              backgroundColor={active ? 'brand-primary' : 'layout-level0accent'}
+              p={2}
+              cursor='pointer'
             >
-              <Text as='span' fontWeight='bold' color='content.contrast' mb={1}>
+              <x.span
+                fontWeight='bold'
+                color={active ? 'layout-level0' : 'content-contrast'}
+                mb={2}
+              >
                 {day}
-              </Text>
-              <Text as='span' color='content.nonessential' fontSize={1}>
+              </x.span>
+              <x.span
+                color={active ? 'layout-level0' : 'content-nonessential'}
+                fontSize='xs'
+              >
                 {weekdays[constructDate.getDay()]}
-              </Text>
-            </Item>
+              </x.span>
+            </x.li>
           )
         })}
-      </List>
-    </Box>
+      </x.ul>
+    </x.div>
   )
 }
 

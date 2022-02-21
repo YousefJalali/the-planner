@@ -1,8 +1,8 @@
+import { x } from '@xstyled/styled-components'
 import { FC, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import useLockBodyScroll from '../../common/hooks/useLockBodyScroll'
 import useWindowSize from '../../common/hooks/useWindowSize'
-import Modal from '../../styles/components/ModalStyle'
 
 type Props = {
   children: React.ReactNode
@@ -18,17 +18,49 @@ const ModalComp: FC<Props> = ({
   centered,
 }) => {
   // useLockBodyScroll()
-  const windowSize = useWindowSize()
+  const { width, height } = useWindowSize()
 
   return typeof window !== 'undefined'
     ? isOpen
       ? ReactDOM.createPortal(
-          <Modal.Container windowSize={windowSize}>
-            <Modal.Overlay onClick={onRequestClose} />
-            <Modal.Content centered={centered}>
-              <Modal.Child>{children}</Modal.Child>
-            </Modal.Content>
-          </Modal.Container>,
+          <x.div
+            position='absolute'
+            top={0}
+            left={0}
+            zIndex={998}
+            // w='100vw'
+            // h='100vh'
+            h={height}
+            w={width}
+          >
+            {/* Overlay */}
+            <x.div
+              position='absolute'
+              top={0}
+              left={0}
+              h='100vh'
+              w='100vw'
+              backgroundColor='rgba(0, 0, 0, 0.5)'
+              zIndex={999}
+              onClick={onRequestClose}
+            />
+
+            {/* Child Wrapper */}
+            <x.div
+              position='absolute'
+              bottom={0}
+              left={0}
+              w='100%'
+              zIndex={1000}
+              maxHeight='calc(100% - 72px)'
+              borderRadius='3 3 0 0'
+              overflowX='hidden'
+              overflowY='scroll'
+              backgroundColor='layout-level0'
+            >
+              {children}
+            </x.div>
+          </x.div>,
           document.getElementById('modal')!
         )
       : null

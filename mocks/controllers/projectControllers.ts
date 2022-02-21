@@ -1,5 +1,5 @@
-import { ProjectType } from '../common/types/ProjectType'
-import { TaskType } from '../common/types/TaskType'
+import { ProjectType } from '../../common/types/ProjectType'
+import { TaskType } from '../../common/types/TaskType'
 
 export const getProjectById = (
   id: string,

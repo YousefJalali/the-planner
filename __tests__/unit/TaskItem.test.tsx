@@ -1,11 +1,20 @@
 import { render } from '../../test-utils'
 import TaskItem from '../../components/task/TaskItem'
-import { TaskType } from '../../common/types/TaskType'
+import { Status, TaskType } from '../../common/types/TaskType'
 
 function setup({ task }: { task: TaskType }) {
-  const onCheck: () => void = jest.fn()
+  const onChangeStatus: () => void = jest.fn()
+  const onDelete: () => void = jest.fn()
+  const onEdit: () => void = jest.fn()
 
-  const utils = render(<TaskItem task={task} onCheck={onCheck} />)
+  const utils = render(
+    <TaskItem
+      task={task}
+      onChangeStatus={onChangeStatus}
+      onDelete={onDelete}
+      onEdit={onEdit}
+    />
+  )
 
   const checkButton = utils.queryByAltText(/preview-/i)
   const attachment = utils.queryByTestId(/taskItem-attachment/i)
@@ -33,7 +42,7 @@ describe('Task item', () => {
       },
       time: { startTime: null, endTime: null },
       attachments: [],
-      completed: false,
+      status: Status.PROPOSED,
     } as TaskType
 
     const { time, attachment } = setup({ task })
@@ -58,7 +67,7 @@ describe('Task item', () => {
         endTime: new Date(),
       },
       attachments: [],
-      completed: false,
+      status: Status.PROPOSED,
     } as TaskType
 
     const { time, attachment } = setup({ task })
@@ -83,7 +92,7 @@ describe('Task item', () => {
         endTime: null,
       },
       attachments: [{ id: 'img-test', name: 'test', path: 'somewhere' }],
-      completed: false,
+      status: Status.PROPOSED,
     } as TaskType
 
     const { time, attachment } = setup({ task })

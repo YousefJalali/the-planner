@@ -1,20 +1,13 @@
-import { ArrowLeft, Plus } from 'lucide-react'
+import { FiArrowLeft, FiPlus } from 'react-icons/fi'
 import useSWR from 'swr'
 import { ProjectType } from '../../common/types/ProjectType'
 import Header from '../../components/layout/Header'
 import ProjectCard from '../../components/project/ProjectCard'
-import { Box, Headline, Text } from '../../styles'
 import { useRouter } from 'next/router'
 import { NextPage } from 'next'
 import styled from 'styled-components'
-
-const List = styled(Box)`
-  > li {
-    &:not(:last-child) {
-      margin-bottom: ${({ theme: { space } }) => space[3]}px;
-    }
-  }
-`
+import { x } from '@xstyled/styled-components'
+import Icon from '../../components/Icon'
 
 const getProjects = async () => {
   const res = await fetch('/projects')
@@ -34,14 +27,19 @@ const Index: NextPage = () => {
   return (
     <main>
       <Header>
-        <ArrowLeft onClick={() => router.push('/')} />
-        <Plus />
+        <x.a onClick={() => router.push('/')}>
+          <Icon icon={FiArrowLeft} size='1.5rem' />
+        </x.a>
+
+        <x.a onClick={() => console.log('create new project')}>
+          <Icon icon={FiPlus} size='1.5rem' />
+        </x.a>
       </Header>
-      <Box as='main' overflow='hidden' p={3}>
-        <Headline level='three' mb={1}>
+      <x.main overflow='hidden' px={4}>
+        <x.h1 text='headline.two' mb={3}>
           Projects
-        </Headline>
-        <List pb={3}>
+        </x.h1>
+        <x.ul pb={3} spaceY={4}>
           {projects &&
             projects.map((project) => (
               <ProjectCard
@@ -50,8 +48,8 @@ const Index: NextPage = () => {
                 onClick={() => router.push(`/projects/${project.id}`)}
               />
             ))}
-        </List>
-      </Box>
+        </x.ul>
+      </x.main>
     </main>
   )
 }

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { ChevronDown, Circle, Plus } from 'lucide-react'
-import { Box, Text } from '../../styles'
-import Select from '../../styles/components/project/SelectProjectStyle'
-import List from '../../styles/components/ListStyle'
+import { FiChevronDown, FiCircle, FiPlus } from 'react-icons/fi'
 import Modal from '../layout/Modal'
 import ProjectItem from './ProjectItem'
 import { ProjectType } from '../../common/types/ProjectType'
-import useSWR from 'swr'
+import { x } from '@xstyled/styled-components'
+import Icon from '../Icon'
+import _ from 'lodash'
+import useFetchedProjects from '../../common/data/useFetchedProjects'
+import useToggle from '../../common/hooks/useToggle'
 
 type Props = {
   onChange: (v: string) => void
@@ -14,20 +15,16 @@ type Props = {
   placeholder: string
 }
 
-const getProjects = async () => {
-  const res = await fetch('/projects')
-  const data: ProjectType[] = await res.json()
-  return data
-}
-
 function SelectProject({ value, onChange, placeholder }: Props) {
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useToggle(false)
   const [project, setProject] = useState<ProjectType>()
 
-  const { data: projects, error: projectError } = useSWR(
-    '/projects',
-    getProjects
-  )
+  const {
+    projects,
+    setProjects,
+    error: projectsError,
+    isLoading: isProjectsLoading,
+  } = useFetchedProjects()
 
   useEffect(() => {
     if (projects) {
@@ -36,80 +33,80 @@ function SelectProject({ value, onChange, placeholder }: Props) {
     }
   }, [value, projects])
 
-  const openModalHandler = () => setModal(true)
-  const closeModalHandler = () => setModal(false)
-
   const onItemClickHandler = (id: string) => {
     onChange(id)
-    closeModalHandler()
+    setModal()
   }
 
   return (
     <>
-      <Select type='button' onClick={openModalHandler}>
+      <x.button
+        type='button'
+        onClick={setModal}
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        w='100%'
+        backgroundColor='layout-level0'
+        borderRadius={2}
+      >
         {project ? (
-          <Box display='flex' alignItems='center'>
+          <x.div display='flex' alignItems='center'>
             {project.color.length > 0 && (
-              <Box
-                mr={1}
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
-              >
-                <Circle
-                  fill={project.color}
-                  strokeWidth={0}
-                  height={16}
-                  width={16}
-                />
-              </Box>
-            )}
-            <Text
-              as='span'
-              fontSize={1}
-              lineHeight={0}
-              color='content.nonessential'
-            >
-              {project.title.length > 0 ? (
-                <Text as='span' color='content.contrast'>
+              <>
+                <x.div
+                  mr={2}
+                  display='flex'
+                  alignItems='center'
+                  justifyContent='center'
+                >
+                  <FiCircle
+                    fill={project.color}
+                    strokeWidth={0}
+                    height={16}
+                    width={16}
+                  />
+                </x.div>
+                <x.span color='content-contrast' lineHeight='normal'>
                   {project.title}
-                </Text>
-              ) : (
-                'Select a project'
-              )}
-            </Text>
-          </Box>
+                </x.span>
+              </>
+            )}
+          </x.div>
         ) : (
-          <Text color='content.nonessential'>{placeholder}</Text>
+          <x.span color='content-nonessential' lineHeight='normal'>
+            {placeholder}
+          </x.span>
         )}
-        <ChevronDown height={16} width={16} />
-      </Select>
+        <Icon icon={FiChevronDown} size='1rem' color='content-subtle' />
+      </x.button>
 
-      <Modal isOpen={modal} onRequestClose={closeModalHandler}>
-        <List.UL py={1}>
+      <Modal isOpen={modal} onRequestClose={setModal}>
+        <x.ul py={2}>
           {projects?.map((project) => (
-            <ProjectItem
-              key={project.id}
-              project={project}
-              onClick={() => onItemClickHandler(project.id)}
-            />
+            <x.li key={project.id} px={3} py={2}>
+              <ProjectItem
+                project={project}
+                onClick={() => onItemClickHandler(project.id)}
+              />
+            </x.li>
           ))}
-          <hr />
-          <List.LI
-            as='li'
+
+          <x.hr w='100%' borderColor='layout-divider' borderWidth={1} my={1} />
+
+          <x.li
             display='flex'
             alignItems='center'
+            color='brand-primary'
             px={3}
             py={1}
-            mt={1}
-            color='brand.primary'
           >
-            <Plus />
-            <Text as='span' ml={1}>
+            <FiPlus />
+            <x.span text='body' ml={2}>
               Create Project
-            </Text>
-          </List.LI>
-        </List.UL>
+            </x.span>
+          </x.li>
+        </x.ul>
       </Modal>
     </>
   )
