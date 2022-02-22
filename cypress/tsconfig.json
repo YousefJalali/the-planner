@@ -3,9 +3,13 @@
   "compilerOptions": {
     "baseUrl": "../node_modules",
     "target": "es5",
-    "types": ["cypress"],
+    "types": ["cypress", "cypress-file-upload"]
   },
+
   "include": [
-    "**/*.ts"
+    "../node_modules/cypress",
+    "../node_modules/cypress-file-upload",
+    "**/*.ts",
+    "**/*.js"
   ]
 }

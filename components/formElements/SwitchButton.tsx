@@ -78,7 +78,7 @@ type Props = {
 
 function SwitchButton(props: Props) {
   return (
-    <Switch height={props.height}>
+    <Switch height={props.height} htmlFor={props.id}>
       <input type='checkbox' {...props} />
       <Slider height={props.height}></Slider>
     </Switch>

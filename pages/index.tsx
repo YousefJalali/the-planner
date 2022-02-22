@@ -277,6 +277,7 @@ const Home: NextPage<Props> = () => {
 
         {/* Floating Button */}
         <x.button
+          id='create-task-fb'
           position='fixed'
           bottom='24px'
           right='24px'

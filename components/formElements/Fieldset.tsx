@@ -11,7 +11,7 @@ export const Label = styled.label`
   }
 `
 
-const Wrapper = styled.fieldset<{
+const Wrapper = styled.div<{
   success?: boolean
   error?: boolean
   noBorder?: boolean
@@ -42,13 +42,17 @@ const Wrapper = styled.fieldset<{
     (error && 'utility-critical')};
   `}
 
-  &:disabled {
-    background-color: layout-level1accent;
-  }
-
   ${({ noBorder }) => css`
     border: ${noBorder && 'none'};
   `}
+`
+
+const Fieldset = styled.fieldset`
+  &:disabled {
+    ${Wrapper} {
+      background-color: layout-level1accent;
+    }
+  }
 `
 
 const SupportiveText = styled.span`
@@ -74,6 +78,7 @@ type Props = {
   error: FieldError | undefined
   noBorder?: boolean
   optionalField?: boolean
+  id?: string
 }
 
 function FieldsetComp(props: Props) {
@@ -85,19 +90,20 @@ function FieldsetComp(props: Props) {
     supportiveText,
     noBorder,
     optionalField,
+    id,
   } = props
 
   return (
-    <fieldset>
+    <Fieldset disabled={disabled}>
       {label && (
-        <Label color={error && 'utility-critical'}>
+        <Label color={error && 'utility-critical'} htmlFor={id}>
           {label}{' '}
           {optionalField && (
             <x.span color='content-nonessential'>(optional)</x.span>
           )}
         </Label>
       )}
-      <Wrapper error={error && true} disabled={disabled} noBorder={noBorder}>
+      <Wrapper error={error && true} noBorder={noBorder}>
         {children}
       </Wrapper>
 
@@ -106,7 +112,7 @@ function FieldsetComp(props: Props) {
       )}
 
       {error && <ErrorMessage as='span'>{error.message}</ErrorMessage>}
-    </fieldset>
+    </Fieldset>
   )
 }
 

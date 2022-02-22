@@ -13,9 +13,10 @@ type Props = {
   onChange: (v: string) => void
   value: string
   placeholder: string
+  id?: string
 }
 
-function SelectProject({ value, onChange, placeholder }: Props) {
+function SelectProject({ value, onChange, placeholder, id }: Props) {
   const [modal, setModal] = useToggle(false)
   const [project, setProject] = useState<ProjectType>()
 
@@ -49,6 +50,7 @@ function SelectProject({ value, onChange, placeholder }: Props) {
         w='100%'
         backgroundColor='layout-level0'
         borderRadius={2}
+        id={id}
       >
         {project ? (
           <x.div display='flex' alignItems='center'>
@@ -82,27 +84,27 @@ function SelectProject({ value, onChange, placeholder }: Props) {
       </x.button>
 
       <Modal isOpen={modal} onRequestClose={setModal}>
-        <x.ul py={2}>
+        <x.ul
+          my={1}
+          divideY
+          divideColor='layout-level0accent'
+          id='project-list-select'
+        >
           {projects?.map((project) => (
-            <x.li key={project.id} px={3} py={2}>
-              <ProjectItem
-                project={project}
-                onClick={() => onItemClickHandler(project.id)}
-              />
+            <x.li
+              key={project.id}
+              display='flex'
+              alignItems='center'
+              p={3}
+              onClick={() => onItemClickHandler(project.id)}
+            >
+              <ProjectItem project={project} />
             </x.li>
           ))}
 
-          <x.hr w='100%' borderColor='layout-divider' borderWidth={1} my={1} />
-
-          <x.li
-            display='flex'
-            alignItems='center'
-            color='brand-primary'
-            px={3}
-            py={1}
-          >
-            <FiPlus />
-            <x.span text='body' ml={2}>
+          <x.li display='flex' alignItems='center' p={3}>
+            <Icon icon={FiPlus} color='brand-primary' size='1.125rem' />
+            <x.span text='body' ml={2} color='brand-primary'>
               Create Project
             </x.span>
           </x.li>

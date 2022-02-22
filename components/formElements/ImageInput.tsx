@@ -14,11 +14,10 @@ type Props = {
   onChange: (e: ChangeEvent<HTMLInputElement> | ImageType[]) => void
   max: number
   multiple?: boolean
+  id?: string
 }
 
-function ImageInput(props: Props) {
-  const { value, onChange, max, multiple } = props
-
+function ImageInput({ value, onChange, max, multiple, id = uuidv4() }: Props) {
   const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
@@ -35,7 +34,7 @@ function ImageInput(props: Props) {
     onChange(value.filter((img: ImageType, i: number) => i !== index))
   }
 
-  const inputId = uuidv4()
+  const inputId = id
 
   return (
     <ImgInput.Wrapper>
@@ -55,16 +54,13 @@ function ImageInput(props: Props) {
       {value.length >= max ? null : (
         <ImgInput.Input stretch={value.length <= 0}>
           <input
-            id={`image-input-${inputId}`}
+            id={inputId}
             type='file'
             accept='.png, .jpg, .jpeg'
             onChange={(e) => onChangeHandler(e)}
             multiple={multiple}
           />
-          <label
-            htmlFor={`image-input-${inputId}`}
-            data-testid={`image-input-${inputId}`}
-          >
+          <label htmlFor={inputId} data-testid={inputId}>
             <x.div display='flex' flexDirection='column' alignItems='center'>
               <Icon icon={FiFileText} size='1.5rem' />
               <x.div mt={2} display='flex' alignItems='center'>

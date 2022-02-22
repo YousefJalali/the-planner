@@ -5,7 +5,7 @@ import { x } from '@xstyled/styled-components'
 
 type Props = {
   project: ProjectType
-  onClick: () => void
+  onClick?: () => void
 }
 
 const ProjectItemComp: FC<Props> = ({ project, onClick }) => {

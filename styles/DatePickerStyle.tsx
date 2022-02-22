@@ -14,6 +14,8 @@ const DatePickerWrapper = styled.div`
       .react-datepicker {
         font-family: inherit;
         font-size: sm;
+        color: content-default;
+        background-color: layout-level0;
         border: 0;
         box-shadow: 0 0 16px 1px rgba(1, 1, 1, 0.1);
         border-radius: 3;
@@ -92,6 +94,11 @@ const DatePickerWrapper = styled.div`
         }
 
         .react-datepicker__month-container {
+          .react-datepicker-year-header {
+            color: content-contrast;
+            font-size: default;
+          }
+
           .react-datepicker__header {
             background-color: layout-level0;
             padding: 3;

@@ -111,8 +111,9 @@ function TaskForm<T>({
         control={control}
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           return (
-            <Fieldset label='Task title' error={error}>
+            <Fieldset id='task-form-title' label='Task title' error={error}>
               <Input
+                id='task-form-title'
                 type='text'
                 placeholder='i.e. speakers'
                 value={value}
@@ -131,8 +132,9 @@ function TaskForm<T>({
           const v = _.isObject(value) ? value.id : value
 
           return (
-            <Fieldset label='Project' error={error}>
+            <Fieldset id='task-form-project' label='Project' error={error}>
               <SelectProject
+                id='task-form-project'
                 value={v}
                 onChange={onChange}
                 placeholder='Select a project'
@@ -151,7 +153,7 @@ function TaskForm<T>({
           alignItems='center'
           mb={1}
         >
-          <x.span>From</x.span>
+          <x.span>Date & Time</x.span>
           <x.div display='flex' alignItems='center'>
             <x.span mr={2}>Open task?</x.span>
 
@@ -161,6 +163,7 @@ function TaskForm<T>({
               render={({ field: { value, onChange } }) => {
                 return (
                   <SwitchButton
+                    id='task-form-openTask'
                     height={20}
                     checked={value}
                     onChange={onChange}
@@ -182,8 +185,9 @@ function TaskForm<T>({
                 fieldState: { error },
               }) => {
                 return (
-                  <Fieldset error={error}>
+                  <Fieldset id='task-form-startDate' error={error} label='from'>
                     <DatePicker
+                      id='task-form-startDate'
                       selectsStart
                       selected={value.startDate}
                       onChange={(v) => onChange({ ...value, startDate: v })}
@@ -208,8 +212,13 @@ function TaskForm<T>({
                 fieldState: { error },
               }) => {
                 return (
-                  <Fieldset error={error} disabled={watch('openTask')}>
+                  <Fieldset
+                    id='task-form-startTime'
+                    error={error}
+                    disabled={watch('openTask')}
+                  >
                     <DatePicker
+                      id='task-form-startTime'
                       selected={value.startTime}
                       onChange={(v) => onChange({ ...value, startTime: v })}
                       disabled={watch('openTask')}
@@ -240,11 +249,13 @@ function TaskForm<T>({
               }) => {
                 return (
                   <Fieldset
-                    label='End'
+                    id='task-form-endDate'
+                    label='To'
                     disabled={watch('openTask')}
                     error={error}
                   >
                     <DatePicker
+                      id='task-form-endDate'
                       selectsEnd
                       selected={value.endDate}
                       onChange={(v) => onChange({ ...value, endDate: v })}
@@ -271,8 +282,13 @@ function TaskForm<T>({
                 fieldState: { error },
               }) => {
                 return (
-                  <Fieldset disabled={watch('openTask')} error={error}>
+                  <Fieldset
+                    id='task-form-endTime'
+                    disabled={watch('openTask')}
+                    error={error}
+                  >
                     <DatePicker
+                      id='task-form-endTime'
                       selected={value.endTime}
                       onChange={(v) => onChange({ ...value, endTime: v })}
                       disabled={watch('openTask')}
@@ -297,8 +313,14 @@ function TaskForm<T>({
         control={control}
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           return (
-            <Fieldset label='description' error={error} optionalField>
+            <Fieldset
+              // id='task-form-description'
+              label='description'
+              error={error}
+              optionalField
+            >
               <TextEditor
+                id='description'
                 value={value}
                 onChange={onChange}
                 placeholder='A brief about the task...'
@@ -320,7 +342,13 @@ function TaskForm<T>({
               noBorder
               optionalField
             >
-              <ImageInput value={value} onChange={onChange} max={10} multiple />
+              <ImageInput
+                id='task-form-attachments'
+                value={value}
+                onChange={onChange}
+                max={10}
+                multiple
+              />
             </Fieldset>
           )
         }}
