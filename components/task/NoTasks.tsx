@@ -9,7 +9,7 @@ const NoTasks = () => {
       flexDirection='column'
       justifyContent='center'
       alignItems='center'
-      my={3}
+      my={5}
     >
       <x.div w='50%'>
         <NoTasksSVG />

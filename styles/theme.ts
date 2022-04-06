@@ -1,25 +1,26 @@
-import { defaultTheme } from '@xstyled/styled-components'
+import {
+  defaultTheme,
+  generateHexAlphaVariants,
+} from '@xstyled/styled-components'
+
+import { Status } from '../common/types/TaskType'
 
 const colors = {
-  'brand-primary': '#0066ff',
-  'brand-secondary': '#a6b1e1',
-  'brand-tertiary': '#dcd6f7',
-  'brand-quaternary': '#f4eeff',
+  ...generateHexAlphaVariants({
+    'brand-primary': '#0066ff',
 
-  'utility-action': 'rgba(0, 156, 227, 1)',
-  'utility-information': 'rgba(77, 102, 128, 1)',
-  'utility-confirmation': 'rgba(120, 161, 0, 1)',
-  'utility-warning': 'rgba(242, 182, 0, 1)',
-  'utility-critical': 'rgba(232, 28, 0, 1)',
-  'utility-rating': '#FFC120',
-  'utility-saved': '#E44753',
+    'utility-action': '#009ce3',
+    'utility-information': '#4d6680',
+    'utility-confirmation': '#78a100',
+    'utility-warning': '#f2b600',
+    'utility-critical': '#e81c00',
+    'utility-rating': '#FFC120',
+    'utility-saved': '#E44753',
 
-  'tag-proposed-color': 'rgba(147, 90, 234, 1)',
-  'tag-proposed-bg': 'rgba(147, 90, 234, 0.2)',
-  'tag-inprogress-color': 'rgba(174, 153, 0, 1)',
-  'tag-inprogress-bg': 'rgba(174, 153, 0, 0.2)',
-  'tag-completed-color': 'rgba(0, 143, 32, 1)',
-  'tag-completed-bg': 'rgba(0, 143, 32, 0.2)',
+    ['tag-' + Status.PROPOSED]: ' #935aea',
+    ['tag-' + Status.INPROGRESS]: '#ae9900',
+    ['tag-' + Status.COMPLETED]: '#008f20',
+  }),
 
   'content-contrast': 'rgba(19, 41, 63, 1)',
   'content-default': 'rgba(19, 41, 63, 0.8)',

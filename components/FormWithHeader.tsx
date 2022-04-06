@@ -1,19 +1,21 @@
-import { x } from '@xstyled/styled-components'
+import styled, { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import Modal from './layout/Modal'
 
 type Props = {
   children: React.ReactNode
-  onClose: () => void
+  onClose: (action?: any) => void
   title: string
   id: string
 }
 
+const Header = styled(x.div)`
+  backdrop-filter: blur(8px);
+`
+
 const FormModal: FC<Props> = ({ children, onClose, title, id }) => {
   return (
     <>
-      <x.div
-        backgroundColor='layout-level0'
+      <Header
         display='flex'
         justifyContent='space-between'
         alignItems='center'
@@ -24,6 +26,7 @@ const FormModal: FC<Props> = ({ children, onClose, title, id }) => {
         zIndex={1}
         w='100%'
         top='0px'
+        id={`${id}-header`}
       >
         <x.div>
           <x.a onClick={onClose}>Cancel</x.a>
@@ -32,13 +35,15 @@ const FormModal: FC<Props> = ({ children, onClose, title, id }) => {
         <x.span color='content-contrast' fontWeight='bold'>
           {title}
         </x.span>
-        <x.label htmlFor={id} color='brand-primary'>
+        <x.label
+          id={`${id}-submit-label`}
+          htmlFor={`${id}-submit`}
+          color='brand-primary'
+        >
           <x.a>Submit</x.a>
         </x.label>
-      </x.div>
-      <x.div backgroundColor='layout-level0' p={3}>
-        {children}
-      </x.div>
+      </Header>
+      <x.div p={3}>{children}</x.div>
     </>
   )
 }

@@ -1,47 +1,41 @@
-import { FC } from 'react'
-import { x } from '@xstyled/styled-components'
-import { TaskType, TaskProjectType, Status } from '../../common/types/TaskType'
+import { FC, useContext } from 'react'
+import styled, { x } from '@xstyled/styled-components'
+import { TaskType, Status, TaskProjectType } from '../../common/types/TaskType'
 import { getTime } from '../../common/utils/formatDate'
-import TaskDetails from './TaskDetails'
-import Modal from '../layout/Modal'
-import useToggle from '../../common/hooks/useToggle'
 import { FiPaperclip, FiClock, FiMoreVertical } from 'react-icons/fi'
 import Icon from '../Icon'
 import Checkbox from '../formElements/Checkbox'
-import FormWithHeader from '../FormWithHeader'
-import TaskForm from './TaskForm'
-import TaskOptions from './TaskOptions'
+import ActiveTaskCtx from '../../common/contexts/ActiveTaskCtx'
 
 type Props = {
   task: TaskType
-  onDelete: () => void
-  onEdit: (data: TaskType) => void
-  onChangeStatus: (taskIs: string, status: Status) => void
+  onCheck: (taskId: string, taskStatus: Status) => void
+  onDetails: () => void
+  onOptions: () => void
 }
 
-const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
-  const [detailsModal, setDetailsModal] = useToggle()
-  const [optionsModal, setOptionsModal] = useToggle()
-  const [editTaskModal, setEditTaskModal] = useToggle()
+export const Clickable = styled(x.a)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 101;
+`
 
-  const onDeleteHandler = () => {
-    onDelete()
-    setOptionsModal()
+const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
+  // console.log('TaskItem rendered')
+
+  const { setActiveTask } = useContext(ActiveTaskCtx)
+
+  const onDetailsHandler = () => {
+    setActiveTask(task)
+    onDetails()
   }
 
-  const onEditHandler = (data: TaskType) => {
-    onEdit(data)
-    setEditTaskModal()
-    setOptionsModal()
-  }
-
-  const onCheckHandler = () => {
-    const s =
-      task.status === Status.PROPOSED || task.status === Status.INPROGRESS
-        ? Status.COMPLETED
-        : Status.PROPOSED
-
-    onChangeStatus(task.id, s)
+  const onOptionsHandler = () => {
+    setActiveTask(task)
+    onOptions()
   }
 
   //format time
@@ -63,7 +57,8 @@ const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
   const isTaskCompleted = task.status === Status.COMPLETED
 
   return (
-    <>
+    <x.div position='relative' data-testid='task-item'>
+      <Clickable onClick={onDetailsHandler} data-testid='taskItem-details' />
       <x.div
         display='flex'
         justifyContent='space-between'
@@ -77,15 +72,16 @@ const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
           display='flex'
           flexDirection='column'
           flex='0 0 calc(100% - 24px - 12px - 16px)'
+          pr={1}
         >
           {/* Title text */}
           <x.p
             text='body'
             textDecoration={isTaskCompleted && 'line-through'}
             color={
-              isTaskCompleted ? 'content-nonessential' : 'content.contrast'
+              isTaskCompleted ? 'content-nonessential' : 'content-contrast'
             }
-            onClick={setDetailsModal}
+            data-testid='taskItem-title'
           >
             {task.title}
           </x.p>
@@ -105,10 +101,11 @@ const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
                   color={
                     isTaskCompleted ? 'content-nonessential' : 'content-subtle'
                   }
-                  size='0.875rem'
+                  size='0.889rem'
                 />
                 <x.span
-                  text='body.small'
+                  fontSize='sm'
+                  lineHeight='none'
                   color={
                     isTaskCompleted ? 'content-nonessential' : 'content-subtle'
                   }
@@ -131,11 +128,12 @@ const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
                   color={
                     isTaskCompleted ? 'content-nonessential' : 'content-subtle'
                   }
-                  size='0.875rem'
+                  size='0.889rem'
                 />
 
                 <x.span
-                  text='body.small'
+                  fontSize='sm'
+                  lineHeight='none'
                   color={
                     isTaskCompleted ? 'content-nonessential' : 'content-subtle'
                   }
@@ -148,46 +146,26 @@ const TaskItem: FC<Props> = ({ task, onDelete, onEdit, onChangeStatus }) => {
           </x.div>
         </x.div>
 
-        {/* check button */}
         <Checkbox
           id={task.id}
           checked={task.status === Status.COMPLETED}
-          onChange={onCheckHandler}
+          onChange={() => onCheck(task.id, task.status)}
           color={(task.project as TaskProjectType).color}
         />
 
-        <x.div onClick={setOptionsModal}>
+        <x.div
+          position='relative'
+          minHeight='1.5rem'
+          minWidth='1.5rem'
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+        >
+          <Clickable onClick={onOptionsHandler} data-testid='taskItem-kebab' />
           <Icon icon={FiMoreVertical} color='content-subtle' />
         </x.div>
       </x.div>
-
-      <Modal isOpen={detailsModal} onRequestClose={setDetailsModal}>
-        <TaskDetails task={task} onClose={setDetailsModal} />
-      </Modal>
-
-      <Modal isOpen={optionsModal} onRequestClose={setOptionsModal}>
-        <TaskOptions
-          status={task.status}
-          onEdit={setEditTaskModal}
-          onDelete={onDeleteHandler}
-          onStatusChange={(status) => onChangeStatus(task.id, status)}
-        />
-      </Modal>
-
-      <Modal isOpen={editTaskModal} onRequestClose={setEditTaskModal}>
-        <FormWithHeader
-          title='Edit task'
-          onClose={setEditTaskModal}
-          id='edit-task-form'
-        >
-          <TaskForm
-            id='edit-task-form'
-            defaultValues={task}
-            onSubmit={onEditHandler}
-          />
-        </FormWithHeader>
-      </Modal>
-    </>
+    </x.div>
   )
 }
 

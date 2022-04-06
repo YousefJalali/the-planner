@@ -1,48 +1,52 @@
 import { Status, TaskType } from '../types/TaskType'
+import getErrorMessage from '../utils/getErrorMessage'
 
-export const createTask = async (formData: TaskType, cb: () => void) => {
+export const createTask = async (task: TaskType) => {
   try {
     const res = await fetch('/tasks/', {
       method: 'POST',
-      body: JSON.stringify({ task: formData }),
+      body: JSON.stringify(task),
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    const { success, data: createdTask } = await res.json()
-    if (success) {
-      cb()
+
+    if (!res.ok) {
+      throw new Error(res.statusText)
     }
-  } catch (error) {
-    console.log(error)
+
+    return await res.json()
+  } catch (err) {
+    return { error: getErrorMessage(err) }
   }
 }
 
-export const deleteTask = async (taskId: string, cb: () => void) => {
+//delete
+export const deleteTask = async (taskId: string) => {
   try {
     const res = await fetch(`/tasks/${taskId}`, {
       method: 'DELETE',
-      // body: JSON.stringify(taskId),
       headers: {
         'Content-Type': 'application/json',
       },
     })
 
-    const { success, data } = await res.json()
-
-    if (success) {
-      cb()
+    if (!res.ok) {
+      throw new Error(res.statusText)
     }
-  } catch (error) {
-    console.log(error)
+
+    return await res.json()
+  } catch (err) {
+    return { error: getErrorMessage(err) }
   }
 }
 
+//edit
 export const editTask = async (task: TaskType, cb: () => void) => {
   try {
     const res = await fetch(`/tasks/${task.id}`, {
       method: 'POST',
-      body: JSON.stringify({ task }),
+      body: JSON.stringify(task),
       headers: {
         'Content-Type': 'application/json',
       },

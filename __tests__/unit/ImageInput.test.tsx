@@ -19,17 +19,20 @@ function setup({
   const onChange: (e: ChangeEvent<HTMLInputElement> | ImageType[]) => void =
     jest.fn()
 
+  const id = 'test-image-input'
+
   const utils = render(
     <ImageInput
       value={value}
       onChange={onChange}
       max={max}
       multiple={multiple}
+      id={id}
     />
   )
 
-  const input = utils.getByTestId(/image-input/i, {
-    exact: false,
+  const input = utils.getByTestId(id, {
+    exact: true,
   }) as HTMLInputElement
 
   const previews = utils.queryAllByAltText(/preview-/i)

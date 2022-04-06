@@ -1,24 +1,44 @@
 import { FC, InputHTMLAttributes } from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { x, useTh } from '@xstyled/styled-components'
 
 type Props = {
   label?: string
+  px?: number
+  py?: number
 } & InputHTMLAttributes<HTMLInputElement>
 
-const RadioButton: FC<Props> = ({ label, ...props }) => {
+const RadioButton: FC<Props> = ({ label, px = 3, py = 3, ...props }) => {
+  const padding: string = useTh('space')[px] || '0'
+
   return (
     <Wrapper>
       <input type='radio' {...props} />
-      <Check />
-      <label htmlFor={props.id}>{label}</label>
+      <Check px={padding} />
+      <x.label
+        htmlFor={props.id}
+        display='inline-block'
+        w='100%'
+        zIndex={1}
+        m={0}
+        pr={px}
+        pl={`calc(${padding || 1} + 1.25rem + 0.5rem)`}
+        py={py}
+        lineHeight='1.25rem'
+        textTransform='capitalize'
+        color='content-default'
+        cursor='pointer'
+      >
+        {label}
+      </x.label>
     </Wrapper>
   )
 }
 
-const Check = styled.div`
+const Check = styled.div<{ px: string }>`
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: ${(props) => props.px};
+  transform: translateY(-50%);
   z-index: 1;
   height: 1.25rem;
   width: 1.25rem;
@@ -40,22 +60,10 @@ const Check = styled.div`
   }
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled(x.div)`
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row-reverse;
-
-  label {
-    z-index: 1;
-    margin: 0;
-    padding: 0 32px;
-    line-height: 1.25rem;
-    cursor: pointer;
-    width: 100%;
-    text-transform: capitalize;
-    color: content-default;
-  }
+  width: 100%;
+  height: 100%;
 
   input[type='radio'] {
     margin: 0;
@@ -76,6 +84,7 @@ const Wrapper = styled.div`
 
     & ~ label {
       color: content-contrast;
+      background-color: layout-level0accent;
     }
   }
 `

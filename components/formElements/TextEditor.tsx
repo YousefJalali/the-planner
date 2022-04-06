@@ -9,7 +9,7 @@ const Wrapper = styled.div<{ readonly?: boolean }>`
   .ql-container {
     background-color: layout-level0;
     border: 0;
-    border-radius: 3;
+    border-radius: 2;
 
     .ql-editor {
       line-height: normal;

@@ -42,7 +42,22 @@ export default class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link
+            rel='preload'
+            href='/fonts/montserrat-v23-latin-100'
+            as='font'
+            type='font/eot'
+            crossOrigin='anonymous'
+          />
+          <link
+            rel='preload'
+            href='fonts/carter-one-v15-latin-regular'
+            as='font'
+            type='font/eot'
+            crossOrigin='anonymous'
+          />
+
+          {/* <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link
             rel='preconnect'
             href='https://fonts.gstatic.com'
@@ -51,7 +66,7 @@ export default class MyDocument extends Document {
           <link
             href='https://fonts.googleapis.com/css2?family=Carter+One&family=DM+Sans:wght@400;500;700&family=Montserrat:wght@100;300;400;500;700&display=swap'
             rel='stylesheet'
-          />
+          /> */}
         </Head>
         <body>
           {getColorModeInitScriptElement()}

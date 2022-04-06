@@ -8,9 +8,9 @@ type Props = {
   onClick: () => void
 }
 
-const Card = styled.div<{ color: string }>`
+export const Card = styled.div<{ color: string }>`
   width: 100%;
-  height: 100%;
+  height: 150px;
   padding: 3;
   display: flex;
   justify-content: space-between;
@@ -21,6 +21,8 @@ const Card = styled.div<{ color: string }>`
 `
 
 const ProjectCard: FC<Props> = ({ project, onClick }) => {
+  console.log('Project Card render')
+
   return (
     <Card color={project.color} onClick={onClick}>
       <x.div

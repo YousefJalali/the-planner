@@ -1,26 +1,28 @@
 import { FieldError } from 'react-hook-form'
 import styled, { css, x } from '@xstyled/styled-components'
+import _ from 'lodash'
 
-export const Label = styled.label`
+export const Label = styled(x.label)`
   display: block;
   margin-bottom: 1;
   font-size: sm;
-  color: content-subtle;
   &::first-letter {
     text-transform: uppercase;
   }
 `
 
-const Wrapper = styled.div<{
+type WrapperProps = {
   success?: boolean
   error?: boolean
   noBorder?: boolean
-}>`
+}
+
+const Wrapper = styled.div<WrapperProps>`
   width: 100%;
   position: relative;
 
   padding: 0;
-  background-color: layout-level0;
+
   border-radius: 2;
   border: 1px solid;
   border-color: layout-divider;
@@ -30,7 +32,9 @@ const Wrapper = styled.div<{
   input,
   textarea,
   button {
+    border-radius: 2;
     padding: 3 2;
+    background-color: layout-level0;
   }
 
   &:focus-within {
@@ -50,7 +54,11 @@ const Wrapper = styled.div<{
 const Fieldset = styled.fieldset`
   &:disabled {
     ${Wrapper} {
-      background-color: layout-level1accent;
+      input,
+      textarea,
+      button {
+        background-color: layout-level1accent;
+      }
     }
   }
 `
@@ -75,35 +83,40 @@ type Props = {
   label?: string
   supportiveText?: string
   disabled?: boolean
-  error: FieldError | undefined
+  error?: FieldError | FieldError[] | undefined
+  noErrorMessage?: boolean
   noBorder?: boolean
   optionalField?: boolean
   id?: string
 }
 
-function FieldsetComp(props: Props) {
-  const {
-    label,
-    disabled,
-    error,
-    children,
-    supportiveText,
-    noBorder,
-    optionalField,
-    id,
-  } = props
+function FieldsetComp({
+  label,
+  disabled,
+  error,
+  noErrorMessage = false,
+  children,
+  supportiveText,
+  noBorder = false,
+  optionalField,
+  id,
+}: Props) {
+  const isError = _.isObject(error) || _.isArray(error)
 
   return (
     <Fieldset disabled={disabled}>
       {label && (
-        <Label color={error && 'utility-critical'} htmlFor={id}>
+        <Label
+          color={isError ? 'utility-critical' : 'content-subtle'}
+          htmlFor={id}
+        >
           {label}{' '}
           {optionalField && (
             <x.span color='content-nonessential'>(optional)</x.span>
           )}
         </Label>
       )}
-      <Wrapper error={error && true} noBorder={noBorder}>
+      <Wrapper error={isError} noBorder={noBorder}>
         {children}
       </Wrapper>
 
@@ -111,7 +124,19 @@ function FieldsetComp(props: Props) {
         <SupportiveText as='span'>{supportiveText}</SupportiveText>
       )}
 
-      {error && <ErrorMessage as='span'>{error.message}</ErrorMessage>}
+      {!noErrorMessage && _.isArray(error) && (
+        <x.ul>
+          {error.map((err, i) => (
+            <li key={i}>
+              <ErrorMessage as='span'>• {err.message}</ErrorMessage>
+            </li>
+          ))}
+        </x.ul>
+      )}
+
+      {!noErrorMessage && _.isObject(error) && !(error instanceof Array) && (
+        <ErrorMessage as='span'>• {error.message}</ErrorMessage>
+      )}
     </Fieldset>
   )
 }

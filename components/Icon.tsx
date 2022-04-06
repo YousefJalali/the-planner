@@ -7,12 +7,14 @@ type Props = {
   icon: (props: IconBaseProps) => JSX.Element
   color?: string
   size?: string
+  animation?: string | null
 }
 
 const Icon: FC<Props> = ({
   icon,
   color = 'content-contrast',
   size = '1rem',
+  animation = null,
 }) => {
   return typeof icon === 'function' ? (
     <x.svg
@@ -21,6 +23,7 @@ const Icon: FC<Props> = ({
       color={color}
       h={size}
       w={size}
+      animation={animation}
     >
       {icon({}).props.children}
     </x.svg>

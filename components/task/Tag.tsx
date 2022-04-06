@@ -1,19 +1,17 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
+import { Status } from '../../common/types/TaskType'
 
 type Props = {
-  variant: 'proposed' | 'in progress' | 'inprogress' | 'completed'
+  variant: Status
 }
 const Tag: FC<Props> = ({ variant }) => {
-  if (variant === 'inprogress') {
-    variant = 'in progress'
-  }
   const v = `tag-${variant.replace(' ', '')}`
 
   return (
-    <x.div backgroundColor={`${v}-bg`} borderRadius={1} w='fit-content'>
+    <x.div backgroundColor={`${v}-a20`} borderRadius={1} w='fit-content'>
       <x.span
-        color={`${v}-color`}
+        color={`${v}`}
         p={1}
         fontSize='xs'
         lineHeight='none'

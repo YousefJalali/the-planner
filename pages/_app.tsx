@@ -11,8 +11,13 @@ import { SWRConfig } from 'swr'
 
 import theme from '../styles/theme'
 import GlobalStyle from '../styles/GlobalStyle'
+import '../styles/fonts.css'
 
-import type { AppProps } from 'next/app'
+import type { AppProps, NextWebVitalsMetric } from 'next/app'
+import { ActiveTaskCtxProvider } from '../common/contexts/ActiveTaskCtx'
+import { NotificationCtxProvider } from '../common/contexts/NotificationCtx'
+import { NextQueryParamProvider } from 'next-query-params'
+import Layout from '../components/layout/Layout'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -43,7 +48,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                 fetch(resource, init).then((res) => res.json()),
             }}
           >
-            <Component {...pageProps} />
+            <NextQueryParamProvider>
+              <NotificationCtxProvider>
+                <ActiveTaskCtxProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ActiveTaskCtxProvider>
+              </NotificationCtxProvider>
+            </NextQueryParamProvider>
           </SWRConfig>
           {/* </SessionProvider> */}
         </ColorModeProvider>
@@ -51,5 +64,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   )
 }
+
+// export function reportWebVitals(metric: NextWebVitalsMetric) {
+//   console.log(metric)
+// }
 
 export default MyApp

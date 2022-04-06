@@ -41,6 +41,36 @@ const useYupValidationResolver = <T>(
     [validationSchema]
   )
 
+export const apiYupValidation = async <T>(
+  validationSchema: ObjectSchema<T & InferType<T & TypedSchema>>,
+  data: T
+) => {
+  try {
+    const values = await validationSchema.validate(data, {
+      abortEarly: false,
+    })
+
+    return {
+      values,
+      errors: {},
+    }
+  } catch (errors) {
+    return {
+      values: {},
+      errors: (errors as FieldErrors).inner.reduce(
+        (allErrors: FieldErrors, currentError: FieldErrors) => ({
+          ...allErrors,
+          [currentError.path]: {
+            type: currentError.type ?? 'validation',
+            message: currentError.message,
+          },
+        }),
+        {}
+      ),
+    }
+  }
+}
+
 export default useYupValidationResolver
 // import { useCallback } from 'react'
 // import { InferType } from 'yup'

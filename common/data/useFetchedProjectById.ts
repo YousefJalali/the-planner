@@ -7,9 +7,9 @@ const getProject = async (id: string) => {
   return data
 }
 
-const useFetchedProjectById = (projectId: string) => {
+const useFetchedProjectById = (projectId: string | null) => {
   const { data, error, mutate } = useSWR<ProjectType, Error>(
-    `/projects/${projectId}`
+    projectId ? `/projects/${projectId}` : null
   )
   // const { data, error, mutate } = useSWR(`/project/${projectId}`, () =>
   //   getProject(projectId)

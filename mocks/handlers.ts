@@ -10,7 +10,11 @@ import {
   getDateTasksController,
   changeTaskStatusController,
 } from './controllers/taskControllers'
-import { getProjectById } from './controllers/projectControllers'
+import {
+  createProjectController,
+  getInfiniteProjects,
+  getProjectById,
+} from './controllers/projectControllers'
 
 const initialProjects = multipleProjects()
 const initialTasks = multipleTasks(initialProjects)
@@ -71,16 +75,14 @@ export const handlers = [
   }),
 
   //create a task
-  rest.post<{ task: TaskType }>('/tasks', (req, res, ctx) => {
-    if (req.body) {
-      return res(ctx.json(createTaskController(req.body.task, tasks, projects)))
-    }
-  }),
+  rest.post<TaskType>('/tasks', (req, res, ctx) =>
+    createTaskController({ req, res, ctx }, tasks, projects)
+  ),
 
   //UPDATE A TASK
-  rest.post<{ task: TaskType }>('/tasks/:id', (req, res, ctx) => {
+  rest.post<TaskType>('/tasks/:id', (req, res, ctx) => {
     if (req.body) {
-      return res(ctx.json(editTaskController(req.body.task, tasks, projects)))
+      return res(ctx.json(editTaskController(req.body, tasks, projects)))
     }
   }),
 
@@ -105,15 +107,33 @@ export const handlers = [
   }),
 
   //delete a task
-  rest.delete('/tasks/:id', (req, res, ctx) => {
-    return res(ctx.json(deleteTaskController(req.params.id as string, tasks)))
-  }),
+  rest.delete('/tasks/:id', (req, res, ctx) =>
+    deleteTaskController({ req, res, ctx }, tasks)
+  ),
 
   //--------------//
 
   //get all projects
-  rest.get('/projects', (_, res, ctx) => {
-    return res(ctx.json(projects))
+  // rest.get('/projects/recent', (_, res, ctx) => {
+  //   // return res(ctx.status(404), ctx.json({ error: 'unable to find projects' }))
+  //   return res(ctx.status(200), ctx.json(projects.slice(0, 5)))
+  // }),
+
+  //get all projects pagination
+  rest.get('/projects', (req, res, ctx) => {
+    // return res(ctx.status(404), ctx.json({ error: 'unable to find projects' }))
+    return res(
+      ctx.status(200),
+      ctx.json(
+        req.url.searchParams.get('limit')
+          ? getInfiniteProjects(
+              projects,
+              req.url.searchParams.get('page'),
+              req.url.searchParams.get('limit')
+            )
+          : projects
+      )
+    )
   }),
 
   //get project by ID
@@ -122,4 +142,9 @@ export const handlers = [
       ctx.json(getProjectById(req.params.projectId as string, projects, tasks))
     )
   }),
+
+  //create project
+  rest.post<{ project: ProjectType }>('/projects', (req, res, ctx) =>
+    createProjectController(req, res, ctx, projects)
+  ),
 ]

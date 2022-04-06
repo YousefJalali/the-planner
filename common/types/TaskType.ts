@@ -2,8 +2,8 @@ import { ProjectType } from './ProjectType'
 import { ImageType } from './ImageType'
 
 export enum Status {
-  PROPOSED = 'proposed',
-  INPROGRESS = 'inprogress',
+  PROPOSED = 'pending',
+  INPROGRESS = 'ongoing',
   COMPLETED = 'completed',
 }
 
@@ -33,10 +33,6 @@ export type TaskType = {
     startTime: Date | null
     endTime: Date | null
   }
-  // startDate: Date
-  // endDate: Date | null
-  // startTime: Date | null
-  // endTime: Date | null
   attachments: ImageType[] | []
   status: Status
 }

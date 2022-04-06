@@ -1,138 +1,174 @@
-import { FC, useEffect, useMemo, useRef } from 'react'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import DatePicker from './formElements/DatePicker'
-import { FiChevronDown } from 'react-icons/fi'
-import styled, { x, css } from '@xstyled/styled-components'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { x } from '@xstyled/styled-components'
 import Icon from './Icon'
+import ScrollableList from './ScrollableList'
+import _ from 'lodash'
+import useWindowSize from '../common/hooks/useWindowSize'
+import getDaysInMonth from 'date-fns/getDaysInMonth'
+import getDay from 'date-fns/getDay'
+import format from 'date-fns/format'
+import setDate from 'date-fns/setDate'
 
 type Props = {
-  date: string
+  dateString: string
   setDate: (date: string) => void
 }
 
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-]
+const DayItem = ({
+  onClick,
+  active,
+  day,
+  date,
+}: {
+  onClick: (day: number) => void
+  active: boolean
+  day: number
+  date: Date
+}) => {
+  return (
+    <x.li
+      onClick={() => onClick(day)}
+      display='flex'
+      flexDirection='column'
+      alignItems='center'
+      minWidth='3rem'
+      borderRadius={2}
+      backgroundColor={active ? 'brand-primary' : 'transparent'}
+      border='1px solid'
+      borderColor='brand-primary-a10'
+      p={2}
+      cursor='pointer'
+      data-active={active ? true : null}
+      transition='ease-out .3s'
+      userSelect='none'
+    >
+      <x.span
+        fontWeight='bold'
+        color={active ? 'layout-level0' : 'content-contrast'}
+        mb={2}
+      >
+        {day}
+      </x.span>
+      <x.span
+        color={active ? 'layout-level0' : 'content-nonessential'}
+        fontSize='xs'
+      >
+        {format(setDate(new Date(date), day), 'EE')}
+      </x.span>
+    </x.li>
+  )
+}
 
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const DateSelector: FC<Props> = ({ dateString, setDate }) => {
+  const { height, width } = useWindowSize()
 
-const DateSelector: FC<Props> = (props) => {
+  const [active, setActive] = useState(1)
+
   const listRef = useRef<HTMLUListElement>(null)
 
-  const { date: stringDate, setDate } = props
-  const date = useMemo(() => new Date(stringDate), [stringDate])
+  const date = useMemo(() => new Date(dateString), [dateString])
 
+  useEffect(() => {
+    setActive(date.getDate())
+  }, [date])
+
+  //center active date
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTo({
-        left: (48 + 8) * (date.getDate() - 1),
+        left: (48 + 8) * (active - 1) - (width ? width / 2 - 48 : 0),
         behavior: 'smooth',
       })
     }
-  }, [date])
-
-  const selected = date.getDate()
-
-  const daysInMonth = new Date(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    0
-  ).getDate()
+  }, [active, width])
 
   const onSelectDateHandler = (day: number) => {
     const updatedDate = new Date(date.setDate(day)).toDateString()
+
+    setActive(day)
     setDate(updatedDate)
   }
 
-  const month = `${monthNames[date.getMonth()]} ${date.getFullYear()}`
+  const onChangeMonthHandler = (date: Date) => {
+    setDate(date.toDateString())
+  }
+
+  const renderDays = useMemo(
+    () =>
+      new Array(getDaysInMonth(date)).fill(0).map((item, i) => {
+        console.log('renderDays')
+        return (
+          <DayItem
+            key={i}
+            onClick={onSelectDateHandler}
+            active={active === i + 1}
+            day={i + 1}
+            date={date}
+          />
+        )
+      }),
+    [date, active]
+  )
 
   return (
     <x.div mb={4}>
-      <x.div mx={4}>
+      <x.div
+        mx={4}
+        mb={3}
+        p={1}
+        display='flex'
+        justifyContent='space-between'
+        alignItems='center'
+        borderRadius={2}
+        border='1px solid'
+        borderColor='brand-primary-a10'
+      >
+        <x.div backgroundColor='brand-primary-a10' borderRadius={2} p={2}>
+          <Icon icon={FiChevronLeft} size='1.5rem' />
+        </x.div>
+
         <DatePicker
           selected={date}
-          onChange={(date) => {
-            if (date && date instanceof Date) {
-              setDate(date.toDateString())
-            }
-          }}
+          onChange={onChangeMonthHandler}
           dateFormat='MMMM - yyyy'
           showMonthYearPicker
           showFourColumnMonthYearPicker
           popperPlacement='bottom-start'
           customInput={
-            <x.div
-              p={2}
-              backgroundColor='layout-level0accent'
-              borderRadius={2}
+            <x.button
+              p={0}
+              backgroundColor='transparent'
               display='flex'
               alignItems='center'
-              w='fit-content'
+              justifyContent='center'
+              w='100%'
             >
-              <x.span color='content-contrast' fontWeight='bold' mr={3}>
-                {month}
+              <x.span
+                textAlign='center'
+                color='content-contrast'
+                fontWeight='bold'
+              >
+                {format(date, 'MMMM yyyy')}
               </x.span>
-              <Icon icon={FiChevronDown} />
-            </x.div>
+            </x.button>
           }
         />
+        <x.div backgroundColor='brand-primary-a10' borderRadius={2} p={2}>
+          <Icon icon={FiChevronRight} size='1.5rem' />
+        </x.div>
       </x.div>
 
-      <x.ul
+      <ScrollableList
         ref={listRef}
         aria-labelledby='days'
-        display='flex'
-        overflowX='scroll'
-        px={4}
         mt={2}
         spaceX={2}
+        data-date={date.toDateString()}
       >
-        {new Array(daysInMonth).fill(0).map((item, i) => {
-          const day = i + 1
-          const active = selected === day
-          const constructDate = new Date(stringDate)
-          constructDate.setDate(i)
-          return (
-            <x.li
-              key={i}
-              data-selected={active ? 'true' : null}
-              onClick={() => onSelectDateHandler(day)}
-              display='flex'
-              flexDirection='column'
-              alignItems='center'
-              minWidth='3rem'
-              borderRadius={2}
-              backgroundColor={active ? 'brand-primary' : 'layout-level0accent'}
-              p={2}
-              cursor='pointer'
-            >
-              <x.span
-                fontWeight='bold'
-                color={active ? 'layout-level0' : 'content-contrast'}
-                mb={2}
-              >
-                {day}
-              </x.span>
-              <x.span
-                color={active ? 'layout-level0' : 'content-nonessential'}
-                fontSize='xs'
-              >
-                {weekdays[constructDate.getDay()]}
-              </x.span>
-            </x.li>
-          )
-        })}
-      </x.ul>
+        {renderDays}
+      </ScrollableList>
     </x.div>
   )
 }

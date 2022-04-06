@@ -1,12 +1,16 @@
 import { createGlobalStyle } from '@xstyled/styled-components'
-import getTheme from '../common/utils/getTheme'
 
 // const theme = getTheme('light')
 // type ThemeType = typeof theme
 
 export default createGlobalStyle`
+  html, body {
+     min-height: 100vh;
+     background-color: layout-level0;
+  }
+
   body {
-    background-color: layout-level0;
+    width: 100%;
     color: content-default;
     font-family: "DM Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
       Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -24,16 +28,13 @@ export default createGlobalStyle`
     -webkit-appearance: none;
   }
 
-  input, textarea {
-    color: content-contrast;
-    
-    &::placeholder {
-      color: content-nonessential;
-      font-family: "DM Sans";
-    }
-
-    &:focus, &:active {
-      outline: none;
+  input {
+    &[type="text"],
+    &[type="button"],
+    &[type="submit"],
+    &[type="search"] {
+      -webkit-appearance: none;
+      border-radius: 2;
     }
 
     &[type='radio'] {
@@ -55,7 +56,20 @@ export default createGlobalStyle`
     }
 
     &::-webkit-search-decoration {
-    -webkit-appearance: none;
+      -webkit-appearance: none;
+    }
+  }
+
+  input, textarea {
+    color: content-contrast;
+    
+    &::placeholder {
+      color: content-nonessential;
+      font-family: "DM Sans";
+    }
+
+    &:focus, &:active {
+      outline: none;
     }
   }
   

@@ -1,6 +1,7 @@
 import { render } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import DateSelector from '../../components/DateSelector'
+import { waitFor } from '@testing-library/dom'
 
 const getRandomArbitrary = (min: number, max: number) =>
   Math.ceil(Math.random() * (max - min) + min)
@@ -16,7 +17,7 @@ function setup({ date }: { date: string }) {
 
   const setDate: (date: string) => void = jest.fn()
 
-  const utils = render(<DateSelector date={date} setDate={setDate} />)
+  const utils = render(<DateSelector dateString={date} setDate={setDate} />)
 
   const list = utils.getByRole('list')
   const days = () => utils.getAllByRole('listitem')
@@ -48,50 +49,67 @@ describe('Date selector', () => {
 
     const { days } = setup({ date: date.toDateString() })
 
-    expect(days()[day - 1]).toHaveAttribute('data-selected', 'true')
+    expect(days()[day - 1]).toHaveAttribute('data-active', 'true')
   })
 
-  test('onChange date', async () => {
-    const date = new Date()
+  test('setDate should be called on DayItem click', async () => {
+    const date = new Date('Sat Apr 2 2022')
 
-    const { days, setDate, rerender } = setup({ date: date.toDateString() })
+    const { days, setDate } = setup({ date: date.toDateString() })
 
     const numberOfDays = daysInMonth(date)
     const day = getRandomArbitrary(1, numberOfDays)
 
     const index = day - 1
+    const renderedDays = days()
+
+    userEvent.click(renderedDays[index])
+
+    expect(setDate).toHaveBeenCalledTimes(1)
 
     const newDate = new Date(date.setDate(day)).toDateString()
 
-    userEvent.click(days()[index])
-
-    expect(setDate).toHaveBeenCalledTimes(1)
     expect(setDate).toHaveBeenCalledWith(newDate)
   })
 
-  test('selected date is changing when props changed', async () => {
+  test('active date is changing when date changes', async () => {
     let date = new Date()
     let utils = setup({ date: date.toDateString() })
 
-    let numberOfDays = daysInMonth(date)
-    let day = getRandomArbitrary(1, numberOfDays)
-    let newDate = new Date(date.setDate(day)).toDateString()
-    let index = day - 1
+    expect(utils.list).toHaveAttribute('data-date', date.toDateString())
+    expect(utils.days()[date.getDate() - 1]).toHaveAttribute(
+      'data-active',
+      'true'
+    )
 
-    utils.rerender(<DateSelector date={newDate} setDate={utils.setDate} />)
-    expect(utils.days()[index]).toHaveAttribute('data-selected', 'true')
+    let randomDay = getRandomArbitrary(1, daysInMonth(date))
+    let newDate = new Date(date.setDate(randomDay)).toDateString()
+    let index = randomDay - 1
+
+    utils.rerender(
+      <DateSelector dateString={newDate} setDate={utils.setDate} />
+    )
+
+    expect(utils.list).toHaveAttribute('data-date', newDate)
+
+    const renderedDays = utils.days()
+    // console.log(renderedDays[index], newDate)
+
+    expect(renderedDays[index]).toHaveAttribute('data-active', 'true')
 
     //another date
     date = randomDate(new Date(2012, 5, 1), new Date())
-    numberOfDays = daysInMonth(date)
-    day = getRandomArbitrary(1, numberOfDays)
-    newDate = new Date(date.setDate(day)).toDateString()
-    utils.rerender(<DateSelector date={newDate} setDate={utils.setDate} />)
 
-    //old date should not be highlighted
-    expect(utils.days()[index]).not.toHaveAttribute('data-selected')
+    randomDay = getRandomArbitrary(1, daysInMonth(date))
+    newDate = new Date(date.setDate(randomDay)).toDateString()
+    utils.rerender(
+      <DateSelector dateString={newDate} setDate={utils.setDate} />
+    )
 
-    index = day - 1
-    expect(utils.days()[index]).toHaveAttribute('data-selected', 'true')
+    // //old date should not be highlighted
+    expect(utils.days()[index]).not.toHaveAttribute('data-active')
+
+    index = randomDay - 1
+    expect(utils.days()[index]).toHaveAttribute('data-active', 'true')
   })
 })

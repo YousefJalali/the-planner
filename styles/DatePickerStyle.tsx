@@ -1,10 +1,17 @@
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 
 const DatePickerWrapper = styled.div`
   width: 100%;
 
   .react-datepicker-wrapper {
     width: 100%;
+
+    .react-datepicker__input-container {
+      > input[id='task-form-startTime'],
+      input[id='task-form-endTime'] {
+        text-align: center;
+      }
+    }
   }
 
   .react-datepicker__tab-loop {

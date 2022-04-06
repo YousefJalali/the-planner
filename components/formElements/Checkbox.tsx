@@ -14,6 +14,7 @@ const CheckButton = styled.label`
   background-color: layout-level0;
   border: 2px solid ${({ color }) => color};
   cursor: pointer;
+  z-index: 101;
 
   display: flex;
   justify-content: center;
@@ -74,7 +75,13 @@ type Props = {
 const CheckBox: FC<Props> = ({ checked, onChange, color, id }) => {
   return (
     <Check color={color}>
-      <input id={id} type='checkbox' checked={checked} onChange={onChange} />
+      <input
+        id={id}
+        data-testid={id}
+        type='checkbox'
+        checked={checked}
+        onChange={onChange}
+      />
       <CheckButton color={color} as='label' htmlFor={id}>
         <Icon icon={FiCheck} color='layout-level0' size='0.6rem' />
       </CheckButton>

@@ -2,8 +2,8 @@ import { InputHTMLAttributes } from 'react'
 
 type Props = {} & InputHTMLAttributes<HTMLInputElement>
 
-function InputComp(props: Props) {
+function Input(props: Props) {
   return <input {...props} />
 }
 
-export default InputComp
+export default Input

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { FiChevronDown, FiCircle, FiPlus } from 'react-icons/fi'
-import Modal from '../layout/Modal'
-import ProjectItem from './ProjectItem'
+import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { ProjectType } from '../../common/types/ProjectType'
 import { x } from '@xstyled/styled-components'
 import Icon from '../Icon'
 import _ from 'lodash'
 import useFetchedProjects from '../../common/data/useFetchedProjects'
 import useToggle from '../../common/hooks/useToggle'
+import dynamic from 'next/dynamic'
+
+const ProjectsListModal = dynamic(() => import('../modals/ProjectsListModal'))
 
 type Props = {
   onChange: (v: string) => void
@@ -17,7 +18,7 @@ type Props = {
 }
 
 function SelectProject({ value, onChange, placeholder, id }: Props) {
-  const [modal, setModal] = useToggle(false)
+  const [modal, setModal] = useToggle()
   const [project, setProject] = useState<ProjectType>()
 
   const {
@@ -25,7 +26,7 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
     setProjects,
     error: projectsError,
     isLoading: isProjectsLoading,
-  } = useFetchedProjects()
+  } = useFetchedProjects('ProjectsList')
 
   useEffect(() => {
     if (projects) {
@@ -36,6 +37,10 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
 
   const onItemClickHandler = (id: string) => {
     onChange(id)
+    setModal()
+  }
+
+  const onCloseHandler = () => {
     setModal()
   }
 
@@ -83,154 +88,14 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
         <Icon icon={FiChevronDown} size='1rem' color='content-subtle' />
       </x.button>
 
-      <Modal isOpen={modal} onRequestClose={setModal}>
-        <x.ul
-          my={1}
-          divideY
-          divideColor='layout-level0accent'
-          id='project-list-select'
-        >
-          {projects?.map((project) => (
-            <x.li
-              key={project.id}
-              display='flex'
-              alignItems='center'
-              p={3}
-              onClick={() => onItemClickHandler(project.id)}
-            >
-              <ProjectItem project={project} />
-            </x.li>
-          ))}
-
-          <x.li display='flex' alignItems='center' p={3}>
-            <Icon icon={FiPlus} color='brand-primary' size='1.125rem' />
-            <x.span text='body' ml={2} color='brand-primary'>
-              Create Project
-            </x.span>
-          </x.li>
-        </x.ul>
-      </Modal>
+      <ProjectsListModal
+        isOpen={modal}
+        onRequestClose={onCloseHandler}
+        onItemClick={onItemClickHandler}
+        projects={projects}
+      />
     </>
   )
 }
 
 export default SelectProject
-// import React, { useState } from 'react'
-// import { ChevronDown, Circle, Plus } from 'lucide-react'
-// import { Box, Text } from '../../styles'
-// import Select from '../../styles/components/project/SelectProjectStyle'
-// import Label from '../../styles/components/LabelStyle'
-// import List from '../../styles/components/ListStyle'
-// import Modal from '../layout/Modal'
-// import ProjectItem from './ProjectItem'
-// import { useController, UseControllerProps } from 'react-hook-form'
-// import ProjectType from '../../common/types/ProjectType'
-// import useSWR from 'swr'
-
-// type Props<T> = {} & UseControllerProps<T>
-
-// const getProjects = async () => {
-//   const res = await fetch('/projects')
-//   const data: ProjectType[] = await res.json()
-//   return data
-// }
-
-// function SelectProject<T extends Record<string, any> = Record<string, any>>(
-//   props: Props<T>
-// ) {
-//   const [modal, setModal] = useState(false)
-
-//   const { data: projects, error: projectError } = useSWR(
-//     '/projects',
-//     getProjects
-//   )
-
-//   const openModalHandler = () => setModal(true)
-//   const closeModalHandler = () => setModal(false)
-
-//   const {
-//     field: { onChange, value, name },
-//     fieldState: { error },
-//   } = useController(props)
-
-//   const onItemClickHandler = (project: ProjectType) => {
-//     onChange({
-//       id: project.id,
-//       title: project.title,
-//       color: project.color,
-//     })
-//     closeModalHandler()
-//   }
-
-//   return (
-//     <>
-//       <fieldset>
-//         <Label>Project</Label>
-//         <Select type='button' onClick={openModalHandler}>
-//           <Box display='flex' alignItems='center'>
-//             {value.color.length > 0 && (
-//               <Box
-//                 mr={1}
-//                 display='flex'
-//                 alignItems='center'
-//                 justifyContent='center'
-//               >
-//                 <Circle
-//                   fill={value.color}
-//                   strokeWidth={0}
-//                   height={16}
-//                   width={16}
-//                 />
-//               </Box>
-//             )}
-//             <Text
-//               as='span'
-//               fontSize={1}
-//               lineHeight={0}
-//               color='content.nonessential'
-//             >
-//               {value.title.length > 0 ? (
-//                 <Text as='span' color='content.contrast'>
-//                   {value.title}
-//                 </Text>
-//               ) : (
-//                 'Select a project'
-//               )}
-//             </Text>
-//           </Box>
-//           <ChevronDown height={16} width={16} />
-//         </Select>
-//       </fieldset>
-
-//       {modal && (
-//         <Modal title='' onClose={closeModalHandler}>
-//           <List.UL py={1} mb={1}>
-//             {projects?.map((project) => (
-//               <ProjectItem
-//                 key={project.id}
-//                 project={project}
-//                 onClick={() => onItemClickHandler(project)}
-//               />
-//             ))}
-//             <hr />
-//             <List.LI
-//               as='li'
-//               display='flex'
-//               alignItems='center'
-//               px={3}
-//               mt={1}
-//               color='brand.primary'
-//             >
-//               <Plus />
-//               <Text as='span' ml={1}>
-//                 Create Project
-//               </Text>
-//             </List.LI>
-//           </List.UL>
-//         </Modal>
-//       )}
-//     </>
-//   )
-// }
-
-// export default SelectProject
