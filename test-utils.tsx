@@ -3,11 +3,14 @@ import { render, RenderOptions } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 import theme from './styles/theme'
 import { ColorModeProvider } from '@xstyled/styled-components'
+import { NotificationCtxProvider } from './common/contexts/NotificationCtx'
 
 const AllTheProviders: FC = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
-      <ColorModeProvider>{children}</ColorModeProvider>
+      <ColorModeProvider>
+        <NotificationCtxProvider>{children}</NotificationCtxProvider>
+      </ColorModeProvider>
     </ThemeProvider>
   )
 }

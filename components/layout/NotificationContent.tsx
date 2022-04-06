@@ -80,7 +80,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
         </x.div>
 
         {notification.loading ? (
-          <x.div animation='spin'>
+          <x.div animation='spin' data-testid={`${notification.id}-loading`}>
             <Icon icon={FiLoader} />
           </x.div>
         ) : (
@@ -90,12 +90,16 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
                 onClick={notification.actionFn}
                 text='body.small'
                 textDecoration='underline'
+                data-testid={`${notification.id}-action`}
               >
                 {notification.action}
               </x.a>
             </x.div>
 
-            <x.a onClick={clearNotification}>
+            <x.a
+              onClick={clearNotification}
+              data-testid={`${notification.id}-close`}
+            >
               <Icon icon={FiX} color='content-subtle' />
             </x.a>
           </x.div>

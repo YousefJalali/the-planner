@@ -14,6 +14,8 @@ import { removeTaskFromLocalProjectData } from '../../common/data/localData/loca
 import { useSWRConfig } from 'swr'
 import { ProjectType } from '../../common/types/ProjectType'
 
+import { v4 as uuidv4 } from 'uuid'
+
 const TaskOptionsModal = dynamic(() => import('../modals/TaskOptionsModal'))
 const StatusListModal = dynamic(() => import('../modals/StatusListModal'))
 const EditTaskModal = dynamic(() => import('../modals/EditTaskModal'))
@@ -101,6 +103,7 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
           action: 'try again',
           actionFn: async () => {
             setNotification({
+              id: uuidv4(),
               message: 'Deleting...',
               variant: 'critical',
               loading: true,
@@ -112,6 +115,7 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
         })
       } else {
         setNotification({
+          id: uuidv4(),
           message: 'Task deleted!',
           variant: 'information',
         })
