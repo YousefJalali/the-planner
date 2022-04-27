@@ -6,34 +6,22 @@ import { NextPage } from 'next'
 import { x } from '@xstyled/styled-components'
 import Icon from '../../components/Icon'
 import NewProjectCard from '../../components/project/NewProjectCard'
-import Modal from '../../components/layout/Modal'
-import FormWithHeader from '../../components/FormWithHeader'
 import useToggle from '../../common/hooks/useToggle'
-import ProjectForm, {
-  setFormErrors,
-} from '../../components/project/ProjectForm'
-import { ProjectType } from '../../common/types/ProjectType'
-import { UseFormClearErrors, UseFormSetError } from 'react-hook-form'
-import { createProject } from '../../common/actions/projectActions'
+
 import FilterProjects from '../../components/project/FilterProjects'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import useInfiniteFetchedProjects from '../../common/data/useFetchedInfiniteProjects'
 import { useInView } from 'react-intersection-observer'
 import _ from 'lodash'
+import CreateProjectModal from '../../components/modals/CreateProjectModal'
+import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 
 const Index: NextPage = () => {
   const [createProjectModal, setCreateProjectModal] = useToggle()
   const [filter, setFilter] = useState<'all' | 'ongoing' | 'completed'>('all')
 
-  const {
-    projects,
-    setProjects,
-    error,
-    isLoading,
-    size,
-    setSize,
-    isValidating,
-  } = useInfiniteFetchedProjects()
+  const { projects, error, isLoading, size, setSize, isValidating } =
+    useInfiniteFetchedProjects()
 
   const router = useRouter()
 
@@ -47,43 +35,29 @@ const Index: NextPage = () => {
     }
   }, [inView, isLoading])
 
-  const createProjectHandler = async (
-    formData: ProjectType,
-    setError: UseFormSetError<ProjectType>,
-    clearErrors: UseFormClearErrors<ProjectType>
-  ) => {
-    //mutate without revalidation
-    let oldData: ProjectType[] = []
-
-    setProjects((data) => {
-      if (!data) return
-
-      oldData = [..._.compact(data.flat())] || []
-      return [...oldData, { ...formData }]
-    }, false)
-
-    createProject(
-      formData,
-      () => {
-        setCreateProjectModal()
-        setProjects()
-      },
-      (err) => {
-        console.log(err)
-        //return old data
-        setProjects(oldData)
-
-        if (err.status === 400) {
-          if (typeof err.info === 'string') {
-            //to be replaced by notification
-            prompt(err.info)
-          } else {
-            setFormErrors(err.info, setError)
-          }
-        }
-      }
-    )
-  }
+  const RenderProjects = useCallback(
+    () => (
+      <x.ul pb={3} spaceY={4}>
+        {projects
+          ?.filter((p) =>
+            filter === 'completed'
+              ? p.progressPercentage === 100
+              : filter === 'ongoing'
+              ? p.progressPercentage !== 100
+              : p
+          )
+          .map((project) => (
+            <x.li key={project.id}>
+              <ProjectCard
+                project={project}
+                onClick={() => router.push(`/projects/${project.id}`)}
+              />
+            </x.li>
+          ))}
+      </x.ul>
+    ),
+    [projects, filter]
+  )
 
   return (
     <main>
@@ -106,29 +80,27 @@ const Index: NextPage = () => {
         </x.div>
 
         {isLoading ? (
-          <x.div>loading...</x.div>
+          <x.ul spaceY={4}>
+            {new Array(5).fill(0).map((e, i) => (
+              <x.li key={i}>
+                <ProjectCardSkeleton />
+              </x.li>
+            ))}
+          </x.ul>
         ) : projects && projects.length <= 0 ? (
           <NewProjectCard />
+        ) : error ? (
+          <x.div
+            position='fixed'
+            bottom={24}
+            left={0}
+            backgroundColor='layout-level0accent'
+          >
+            {JSON.stringify(error)}
+          </x.div>
         ) : (
           <>
-            <x.ul pb={3} spaceY={4}>
-              {projects
-                .filter((p) =>
-                  filter === 'completed'
-                    ? p.progressPercentage === 100
-                    : filter === 'ongoing'
-                    ? p.progressPercentage !== 100
-                    : p
-                )
-                .map((project) => (
-                  <x.li key={project.id}>
-                    <ProjectCard
-                      project={project}
-                      onClick={() => router.push(`/projects/${project.id}`)}
-                    />
-                  </x.li>
-                ))}
-            </x.ul>
+            <RenderProjects />
             {isValidating && (
               <x.div display='flex' justifyContent='center'>
                 <Icon
@@ -144,30 +116,12 @@ const Index: NextPage = () => {
             </x.button>
           </>
         )}
-        {error && (
-          <x.div
-            position='fixed'
-            bottom={24}
-            left={0}
-            backgroundColor='layout-level0accent'
-          >
-            error
-          </x.div>
-        )}
       </x.section>
 
-      <Modal isOpen={createProjectModal} onRequestClose={setCreateProjectModal}>
-        <FormWithHeader
-          title='Create project'
-          onClose={setCreateProjectModal}
-          id='create-project-form'
-        >
-          <ProjectForm
-            id='create-project-form'
-            onSubmit={createProjectHandler}
-          />
-        </FormWithHeader>
-      </Modal>
+      <CreateProjectModal
+        isOpen={createProjectModal}
+        onRequestClose={setCreateProjectModal}
+      />
     </main>
   )
 }

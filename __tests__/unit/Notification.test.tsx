@@ -1,12 +1,9 @@
-import { render } from '../../test-utils'
-import userEvent from '@testing-library/user-event'
-import Notification from '../../components/layout/Notification'
-import { waitFor } from '@testing-library/dom'
-import NotificationCtx, {
+import {
   NotificationCtxProvider,
   NotificationType,
+  useNotification,
 } from '../../common/contexts/NotificationCtx'
-import { useContext } from 'react'
+import { renderHook, act } from '@testing-library/react-hooks'
 
 const notification: NotificationType = {
   id: 'test-notification',
@@ -14,43 +11,38 @@ const notification: NotificationType = {
   variant: 'critical',
 }
 
-function setup() {
-  // const clearNotification: () => void = jest.fn()
-
-  const utils = render(<Notification />)
-
-  const notificationPrompt = utils.getByTestId(notification.id)
-  const action = utils.getByTestId(`${notification.id}-action`)
-  const closeBtn = utils.getByTestId(`${notification.id}-close`)
-
-  const { rerender } = utils
-
-  return {
-    ...utils,
-    rerender,
-    // clearNotification,
-    notificationPrompt,
-    action,
-    closeBtn,
-  }
-}
-
 describe('Notification', () => {
-  test('show notification when context', async () => {
-    const { setNotification } = useContext(NotificationCtx)
+  test('set notification properly', async () => {
+    const wrapper = ({ children }: { children: JSX.Element }) => (
+      <NotificationCtxProvider>{children}</NotificationCtxProvider>
+    )
+    const { result, rerender } = renderHook(() => useNotification(), {
+      wrapper,
+    })
 
-    const utils = setup()
+    act(() => {
+      result.current.setNotification(notification)
+    })
 
-    expect(utils.notificationPrompt).not.toBeInTheDocument()
-    // expect(utils.notificationPrompt).toHaveTextContent('test message')
+    expect(result.current.notification).toEqual(result.current.notification)
   })
 
-  // test('disappear when close btn clicked', async () => {
-  //   const utils = setup()
+  test('clear notification properly', async () => {
+    const wrapper = ({ children }: { children: JSX.Element }) => (
+      <NotificationCtxProvider>{children}</NotificationCtxProvider>
+    )
+    const { result, rerender } = renderHook(() => useNotification(), {
+      wrapper,
+    })
 
-  //   expect(utils.notificationPrompt).toBeInTheDocument()
-  //   userEvent.click(utils.closeBtn)
-  //   expect(utils.notificationPrompt).not.toBeInTheDocument()
-  //   // expect(utils.clearNotification).toHaveBeenCalledTimes(1)
-  // })
+    act(() => {
+      result.current.setNotification(notification)
+    })
+    expect(result.current.notification).toEqual(result.current.notification)
+
+    act(() => {
+      result.current.clearNotification()
+    })
+    expect(result.current.notification).toEqual(null)
+  })
 })

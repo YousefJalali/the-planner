@@ -1,33 +1,9 @@
-import { APIErrorType } from '../types/APIErrorType'
+import { projectKey, projectsKey } from '../data/keys'
 import { ProjectType } from '../types/ProjectType'
+import customFetch from '../utils/customFetch'
 
-export const createProject = async (
-  formData: ProjectType,
-  onSuccess: () => void,
-  onError: (error: APIErrorType) => void
-) => {
-  try {
-    const res = await fetch('/projects/', {
-      method: 'POST',
-      body: JSON.stringify({ project: formData }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+export const createProject = (project: ProjectType) =>
+  customFetch(`${projectsKey()}/create`, 'POST', project)
 
-    const { error, data } = await res.json()
-
-    if (error) {
-      onError({
-        status: res.status,
-        info: error,
-      } as APIErrorType)
-    }
-
-    if (data) {
-      onSuccess()
-    }
-  } catch (error) {
-    console.log(error)
-  }
-}
+export const editProject = (project: ProjectType) =>
+  customFetch(projectKey(project.id), 'PUT', project)

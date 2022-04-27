@@ -1,87 +1,34 @@
 import { Status, TaskType } from '../types/TaskType'
-import getErrorMessage from '../utils/getErrorMessage'
+import customFetch from '../utils/customFetch'
 
 export const createTask = async (task: TaskType) => {
   try {
-    const res = await fetch('/tasks/', {
-      method: 'POST',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (!res.ok) {
-      throw new Error(res.statusText)
-    }
-
-    return await res.json()
-  } catch (err) {
-    return { error: getErrorMessage(err) }
+    return await customFetch('/api/tasks/create', 'POST', task)
+  } catch (error) {
+    return { error }
   }
 }
 
-//delete
+export const editTask = async (task: TaskType) => {
+  try {
+    return await customFetch(`/api/tasks/${task.id}/edit`, 'PUT', task)
+  } catch (error) {
+    return { error }
+  }
+}
+
+export const changeTaskStatus = async (taskId: string, status: Status) => {
+  try {
+    return await customFetch(`/api/tasks/${taskId}?status=${status}`, 'PUT')
+  } catch (error) {
+    return { error }
+  }
+}
+
 export const deleteTask = async (taskId: string) => {
   try {
-    const res = await fetch(`/tasks/${taskId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (!res.ok) {
-      throw new Error(res.statusText)
-    }
-
-    return await res.json()
-  } catch (err) {
-    return { error: getErrorMessage(err) }
-  }
-}
-
-//edit
-export const editTask = async (task: TaskType, cb: () => void) => {
-  try {
-    const res = await fetch(`/tasks/${task.id}`, {
-      method: 'POST',
-      body: JSON.stringify(task),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    const { success, data } = await res.json()
-
-    if (success) {
-      cb()
-    }
+    return await customFetch(`/api/tasks/${taskId}/delete`, 'DELETE')
   } catch (error) {
-    console.log(error)
-  }
-}
-
-export const changeTaskStatus = async (
-  taskId: string,
-  status: Status,
-  cb: () => void
-) => {
-  try {
-    const res = await fetch(`/tasks/${taskId}?status=${status}`, {
-      method: 'PUT',
-      // body: JSON.stringify({ task }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    const { success, data } = await res.json()
-
-    if (success) {
-      cb()
-    }
-  } catch (error) {
-    console.log(error)
+    return { error }
   }
 }

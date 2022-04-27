@@ -1,4 +1,10 @@
-import { createContext, useState, useEffect, ReactNode } from 'react'
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from 'react'
 
 export type NotificationType = {
   id: string
@@ -41,7 +47,7 @@ export const NotificationCtxProvider = ({
   useEffect(() => {
     const clear = setTimeout(() => {
       clearNotificationHandler()
-    }, 35000)
+    }, 3500)
 
     return () => clearTimeout(clear)
   }, [notification])
@@ -57,6 +63,13 @@ export const NotificationCtxProvider = ({
       {children}
     </NotificationCtx.Provider>
   )
+}
+
+export const useNotification = () => {
+  const { notification, setNotification, clearNotification } =
+    useContext(NotificationCtx)
+
+  return { notification, setNotification, clearNotification }
 }
 
 export default NotificationCtx

@@ -16,7 +16,8 @@ type Props = {
   // initialDate: string
 }
 
-const Home: NextPage<Props> = () => {
+const Home: NextPage<Props> = (props) => {
+  // console.log(props)
   const [colorMode, setColorMode] = useColorMode()
 
   console.log('%cindex rendered', 'color:green')
@@ -82,15 +83,6 @@ const Home: NextPage<Props> = () => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  // const res = await fetch('http://localhost:3000/projects')
-  // console.log('res', await res.json())
-  // const data = await JSON.parse(JSON.stringify(res))
-  // const data = res
-
-  // console.log('data', data)
-
-  console.log('static props')
-
   return {
     props: {},
   }

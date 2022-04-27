@@ -1,43 +1,63 @@
-import { Status, TaskProjectType, TaskType } from '../../common/types/TaskType'
+import {
+  Status,
+  TaskType,
+  TaskWithProjectType,
+} from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
-import { ProjectType } from '../../common/types/ProjectType'
+import {
+  ProjectType,
+  ProjectWithTasksType,
+} from '../../common/types/ProjectType'
 import _, { indexOf } from 'lodash'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import { apiYupValidation } from '../../common/utils/validations/useYupValidationResolver'
-import {
-  DefaultRequestBody,
-  ResponseComposition,
-  ResponseResolver,
-  RestContext,
-  RestRequest,
-} from 'msw'
+
 import { FieldError, FieldErrors } from 'react-hook-form'
-
-type POST<T> = {
-  req: RestRequest<T>
-  res: ResponseComposition<DefaultRequestBody>
-  ctx: RestContext
-}
-
-type GET = {
-  req: RestRequest
-  res: ResponseComposition<DefaultRequestBody>
-  ctx: RestContext
-}
+import { GET, populateTask, POST, PUT } from '../handlers'
+import isValid from 'date-fns/isValid'
 
 //-----------------get date tasks-----------------
-export const getDateTasksController = (date: string, tasks: TaskType[]) => {
-  return tasks.filter((task) => {
+export const getDateTasksController = (
+  { req, res, ctx }: GET,
+  tasks: TaskType[]
+) => {
+  const date = req.url.searchParams.get('d')
+
+  if (!date || typeof date !== 'string' || !isValid(new Date(date))) {
+    return res(ctx.json({ error: 'Invalid date' }))
+  }
+
+  const data = tasks.filter((task) => {
     let dateWithoutTime = null
 
-    if (task.date.startDate instanceof Date) {
-      dateWithoutTime = task.date.startDate.setHours(0, 0, 0, 0)
+    if (isValid(task.startDate)) {
+      dateWithoutTime = task.startDate.setHours(0, 0, 0, 0)
     } else {
-      dateWithoutTime = new Date(task.date.startDate).setHours(0, 0, 0, 0)
+      dateWithoutTime = new Date(task.startDate).setHours(0, 0, 0, 0)
     }
 
     return new Date(dateWithoutTime).toDateString() === date
   })
+
+  const populatedTasks = data.map((task) => populateTask(task))
+
+  return res(ctx.json({ data: populatedTasks }))
+}
+
+//-----------------get date tasks-----------------
+export const getTaskByIdController = (
+  { req, res, ctx }: GET,
+  tasks: TaskType[]
+) => {
+  const { id } = req.params
+
+  const task = tasks.find((t) => t.id === id)
+
+  if (!task) {
+    return res(ctx.json({ error: 'Task not found' }))
+  }
+
+  return res(ctx.json({ data: task }))
 }
 
 //-----------------create tasks-----------------
@@ -69,7 +89,7 @@ export const createTaskController = async (
   }
 
   //check if project exist in DB
-  const project = projects.find((p) => p.id === createdTask.project)
+  const project = projects.find((p) => p.id === createdTask.projectId)
 
   if (!project) {
     return res(
@@ -84,29 +104,90 @@ export const createTaskController = async (
     )
   }
 
-  //add new task id to project
-  ;(projects[indexOf(projects, project)].tasks as string[]).unshift(
-    createdTask.id
-  )
-  projects[indexOf(projects, project)].proposed++
+  tasks.unshift({ ...createdTask })
 
   //populate the project in task
   const populatedCreatedTask = {
     ...createdTask,
     project: {
-      id: project.id,
       title: project.title,
       color: project.color,
-    } as TaskProjectType,
-  } as TaskType
-
-  if (!populatedCreatedTask) {
-    res(ctx.status(403, 'something went wrong, please try again'))
-  }
-
-  tasks.unshift({ ...populatedCreatedTask })
+    },
+  } as TaskWithProjectType
 
   return res(ctx.status(201), ctx.json({ data: populatedCreatedTask }))
+}
+
+// -----------------edit task-----------------
+export const editTaskController = (
+  { req, res, ctx }: PUT<TaskType>,
+  tasks: TaskType[],
+  projects: ProjectType[]
+) => {
+  const updatedTask = req.body
+
+  if (!updatedTask) {
+    return res(
+      ctx.status(400),
+      ctx.json({ error: 'Something went wrong, please try again' })
+    )
+  }
+
+  let populatedUpdatedTask = null
+
+  for (let task of tasks) {
+    if (task.id === updatedTask.id) {
+      const index = indexOf(tasks, task)
+      if (index > -1) {
+        const project = projects.find((p) => p.id === updatedTask.projectId)
+        if (project) {
+          tasks.splice(index, 1, updatedTask)
+
+          //populate task
+          populatedUpdatedTask = {
+            ...updatedTask,
+            project: {
+              title: project.title,
+              color: project.color,
+            },
+          } as TaskWithProjectType
+        }
+      }
+    }
+  }
+
+  if (!populatedUpdatedTask) {
+    return res(
+      ctx.status(400),
+      ctx.json({ error: 'Something went wrong, please try again' })
+    )
+  }
+
+  return res(ctx.json({ data: populatedUpdatedTask }))
+}
+
+// -----------------change task status-----------------
+export const changeTaskStatusController = (
+  { req, res, ctx }: PUT<TaskType>,
+  tasks: TaskType[]
+) => {
+  const taskId = req.params.id
+  const status = req.url.searchParams.get('status') as Status
+
+  if (!taskId || !status) {
+    return res(ctx.json({ error: 'Invalid request' }))
+  }
+
+  for (let task of tasks) {
+    if (task.id === taskId) {
+      const index = indexOf(tasks, task)
+      if (index > -1) {
+        tasks[index].status = status
+      }
+    }
+  }
+
+  return res(ctx.json({ data: taskId }))
 }
 
 //-----------------delete task-----------------
@@ -121,7 +202,7 @@ export const deleteTaskController = (
   const findTask = tasks.find((task) => task.id === taskId)
 
   if (!findTask) {
-    return res(ctx.json({ error: 'No task found!' }))
+    return res(ctx.json({ error: 'no task found!' }))
   }
 
   for (let task of tasks) {
@@ -133,50 +214,5 @@ export const deleteTaskController = (
     }
   }
 
-  return res(ctx.status(201), ctx.json({}))
-}
-
-// -----------------edit task-----------------
-export const editTaskController = (
-  updatedTask: TaskType,
-  tasks: TaskType[],
-  projects: ProjectType[]
-) => {
-  for (let task of tasks) {
-    if (task.id === updatedTask.id) {
-      const index = indexOf(tasks, task)
-      if (index > -1) {
-        const project = projects.find((p) => p.id === updatedTask.project)
-        if (project) {
-          updatedTask.project = {
-            id: project.id,
-            title: project.title,
-            color: project.color,
-          }
-
-          tasks.splice(index, 1, updatedTask)
-        }
-      }
-
-      return { success: true }
-    }
-  }
-}
-
-// -----------------change task status-----------------
-export const changeTaskStatusController = (
-  taskId: string,
-  status: Status,
-  tasks: TaskType[]
-) => {
-  for (let task of tasks) {
-    if (task.id === taskId) {
-      const index = indexOf(tasks, task)
-      if (index > -1) {
-        tasks[index].status = status
-      }
-
-      return { success: true }
-    }
-  }
+  return res(ctx.status(201), ctx.json({ data: taskId }))
 }

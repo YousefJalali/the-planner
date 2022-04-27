@@ -1,4 +1,4 @@
-import styled, { x } from '@xstyled/styled-components'
+import styled, { css, x } from '@xstyled/styled-components'
 import { FC, useEffect, useMemo, useRef } from 'react'
 import { motion, Variants } from 'framer-motion'
 import useWindowSize from '../../common/hooks/useWindowSize'
@@ -13,9 +13,10 @@ type Props = {
   onRequestClose: (action?: any) => void
   isOpen: boolean
   id?: string
+  fullHeight?: boolean
 }
 
-const Motion = styled(motion.div)`
+const Motion = styled(motion.div)<{ fullHeight?: boolean }>`
   max-height: calc(100% - 48px);
   overflow-x: hidden;
   overflow-y: scroll;
@@ -25,15 +26,33 @@ const Motion = styled(motion.div)`
   position: absolute;
   bottom: 0;
   width: 100%;
+
+  ${(props) =>
+    props.fullHeight &&
+    css`
+      max-height: 100%;
+      border-radius: 0;
+    `}
 `
 
-const ModalContent: FC<Props> = ({ children, isOpen, onRequestClose, id }) => {
+const ModalContent: FC<Props> = ({
+  children,
+  isOpen,
+  onRequestClose,
+  id,
+  fullHeight = false,
+}) => {
   const { height, width } = useWindowSize()
-  // const [childRef, { height: eleHeight, width: eleWidth }] = useElementSize()
 
   const targetRef = useRef<HTMLDivElement>(null)
 
   const modal = document.getElementById('modal') as HTMLDivElement
+
+  // useEffect(() => {
+  //   for (let i = 0; i < modal.children.length; i++) {
+  //     ;(modal.children[i] as HTMLElement).style.transform = `translateY(100vh)`
+  //   }
+  // }, [modal, modal.children.length])
 
   useEffect(() => {
     if (targetRef) {
@@ -110,6 +129,7 @@ const ModalContent: FC<Props> = ({ children, isOpen, onRequestClose, id }) => {
         ref={targetRef}
         id={id}
         data-testid={id}
+        fullHeight={fullHeight}
       >
         {children}
       </Motion>

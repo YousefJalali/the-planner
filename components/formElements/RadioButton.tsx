@@ -1,5 +1,6 @@
 import { FC, InputHTMLAttributes } from 'react'
-import styled, { x, useTh } from '@xstyled/styled-components'
+import styled, { x } from '@xstyled/styled-components'
+import { v4 as uuidv4 } from 'uuid'
 
 type Props = {
   label?: string
@@ -8,36 +9,35 @@ type Props = {
 } & InputHTMLAttributes<HTMLInputElement>
 
 const RadioButton: FC<Props> = ({ label, px = 3, py = 3, ...props }) => {
-  const padding: string = useTh('space')[px] || '0'
+  const id = uuidv4()
 
   return (
     <Wrapper>
-      <input type='radio' {...props} />
-      <Check px={padding} />
+      <input type='radio' {...props} id={`${props.id}-${id}`} />
+      <Check left={px} />
       <x.label
-        htmlFor={props.id}
+        htmlFor={`${props.id}-${id}`}
         display='inline-block'
         w='100%'
         zIndex={1}
         m={0}
-        pr={px}
-        pl={`calc(${padding || 1} + 1.25rem + 0.5rem)`}
+        px={px}
         py={py}
         lineHeight='1.25rem'
         textTransform='capitalize'
         color='content-default'
         cursor='pointer'
       >
+        <x.i display='inline-block' w='1.25rem' mr={2}></x.i>
         {label}
       </x.label>
     </Wrapper>
   )
 }
 
-const Check = styled.div<{ px: string }>`
+const Check = styled(x.div)`
   position: absolute;
   top: 50%;
-  left: ${(props) => props.px};
   transform: translateY(-50%);
   z-index: 1;
   height: 1.25rem;

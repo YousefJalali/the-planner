@@ -89,11 +89,15 @@ export default createGlobalStyle`
     border-left-color: brand-primary;
   }
 
-  #modal, #notification {
+  #modal, #notification, #prompt {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 900;
+  }
+
+  #prompt {
+    z-index: 1000;
   }
 
   #notification {

@@ -16,8 +16,8 @@ import '../styles/fonts.css'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { ActiveTaskCtxProvider } from '../common/contexts/ActiveTaskCtx'
 import { NotificationCtxProvider } from '../common/contexts/NotificationCtx'
-import { NextQueryParamProvider } from 'next-query-params'
 import Layout from '../components/layout/Layout'
+import { PromptCtxProvider } from '../common/contexts/PromptCtx'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -48,15 +48,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                 fetch(resource, init).then((res) => res.json()),
             }}
           >
-            <NextQueryParamProvider>
-              <NotificationCtxProvider>
+            <NotificationCtxProvider>
+              <PromptCtxProvider>
                 <ActiveTaskCtxProvider>
                   <Layout>
                     <Component {...pageProps} />
                   </Layout>
                 </ActiveTaskCtxProvider>
-              </NotificationCtxProvider>
-            </NextQueryParamProvider>
+              </PromptCtxProvider>
+            </NotificationCtxProvider>
           </SWRConfig>
           {/* </SessionProvider> */}
         </ColorModeProvider>

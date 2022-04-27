@@ -1,54 +1,34 @@
 import { x } from '@xstyled/styled-components'
-import {
-  useForm,
-  Controller,
-  UseFormSetError,
-  UseFormClearErrors,
-  FieldErrors,
-  FieldError,
-} from 'react-hook-form'
-import _ from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
+import { useForm, Controller, UseFormSetError } from 'react-hook-form'
+import _, { uniqueId } from 'lodash'
 
 import Input from '../formElements/Input'
 import TextEditor from '../formElements/TextEditor'
 import Fieldset from '../formElements/Fieldset'
 
-import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
-import { parseISO } from 'date-fns'
-import { useEffect, useState } from 'react'
+
 import { ProjectType } from '../../common/types/ProjectType'
 import ColorInput from '../formElements/ColorInput'
+import randomColor from 'randomcolor'
+import Button from '../formElements/Button'
+import Form from '../form/Form'
+import projectSchema from '../../common/utils/validations/projectSchema'
 
 type Props<T> = {
-  id: string
+  id: 'edit' | 'create'
+  title?: string
   defaultValues?: ProjectType
-  onSubmit: (
-    data: ProjectType,
-    setError: UseFormSetError<ProjectType>,
-    clearErrors: UseFormClearErrors<ProjectType>
-  ) => void
-}
-
-export const setFormErrors = (
-  errors: FieldErrors,
-  setError: UseFormSetError<ProjectType>
-) => {
-  for (const [key, value] of Object.entries(errors)) {
-    setError(key as keyof ProjectType, {
-      type: 'manual',
-      message: (value as FieldError).message,
-    })
-  }
+  onSubmit: (data: ProjectType, setError: UseFormSetError<ProjectType>) => void
+  isSubmitting: boolean
+  onRequestClose?: () => void
 }
 
 const initialDefaultValues: ProjectType = {
-  id: uuidv4(),
+  id: uniqueId(),
   title: '',
   description: '',
-  color: '',
-  tasks: [],
+  color: randomColor(),
   proposed: 0,
   inprogress: 0,
   completed: 0,
@@ -58,56 +38,88 @@ const initialDefaultValues: ProjectType = {
 
 function ProjectForm<T>({
   id,
+  title,
   defaultValues = initialDefaultValues,
   onSubmit,
+  isSubmitting,
+  onRequestClose,
 }: Props<T>) {
-  // const resolver = useYupValidationResolver<ProjectType>(taskSchema)
+  const resolver = useYupValidationResolver<ProjectType>(projectSchema)
 
   const {
     handleSubmit,
     control,
-    clearErrors,
-    watch,
     setError,
     formState: { errors },
-    setValue,
-    getValues,
-    reset,
-    resetField,
   } = useForm<ProjectType>({
     defaultValues,
-    // resolver,
+    resolver,
   })
 
   const onSubmitHandler = async (data: ProjectType) => {
-    console.log('formData', data)
-    onSubmit(data, setError, clearErrors)
+    console.log('project form submitted')
+    onSubmit(data, setError)
   }
 
+  const formName = 'project-form'
+
   return (
-    <x.form id={id} spaceY={5} onSubmit={handleSubmit(onSubmitHandler)}>
-      {/* Title */}
-      <Controller
-        name='title'
-        control={control}
-        render={({ field: { value, onChange }, fieldState: { error } }) => {
-          return (
-            <Fieldset
-              id='project-form-title'
-              label='Project title'
-              error={error}
-            >
-              <Input
-                id='project-form-title'
-                type='text'
-                placeholder='i.e. speakers'
-                value={value}
-                onChange={onChange}
-              />
-            </Fieldset>
-          )
-        }}
-      />
+    <Form
+      id={id}
+      name={formName}
+      title={title}
+      onRequestClose={onRequestClose}
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <Fieldset
+        noBorder
+        supportiveText='select a color so it will be easy for you to organize your projects'
+      >
+        <x.div display='flex' spaceX={2}>
+          {/* Title */}
+          <Controller
+            name='title'
+            control={control}
+            render={({ field: { value, onChange }, fieldState: { error } }) => {
+              return (
+                <Fieldset
+                  id={`${formName}-title`}
+                  label='Project title'
+                  error={error}
+                >
+                  <Input
+                    id={`${formName}-title`}
+                    type='text'
+                    placeholder='i.e. speakers'
+                    value={value}
+                    onChange={onChange}
+                  />
+                </Fieldset>
+              )
+            }}
+          />
+
+          <Controller
+            name='color'
+            control={control}
+            render={({ field: { value, onChange }, fieldState: { error } }) => {
+              return (
+                <x.div flex='1'>
+                  <Fieldset
+                    id={`${formName}-color`}
+                    label='color'
+                    showLabel={false}
+                    error={error}
+                    width='fit'
+                  >
+                    <ColorInput value={value} onChange={onChange} />
+                  </Fieldset>
+                </x.div>
+              )
+            }}
+          />
+        </x.div>
+      </Fieldset>
 
       <Controller
         name='description'
@@ -115,7 +127,7 @@ function ProjectForm<T>({
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           return (
             <Fieldset
-              // id='project-form-description'
+              id={`${formName}-description`}
               label='description'
               error={error}
               optionalField
@@ -131,39 +143,31 @@ function ProjectForm<T>({
         }}
       />
 
-      <Controller
-        name='color'
-        control={control}
-        render={({ field: { value, onChange }, fieldState: { error } }) => {
-          return (
-            <Fieldset
-              id='project-form-color'
-              label='Project color'
-              error={error}
-              // noBorder
-            >
-              {/* <x.input
-                h='50px'
-                p={0}
-                id='project-form-color'
-                type='color'
-                value={value}
-                onChange={onChange}
-              /> */}
-              <ColorInput value={value} onChange={onChange} />
-            </Fieldset>
-          )
-        }}
-      />
-
-      <x.input
-        type='submit'
-        id={`${id}-submit`}
-        visibility='hidden'
-        h={0}
-        p={0}
-      />
-    </x.form>
+      <x.div display='flex' spaceX={3}>
+        {id === 'edit' && (
+          <Button
+            variant='textOnly'
+            color='critical'
+            justifyContent='center'
+            // flex='0 0 30%'
+            // w='100%'
+          >
+            Delete
+          </Button>
+        )}
+        <Button
+          type='submit'
+          position='sticky'
+          zIndex={3}
+          bottom={24}
+          size='large'
+          justifyContent='center'
+          w='100%'
+        >
+          {id === 'edit' ? 'Update' : 'Create'}
+        </Button>
+      </x.div>
+    </Form>
   )
 }
 

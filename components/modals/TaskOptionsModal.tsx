@@ -1,11 +1,12 @@
-import { FC, useContext } from 'react'
-import ActiveTaskCtx from '../../common/contexts/ActiveTaskCtx'
+import { FC } from 'react'
+import { TaskWithProjectType } from '../../common/types/TaskType'
 import Modal from '../layout/Modal'
 import TaskOptions from '../task/TaskOptions'
 
 type Props = {
   isOpen: boolean
   onRequestClose: (action: string) => void
+  task: TaskWithProjectType | null
   onStatusChange: () => void
   onEdit: () => void
   onDelete: () => void
@@ -14,24 +15,23 @@ type Props = {
 const TaskOptionsModal: FC<Props> = ({
   isOpen,
   onRequestClose,
+  task,
   onStatusChange,
   onEdit,
   onDelete,
 }) => {
-  const { activeTask } = useContext(ActiveTaskCtx)
-
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={() => onRequestClose('options')}
       id='task-options-modal'
     >
-      {activeTask && (
+      {task && (
         <TaskOptions
           onStatusChange={onStatusChange}
           onEdit={onEdit}
           onDelete={onDelete}
-          status={activeTask.status}
+          status={task.status}
         />
       )}
     </Modal>

@@ -1,4 +1,4 @@
-import { ProjectType } from '../types/ProjectType'
+import { ProjectType } from '../../common/types/ProjectType'
 import faker from '@faker-js/faker'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -14,7 +14,7 @@ export const project: () => ProjectType = () => {
     color: `#${('00000' + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(
       -6
     )}`,
-    tasks: [],
+    // tasks: [],
     proposed: 0,
     inprogress: 0,
     completed: 0,
@@ -24,5 +24,5 @@ export const project: () => ProjectType = () => {
 }
 
 export const multipleProjects: () => ProjectType[] = () => {
-  return Array.from({ length: 5 }, project)
+  return Array.from({ length: 20 }, project)
 }

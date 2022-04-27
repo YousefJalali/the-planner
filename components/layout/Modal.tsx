@@ -8,6 +8,8 @@ type Props = {
   onRequestClose: (action?: any) => void
   isOpen: boolean
   id?: string
+  fullHeight?: boolean
+  root?: string
 }
 
 const ModalAnimation: FC<Props> = ({
@@ -15,6 +17,8 @@ const ModalAnimation: FC<Props> = ({
   isOpen,
   onRequestClose,
   id,
+  fullHeight,
+  root = 'modal',
 }) => {
   if (typeof window === 'undefined') return null
 
@@ -27,10 +31,11 @@ const ModalAnimation: FC<Props> = ({
               isOpen={isOpen}
               onRequestClose={onRequestClose}
               id={id}
+              fullHeight={fullHeight}
             >
               {children}
             </ModalContent>,
-            document.getElementById('modal') as HTMLDivElement
+            document.getElementById(root) as HTMLDivElement
           )}
         </>
       )}

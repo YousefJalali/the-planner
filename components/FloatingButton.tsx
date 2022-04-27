@@ -2,6 +2,7 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import useToggle from '../common/hooks/useToggle'
+import Button from './formElements/Button'
 import Icon from './Icon'
 import CreateTaskModal from './modals/CreateTaskModal'
 
@@ -20,16 +21,16 @@ const FloatingButton: FC = () => {
         w={48}
         borderRadius='full'
         backgroundColor='brand-primary'
-        boxShadow='0px 4px 19px rgba(0, 0, 0, 0.25)'
+        boxShadow={0}
         zIndex={800}
         display='flex'
         justifyContent='center'
         alignItems='center'
         onClick={setCreateTaskModal}
       >
-        <div>
-          <Icon icon={FiPlus} size='2rem' color='layout-level0' />
-        </div>
+        <x.div color='layout-level0' fontSize='2rem'>
+          <FiPlus />
+        </x.div>
       </x.button>
 
       <CreateTaskModal

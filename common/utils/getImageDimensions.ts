@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { ImageType } from '../types/ImageType'
+import { ImageType } from '../types/TaskType'
 
 const getSize = (path: string) => {
   if (typeof path !== 'string') return
@@ -14,14 +14,14 @@ const getSize = (path: string) => {
   })
 }
 
-const getImageDimensions = async (data: ImageType | ImageType[]) => {
-  if (_.isArray(data)) {
-    // const dataWithSize = []
-    // for (let img of data) {
-    //   const size = await getSize(img.path)
-    //   dataWithSize.push({ ...img, ...size })
-    // }
+type Fn = (
+  data:
+    | Omit<ImageType, 'height' | 'width'>
+    | Omit<ImageType, 'height' | 'width'>[]
+) => Promise<ImageType | ImageType[] | undefined>
 
+const getImageDimensions: Fn = async (data) => {
+  if (_.isArray(data)) {
     const imagesWithSize = await Promise.all(
       data.map(async (img) => {
         if (img) {
@@ -32,7 +32,7 @@ const getImageDimensions = async (data: ImageType | ImageType[]) => {
               ...img,
               height: size.height,
               width: size.width,
-            }
+            } as ImageType
           }
         }
 

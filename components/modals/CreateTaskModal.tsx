@@ -1,16 +1,27 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
+import useCreateTask from '../../common/hooks/useCreateTask'
 import Modal from '../layout/Modal'
-import CreateTask from '../task/CreateTask'
+import TaskForm from '../task/TaskForm'
 
 type Props = {
   isOpen: boolean
-  onRequestClose: (action: string) => void
+  onRequestClose: (action?: string) => void
 }
 
 const CreateTaskModal: FC<Props> = ({ isOpen, onRequestClose }) => {
+  const { isSubmitting, onSubmit, defaultValues } =
+    useCreateTask(onRequestClose)
+
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
-      <CreateTask onRequestClose={onRequestClose} />
+    <Modal isOpen={isOpen} onRequestClose={onRequestClose} fullHeight>
+      <TaskForm
+        id='create'
+        title='New Task'
+        defaultValues={defaultValues}
+        onSubmit={onSubmit}
+        isSubmitting={isSubmitting}
+        onRequestClose={onRequestClose}
+      />
     </Modal>
   )
 }

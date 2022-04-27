@@ -7,6 +7,7 @@ import _ from 'lodash'
 import useFetchedProjects from '../../common/data/useFetchedProjects'
 import useToggle from '../../common/hooks/useToggle'
 import dynamic from 'next/dynamic'
+import CreateProjectModal from '../modals/CreateProjectModal'
 
 const ProjectsListModal = dynamic(() => import('../modals/ProjectsListModal'))
 
@@ -15,10 +16,18 @@ type Props = {
   value: string
   placeholder: string
   id?: string
+  createProject: () => void
 }
 
-function SelectProject({ value, onChange, placeholder, id }: Props) {
-  const [modal, setModal] = useToggle()
+function SelectProject({
+  value,
+  onChange,
+  placeholder,
+  id,
+  createProject,
+}: Props) {
+  const [listModal, setListModal] = useToggle()
+
   const [project, setProject] = useState<ProjectType>()
 
   const {
@@ -37,18 +46,18 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
 
   const onItemClickHandler = (id: string) => {
     onChange(id)
-    setModal()
+    setListModal()
   }
 
   const onCloseHandler = () => {
-    setModal()
+    setListModal()
   }
 
   return (
     <>
       <x.button
         type='button'
-        onClick={setModal}
+        onClick={setListModal}
         display='flex'
         justifyContent='space-between'
         alignItems='center'
@@ -89,9 +98,10 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
       </x.button>
 
       <ProjectsListModal
-        isOpen={modal}
+        isOpen={listModal}
         onRequestClose={onCloseHandler}
         onItemClick={onItemClickHandler}
+        onCreate={createProject}
         projects={projects}
       />
     </>

@@ -17,7 +17,6 @@ const projectSchema: SchemaOf<ProjectType> = object({
   title: string().defined().required('project must have a title'),
   description: string().defined(),
   color: string().required('project have a color'),
-  tasks: array().defined(),
   proposed: number().defined(),
   inprogress: number().defined(),
   completed: number().defined(),

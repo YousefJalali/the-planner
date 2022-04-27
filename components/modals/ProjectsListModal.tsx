@@ -1,5 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import { FC, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { ProjectType } from '../../common/types/ProjectType'
 import Fieldset from '../formElements/Fieldset'
@@ -11,6 +11,7 @@ type Props = {
   isOpen: boolean
   onRequestClose: () => void
   onItemClick: (id: string) => void
+  onCreate: () => void
   projects: ProjectType[]
 }
 
@@ -18,6 +19,7 @@ const ProjectsListModal: FC<Props> = ({
   isOpen,
   onRequestClose,
   onItemClick,
+  onCreate,
   projects,
 }) => {
   const [search, setSearch] = useState('')
@@ -32,19 +34,23 @@ const ProjectsListModal: FC<Props> = ({
     onItemClick(id)
   }
 
-  const renderList = projects
-    ?.filter((p, i, arr) => p.title.includes(search))
-    .map((project, i, arr) => (
-      <x.li
-        key={project.id}
-        display='flex'
-        alignItems='center'
-        p={3}
-        onClick={() => onItemClickHandler(project.id)}
-      >
-        <ProjectItem project={project} />
-      </x.li>
-    ))
+  const renderList = useMemo(
+    () =>
+      projects
+        ?.filter((p, i, arr) => p.title.includes(search))
+        .map((project, i, arr) => (
+          <x.li
+            key={project.id}
+            display='flex'
+            alignItems='center'
+            p={3}
+            onClick={() => onItemClickHandler(project.id)}
+          >
+            <ProjectItem project={project} />
+          </x.li>
+        )),
+    [projects]
+  )
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onCloseModal}>
@@ -87,6 +93,7 @@ const ProjectsListModal: FC<Props> = ({
           position='sticky'
           bottom='0'
           backgroundColor='layout-level0'
+          onClick={onCreate}
         >
           <Icon icon={FiPlus} color='brand-primary' size='1.125rem' />
           <x.span text='body' ml={2} color='brand-primary'>

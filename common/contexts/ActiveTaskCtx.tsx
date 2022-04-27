@@ -1,9 +1,9 @@
-import { createContext, useState } from 'react'
-import { TaskType } from '../types/TaskType'
+import { createContext, useContext, useState } from 'react'
+import { TaskWithProjectType } from '../types/TaskType'
 
 type ContextType = {
-  activeTask: TaskType | null
-  setActiveTask: (task: TaskType) => void
+  activeTask: TaskWithProjectType | null
+  setActiveTask: (task: TaskWithProjectType) => void
   clearActiveTask: () => void
 }
 
@@ -18,9 +18,9 @@ type Props = {
 }
 
 export function ActiveTaskCtxProvider({ children }: Props) {
-  const [activeTask, setActiveTask] = useState<TaskType | null>(null)
+  const [activeTask, setActiveTask] = useState<TaskWithProjectType | null>(null)
 
-  const setActiveTaskHandler = (task: TaskType) => {
+  const setActiveTaskHandler = (task: TaskWithProjectType) => {
     setActiveTask(task)
   }
 
@@ -37,6 +37,13 @@ export function ActiveTaskCtxProvider({ children }: Props) {
   return (
     <ActiveTaskCtx.Provider value={context}>{children}</ActiveTaskCtx.Provider>
   )
+}
+
+export const useActiveTask = () => {
+  const { activeTask, setActiveTask, clearActiveTask } =
+    useContext(ActiveTaskCtx)
+
+  return { activeTask, setActiveTask, clearActiveTask }
 }
 
 export default ActiveTaskCtx

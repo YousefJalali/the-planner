@@ -1,48 +1,47 @@
 import _ from 'lodash'
-import { KeyedMutator } from 'swr'
 import useSWRInfinite from 'swr/infinite'
-import { APIErrorType } from '../types/APIErrorType'
 import { ProjectType } from '../types/ProjectType'
+import customFetch from '../utils/customFetch'
+import { projectsKey } from './keys'
 
-const getKey = (pageIndex: number, previousPageData: ProjectType[]) => {
-  if (previousPageData && !previousPageData.length) return null
-  return `/projects?page=${pageIndex + 1}&limit=10`
-}
+const getKey = (
+  pageIndex: number,
+  previousPageData: { data: ProjectType[]; nextCursor: string }
+) => {
+  const LIMIT = 6
 
-const getProjects = async (url: string | null) => {
-  if (!url) return
+  // reached the end
+  if (
+    previousPageData &&
+    (previousPageData.data.length <= 0 || !previousPageData.data)
+  )
+    return null
 
-  const res = await fetch(url)
+  // first page, we don't have `previousPageData`
+  if (pageIndex === 0) return `${projectsKey()}?limit=${LIMIT}`
 
-  if (!res.ok) {
-    const error = new Error(
-      'An error occurred while fetching the data.'
-    ) as APIErrorType
-
-    // Attach extra info to the error object.
-    error.info = await res.json()
-    error.status = res.status
-
-    throw error
-  }
-
-  const data: ProjectType[] = await res.json()
-  return data
+  // add the cursor to the API endpoint
+  return `${projectsKey()}?cursor=${
+    previousPageData?.nextCursor
+  }&limit=${LIMIT}`
 }
 
 const useInfiniteFetchedProjects = () => {
-  const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
-    getKey,
-    getProjects
-  )
+  const { data, error, size, setSize, isValidating } = useSWRInfinite<{
+    data: ProjectType[]
+    error: Error
+  }>(getKey, customFetch)
 
-  const projects: ProjectType[] = data ? _.compact(data.flat()) : []
+  const p = data?.map((d) => [...d.data])
+
+  const projects = p ? _.compact(p.flat()) : []
+  // const projects = data?.[0].data
+  // const projects = data && data[0] && data[0].data
+  // const projects = data ? _.compact(data.flat()) : []
   const isLoading = !error && !data
-  const setProjects = mutate
 
   return {
     projects,
-    setProjects,
     error,
     isLoading,
     size,

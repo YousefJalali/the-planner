@@ -72,8 +72,8 @@ export default class MyDocument extends Document {
           {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
-          <div id='side-drawer' />
           <div id='modal' />
+          <div id='prompt' />
           <div id='notification' />
         </body>
       </Html>

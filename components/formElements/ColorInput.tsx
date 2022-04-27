@@ -1,13 +1,16 @@
 import { x } from '@xstyled/styled-components'
-import { useState, useEffect, useRef } from 'react'
-import { FiCircle } from 'react-icons/fi'
+import { useRef, FC } from 'react'
 import { usePopper } from 'react-popper'
 import useOnClickOutside from '../../common/hooks/useOnClickOutside'
 import useToggle from '../../common/hooks/useToggle'
-import Icon from '../Icon'
-import Fieldset from './Fieldset'
+import { ColorResult, ChromePicker } from 'react-color'
 
-function Dropdown() {
+type Props = {
+  value: string
+  onChange: (color: string) => void
+}
+
+const ColorInput: FC<Props> = ({ value, onChange }) => {
   const [visible, setVisibility] = useToggle(false)
 
   const referenceRef = useRef(null)
@@ -17,49 +20,57 @@ function Dropdown() {
     referenceRef.current,
     popperRef.current,
     {
-      placement: 'bottom',
+      placement: 'bottom-end',
       modifiers: [
         {
           name: 'offset',
           enabled: true,
           options: {
-            offset: [16, -5],
+            offset: [0, 4],
           },
         },
       ],
     }
   )
 
-  function handleDropdownClick() {
-    setVisibility(true)
+  const showColorPalette = () => setVisibility(true)
+
+  const changeHandler = (color: ColorResult) => {
+    onChange(color.hex)
   }
 
-  useOnClickOutside(popperRef, () => setVisibility())
+  useOnClickOutside(popperRef, () => setVisibility(false))
 
   return (
     <>
-      <x.div display='flex'>
-        <button type='button' ref={referenceRef} onClick={handleDropdownClick}>
-          <Icon icon={FiCircle} size='1.5rem' />
-        </button>
-
-        <input placeholder='#459309' />
-      </x.div>
-      <div ref={popperRef} style={styles.popper} {...attributes.popper}>
+      <x.button
+        display='flex'
+        alignItems='center'
+        onClick={showColorPalette}
+        ref={referenceRef}
+        type='button'
+      >
         <x.div
-          display={visible ? 'flex' : 'none'}
-          // w='2px'
-          flexDirection='column'
-          backgroundColor='layout-level0accent'
-          borderRadius={2}
-          p={2}
-          style={styles.offset}
-        >
-          <x.div>Element</x.div>
+          h={21}
+          w={21}
+          mx={2}
+          borderRadius={100}
+          border='2px solid'
+          borderColor={value || 'layout-divider'}
+          backgroundColor={value}
+        />
+      </x.button>
+      <div
+        ref={popperRef}
+        style={{ zIndex: 1000, ...styles.popper }}
+        {...attributes.popper}
+      >
+        <x.div display={visible ? 'block' : 'none'} style={styles.offset}>
+          <ChromePicker color={value} onChange={changeHandler} />
         </x.div>
       </div>
     </>
   )
 }
 
-export default Dropdown
+export default ColorInput

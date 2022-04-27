@@ -7,13 +7,13 @@ import 'react-quill/dist/quill.bubble.css'
 
 const Wrapper = styled.div<{ readonly?: boolean }>`
   .ql-container {
+    line-height: normal;
+    font-family: 'DM Sans';
     background-color: layout-level0;
     border: 0;
     border-radius: 2;
 
     .ql-editor {
-      line-height: normal;
-      font-family: 'DM Sans';
       font-size: sm;
       min-height: calc(21px * 3 + 32px);
       max-height: calc(21px * 6 + 32px);

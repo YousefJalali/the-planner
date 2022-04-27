@@ -57,6 +57,9 @@ const colors = {
   },
 }
 
+const shadows = [`${colors['brand-primary']}50 0px 5px 15px`]
+// const shadows = ['rgba(0, 0, 0, 0.35) 0px 5px 15px']
+
 const space = {
   0: 0,
   1: '0.25rem', //4px
@@ -79,27 +82,6 @@ const fontSizes = {
   '3xl': '1.602rem', //30
   '4xl': '1.802rem', //30
 }
-// const fontSizes = {
-//   xs: '0.75rem', //12
-//   sm: '0.875rem', //14
-//   default: '1rem', //16
-//   lg: '1.125rem', //18
-//   xl: '1.375rem', //22
-//   '2xl': '1.875rem', //30
-//   '3xl': '2.5rem', //40
-// }
-
-// const fontWeights = {
-//   hairline: '100',
-//   thin: '200',
-//   light: '300',
-//   normal: '400',
-//   medium: '500',
-//   semibold: '600',
-//   bold: '700',
-//   extrabold: '800',
-//   black: '900',
-// }
 
 const lineHeights = {
   none: 1,
@@ -124,8 +106,13 @@ export const theme = {
   fontSizes,
   lineHeights,
   colors,
+  shadows,
   radii: { ...space },
+  inset: { ...space },
   sizes: { ...fontSizes },
+  states: {
+    firstLetter: '&::first-letter',
+  },
   texts: {
     headline: {
       one: {

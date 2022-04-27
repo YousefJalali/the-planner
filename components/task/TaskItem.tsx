@@ -1,15 +1,15 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import styled, { x } from '@xstyled/styled-components'
-import { TaskType, Status, TaskProjectType } from '../../common/types/TaskType'
+import { TaskWithProjectType, Status } from '../../common/types/TaskType'
 import { getTime } from '../../common/utils/formatDate'
 import { FiPaperclip, FiClock, FiMoreVertical } from 'react-icons/fi'
 import Icon from '../Icon'
 import Checkbox from '../formElements/Checkbox'
-import ActiveTaskCtx from '../../common/contexts/ActiveTaskCtx'
+import { useActiveTask } from '../../common/contexts/ActiveTaskCtx'
 
 type Props = {
-  task: TaskType
-  onCheck: (taskId: string, taskStatus: Status) => void
+  task: TaskWithProjectType
+  onCheck: (task: TaskWithProjectType) => void
   onDetails: () => void
   onOptions: () => void
 }
@@ -23,10 +23,17 @@ export const Clickable = styled(x.a)`
   z-index: 101;
 `
 
+const Title = styled(x.p)`
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+`
+
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
   // console.log('TaskItem rendered')
 
-  const { setActiveTask } = useContext(ActiveTaskCtx)
+  const { setActiveTask } = useActiveTask()
 
   const onDetailsHandler = () => {
     setActiveTask(task)
@@ -41,9 +48,9 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
   //format time
   let time = null
 
-  if (!task.openTask && task.time.startTime && task.time.endTime) {
-    const startTime = getTime(task.time.startTime)
-    const endTime = getTime(task.time.endTime)
+  if (!task.openTask && task.startTime && task.endTime) {
+    const startTime = getTime(task.startTime)
+    const endTime = getTime(task.endTime)
 
     time = `${startTime} - ${endTime}`
   }
@@ -75,7 +82,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
           pr={1}
         >
           {/* Title text */}
-          <x.p
+          <Title
             text='body'
             textDecoration={isTaskCompleted && 'line-through'}
             color={
@@ -84,7 +91,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
             data-testid='taskItem-title'
           >
             {task.title}
-          </x.p>
+          </Title>
 
           {/* time & attachments */}
           <x.div display='flex'>
@@ -149,8 +156,8 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
         <Checkbox
           id={task.id}
           checked={task.status === Status.COMPLETED}
-          onChange={() => onCheck(task.id, task.status)}
-          color={(task.project as TaskProjectType).color}
+          onChange={() => onCheck(task)}
+          color={task.project.color}
         />
 
         <x.div

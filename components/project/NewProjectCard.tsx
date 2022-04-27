@@ -1,20 +1,15 @@
 import { useTheme, x } from '@xstyled/styled-components'
-import { FiPlus } from 'react-icons/fi'
 import NoTasksSVG from '../../styles/illustrations/NoTasksSVG'
 import Button from '../formElements/Button'
 import { Card } from './ProjectCard'
 
-const NewProjectCard = () => {
+const NewProjectCard = ({ px }: { px?: number }) => {
   const theme = useTheme()
 
   return (
-    <x.div>
+    <x.div px={px}>
       <Card color={theme.colors['brand-primary']}>
-        <x.div
-          display='flex'
-          justifyContent='space-between'
-          // flexDirection='row-reverse'
-        >
+        <x.div display='flex' justifyContent='space-between'>
           <x.div
             display='flex'
             flexDirection='column'
@@ -33,7 +28,7 @@ const NewProjectCard = () => {
               </x.span>
             </x.div>
 
-            <Button size='small' leftIcon={FiPlus}>
+            <Button size='small' w='fit-content'>
               New Project
             </Button>
           </x.div>

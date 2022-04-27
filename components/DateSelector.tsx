@@ -98,7 +98,6 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
   const renderDays = useMemo(
     () =>
       new Array(getDaysInMonth(date)).fill(0).map((item, i) => {
-        console.log('renderDays')
         return (
           <DayItem
             key={i}

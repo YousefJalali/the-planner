@@ -45,20 +45,18 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
       data-testid={notification.id}
     >
       <x.div
-        backgroundColor={`utility-${notification.variant}-a20`}
-        border='1px solid'
-        borderColor={`utility-${notification.variant}-a50`}
+        backgroundColor='layout-level2accent'
         borderRadius={2}
         display='flex'
-        alignItems='center'
-        justifyContent='space-between'
-        p={2}
+        h={36}
       >
-        <x.div display='flex' alignItems='center'>
+        <x.div display='flex' alignItems='center' h='100%'>
           <x.div
             backgroundColor={`utility-${notification.variant}`}
-            p={1}
-            borderRadius={4}
+            px={2}
+            h='100%'
+            display='flex'
+            alignItems='center'
           >
             <Icon
               icon={
@@ -73,37 +71,63 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
               color='layout-level0'
             />
           </x.div>
-
-          <x.span color='content-default' ml={2} textTransform='capitalize'>
-            {notification.message}
-          </x.span>
         </x.div>
 
-        {notification.loading ? (
-          <x.div animation='spin' data-testid={`${notification.id}-loading`}>
-            <Icon icon={FiLoader} />
-          </x.div>
-        ) : (
-          <x.div display='flex' alignItems='center'>
-            <x.div mr={2}>
-              <x.a
-                onClick={notification.actionFn}
-                text='body.small'
-                textDecoration='underline'
-                data-testid={`${notification.id}-action`}
-              >
-                {notification.action}
-              </x.a>
-            </x.div>
+        <x.div
+          display='flex'
+          justifyContent='space-between'
+          alignItems='center'
+          w='calc(100% - 32px)'
+          px={2}
+        >
+          <x.span
+            text='body.small'
+            color='content-default'
+            textTransform={{ firstLetter: 'uppercase' }}
+            textOverflow='ellipsis'
+            overflow='hidden'
+            whiteSpace='nowrap'
+            minWidth={0}
+          >
+            {notification.message}
+          </x.span>
 
-            <x.a
-              onClick={clearNotification}
-              data-testid={`${notification.id}-close`}
-            >
-              <Icon icon={FiX} color='content-subtle' />
-            </x.a>
+          <x.div
+            display='flex'
+            alignItems='center'
+            justifyContent='flex-end'
+            ml={2}
+          >
+            {notification.loading ? (
+              <x.div
+                animation='spin'
+                data-testid={`${notification.id}-loading`}
+              >
+                <Icon icon={FiLoader} />
+              </x.div>
+            ) : (
+              <>
+                <x.a
+                  onClick={notification.actionFn}
+                  text='body.small'
+                  textDecoration='underline'
+                  data-testid={`${notification.id}-action`}
+                  mx={2}
+                  whiteSpace='nowrap'
+                >
+                  {notification.action}
+                </x.a>
+
+                <x.a
+                  onClick={clearNotification}
+                  data-testid={`${notification.id}-close`}
+                >
+                  <Icon icon={FiX} color='content-subtle' />
+                </x.a>
+              </>
+            )}
           </x.div>
-        )}
+        </x.div>
       </x.div>
     </Motion>
   )

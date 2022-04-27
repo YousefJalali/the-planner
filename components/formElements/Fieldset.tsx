@@ -15,10 +15,11 @@ type WrapperProps = {
   success?: boolean
   error?: boolean
   noBorder?: boolean
+  width?: string
 }
 
 const Wrapper = styled.div<WrapperProps>`
-  width: 100%;
+  width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
   position: relative;
 
   padding: 0;
@@ -35,6 +36,7 @@ const Wrapper = styled.div<WrapperProps>`
     border-radius: 2;
     padding: 3 2;
     background-color: layout-level0;
+    width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
   }
 
   &:focus-within {
@@ -81,6 +83,7 @@ const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
 type Props = {
   children: JSX.Element
   label?: string
+  showLabel?: boolean
   supportiveText?: string
   disabled?: boolean
   error?: FieldError | FieldError[] | undefined
@@ -88,10 +91,12 @@ type Props = {
   noBorder?: boolean
   optionalField?: boolean
   id?: string
+  width?: 'fit' | 'full'
 }
 
 function FieldsetComp({
   label,
+  showLabel = true,
   disabled,
   error,
   noErrorMessage = false,
@@ -100,6 +105,7 @@ function FieldsetComp({
   noBorder = false,
   optionalField,
   id,
+  width,
 }: Props) {
   const isError = _.isObject(error) || _.isArray(error)
 
@@ -109,6 +115,7 @@ function FieldsetComp({
         <Label
           color={isError ? 'utility-critical' : 'content-subtle'}
           htmlFor={id}
+          visibility={showLabel ? 'visible' : 'hidden'}
         >
           {label}{' '}
           {optionalField && (
@@ -116,7 +123,7 @@ function FieldsetComp({
           )}
         </Label>
       )}
-      <Wrapper error={isError} noBorder={noBorder}>
+      <Wrapper error={isError} noBorder={noBorder} width={width}>
         {children}
       </Wrapper>
 

@@ -1,71 +1,112 @@
-import { x } from '@xstyled/styled-components'
+import styled, {
+  SystemProp,
+  x,
+  PositionProps,
+  SpaceProps,
+  LayoutProps,
+  WidthProps,
+  MarginProps,
+  BoxShadowProps,
+  Theme,
+  JustifyContentProps,
+  FlexProps,
+  css,
+} from '@xstyled/styled-components'
 import { ButtonHTMLAttributes, FC } from 'react'
-import { IconBaseProps } from 'react-icons'
-import Icon from '../Icon'
+import Spinner from '../Spinner'
 
 type Props = {
-  variant?: 'primary' | 'secondary' | 'textOnly'
-  size?: 'small' | 'default' | 'large'
-  full?: boolean
-  children: string
-  leftIcon?: (props: IconBaseProps) => JSX.Element
-  rightIcon?: (props: IconBaseProps) => JSX.Element
+  variant?: 'outline' | 'textOnly' | 'link'
+  color?: 'confirmation' | 'critical' | 'information'
+  size?: 'small' | 'large'
+  isLoading?: boolean
 }
 
-const ButtonComp: FC<Props & ButtonHTMLAttributes<HTMLButtonElement>> = ({
-  variant = 'primary',
-  size = 'default',
-  full,
+type AllProps = {
+  children: JSX.Element | string
+} & Props &
+  SystemProp<
+    | PositionProps
+    | SpaceProps
+    | LayoutProps
+    | WidthProps
+    | MarginProps
+    | BoxShadowProps
+    | JustifyContentProps
+    | FlexProps,
+    Theme
+  > &
+  ButtonHTMLAttributes<HTMLButtonElement>
+
+const StyledButton = styled(x.button)<Pick<Props, 'size'>>`
+  text-transform: capitalize;
+
+  > svg {
+    margin-right: 2;
+
+    ${(props) =>
+      props.size === 'small' &&
+      css`
+        margin-right: 1;
+      `}
+  }
+`
+
+const Button: FC<AllProps> = ({
+  variant,
+  color,
+  size,
   children,
-  leftIcon,
-  rightIcon,
+  isLoading,
   ...props
 }) => {
+  const spinnerSize =
+    size === 'large' ? '1.125rem' : size === 'small' ? '0.889rem' : '1rem'
+
   return (
-    <x.button
-      w={full ? '100%' : 'fit-content'}
-      backgroundColor={variant === 'primary' ? 'brand-primary' : 'transparent'}
-      px={size === 'small' ? 1 : 3}
-      py={size === 'large' ? 3 : 2}
+    <StyledButton
+      size={size}
+      px={size === 'large' ? 4 : size === 'small' ? 2 : 3}
+      py={size === 'large' ? 3 : size === 'small' ? 1 : 2}
+      fontSize={size === 'large' ? 'lg' : size === 'small' ? 'sm' : 'default'}
+      lineHeight='none'
       borderRadius={2}
       display='flex'
       alignItems='center'
+      backgroundColor={
+        (variant && 'transparent') ||
+        (color && `utility-${color}`) ||
+        'brand-primary'
+      }
+      color={
+        (!variant && 'layout-level0') ||
+        (color && `utility-${color}`) ||
+        'brand-primary'
+      }
+      border='1px solid'
+      borderColor={
+        variant !== 'outline'
+          ? 'transparent'
+          : color
+          ? `utility-${color}`
+          : 'brand-primary'
+      }
+      textDecoration={(variant === 'link' && 'underline') || 'none'}
       {...props}
     >
-      {leftIcon && (
-        <Icon
-          icon={leftIcon}
-          color={variant === 'primary' ? 'layout-level0' : 'brand-primary'}
-          size={
-            size === 'small' ? '1rem' : size === 'large' ? '1.293rem' : '1.2rem'
-          }
+      {isLoading ? (
+        <Spinner
+          h={spinnerSize}
+          w={spinnerSize}
+          border={size === 'small' ? '2px solid' : '3px solid'}
+          borderTop={size === 'small' ? '2px solid' : '3px solid'}
+          trailColor='content-nonessential'
         />
+      ) : (
+        children
       )}
-      <x.span
-        ml={leftIcon && size === 'small' ? 1 : 2}
-        mr={rightIcon && size === 'small' ? 1 : 2}
-        fontSize={size === 'small' ? 'xs' : size === 'large' ? 'lg' : 'default'}
-        lineHeight='none'
-        color={variant === 'primary' ? 'layout-level0' : 'brand-primary'}
-        letterSpacing={0.5}
-      >
-        {children}
-      </x.span>
-      {rightIcon && (
-        <Icon
-          icon={rightIcon}
-          color={variant === 'primary' ? 'layout-level0' : 'brand-primary'}
-          size={
-            size === 'small'
-              ? '1.125rem'
-              : size === 'large'
-              ? '1.293rem'
-              : '1.2rem'
-          }
-        />
-      )}
-    </x.button>
+    </StyledButton>
   )
 }
 
-export default ButtonComp
+export default Button

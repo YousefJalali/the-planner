@@ -10,6 +10,7 @@ type Props = {
 
 export const Card = styled.div<{ color: string }>`
   width: 100%;
+  max-width: 400px;
   height: 150px;
   padding: 3;
   display: flex;
@@ -29,6 +30,7 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
         display='flex'
         flexDirection='column'
         justifyContent='space-between'
+        flex='0 0 calc(75% - 8px)'
       >
         <x.p color='content-contrast' fontSize='xl'>
           {project.title}
@@ -39,7 +41,7 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
       </x.div>
       <x.div flex='0 0 25%'>
         <CircleProgressBar
-          strokeColor={project.color}
+          color={project.color}
           percentage={project.progressPercentage}
         />
       </x.div>

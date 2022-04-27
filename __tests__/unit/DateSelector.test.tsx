@@ -1,4 +1,4 @@
-import { render } from '../../test-utils'
+import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import DateSelector from '../../components/DateSelector'
 import { waitFor } from '@testing-library/dom'
@@ -32,6 +32,8 @@ function setup({ date }: { date: string }) {
     setDate,
   }
 }
+
+afterEach(cleanup)
 
 describe('Date selector', () => {
   test('render the number of days in a month', async () => {

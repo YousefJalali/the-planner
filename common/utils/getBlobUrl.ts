@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { ImageType } from '../types/ImageType'
+import { ImageType } from '../types/TaskType'
 
 const readFile = (file: File) => {
   if (!(file instanceof File)) return
@@ -27,7 +27,7 @@ const getBlobUrl = async (uploadedFiles: FileList | File[]) => {
         const path = await readFile(file)
 
         if (typeof path === 'string') {
-          const img: ImageType = {
+          const img: Omit<ImageType, 'height' | 'width'> = {
             id: uuidv4(),
             name: file.name,
             path,
