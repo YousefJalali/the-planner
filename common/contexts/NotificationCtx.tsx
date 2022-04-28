@@ -11,7 +11,7 @@ export type NotificationType = {
   message: string
   variant: 'action' | 'information' | 'warning' | 'critical' | 'confirmation'
   action?: 'view' | 'try again'
-  actionFn?: () => void
+  actionFn?: (args?: any) => void
   loading?: boolean
 }
 

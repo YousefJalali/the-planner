@@ -102,7 +102,7 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
 
       {/* attachments */}
       {attachments.length > 0 && (
-        <x.div mt={3}>
+        <x.div my={3}>
           <x.div ml={4}>
             <Label text='Attachments' />
           </x.div>

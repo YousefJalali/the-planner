@@ -65,11 +65,30 @@ const Button: FC<AllProps> = ({
 
   return (
     <StyledButton
+      as={variant === 'link' || variant === 'textOnly' ? 'a' : 'button'}
       size={size}
-      px={size === 'large' ? 4 : size === 'small' ? 2 : 3}
-      py={size === 'large' ? 3 : size === 'small' ? 1 : 2}
+      px={
+        variant === 'link' || variant === 'textOnly'
+          ? 0
+          : size === 'large'
+          ? 4
+          : size === 'small'
+          ? 2
+          : 3
+      }
+      py={
+        variant === 'link' || variant === 'textOnly'
+          ? 0
+          : size === 'large'
+          ? 3
+          : size === 'small'
+          ? 1
+          : 2
+      }
       fontSize={size === 'large' ? 'lg' : size === 'small' ? 'sm' : 'default'}
-      lineHeight='none'
+      lineHeight={
+        variant === 'link' || variant === 'textOnly' ? 'normal' : 'none'
+      }
       borderRadius={2}
       display='flex'
       alignItems='center'

@@ -17,13 +17,14 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
 
   const taskStatusHandler = async (
     task: TaskWithProjectType,
-    status: Status
+    newStatus: Status
   ) => {
+    console.log(task, newStatus)
     // mutate tasks locally
     mutate(
       dateTaskKey(new Date(task.startDate).toDateString()),
       (data: { data: TaskWithProjectType[] }) =>
-        data && updateTaskStatusInLocalTasksData(data.data, task.id, status),
+        data && updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
       false
     )
 
@@ -31,11 +32,11 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
     mutate(
       projectKey(task.projectId),
       (data: { data: ProjectWithTasksType }) =>
-        data && updateTaskStatusInLocalProject(data.data, task.id, status),
+        data && updateTaskStatusInLocalProject(data.data, task.id, newStatus),
       false
     )
 
-    const { data, error } = await changeTaskStatus(task.id, status)
+    const { data, error } = await changeTaskStatus(task.id, newStatus)
 
     mutate(dateTaskKey(new Date(task.startDate).toDateString()))
     mutate(projectKey(task.projectId))

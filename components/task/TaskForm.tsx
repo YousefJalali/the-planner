@@ -19,10 +19,10 @@ import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
-import CreateProjectModal from '../modals/CreateProjectModal'
-import useToggle from '../../common/hooks/useToggle'
-import { FiAlertCircle, FiPlus } from 'react-icons/fi'
 import { usePrompt } from '../../common/contexts/PromptCtx'
+import { useModal } from '../../common/contexts/ModalCtx'
+import ProjectForm from '../project/ProjectForm'
+import useCreateProject from '../../common/hooks/project/useCreateProject'
 
 type Props = {
   id: 'create' | 'edit'
@@ -60,7 +60,24 @@ function TaskForm({
 }: Props) {
   const formName = 'task-form'
 
-  const [createProjectModal, setCreateProjectModal] = useToggle()
+  const { setModal, clearModal } = useModal()
+
+  const { onSubmit: createProjectHandler, isSubmitting: isProjectSubmitting } =
+    useCreateProject(() => clearModal('project-create'))
+
+  const onCreateProject = () => {
+    setModal({
+      id: 'project-create',
+      content: (
+        <ProjectForm
+          id='create'
+          title='New Project'
+          onSubmit={createProjectHandler}
+          isSubmitting={isProjectSubmitting}
+        />
+      ),
+    })
+  }
 
   const { setPrompt } = usePrompt()
 
@@ -178,7 +195,7 @@ function TaskForm({
                   value={value}
                   onChange={onChange}
                   placeholder='Select a project'
-                  createProject={setCreateProjectModal}
+                  createProject={onCreateProject}
                 />
               </Fieldset>
             )
@@ -433,11 +450,6 @@ function TaskForm({
           {id === 'edit' ? 'Update' : 'Create'}
         </Button>
       </Form>
-
-      <CreateProjectModal
-        isOpen={createProjectModal}
-        onRequestClose={setCreateProjectModal}
-      />
     </>
   )
 }

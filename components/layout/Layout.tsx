@@ -1,5 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
+import Modal from './Modal'
 import Notification from './Notification'
 import Prompt from './Prompt'
 
@@ -15,6 +16,7 @@ const Layout: FC<Props> = ({ children }) => {
       minHeight='100vh'
     >
       {children}
+      <Modal />
       <Notification />
       <Prompt />
     </x.div>

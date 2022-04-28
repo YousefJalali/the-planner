@@ -1,11 +1,11 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence } from 'framer-motion'
-import NotificationCtx from '../../common/contexts/NotificationCtx'
+import { useNotification } from '../../common/contexts/NotificationCtx'
 import NotificationContent from './NotificationContent'
 
 const Notification: FC = () => {
-  const { notification, clearNotification } = useContext(NotificationCtx)
+  const { notification, clearNotification } = useNotification()
 
   if (typeof window === 'undefined') return null
 

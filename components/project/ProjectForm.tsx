@@ -146,11 +146,12 @@ function ProjectForm<T>({
       <x.div display='flex' spaceX={3}>
         {id === 'edit' && (
           <Button
+            type='button'
             variant='textOnly'
             color='critical'
             justifyContent='center'
             // flex='0 0 30%'
-            // w='100%'
+            w='30%'
           >
             Delete
           </Button>
@@ -162,7 +163,7 @@ function ProjectForm<T>({
           bottom={24}
           size='large'
           justifyContent='center'
-          w='100%'
+          w='70%'
         >
           {id === 'edit' ? 'Update' : 'Create'}
         </Button>

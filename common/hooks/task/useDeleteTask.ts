@@ -10,10 +10,7 @@ import { removeTaskFromLocalTasksData } from '../../data/localData/localTasksDat
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { TaskWithProjectType } from '../../types/TaskType'
 
-const useDeleteTask = (
-  task: TaskWithProjectType | null,
-  callback?: (action?: any) => void
-) => {
+const useDeleteTask = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)
 
   const { setNotification } = useNotification()
@@ -22,19 +19,17 @@ const useDeleteTask = (
 
   const { mutate } = useSWRConfig()
 
-  const confirmBeforeDeleteHandler = () => {
+  const confirmBeforeDeleteHandler = (task: TaskWithProjectType) => {
     setPrompt({
       id: 'delete-task',
       title: 'are you sure?',
       message: "you can't undo this",
       action: 'delete',
-      actionFn: deleteHandler,
+      actionFn: () => deleteHandler(task),
     })
   }
 
-  const deleteHandler = async () => {
-    if (!task) return
-
+  const deleteHandler = async (task: TaskWithProjectType) => {
     // mutate tasks locally
     mutate(
       dateTaskKey(new Date(task.startDate).toDateString()),

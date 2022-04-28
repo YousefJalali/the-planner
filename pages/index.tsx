@@ -25,6 +25,7 @@ const Home: NextPage<Props> = (props) => {
   return (
     <>
       {/* <Grid /> */}
+
       <Header>
         <x.span fontFamily='logo' fontSize='xl' color='content-contrast'>
           Za Blanner

@@ -5,11 +5,8 @@ import { x } from '@xstyled/styled-components'
 import Icon from '../Icon'
 import _ from 'lodash'
 import useFetchedProjects from '../../common/data/useFetchedProjects'
-import useToggle from '../../common/hooks/useToggle'
-import dynamic from 'next/dynamic'
-import CreateProjectModal from '../modals/CreateProjectModal'
-
-const ProjectsListModal = dynamic(() => import('../modals/ProjectsListModal'))
+import { useModal } from '../../common/contexts/ModalCtx'
+import ProjectsList from './ProjectsList'
 
 type Props = {
   onChange: (v: string) => void
@@ -26,16 +23,16 @@ function SelectProject({
   id,
   createProject,
 }: Props) {
-  const [listModal, setListModal] = useToggle()
-
   const [project, setProject] = useState<ProjectType>()
+
+  const { setModal, clearModal } = useModal()
 
   const {
     projects,
     setProjects,
     error: projectsError,
     isLoading: isProjectsLoading,
-  } = useFetchedProjects('ProjectsList')
+  } = useFetchedProjects()
 
   useEffect(() => {
     if (projects) {
@@ -46,65 +43,64 @@ function SelectProject({
 
   const onItemClickHandler = (id: string) => {
     onChange(id)
-    setListModal()
+    clearModal('project-list')
   }
 
-  const onCloseHandler = () => {
-    setListModal()
+  const onShowList = () => {
+    setModal({
+      id: 'project-list',
+      content: (
+        <ProjectsList
+          onItemClick={onItemClickHandler}
+          onCreate={createProject}
+          projects={projects}
+        />
+      ),
+    })
   }
 
   return (
-    <>
-      <x.button
-        type='button'
-        onClick={setListModal}
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        w='100%'
-        backgroundColor='layout-level0'
-        borderRadius={2}
-        id={id}
-      >
-        {project ? (
-          <x.div display='flex' alignItems='center'>
-            {project.color.length > 0 && (
-              <>
-                <x.div
-                  mr={2}
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                >
-                  <FiCircle
-                    fill={project.color}
-                    strokeWidth={0}
-                    height={16}
-                    width={16}
-                  />
-                </x.div>
-                <x.span color='content-contrast' lineHeight='normal'>
-                  {project.title}
-                </x.span>
-              </>
-            )}
-          </x.div>
-        ) : (
-          <x.span color='content-nonessential' lineHeight='normal'>
-            {placeholder}
-          </x.span>
-        )}
-        <Icon icon={FiChevronDown} size='1rem' color='content-subtle' />
-      </x.button>
-
-      <ProjectsListModal
-        isOpen={listModal}
-        onRequestClose={onCloseHandler}
-        onItemClick={onItemClickHandler}
-        onCreate={createProject}
-        projects={projects}
-      />
-    </>
+    <x.button
+      type='button'
+      onClick={onShowList}
+      display='flex'
+      justifyContent='space-between'
+      alignItems='center'
+      w='100%'
+      backgroundColor='layout-level0'
+      borderRadius={2}
+      id={id}
+    >
+      {project ? (
+        <x.div display='flex' alignItems='center'>
+          {project.color.length > 0 && (
+            <>
+              <x.div
+                mr={2}
+                display='flex'
+                alignItems='center'
+                justifyContent='center'
+              >
+                <FiCircle
+                  fill={project.color}
+                  strokeWidth={0}
+                  height={16}
+                  width={16}
+                />
+              </x.div>
+              <x.span color='content-contrast' lineHeight='normal'>
+                {project.title}
+              </x.span>
+            </>
+          )}
+        </x.div>
+      ) : (
+        <x.span color='content-nonessential' lineHeight='normal'>
+          {placeholder}
+        </x.span>
+      )}
+      <Icon icon={FiChevronDown} size='1rem' color='content-subtle' />
+    </x.button>
   )
 }
 

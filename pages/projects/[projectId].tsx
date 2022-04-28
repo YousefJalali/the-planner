@@ -8,12 +8,14 @@ import CircleProgressBar from '../../components/CircleProgressBar'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import useFetchedProjectById from '../../common/data/useFetchedProjectById'
 
-import useToggle from '../../common/hooks/useToggle'
 import ScrollableList from '../../components/ScrollableList'
 import TasksLists from '../../components/task/TasksLists'
 import FloatingButton from '../../components/FloatingButton'
-import EditProjectModal from '../../components/modals/EditProjectModal'
 import TextEditor from '../../components/formElements/TextEditor'
+import { useModal } from '../../common/contexts/ModalCtx'
+import ProjectForm from '../../components/project/ProjectForm'
+import useCreateProject from '../../common/hooks/project/useCreateProject'
+import Button from '../../components/formElements/Button'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -33,7 +35,7 @@ const Item = ({ number, status }: { number: number; status: Status }) => (
 )
 
 const Project = () => {
-  const [editProjectModal, setEditProjectModal] = useToggle(false)
+  const { setModal, clearModal } = useModal()
 
   const router = useRouter()
   const projectId = router.query.projectId as string
@@ -42,19 +44,44 @@ const Project = () => {
     projectId as string
   )
 
-  // const tasks: TaskWithProjectType[] = project.tasks
+  const { onSubmit, isSubmitting } = useCreateProject(() =>
+    clearModal('project-create')
+  )
+
+  const editProjectHandler = () => {
+    if (project) {
+      setModal({
+        id: 'project-edit',
+        content: (
+          <ProjectForm
+            id='edit'
+            title='Edit Project'
+            onSubmit={onSubmit}
+            isSubmitting={isSubmitting}
+            defaultValues={project}
+            onRequestClose={() => clearModal('project-create')}
+          />
+        ),
+      })
+    }
+  }
 
   return (
     <>
       <x.main minHeight='100vh'>
         <Header>
-          <x.a onClick={() => router.back()}>
-            <Icon icon={FiArrowLeft} size='1.5rem' />
+          <x.a onClick={() => router.back()} fontSize='1.5rem'>
+            {/* <Icon icon={FiArrowLeft} size='1.5rem' /> */}
+            <FiArrowLeft />
           </x.a>
 
-          <x.a textDecoration='underline' onClick={setEditProjectModal}>
+          <Button
+            variant='link'
+            color='information'
+            onClick={editProjectHandler}
+          >
             Edit
-          </x.a>
+          </Button>
         </Header>
 
         {project && (
@@ -88,12 +115,6 @@ const Project = () => {
             <Lists spaceX={3}>
               <TasksLists tasks={project.tasks as TaskWithProjectType[]} />
             </Lists>
-
-            <EditProjectModal
-              isOpen={editProjectModal}
-              onRequestClose={setEditProjectModal}
-              project={project}
-            />
           </>
         )}
 

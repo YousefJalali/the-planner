@@ -1,29 +1,50 @@
-import { FiArrowLeft, FiLoader, FiPlus } from 'react-icons/fi'
-import Header from '../../components/layout/Header'
-import ProjectCard from '../../components/project/ProjectCard'
-import { useRouter } from 'next/router'
 import { NextPage } from 'next'
-import { x } from '@xstyled/styled-components'
-import Icon from '../../components/Icon'
-import NewProjectCard from '../../components/project/NewProjectCard'
-import useToggle from '../../common/hooks/useToggle'
-
-import FilterProjects from '../../components/project/FilterProjects'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import useInfiniteFetchedProjects from '../../common/data/useFetchedInfiniteProjects'
+import { FiArrowLeft, FiLoader, FiPlus } from 'react-icons/fi'
 import { useInView } from 'react-intersection-observer'
 import _ from 'lodash'
-import CreateProjectModal from '../../components/modals/CreateProjectModal'
+import { useCallback, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { x } from '@xstyled/styled-components'
+
+import Header from '../../components/layout/Header'
+import ProjectCard from '../../components/project/ProjectCard'
+import Icon from '../../components/Icon'
+import NewProjectCard from '../../components/project/NewProjectCard'
+
+import FilterProjects from '../../components/project/FilterProjects'
+import useInfiniteFetchedProjects from '../../common/data/useFetchedInfiniteProjects'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
+import { useModal } from '../../common/contexts/ModalCtx'
+import ProjectForm from '../../components/project/ProjectForm'
+import useCreateProject from '../../common/hooks/project/useCreateProject'
 
 const Index: NextPage = () => {
-  const [createProjectModal, setCreateProjectModal] = useToggle()
+  // const [createProjectModal, setCreateProjectModal] = useToggle()
   const [filter, setFilter] = useState<'all' | 'ongoing' | 'completed'>('all')
 
   const { projects, error, isLoading, size, setSize, isValidating } =
     useInfiniteFetchedProjects()
 
   const router = useRouter()
+
+  const { setModal, clearModal } = useModal()
+  const { onSubmit, isSubmitting } = useCreateProject(() =>
+    clearModal('project-create')
+  )
+
+  const createProjectHandler = () => {
+    setModal({
+      id: 'project-create',
+      content: (
+        <ProjectForm
+          id='create'
+          title='New Project'
+          onSubmit={onSubmit}
+          isSubmitting={isSubmitting}
+        />
+      ),
+    })
+  }
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -66,7 +87,7 @@ const Index: NextPage = () => {
           <Icon icon={FiArrowLeft} size='1.5rem' />
         </x.a>
 
-        <x.a onClick={setCreateProjectModal}>
+        <x.a onClick={createProjectHandler}>
           <Icon icon={FiPlus} size='1.5rem' />
         </x.a>
       </Header>
@@ -117,11 +138,6 @@ const Index: NextPage = () => {
           </>
         )}
       </x.section>
-
-      <CreateProjectModal
-        isOpen={createProjectModal}
-        onRequestClose={setCreateProjectModal}
-      />
     </main>
   )
 }

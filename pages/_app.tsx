@@ -14,10 +14,10 @@ import GlobalStyle from '../styles/GlobalStyle'
 import '../styles/fonts.css'
 
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
-import { ActiveTaskCtxProvider } from '../common/contexts/ActiveTaskCtx'
 import { NotificationCtxProvider } from '../common/contexts/NotificationCtx'
 import Layout from '../components/layout/Layout'
 import { PromptCtxProvider } from '../common/contexts/PromptCtx'
+import { ModalCtxProvider } from '../common/contexts/ModalCtx'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -50,11 +50,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             <NotificationCtxProvider>
               <PromptCtxProvider>
-                <ActiveTaskCtxProvider>
+                <ModalCtxProvider>
                   <Layout>
                     <Component {...pageProps} />
                   </Layout>
-                </ActiveTaskCtxProvider>
+                </ModalCtxProvider>
               </PromptCtxProvider>
             </NotificationCtxProvider>
           </SWRConfig>

@@ -1,21 +1,19 @@
 import { FC } from 'react'
 import { x } from '@xstyled/styled-components'
-import dynamic from 'next/dynamic'
 
 import { TaskWithProjectType } from '../../common/types/TaskType'
 
 import TaskItem from './TaskItem'
 
-import { useActiveTask } from '../../common/contexts/ActiveTaskCtx'
-import useToggle from '../../common/hooks/useToggle'
 import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
 import useDeleteTask from '../../common/hooks/task/useDeleteTask'
 import useCheckTask from '../../common/hooks/task/useCheckTask'
-
-const TaskOptionsModal = dynamic(() => import('../modals/TaskOptionsModal'))
-const StatusListModal = dynamic(() => import('../modals/StatusListModal'))
-const EditTaskModal = dynamic(() => import('../modals/EditTaskModal'))
-const TaskDetailsModal = dynamic(() => import('../modals/TaskDetailsModal'))
+import { useModal } from '../../common/contexts/ModalCtx'
+import TaskDetails from './TaskDetails'
+import TaskOptions from './TaskOptions'
+import StatusList from './StatusList'
+import TaskForm from './TaskForm'
+import useEditTask from '../../common/hooks/task/useEditTask'
 
 type Props = {
   tasks: TaskWithProjectType[]
@@ -23,94 +21,78 @@ type Props = {
 }
 
 const TasksList: FC<Props> = ({ tasks, id }) => {
-  //context
-  const { activeTask, clearActiveTask } = useActiveTask()
-
-  //toggle modals
-  const [detailsModal, setDetailsModal] = useToggle()
-  const [statusModal, setStatusModal] = useToggle()
-  const [editTaskModal, setEditTaskModal] = useToggle()
-  const [optionsModal, setOptionsModal] = useToggle()
-
+  const { setModal, clearModal } = useModal()
   //hooks
   const { checkTaskHandler } = useCheckTask()
   const { taskStatusHandler } = useUpdateTaskStatus(() => {
-    setStatusModal(false)
-    setOptionsModal(false)
+    clearModal('task-status')
+    clearModal('task-options')
   })
-  const { deleteTaskHandler } = useDeleteTask(activeTask, setOptionsModal)
+  const { deleteTaskHandler } = useDeleteTask(() => clearModal('task-options'))
 
-  //modal handler
-  const closeModalHandler = (modal: string) => {
-    switch (modal) {
-      case 'details':
-        setDetailsModal(false)
-        clearActiveTask()
-        return
+  const { isSubmitting, onSubmit } = useEditTask(() => clearModal('task-edit'))
 
-      case 'edit':
-        setEditTaskModal(false)
-        setOptionsModal(false)
-        clearActiveTask()
-        return
+  const onDetails = (task: TaskWithProjectType) => {
+    setModal({
+      id: 'task-details',
+      content: <TaskDetails task={task} />,
+    })
+  }
 
-      case 'options':
-        setOptionsModal(false)
-        clearActiveTask()
-        return
+  const onOptions = (task: TaskWithProjectType) => {
+    setModal({
+      id: 'task-options',
+      content: (
+        <TaskOptions
+          status={task.status}
+          onStatusChange={() => onStatus(task)}
+          onEdit={() => onEdit(task)}
+          onDelete={() => deleteTaskHandler(task)}
+        />
+      ),
+    })
+  }
 
-      default:
-        return
-    }
+  const onStatus = (task: TaskWithProjectType) => {
+    setModal({
+      id: 'task-status',
+      content: (
+        <StatusList
+          status={task.status}
+          onChange={(newStatus) => taskStatusHandler(task, newStatus)}
+        />
+      ),
+    })
+  }
+
+  const onEdit = (task: TaskWithProjectType) => {
+    setModal({
+      id: 'task-edit',
+      content: (
+        <TaskForm
+          id='edit'
+          title='Edit Task'
+          defaultValues={task}
+          onSubmit={onSubmit}
+          isSubmitting={isSubmitting}
+        />
+      ),
+    })
   }
 
   return (
-    <>
-      <x.ul spaceY={3} id={id} data-testid={id}>
-        {tasks.map((task) => (
-          <x.li key={task.id}>
-            <TaskItem
-              task={task}
-              onCheck={checkTaskHandler}
-              onDetails={setDetailsModal}
-              onOptions={setOptionsModal}
-            />
-          </x.li>
-        ))}
-      </x.ul>
-
-      {/* task details */}
-      <TaskDetailsModal
-        isOpen={detailsModal}
-        onRequestClose={() => closeModalHandler('details')}
-        task={activeTask}
-      />
-
-      {/* edit task modal */}
-      <EditTaskModal
-        isOpen={editTaskModal}
-        onRequestClose={() => closeModalHandler('edit')}
-        task={activeTask}
-      />
-
-      {/* task options modal */}
-      <TaskOptionsModal
-        isOpen={optionsModal}
-        onRequestClose={() => closeModalHandler('options')}
-        task={activeTask}
-        onStatusChange={setStatusModal}
-        onEdit={setEditTaskModal}
-        onDelete={deleteTaskHandler}
-      />
-
-      {/* status list modal */}
-      <StatusListModal
-        isOpen={statusModal}
-        onRequestClose={setStatusModal}
-        task={activeTask}
-        onStatusChange={taskStatusHandler}
-      />
-    </>
+    <x.ul spaceY={3} id={id} data-testid={id}>
+      {tasks.map((task) => (
+        <x.li key={task.id}>
+          <TaskItem
+            task={task}
+            onCheck={checkTaskHandler}
+            onDetails={() => onDetails(task)}
+            onOptions={() => onOptions(task)}
+          />
+        </x.li>
+      ))}
+    </x.ul>
   )
 }
 
