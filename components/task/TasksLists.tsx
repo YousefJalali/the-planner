@@ -1,10 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import {
-  Status,
-  TaskType,
-  TaskWithProjectType,
-} from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import Tag from './Tag'
 import TasksList from './TasksList'
 

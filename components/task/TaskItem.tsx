@@ -5,7 +5,6 @@ import { getTime } from '../../common/utils/formatDate'
 import { FiPaperclip, FiClock, FiMoreVertical } from 'react-icons/fi'
 import Icon from '../Icon'
 import Checkbox from '../formElements/Checkbox'
-import { useActiveTask } from '../../common/contexts/ActiveTaskCtx'
 
 type Props = {
   task: TaskWithProjectType
@@ -31,20 +30,6 @@ const Title = styled(x.p)`
 `
 
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
-  // console.log('TaskItem rendered')
-
-  const { setActiveTask } = useActiveTask()
-
-  const onDetailsHandler = () => {
-    setActiveTask(task)
-    onDetails()
-  }
-
-  const onOptionsHandler = () => {
-    setActiveTask(task)
-    onOptions()
-  }
-
   //format time
   let time = null
 
@@ -65,7 +50,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
 
   return (
     <x.div position='relative' data-testid='task-item'>
-      <Clickable onClick={onDetailsHandler} data-testid='taskItem-details' />
+      <Clickable onClick={onDetails} data-testid='taskItem-details' />
       <x.div
         display='flex'
         justifyContent='space-between'
@@ -168,7 +153,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
           justifyContent='center'
           alignItems='center'
         >
-          <Clickable onClick={onOptionsHandler} data-testid='taskItem-kebab' />
+          <Clickable onClick={onOptions} data-testid='taskItem-kebab' />
           <Icon icon={FiMoreVertical} color='content-subtle' />
         </x.div>
       </x.div>

@@ -8,6 +8,8 @@ const useFetchedTaskById = (taskId: string | null) => {
     Error
   >(taskId ? taskKey(taskId) : null)
 
+  console.log(data)
+
   const task = data?.data || null
   const isLoading = !error && !data
 

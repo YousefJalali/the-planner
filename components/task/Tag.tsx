@@ -1,6 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { Status } from '../../common/types/TaskType'
+import { statusAlias } from '../../common/utils/statusAlias'
 
 type Props = {
   variant: Status
@@ -16,7 +17,7 @@ const Tag: FC<Props> = ({ variant, textOnly }) => {
       color={`tag-${variant}`}
       textTransform='capitalize'
     >
-      • {variant}
+      • {statusAlias(variant)}
     </x.span>
   ) : (
     <x.div backgroundColor={`${v}-a20`} borderRadius={1} w='fit-content'>
@@ -27,7 +28,7 @@ const Tag: FC<Props> = ({ variant, textOnly }) => {
         lineHeight='none'
         letterSpacing={1}
       >
-        {variant.toUpperCase()}
+        {statusAlias(variant).toUpperCase()}
       </x.span>
     </x.div>
   )

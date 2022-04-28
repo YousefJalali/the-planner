@@ -100,7 +100,7 @@ export const handlers = [
   ),
 
   //get task by id
-  rest.get<TaskType>('/tasks/task/:id', (req, res, ctx) =>
+  rest.get<TaskType>('/tasks/:id', (req, res, ctx) =>
     getTaskByIdController({ req, res, ctx }, tasks)
   ),
 

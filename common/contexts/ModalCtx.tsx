@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from 'uuid'
 import { createContext, useState, ReactNode, useContext } from 'react'
 
 export type ModalType = {
   id: string
   content: JSX.Element | JSX.Element[]
+  fullScreen?: boolean
 }
 
 type ModalContext = {

@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi'
 import { PromptType } from '../../common/contexts/PromptCtx'
 import Button from '../formElements/Button'
+import { Backdrop } from './Modal'
 
 type Props = {
   prompt: PromptType
@@ -60,66 +61,77 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
   }, [])
 
   return (
-    <Motion
-      transition={{ type: 'spring', duration: 0.3 }}
-      initial='closed'
-      animate='open'
-      exit='closed'
-      variants={variants}
-      data-testid={prompt.id}
+    <x.div
+      position='absolute'
+      top={0}
+      left={0}
+      zIndex={998}
+      h='100vh'
+      w='100vw'
     >
-      <x.div
-        backgroundColor='layout-level0'
-        borderRadius={2}
-        boxShadow='#00000035 0px 5px 15px'
-        p={3}
+      <Backdrop id={prompt.id} />
+
+      <Motion
+        transition={{ type: 'spring', duration: 0.3 }}
+        initial='closed'
+        animate='open'
+        exit='closed'
+        variants={variants}
+        data-testid={prompt.id}
       >
         <x.div
-          display='flex'
-          flexDirection='column'
-          justifyContent='center'
-          alignItems='center'
+          backgroundColor='layout-level0'
+          borderRadius={2}
+          boxShadow='#00000035 0px 5px 15px'
+          p={3}
         >
-          <x.span
-            textTransform={{ firstLetter: 'uppercase' }}
-            color='content-contrast'
+          <x.div
+            display='flex'
+            flexDirection='column'
+            justifyContent='center'
+            alignItems='center'
+          >
+            <x.span
+              textTransform={{ firstLetter: 'uppercase' }}
+              color='content-contrast'
+              mb={2}
+            >
+              {prompt.title}
+            </x.span>
+            <x.span
+              text='body.small'
+              textTransform={{ firstLetter: 'uppercase' }}
+              color='content-subtle'
+            >
+              {prompt.message}
+            </x.span>
+          </x.div>
+
+          <x.hr
+            h='1px'
+            w='100%'
+            backgroundColor='layout-level2accent'
+            mt={3}
             mb={2}
-          >
-            {prompt.title}
-          </x.span>
-          <x.span
-            text='body.small'
-            textTransform={{ firstLetter: 'uppercase' }}
-            color='content-subtle'
-          >
-            {prompt.message}
-          </x.span>
-        </x.div>
+          />
 
-        <x.hr
-          h='1px'
-          w='100%'
-          backgroundColor='layout-level2accent'
-          mt={3}
-          mb={2}
-        />
-
-        <x.div display='flex' divideX divideColor='layout-level2accent'>
-          <Btn color='information' onClick={clearPrompt}>
-            Cancel
-          </Btn>
-          <Btn
-            color='critical'
-            onClick={() => {
-              prompt.actionFn()
-              clearPrompt()
-            }}
-          >
-            {prompt.action}
-          </Btn>
+          <x.div display='flex' divideX divideColor='layout-level2accent'>
+            <Btn color='information' onClick={clearPrompt}>
+              Cancel
+            </Btn>
+            <Btn
+              color='critical'
+              onClick={() => {
+                prompt.actionFn()
+                clearPrompt()
+              }}
+            >
+              {prompt.action}
+            </Btn>
+          </x.div>
         </x.div>
-      </x.div>
-    </Motion>
+      </Motion>
+    </x.div>
   )
 }
 

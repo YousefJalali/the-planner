@@ -14,6 +14,7 @@ const FloatingButton: FC = () => {
   const clickHandler = () => {
     setModal({
       id: 'task-create',
+      fullScreen: true,
       content: (
         <TaskForm
           id='create'
@@ -21,6 +22,7 @@ const FloatingButton: FC = () => {
           defaultValues={defaultValues}
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}
+          onRequestClose={() => clearModal('task-create')}
         />
       ),
     })

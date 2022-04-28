@@ -24,6 +24,7 @@ const TaskDetailsPage = () => {
     if (task) {
       setModal({
         id: 'task-edit',
+        fullScreen: true,
         content: (
           <TaskForm
             id='edit'

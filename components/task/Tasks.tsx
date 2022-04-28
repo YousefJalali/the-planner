@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import useFetchedDateTasks from '../../common/data/useFetchedDateTasks'
 import DateSelector from '../DateSelector'

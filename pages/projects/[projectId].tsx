@@ -16,6 +16,7 @@ import { useModal } from '../../common/contexts/ModalCtx'
 import ProjectForm from '../../components/project/ProjectForm'
 import useCreateProject from '../../common/hooks/project/useCreateProject'
 import Button from '../../components/formElements/Button'
+import { statusAlias } from '../../common/utils/statusAlias'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -26,7 +27,7 @@ const Lists = styled(ScrollableList)`
 const Item = ({ number, status }: { number: number; status: Status }) => (
   <>
     <x.span alignSelf='center' textTransform='capitalize'>
-      • {status}
+      • {statusAlias(status)}
     </x.span>
     <x.span alignSelf='center' textAlign='center'>
       {number}

@@ -57,7 +57,7 @@ export const getTaskByIdController = (
     return res(ctx.json({ error: 'Task not found' }))
   }
 
-  return res(ctx.json({ data: task }))
+  return res(ctx.json({ data: populateTask(task) }))
 }
 
 //-----------------create tasks-----------------

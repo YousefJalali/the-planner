@@ -12,7 +12,7 @@ import {
 
 type Props = {}
 
-const Motion = styled(motion.div)<{ fullHeight?: boolean }>`
+const Motion = styled(motion.div)<{ fullScreen?: boolean }>`
   max-height: calc(100% - 48px);
   overflow-x: hidden;
   overflow-y: scroll;
@@ -24,33 +24,67 @@ const Motion = styled(motion.div)<{ fullHeight?: boolean }>`
   width: 100%;
 
   ${(props) =>
-    props.fullHeight &&
+    props.fullScreen &&
     css`
       max-height: 100%;
       border-radius: 0;
     `}
 `
 
+export const Backdrop = ({
+  id,
+  onClick,
+}: {
+  id: string
+  onClick?: () => void
+}) => {
+  const backdropVariants = {
+    open: {
+      opacity: 1,
+    },
+    closed: {
+      opacity: 0,
+    },
+  }
+
+  return (
+    <motion.div
+      transition={{ duration: 0.3 }}
+      initial='closed'
+      animate='open'
+      exit='closed'
+      variants={backdropVariants}
+    >
+      <x.div
+        id={`${id}-backdrop`}
+        position='absolute'
+        top={0}
+        left={0}
+        h='100vh'
+        w='100vw'
+        backgroundColor='rgba(0, 0, 0, 0.5)'
+        onClick={onClick}
+      />
+    </motion.div>
+  )
+}
+
 const ContentWrapper = ({
   id,
   clearModal,
   children,
-  height,
+  fullscreen = false,
 }: {
   id: string
   clearModal: () => void
   children: JSX.Element | JSX.Element[]
-  height: number | undefined
+  fullscreen?: boolean
 }) => {
+  const { height, width } = useWindowSize()
+
   const targetRef = useRef<HTMLDivElement>(null)
 
   const modal = document.getElementById('modal') as HTMLDivElement
-
-  // useEffect(() => {
-  //   for (let i = 0; i < modal.children.length; i++) {
-  //     ;(modal.children[i] as HTMLElement).style.transform = `translateY(100vh)`
-  //   }
-  // }, [modal, modal.children.length])
 
   useEffect(() => {
     if (targetRef) {
@@ -80,40 +114,18 @@ const ContentWrapper = ({
     }
   }, [height])
 
-  const backdropVariants = {
-    open: {
-      opacity: 1,
-    },
-    closed: {
-      opacity: 0,
-    },
-  }
-
   return height ? (
-    <>
-      <motion.div
-        // key={id}
-        transition={{ duration: 0.3 }}
-        initial='closed'
-        animate='open'
-        exit='closed'
-        variants={backdropVariants}
-      >
-        <x.div
-          id={`${id}-backdrop`}
-          position='absolute'
-          top={0}
-          left={0}
-          h='100vh'
-          w='100vw'
-          backgroundColor='rgba(0, 0, 0, 0.5)'
-          // zIndex={1001}
-          onClick={clearModal}
-        />
-      </motion.div>
+    <x.div
+      position='absolute'
+      top={0}
+      left={0}
+      zIndex={998}
+      h={height}
+      w={width}
+    >
+      <Backdrop id={id} onClick={clearModal} />
 
       <Motion
-        // key={id}
         transition={{ type: 'tween', duration: 0.3 }}
         initial='closed'
         animate='open'
@@ -122,16 +134,16 @@ const ContentWrapper = ({
         ref={targetRef}
         id={id}
         data-testid={id}
+        fullScreen={fullscreen}
       >
         {children}
       </Motion>
-    </>
+    </x.div>
   ) : null
 }
 
 const Modal: FC<Props> = () => {
   const { modals, clearModal } = useModal()
-  const { height, width } = useWindowSize()
 
   if (typeof window === 'undefined') return null
 
@@ -142,22 +154,13 @@ const Modal: FC<Props> = () => {
         modals.map((modal) => (
           <div key={modal.id}>
             {createPortal(
-              <x.div
-                position='absolute'
-                top={0}
-                left={0}
-                zIndex={998}
-                h={height}
-                w={width}
+              <ContentWrapper
+                id={modal.id}
+                clearModal={() => clearModal(modal.id)}
+                fullscreen={modal.fullScreen}
               >
-                <ContentWrapper
-                  id={modal.id}
-                  clearModal={() => clearModal(modal.id)}
-                  height={height}
-                >
-                  {modal.content}
-                </ContentWrapper>
-              </x.div>,
+                {modal.content}
+              </ContentWrapper>,
               document.getElementById('modal') as HTMLDivElement
             )}
           </div>

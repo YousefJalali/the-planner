@@ -1,8 +1,8 @@
-import { FC, useContext } from 'react'
+import { FC } from 'react'
 import Image from 'next/image'
 import styled, { x } from '@xstyled/styled-components'
 import { FiXCircle } from 'react-icons/fi'
-import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
+import { TaskWithProjectType } from '../../common/types/TaskType'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import format from 'date-fns/format'
@@ -37,6 +37,13 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
 
   const router = useRouter()
 
+  const onTitleClick = (taskId: string) => {
+    router.push(`/tasks/${taskId}`)
+    if (onClose) {
+      onClose()
+    }
+  }
+
   return (
     <>
       <x.div px={4} mt={4} spaceY={5} mb={5}>
@@ -70,10 +77,7 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
         {/* task */}
         <x.div mt={3}>
           <Label text='Task' />
-          <x.a
-            onClick={() => router.push(`/tasks/${task.id}`)}
-            textDecoration='underline'
-          >
+          <x.a onClick={() => onTitleClick(task.id)} textDecoration='underline'>
             <x.p
               text='body.large'
               color='content-contrast'

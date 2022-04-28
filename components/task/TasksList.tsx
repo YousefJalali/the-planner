@@ -35,7 +35,9 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
   const onDetails = (task: TaskWithProjectType) => {
     setModal({
       id: 'task-details',
-      content: <TaskDetails task={task} />,
+      content: (
+        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+      ),
     })
   }
 
@@ -68,6 +70,7 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
   const onEdit = (task: TaskWithProjectType) => {
     setModal({
       id: 'task-edit',
+      fullScreen: true,
       content: (
         <TaskForm
           id='edit'
@@ -75,6 +78,7 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
           defaultValues={task}
           onSubmit={onSubmit}
           isSubmitting={isSubmitting}
+          onRequestClose={() => clearModal('task-edit')}
         />
       ),
     })
