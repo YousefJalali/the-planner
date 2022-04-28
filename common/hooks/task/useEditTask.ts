@@ -2,11 +2,11 @@ import { uniqueId } from 'lodash'
 import { useState } from 'react'
 import { UseFormSetError } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
-import { editTask } from '../actions/taskActions'
-import { useNotification } from '../contexts/NotificationCtx'
-import { dateTaskKey, projectKey } from '../data/keys'
-import { TaskType } from '../types/TaskType'
-import addServerErrors from '../utils/validations/addServerErrors'
+import { editTask } from '../../actions/taskActions'
+import { useNotification } from '../../contexts/NotificationCtx'
+import { dateTaskKey, projectKey } from '../../data/keys'
+import { TaskType } from '../../types/TaskType'
+import addServerErrors from '../../utils/validations/addServerErrors'
 
 const useEditTask = (callback?: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)

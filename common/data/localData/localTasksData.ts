@@ -42,8 +42,6 @@ export const updateTaskStatusInLocalTasksData = (
   taskId: string,
   status: Status
 ) => {
-  console.log('local data', data)
-  return data
   return new Promise<{ data: TaskType[] }>((resolve, reject) => {
     resolve({
       data: [

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import useEditTask from '../../common/hooks/useEditTask'
+import useEditTask from '../../common/hooks/task/useEditTask'
 import { TaskWithProjectType } from '../../common/types/TaskType'
 import Modal from '../layout/Modal'
 import TaskForm from '../task/TaskForm'

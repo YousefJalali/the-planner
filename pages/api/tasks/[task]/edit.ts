@@ -17,18 +17,18 @@ const handler = async (
   const taskForm = req.body
   if (!taskForm) return
 
-  //check if task exist in DB
-  const existedTask = await prisma.task.findUnique({
-    where: { id: taskForm.id },
-  })
-  if (!existedTask) {
-    return res.status(400).json({ error: 'Task not found' })
-  }
-
-  //remove project key from task object
-  const task = _.omit(taskForm, 'project') as TaskType
-
   try {
+    //check if task exist in DB
+    const existedTask = await prisma.task.findUnique({
+      where: { id: taskForm.id },
+    })
+    if (!existedTask) {
+      return res.status(400).json({ error: 'Task not found' })
+    }
+
+    //remove project key from task object
+    const task = _.omit(taskForm, 'project') as TaskType
+
     //validate form
     const validate = await apiYupValidation<TaskType>(taskSchema, task)
     if (!_.isEmpty(validate.errors)) {

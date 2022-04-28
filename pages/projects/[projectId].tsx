@@ -5,7 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import Icon from '../../components/Icon'
 import Header from '../../components/layout/Header'
 import CircleProgressBar from '../../components/CircleProgressBar'
-import { Status, TaskType } from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import useFetchedProjectById from '../../common/data/useFetchedProjectById'
 
 import useToggle from '../../common/hooks/useToggle'
@@ -42,7 +42,7 @@ const Project = () => {
     projectId as string
   )
 
-  console.log(error)
+  // const tasks: TaskWithProjectType[] = project.tasks
 
   return (
     <>
@@ -86,7 +86,7 @@ const Project = () => {
             </x.div>
 
             <Lists spaceX={3}>
-              <TasksLists tasks={project.tasks as TaskType[]} />
+              <TasksLists tasks={project.tasks as TaskWithProjectType[]} />
             </Lists>
 
             <EditProjectModal

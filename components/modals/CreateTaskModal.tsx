@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import useCreateTask from '../../common/hooks/useCreateTask'
+import useCreateTask from '../../common/hooks/task/useCreateTask'
 import Modal from '../layout/Modal'
 import TaskForm from '../task/TaskForm'
 

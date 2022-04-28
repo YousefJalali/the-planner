@@ -1,7 +1,6 @@
 import { FC } from 'react'
-import useCreateProject from '../../common/hooks/useCreateProject'
+import useCreateProject from '../../common/hooks/project/useCreateProject'
 import Modal from '../layout/Modal'
-import CreateProject from '../project/CreateProject'
 import ProjectForm from '../project/ProjectForm'
 
 type Props = {

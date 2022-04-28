@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import useCreateProject from '../../common/hooks/useCreateProject'
+import useCreateProject from '../../common/hooks/project/useCreateProject'
 import { ProjectType } from '../../common/types/ProjectType'
 import Modal from '../layout/Modal'
 import ProjectForm from '../project/ProjectForm'

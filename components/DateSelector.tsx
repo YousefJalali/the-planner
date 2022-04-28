@@ -10,6 +10,7 @@ import getDaysInMonth from 'date-fns/getDaysInMonth'
 import getDay from 'date-fns/getDay'
 import format from 'date-fns/format'
 import setDate from 'date-fns/setDate'
+import isToday from 'date-fns/isToday'
 
 type Props = {
   dateString: string
@@ -35,13 +36,19 @@ const DayItem = ({
       alignItems='center'
       minWidth='3rem'
       borderRadius={2}
-      backgroundColor={active ? 'brand-primary' : 'transparent'}
+      backgroundColor={
+        active
+          ? 'brand-primary'
+          : isToday(setDate(new Date(date), day))
+          ? 'brand-primary-a10'
+          : 'transparent'
+      }
       border='1px solid'
       borderColor='brand-primary-a10'
       p={2}
       cursor='pointer'
       data-active={active ? true : null}
-      transition='ease-out .3s'
+      // transition='ease-out .3s'
       userSelect='none'
     >
       <x.span

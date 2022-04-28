@@ -2,12 +2,12 @@ import { uniqueId } from 'lodash'
 import { useState } from 'react'
 import { UseFormSetError } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
-import { createProject } from '../actions/projectActions'
-import { useNotification } from '../contexts/NotificationCtx'
-import { projectsKey } from '../data/keys'
-import { addProjectToLocalProjects } from '../data/localData/localProjectsData'
-import { ProjectType } from '../types/ProjectType'
-import addServerErrors from '../utils/validations/addServerErrors'
+import { createProject } from '../../actions/projectActions'
+import { useNotification } from '../../contexts/NotificationCtx'
+import { projectsKey } from '../../data/keys'
+import { addProjectToLocalProjects } from '../../data/localData/localProjectsData'
+import { ProjectType } from '../../types/ProjectType'
+import addServerErrors from '../../utils/validations/addServerErrors'
 
 const useCreateProject = (callback: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)

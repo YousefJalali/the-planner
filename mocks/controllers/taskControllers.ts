@@ -202,7 +202,7 @@ export const deleteTaskController = (
   const findTask = tasks.find((task) => task.id === taskId)
 
   if (!findTask) {
-    return res(ctx.json({ error: 'no task found!' }))
+    return res(ctx.status(404), ctx.json({ error: 'no task found!' }))
   }
 
   for (let task of tasks) {
