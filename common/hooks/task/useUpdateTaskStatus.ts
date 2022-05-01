@@ -8,7 +8,10 @@ import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTask
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskWithProjectType } from '../../types/TaskType'
 
-const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
+const useUpdateTaskStatus = (
+  callLocation: 'dateTasks' | 'projectId' | 'taskId',
+  callback?: (action?: any) => void
+) => {
   // const [isSubmitting, setSubmit] = useState(false)
 
   const { setNotification } = useNotification()
@@ -19,7 +22,9 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
     task: TaskWithProjectType,
     newStatus: Status
   ) => {
-    console.log(task, newStatus)
+    if (callLocation === 'taskId') {
+      console.log('called from taskId')
+    }
     // mutate tasks locally
     mutate(
       dateTaskKey(new Date(task.startDate).toDateString()),

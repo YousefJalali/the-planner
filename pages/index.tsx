@@ -10,6 +10,8 @@ import SwitchButton from '../components/formElements/SwitchButton'
 
 import FloatingButton from '../components/FloatingButton'
 import Tasks from '../components/task/Tasks'
+import Head from 'next/head'
+import Button from '../components/formElements/Button'
 
 type Props = {
   // projects: ProjectType[]
@@ -24,23 +26,27 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <>
-      {/* <Grid /> */}
-
-      <Header>
-        <x.span fontFamily='logo' fontSize='xl' color='content-contrast'>
+      <Header pageTitle=''>
+        <x.span fontSize='xl' color='content-contrast'>
           Za Blanner
         </x.span>
 
-        <x.div display='flex' spaceX={4}>
+        <x.div display='flex' alignItems='center' spaceX={1}>
           <SwitchButton
-            height={22}
+            id='color-mode'
+            height={24}
             checked={colorMode === 'dark'}
             onChange={(e) => {
               setColorMode(colorMode === 'default' ? 'dark' : 'default')
             }}
+            darkMode
           />
 
-          <Icon icon={FiSearch} size='1.5rem' />
+          <Button variant='textOnly'>
+            <x.span fontSize='1.5rem' color='content-contrast'>
+              <FiSearch />
+            </x.span>
+          </Button>
         </x.div>
       </Header>
 
@@ -60,7 +66,7 @@ const Home: NextPage<Props> = (props) => {
           </div>
           <div>
             <x.p text='body.large' mt={2}>
-              <x.span display='inline' color='content-nonessential'>
+              <x.span display='inline' color='content-subtle'>
                 Check this out{' '}
               </x.span>
 

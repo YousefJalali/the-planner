@@ -7,22 +7,16 @@ import _ from 'lodash'
 import useFetchedProjects from '../../common/data/useFetchedProjects'
 import { useModal } from '../../common/contexts/ModalCtx'
 import ProjectsList from './ProjectsList'
+import CreateProject from './CreateProject'
 
 type Props = {
   onChange: (v: string) => void
   value: string
   placeholder: string
   id?: string
-  createProject: () => void
 }
 
-function SelectProject({
-  value,
-  onChange,
-  placeholder,
-  id,
-  createProject,
-}: Props) {
+function SelectProject({ value, onChange, placeholder, id }: Props) {
   const [project, setProject] = useState<ProjectType>()
 
   const { setModal, clearModal } = useModal()
@@ -41,28 +35,37 @@ function SelectProject({
     }
   }, [value, projects])
 
-  const onItemClickHandler = (id: string) => {
-    onChange(id)
-    clearModal('project-list')
+  const showCreateProjectModal = () => {
+    setModal({
+      id: 'project-create',
+      content: (
+        <CreateProject onRequestClose={() => clearModal('project-create')} />
+      ),
+    })
   }
 
-  const onShowList = () => {
+  const showProjectsList = () => {
     setModal({
       id: 'project-list',
       content: (
         <ProjectsList
-          onItemClick={onItemClickHandler}
-          onCreate={createProject}
+          onSelect={selectHandler}
+          onCreate={showCreateProjectModal}
           projects={projects}
         />
       ),
     })
   }
 
+  const selectHandler = (id: string) => {
+    onChange(id)
+    clearModal('project-list')
+  }
+
   return (
     <x.button
       type='button'
-      onClick={onShowList}
+      onClick={showProjectsList}
       display='flex'
       justifyContent='space-between'
       alignItems='center'

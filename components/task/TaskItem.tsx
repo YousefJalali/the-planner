@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import styled, { x } from '@xstyled/styled-components'
+import format from 'date-fns/format'
+import { FiPaperclip, FiClock } from 'react-icons/fi'
+
 import { TaskWithProjectType, Status } from '../../common/types/TaskType'
-import { getTime } from '../../common/utils/formatDate'
-import { FiPaperclip, FiClock, FiMoreVertical } from 'react-icons/fi'
 import Icon from '../Icon'
 import Checkbox from '../formElements/Checkbox'
 
@@ -10,7 +11,8 @@ type Props = {
   task: TaskWithProjectType
   onCheck: (task: TaskWithProjectType) => void
   onDetails: () => void
-  onOptions: () => void
+  // onOptions: () => void
+  options: JSX.Element
 }
 
 export const Clickable = styled(x.a)`
@@ -20,6 +22,7 @@ export const Clickable = styled(x.a)`
   height: 100%;
   width: 100%;
   z-index: 101;
+  user-select: none;
 `
 
 const Title = styled(x.p)`
@@ -29,15 +32,15 @@ const Title = styled(x.p)`
   overflow: hidden;
 `
 
-const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
+const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
   //format time
   let time = null
 
   if (!task.openTask && task.startTime && task.endTime) {
-    const startTime = getTime(task.startTime)
-    const endTime = getTime(task.endTime)
-
-    time = `${startTime} - ${endTime}`
+    time = `${format(new Date(task.startTime), 'kk:mm')} - ${format(
+      new Date(task.endTime),
+      'kk:mm'
+    )}`
   }
 
   //format attachment
@@ -50,7 +53,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
 
   return (
     <x.div position='relative' data-testid='task-item'>
-      <Clickable onClick={onDetails} data-testid='taskItem-details' />
+      {/* <Clickable onClick={onDetails} data-testid='taskItem-details' /> */}
       <x.div
         display='flex'
         justifyContent='space-between'
@@ -60,11 +63,14 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
         backgroundColor='layout-level0accent'
         borderRadius={2}
       >
-        <x.div
+        <x.a
+          data-testid='taskItem-details'
+          onClick={onDetails}
           display='flex'
           flexDirection='column'
-          flex='0 0 calc(100% - 24px - 12px - 16px)'
+          flex='0 0 calc(100% - 48px - 48px)'
           pr={1}
+          userSelect='none'
         >
           {/* Title text */}
           <Title
@@ -136,7 +142,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
               </x.div>
             )}
           </x.div>
-        </x.div>
+        </x.a>
 
         <Checkbox
           id={task.id}
@@ -145,7 +151,8 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
           color={task.project.color}
         />
 
-        <x.div
+        {options}
+        {/* <x.div
           position='relative'
           minHeight='1.5rem'
           minWidth='1.5rem'
@@ -155,7 +162,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, onOptions }) => {
         >
           <Clickable onClick={onOptions} data-testid='taskItem-kebab' />
           <Icon icon={FiMoreVertical} color='content-subtle' />
-        </x.div>
+        </x.div> */}
       </x.div>
     </x.div>
   )

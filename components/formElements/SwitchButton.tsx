@@ -1,87 +1,104 @@
-import styled from '@xstyled/styled-components'
-import { InputHTMLAttributes } from 'react'
-
-const Slider = styled.span<{ height: number }>`
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: layout-level2accent;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: ${(props) => (props.height && `${props.height}px`) || '34px'};
-
-  &:before {
-    position: absolute;
-    content: '';
-    height: ${(props) =>
-      (props.height && `calc((26 / 34) * ${props.height}px)`) ||
-      'calc((26 / 34) * 34px)'};
-    width: ${(props) =>
-      (props.height && `calc((26 / 34) * ${props.height}px)`) ||
-      'calc((26 / 34) * 34px)'};
-    left: ${(props) =>
-      (props.height && `calc((4 / 34) * ${props.height}px)`) ||
-      'calc((4 / 34) * 34px)'};
-    bottom: ${(props) =>
-      (props.height && `calc((4 / 34) * ${props.height}px)`) ||
-      'calc((4 / 34) * 34px)'};
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-`
-
-const Switch = styled.label<{ height: number }>`
-  position: relative;
-  display: inline-block;
-  width: ${(props) =>
-    (props.height && `calc((60 / 34) * ${props.height}px)`) ||
-    'calc((60 / 34) * 34px)'};
-  height: ${(props) => (props.height && `${props.height}px`) || '34px'};
-
-  input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  input:checked + ${Slider} {
-    background-color: brand-primary;
-  }
-
-  input:focus + ${Slider} {
-    box-shadow: 0 0 1px brand-primary;
-  }
-
-  input:checked + ${Slider}:before {
-    -webkit-transform: ${(props) =>
-      (props.height && `translateX(calc((26 / 34) * ${props.height}px))`) ||
-      'translateX(calc((26 / 34) * 34px))'};
-
-    -ms-transform: ${(props) =>
-      (props.height && `translateX(calc((26 / 34) * ${props.height}px))`) ||
-      'translateX(calc((26 / 34) * 34px))'};
-
-    transform: ${(props) =>
-      (props.height && `translateX(calc((26 / 34) * ${props.height}px))`) ||
-      'translateX(calc((26 / 34) * 34px))'};
-  }
-`
+import styled, { x } from '@xstyled/styled-components'
+import { ChangeEvent, FC, InputHTMLAttributes } from 'react'
+import { FiLoader, FiMoon, FiSun } from 'react-icons/fi'
 
 type Props = {
-  height: number
+  id: string
+  checked: boolean
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  height?: number
+  darkMode?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
-function SwitchButton(props: Props) {
+const SwitchButton: FC<Props> = ({
+  id,
+  checked,
+  onChange,
+  height = 31,
+  darkMode = false,
+}) => {
+  const ratio = 31 / 51
+  const h = height
+  const w = Math.floor(h / ratio)
+  const ball = h - 4
+  const movement = ball * 2 - w
+
+  console.log(ball * Math.PI, ball - movement * 3, ball / (ball - movement * 3))
+
   return (
-    <Switch height={props.height} htmlFor={props.id} data-testid={props.id}>
-      <input type='checkbox' {...props} />
-      <Slider height={props.height}></Slider>
-    </Switch>
+    <x.label
+      htmlFor={id}
+      data-testid={id}
+      position='relative'
+      h={h}
+      w={w}
+      backgroundColor='layout-level2accent'
+      borderRadius={100}
+      overflow='hidden'
+    >
+      {/* background */}
+      <x.span
+        position='absolute'
+        top={0}
+        left={0}
+        w='100%'
+        h='100%'
+        backgroundColor='brand-primary'
+        opacity={checked ? 1 : 0}
+        transition='all .4s'
+        borderRadius={100}
+      />
+
+      {/* ball */}
+      <x.span
+        position='absolute'
+        top={`${(h - ball) / 2}px`}
+        left={`${movement}px`}
+        h={ball}
+        w={ball}
+        backgroundColor='layout-level0'
+        borderRadius='full'
+        transform
+        rotate={`${ball / (ball - movement * 3)}rad`}
+        translateX={checked && ball - movement * 3}
+        transition='all .4s'
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        fontSize={`${ball - 6}px`}
+      >
+        {darkMode && (
+          <x.span position='relative'>
+            <FiSun />
+            <x.span
+              position='absolute'
+              top={0}
+              left={0}
+              opacity={checked ? 1 : 0}
+              backgroundColor='layout-level0'
+              color='content-contrast'
+              borderRadius='full'
+              transition='all .4s'
+              transform
+              rotate={`${-ball / (ball - movement * 3)}rad`}
+            >
+              <FiMoon />
+            </x.span>
+          </x.span>
+        )}
+      </x.span>
+
+      <x.input
+        id={id}
+        type='checkbox'
+        checked={checked}
+        onChange={onChange}
+        h={0}
+        w={0}
+        m={0}
+        visibility='hidden'
+      />
+    </x.label>
   )
 }
 

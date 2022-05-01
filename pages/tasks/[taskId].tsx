@@ -1,59 +1,39 @@
 import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
-import { useModal } from '../../common/contexts/ModalCtx'
 import useFetchedTaskById from '../../common/data/useFetchedTaskById'
-import useCreateTask from '../../common/hooks/task/useCreateTask'
-import Icon from '../../components/Icon'
 import Header from '../../components/layout/Header'
 import TaskDetails from '../../components/task/TaskDetails'
-import TaskForm from '../../components/task/TaskForm'
+import TaskOptions from '../../components/task/TaskOptions'
 
 const TaskDetailsPage = () => {
-  const { setModal, clearModal } = useModal()
-
   const router = useRouter()
 
   const { task, error } = useFetchedTaskById(router.query.taskId as string)
 
-  const { onSubmit, isSubmitting } = useCreateTask(() =>
-    clearModal('task-edit')
-  )
-
-  const editTaskHandler = () => {
-    if (task) {
-      setModal({
-        id: 'task-edit',
-        fullScreen: true,
-        content: (
-          <TaskForm
-            id='edit'
-            onSubmit={onSubmit}
-            isSubmitting={isSubmitting}
-            defaultValues={task}
-          />
-        ),
-      })
-    }
-  }
+  if (!task) return <div>no task</div>
 
   return (
-    <>
-      <main>
-        <Header>
-          <x.a onClick={() => router.back()}>
-            <Icon icon={FiArrowLeft} size='1.5rem' />
-          </x.a>
+    <main>
+      <Header pageTitle={task ? task.title : ''}>
+        <x.a
+          onClick={() => router.back()}
+          h='3rem'
+          w='3rem'
+          fontSize='1.5rem'
+          display='flex'
+          // justifyContent='center'
+          alignItems='center'
+        >
+          <FiArrowLeft />
+        </x.a>
 
-          <x.a textDecoration='underline' onClick={editTaskHandler}>
-            Edit
-          </x.a>
-        </Header>
+        <TaskOptions task={task} callLocation='taskId' iconSize='1.5rem' />
+      </Header>
 
-        {task && <TaskDetails task={task} />}
-        <x.section overflow='hidden' px={4}></x.section>
-      </main>
-    </>
+      {task && <TaskDetails task={task} showTag />}
+      <x.section overflow='hidden' px={4}></x.section>
+    </main>
   )
 }
 

@@ -20,7 +20,12 @@ const Tag: FC<Props> = ({ variant, textOnly }) => {
       • {statusAlias(variant)}
     </x.span>
   ) : (
-    <x.div backgroundColor={`${v}-a20`} borderRadius={1} w='fit-content'>
+    <x.div
+      backgroundColor={`${v}-a20`}
+      borderRadius={1}
+      w='fit-content'
+      h='fit-content'
+    >
       <x.span
         color={`${v}`}
         p={1}

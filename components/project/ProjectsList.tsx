@@ -7,17 +7,17 @@ import Icon from '../Icon'
 import ProjectItem from '../project/ProjectItem'
 
 type Props = {
-  onItemClick: (id: string) => void
+  onSelect: (id: string) => void
   onCreate: () => void
   projects: ProjectType[]
 }
 
-const ProjectsList: FC<Props> = ({ onItemClick, onCreate, projects }) => {
+const ProjectsList: FC<Props> = ({ onSelect, onCreate, projects }) => {
   const [search, setSearch] = useState('')
 
-  const onItemClickHandler = (id: string) => {
+  const onSelectHandler = (id: string) => {
     setSearch('')
-    onItemClick(id)
+    onSelect(id)
   }
 
   const renderList = useMemo(
@@ -30,7 +30,7 @@ const ProjectsList: FC<Props> = ({ onItemClick, onCreate, projects }) => {
             display='flex'
             alignItems='center'
             p={3}
-            onClick={() => onItemClickHandler(project.id)}
+            onClick={() => onSelectHandler(project.id)}
           >
             <ProjectItem project={project} />
           </x.li>

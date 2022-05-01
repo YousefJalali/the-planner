@@ -6,7 +6,7 @@ import { apiYupValidation } from '../../../common/utils/validations/useYupValida
 import taskSchema from '../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
-import uploadImageToCloudinary from '../../../common/utils/uploadImageToCloudinary'
+import { uploadImages } from '../../../common/utils/cloudinary'
 import { Image } from '@prisma/client'
 import withCloudinary from '../../../common/middlewares/withCloudinary'
 
@@ -53,7 +53,7 @@ const handler = async (
     }
 
     const paths = task.attachments.map((attachment: Image) => attachment.path)
-    const { images, error } = await uploadImageToCloudinary(paths, task.id)
+    const { images, error } = await uploadImages(paths, task.id)
 
     if (error) {
       return res.status(400).json({ error })
@@ -83,4 +83,4 @@ export const config = {
   },
 }
 
-export default withCloudinary(handler)
+export default handler

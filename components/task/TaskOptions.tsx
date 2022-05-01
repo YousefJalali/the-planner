@@ -1,63 +1,92 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { FiEdit3, FiPieChart, FiTrash2 } from 'react-icons/fi'
-import { Status } from '../../common/types/TaskType'
-import Icon from '../Icon'
-import Tag from './Tag'
+import { FiMoreVertical } from 'react-icons/fi'
+import { useModal } from '../../common/contexts/ModalCtx'
+import useCheckTask from '../../common/hooks/task/useCheckTask'
+import useDeleteTask from '../../common/hooks/task/useDeleteTask'
+import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
+import { TaskWithProjectType } from '../../common/types/TaskType'
+import Button from '../formElements/Button'
+import EditTask from './EditTask'
+import StatusList from './StatusList'
+import TaskOptionsList from './TaskOptionsList'
 
 type Props = {
-  onStatusChange: () => void
-  onEdit: () => void
-  onDelete: () => void
-  status: Status
+  task: TaskWithProjectType
+  callLocation: 'dateTasks' | 'projectId' | 'taskId'
+  iconSize?: string
 }
 
 const TaskOptions: FC<Props> = ({
-  onStatusChange,
-  onEdit,
-  onDelete,
-  status,
+  task,
+  callLocation,
+  iconSize = '1.125rem',
 }) => {
-  return (
-    <x.ul my={1} divideY divideColor='layout-level0accent'>
-      <x.li display='flex' alignItems='center' p={3}>
-        <Icon icon={FiPieChart} size='1.25rem' />
-        <x.div
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-          w='100%'
-        >
-          <x.div display='flex' alignItems='center'>
-            <x.span ml={2} mr={2} lineHeight='tight' color='content-contrast'>
-              Status
-            </x.span>
-            <Tag variant={status} />
-          </x.div>
+  const { setModal, clearModal } = useModal()
 
-          <x.a
-            ml={2}
-            color='brand-primary'
-            text='body.small'
-            onClick={onStatusChange}
-          >
-            Change
-          </x.a>
-        </x.div>
-      </x.li>
-      <x.li display='flex' alignItems='center' p={3} onClick={onEdit}>
-        <Icon icon={FiEdit3} size='1.25rem' />
-        <x.span ml={2} lineHeight='tight' color='content-contrast'>
-          Edit task
-        </x.span>
-      </x.li>
-      <x.li display='flex' alignItems='center' p={3} onClick={onDelete}>
-        <Icon icon={FiTrash2} size='1.25rem' color='utility-critical' />
-        <x.span ml={2} lineHeight='tight' color='utility-critical'>
-          Delete task
-        </x.span>
-      </x.li>
-    </x.ul>
+  //hooks
+  const { checkTaskHandler } = useCheckTask()
+  const { taskStatusHandler } = useUpdateTaskStatus(callLocation, () => {
+    clearModal('task-status')
+    clearModal('task-options')
+  })
+
+  const { deleteTaskHandler } = useDeleteTask(() => clearModal('task-options'))
+
+  const onOptions = () => {
+    setModal({
+      id: 'task-options',
+      content: (
+        <TaskOptionsList
+          status={task.status}
+          onStatusChange={onStatus}
+          onEdit={onEdit}
+          onDelete={() => deleteTaskHandler(task)}
+        />
+      ),
+    })
+  }
+
+  const onStatus = () => {
+    setModal({
+      id: 'task-status',
+      content: (
+        <StatusList
+          status={task.status}
+          onChange={(newStatus) => taskStatusHandler(task, newStatus)}
+        />
+      ),
+    })
+  }
+
+  const onEdit = () => {
+    setModal({
+      id: 'task-edit',
+      fullScreen: true,
+      content: (
+        <EditTask
+          task={task}
+          onRequestClose={() => {
+            clearModal('task-edit')
+            clearModal('task-options')
+          }}
+        />
+      ),
+    })
+  }
+
+  return (
+    <Button
+      variant='textOnly'
+      color='information'
+      onClick={onOptions}
+      data-testid='taskItem-kebab'
+      borderRadius='full'
+    >
+      <x.span fontSize={iconSize}>
+        <FiMoreVertical />
+      </x.span>
+    </Button>
   )
 }
 

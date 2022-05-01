@@ -1,25 +1,32 @@
 import { render, screen, waitFor } from '../../test-utils'
 import TaskItem from '../../components/task/TaskItem'
-import { Status, TaskType } from '../../common/types/TaskType'
+import {
+  Status,
+  TaskType,
+  TaskWithProjectType,
+} from '../../common/types/TaskType'
 import userEvent from '@testing-library/user-event'
 
 const defaultTask = {
   id: 'test',
   title: 'test task item',
   description: 'task item to be tested',
-  project: 'test project',
+  projectId: 'test project',
   openTask: false,
-  date: {
-    startDate: new Date(),
-    endDate: null,
-  },
-  time: { startTime: null, endTime: null },
+  startDate: new Date(),
+  endDate: null,
+  startTime: null,
+  endTime: null,
   attachments: [],
   status: Status.PROPOSED,
-} as TaskType
+  project: {
+    title: 'project-test',
+    color: '#000000',
+  },
+} as TaskWithProjectType
 
-function setup(task: TaskType = defaultTask) {
-  const onCheck: (taskId: string, taskStatus: Status) => void = jest.fn()
+function setup(task: TaskWithProjectType = defaultTask) {
+  const onCheck: (task: TaskWithProjectType) => void = jest.fn()
   const onDetails: () => void = jest.fn()
   const onOptions: () => void = jest.fn()
 
@@ -55,20 +62,23 @@ function setup(task: TaskType = defaultTask) {
 
 describe('Task item', () => {
   test('render without time and attachments', async () => {
-    const task = {
+    const task: TaskWithProjectType = {
       id: 'test',
       title: 'test task item',
       description: 'task item to be tested',
-      project: 'test project',
+      projectId: 'test project',
       openTask: false,
-      date: {
-        startDate: new Date(),
-        endDate: null,
-      },
-      time: { startTime: null, endTime: null },
+      startDate: new Date(),
+      endDate: null,
+      startTime: null,
+      endTime: null,
       attachments: [],
       status: Status.PROPOSED,
-    } as TaskType
+      project: {
+        title: 'project-test',
+        color: '#000000',
+      },
+    }
 
     const { time, attachment } = setup(task)
 
@@ -77,23 +87,24 @@ describe('Task item', () => {
   })
 
   test('render with time and without attachments', async () => {
-    const task = {
+    const task: TaskWithProjectType = {
       id: 'test',
       title: 'test task item',
       description: 'task item to be tested',
-      project: 'test project',
+      projectId: 'test project',
       openTask: false,
-      date: {
-        startDate: new Date(),
-        endDate: null,
-      },
-      time: {
-        startTime: new Date(),
-        endTime: new Date(),
-      },
+      startDate: new Date(),
+      endDate: null,
+      startTime: new Date(),
+      endTime: new Date(),
+
       attachments: [],
       status: Status.PROPOSED,
-    } as TaskType
+      project: {
+        title: 'project-test',
+        color: '#000000',
+      },
+    }
 
     const { time, attachment } = setup(task)
 
@@ -102,23 +113,31 @@ describe('Task item', () => {
   })
 
   test('render without time and with attachments', async () => {
-    const task = {
+    const task: TaskWithProjectType = {
       id: 'test',
       title: 'test task item',
       description: 'task item to be tested',
-      project: 'test project',
+      projectId: 'test project',
       openTask: false,
-      date: {
-        startDate: new Date(),
-        endDate: null,
-      },
-      time: {
-        startTime: null,
-        endTime: null,
-      },
-      attachments: [{ id: 'img-test', name: 'test', path: 'somewhere' }],
+      startDate: new Date(),
+      endDate: null,
+      startTime: null,
+      endTime: null,
+      attachments: [
+        {
+          id: 'img-test',
+          name: 'test',
+          path: 'somewhere',
+          height: 100,
+          width: 100,
+        },
+      ],
       status: Status.PROPOSED,
-    } as TaskType
+      project: {
+        title: 'project-test',
+        color: '#000000',
+      },
+    }
 
     const { time, attachment } = setup(task)
 

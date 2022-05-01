@@ -14,10 +14,10 @@ const NoTasks = () => {
       <x.div w='50%'>
         <NoTasksSVG />
       </x.div>
-      <x.p text='body' mt={3}>
+      <x.p text='body' mt={3} color='content-contrast'>
         No pending tasks today
       </x.p>
-      <x.p text='body.small' color='content-nonessential'>
+      <x.p text='body.small' color='content-subtle'>
         Write down some tasks
       </x.p>
       {/* <Button variant='primary'>Add Task</Button> */}

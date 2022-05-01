@@ -102,6 +102,7 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
               text='body.small'
               textTransform={{ firstLetter: 'uppercase' }}
               color='content-subtle'
+              textAlign='center'
             >
               {prompt.message}
             </x.span>

@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { FiXCircle } from 'react-icons/fi'
-import Icon from '../Icon'
+import { FiX } from 'react-icons/fi'
+import Button from '../formElements/Button'
 
 type Props = {
   title: string
@@ -14,18 +14,27 @@ const FormHeader: FC<Props> = ({ title, onRequestClose }) => {
       display='flex'
       justifyContent='space-between'
       alignItems='center'
-      mb={2}
       position='sticky'
       top={0}
       zIndex={1}
       backgroundColor='layout-level0'
-      py={3}
+      py={1}
+      // borderBottom='1px solid'
+      // borderBottomColor='layout-level0accent'
     >
-      <x.h1 text='headline.three'>{title}</x.h1>
+      <x.h1 text='headline.one'>{title}</x.h1>
       {onRequestClose && (
-        <x.div onClick={onRequestClose}>
-          <Icon icon={FiXCircle} size='1.4rem' />
-        </x.div>
+        <Button
+          variant='textOnly'
+          onClick={onRequestClose}
+          borderRadius='full'
+          flex='0 0 48px'
+          backgroundColor='layout-level0accent'
+        >
+          <x.span fontSize='1.5rem' color='content-contrast'>
+            <FiX />
+          </x.span>
+        </Button>
       )}
     </x.div>
   )

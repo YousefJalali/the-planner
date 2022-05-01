@@ -2,15 +2,14 @@ import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import DatePicker from './formElements/DatePicker'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
-import Icon from './Icon'
 import ScrollableList from './ScrollableList'
 import _ from 'lodash'
 import useWindowSize from '../common/hooks/useWindowSize'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
-import getDay from 'date-fns/getDay'
 import format from 'date-fns/format'
 import setDate from 'date-fns/setDate'
 import isToday from 'date-fns/isToday'
+import Button from './formElements/Button'
 
 type Props = {
   dateString: string
@@ -58,10 +57,7 @@ const DayItem = ({
       >
         {day}
       </x.span>
-      <x.span
-        color={active ? 'layout-level0' : 'content-nonessential'}
-        fontSize='xs'
-      >
+      <x.span color={active ? 'layout-level0' : 'content-subtle'} fontSize='xs'>
         {format(setDate(new Date(date), day), 'EE')}
       </x.span>
     </x.li>
@@ -102,6 +98,34 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
     setDate(date.toDateString())
   }
 
+  const onMonthArrowClick = (direction: 'next' | 'previous') => {
+    if (direction === 'next') {
+      const nextMonth = new Date(date)
+
+      if (date.getMonth() === 11) {
+        nextMonth.setFullYear(date.getFullYear() + 1)
+        nextMonth.setMonth(0)
+        return onChangeMonthHandler(nextMonth)
+      }
+
+      nextMonth.setMonth(date.getMonth() + 1)
+      return onChangeMonthHandler(nextMonth)
+    }
+
+    if (direction === 'previous') {
+      const previousMonth = new Date(date)
+
+      if (date.getMonth() === 0) {
+        previousMonth.setFullYear(date.getFullYear() - 1)
+        previousMonth.setMonth(11)
+        return onChangeMonthHandler(previousMonth)
+      }
+
+      previousMonth.setMonth(date.getMonth() - 1)
+      return onChangeMonthHandler(previousMonth)
+    }
+  }
+
   const renderDays = useMemo(
     () =>
       new Array(getDaysInMonth(date)).fill(0).map((item, i) => {
@@ -131,9 +155,14 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
         border='1px solid'
         borderColor='brand-primary-a10'
       >
-        <x.div backgroundColor='brand-primary-a10' borderRadius={2} p={2}>
-          <Icon icon={FiChevronLeft} size='1.5rem' />
-        </x.div>
+        <Button
+          backgroundColor='brand-primary-a10'
+          onClick={() => onMonthArrowClick('previous')}
+        >
+          <x.span fontSize='1.5rem' color='content-subtle'>
+            <FiChevronLeft />
+          </x.span>
+        </Button>
 
         <DatePicker
           selected={date}
@@ -141,16 +170,9 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
           dateFormat='MMMM - yyyy'
           showMonthYearPicker
           showFourColumnMonthYearPicker
-          popperPlacement='bottom-start'
+          popperPlacement='bottom'
           customInput={
-            <x.button
-              p={0}
-              backgroundColor='transparent'
-              display='flex'
-              alignItems='center'
-              justifyContent='center'
-              w='100%'
-            >
+            <Button variant='textOnly' w='100%'>
               <x.span
                 textAlign='center'
                 color='content-contrast'
@@ -158,12 +180,17 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
               >
                 {format(date, 'MMMM yyyy')}
               </x.span>
-            </x.button>
+            </Button>
           }
         />
-        <x.div backgroundColor='brand-primary-a10' borderRadius={2} p={2}>
-          <Icon icon={FiChevronRight} size='1.5rem' />
-        </x.div>
+        <Button
+          backgroundColor='brand-primary-a10'
+          onClick={() => onMonthArrowClick('next')}
+        >
+          <x.span fontSize='1.5rem' color='content-subtle'>
+            <FiChevronRight />
+          </x.span>
+        </Button>
       </x.div>
 
       <ScrollableList

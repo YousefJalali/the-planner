@@ -11,11 +11,15 @@ import styled, {
   JustifyContentProps,
   FlexProps,
   css,
+  BorderRadiusProps,
+  BackgroundColorProps,
+  BorderColorProps,
 } from '@xstyled/styled-components'
 import { ButtonHTMLAttributes, FC } from 'react'
 import Spinner from '../Spinner'
 
 type Props = {
+  as?: string
   variant?: 'outline' | 'textOnly' | 'link'
   color?: 'confirmation' | 'critical' | 'information'
   size?: 'small' | 'large'
@@ -33,6 +37,9 @@ type AllProps = {
     | MarginProps
     | BoxShadowProps
     | JustifyContentProps
+    | BorderRadiusProps
+    | BackgroundColorProps
+    | BorderColorProps
     | FlexProps,
     Theme
   > &
@@ -53,6 +60,7 @@ const StyledButton = styled(x.button)<Pick<Props, 'size'>>`
 `
 
 const Button: FC<AllProps> = ({
+  as = 'button',
   variant,
   color,
   size,
@@ -65,11 +73,16 @@ const Button: FC<AllProps> = ({
 
   return (
     <StyledButton
-      as={variant === 'link' || variant === 'textOnly' ? 'a' : 'button'}
+      type='button'
+      minHeight={48}
+      minWidth={48}
+      h='fit-content'
+      w='fit-content'
+      as={variant === 'link' ? 'a' : 'button'}
       size={size}
       px={
         variant === 'link' || variant === 'textOnly'
-          ? 0
+          ? 2
           : size === 'large'
           ? 4
           : size === 'small'
@@ -78,7 +91,7 @@ const Button: FC<AllProps> = ({
       }
       py={
         variant === 'link' || variant === 'textOnly'
-          ? 0
+          ? 2
           : size === 'large'
           ? 3
           : size === 'small'
@@ -92,6 +105,7 @@ const Button: FC<AllProps> = ({
       borderRadius={2}
       display='flex'
       alignItems='center'
+      justifyContent='center'
       backgroundColor={
         (variant && 'transparent') ||
         (color && `utility-${color}`) ||

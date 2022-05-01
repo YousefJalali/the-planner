@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '../../../common/types/ProjectType'
-import { prisma } from '../../../common/lib/prisma'
+import { ProjectType } from '../../../../common/types/ProjectType'
+import { prisma } from '../../../../common/lib/prisma'
 
 const handler = async (
   req: NextApiRequest,
@@ -11,7 +11,7 @@ const handler = async (
     nextCursor?: string
   }>
 ) => {
-  const { projectId } = req.query
+  const projectId = req.query.project
 
   if (!projectId) return
 

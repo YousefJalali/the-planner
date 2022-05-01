@@ -42,6 +42,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang='en'>
         <Head>
+          <meta name='description' content="Bija's task manager"></meta>
           <link
             rel='preload'
             href='/fonts/montserrat-v23-latin-100'
@@ -56,17 +57,6 @@ export default class MyDocument extends Document {
             type='font/eot'
             crossOrigin='anonymous'
           />
-
-          {/* <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link
-            rel='preconnect'
-            href='https://fonts.gstatic.com'
-            crossOrigin='true'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Carter+One&family=DM+Sans:wght@400;500;700&family=Montserrat:wght@100;300;400;500;700&display=swap'
-            rel='stylesheet'
-          /> */}
         </Head>
         <body>
           {getColorModeInitScriptElement()}

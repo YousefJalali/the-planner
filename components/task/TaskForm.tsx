@@ -19,10 +19,6 @@ import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
-import { usePrompt } from '../../common/contexts/PromptCtx'
-import { useModal } from '../../common/contexts/ModalCtx'
-import ProjectForm from '../project/ProjectForm'
-import useCreateProject from '../../common/hooks/project/useCreateProject'
 
 type Props = {
   id: 'create' | 'edit'
@@ -60,27 +56,6 @@ function TaskForm({
 }: Props) {
   const formName = 'task-form'
 
-  const { setModal, clearModal } = useModal()
-
-  const { onSubmit: createProjectHandler, isSubmitting: isProjectSubmitting } =
-    useCreateProject(() => clearModal('project-create'))
-
-  const onCreateProject = () => {
-    setModal({
-      id: 'project-create',
-      content: (
-        <ProjectForm
-          id='create'
-          title='New Project'
-          onSubmit={createProjectHandler}
-          isSubmitting={isProjectSubmitting}
-        />
-      ),
-    })
-  }
-
-  const { setPrompt } = usePrompt()
-
   let defValues = {
     ...initialDefaultValues,
     ...defaultValues,
@@ -88,7 +63,6 @@ function TaskForm({
 
   defValues = {
     ...defValues,
-    projectId: defValues.projectId,
 
     startDate: stringToDate(defValues.startDate),
     endDate: defValues.endDate && stringToDate(defValues.endDate),
@@ -111,8 +85,7 @@ function TaskForm({
   })
 
   const onSubmitHandler = async (data: TaskType) => {
-    console.log('task form submitted', data)
-    onSubmit(data, setError)
+    onSubmit(_.omit(data, 'project'), setError)
   }
 
   const dateErrors = useMemo(
@@ -128,22 +101,6 @@ function TaskForm({
     }
   }
 
-  const onCloseHandler = () => {
-    if (onRequestClose) {
-      if (isDirty) {
-        setPrompt({
-          id: 'task-form',
-          title: 'are you sure?',
-          message: "you can't undo this",
-          action: 'discard',
-          actionFn: onRequestClose,
-        })
-      } else {
-        onRequestClose()
-      }
-    }
-  }
-
   return (
     <>
       <Form
@@ -151,8 +108,9 @@ function TaskForm({
         name={formName}
         title={title}
         isSubmitting={isSubmitting}
-        onRequestClose={onCloseHandler}
+        onRequestClose={onRequestClose}
         onSubmit={handleSubmit(onSubmitHandler)}
+        isDirty={isDirty}
       >
         {/* Title */}
         <Controller
@@ -195,7 +153,6 @@ function TaskForm({
                   value={value}
                   onChange={onChange}
                   placeholder='Select a project'
-                  createProject={onCreateProject}
                 />
               </Fieldset>
             )
@@ -226,7 +183,7 @@ function TaskForm({
                     return (
                       <SwitchButton
                         id={`${formName}-openTask`}
-                        height={20}
+                        height={24}
                         checked={value}
                         onChange={(e) => {
                           onChange(e.target.checked)

@@ -2,34 +2,22 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useModal } from '../common/contexts/ModalCtx'
-import useCreateTask from '../common/hooks/task/useCreateTask'
-import TaskForm from './task/TaskForm'
+import CreateTask from './task/CreateTask'
 
 const FloatingButton: FC = () => {
   const { setModal, clearModal } = useModal()
-  const { isSubmitting, onSubmit, defaultValues } = useCreateTask(() =>
-    clearModal('task-create')
-  )
 
   const clickHandler = () => {
     setModal({
       id: 'task-create',
       fullScreen: true,
-      content: (
-        <TaskForm
-          id='create'
-          title='New Task'
-          defaultValues={defaultValues}
-          onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
-          onRequestClose={() => clearModal('task-create')}
-        />
-      ),
+      content: <CreateTask onRequestClose={() => clearModal('task-create')} />,
     })
   }
 
   return (
     <x.button
+      aria-label='floating button'
       name='create task button'
       id='create-task-fb'
       position='fixed'

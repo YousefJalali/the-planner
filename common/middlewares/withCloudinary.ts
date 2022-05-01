@@ -1,15 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Image } from '@prisma/client'
 
-const withCloudinary = (handler) => {
+const withCloudinary = (
+  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>
+) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const {
         hostname: cloud_name,
         username: api_key,
         password: api_secret,
-      } = new URL(process.env.CLOUDINARY_URL)
+      } = new URL(process.env.CLOUDINARY_URL as string)
 
       cloudinary.config({
         cloud_name,

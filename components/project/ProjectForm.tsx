@@ -20,8 +20,9 @@ type Props<T> = {
   title?: string
   defaultValues?: ProjectType
   onSubmit: (data: ProjectType, setError: UseFormSetError<ProjectType>) => void
-  isSubmitting: boolean
+  isSubmitting?: boolean
   onRequestClose?: () => void
+  onDelete?: () => void
 }
 
 const initialDefaultValues: ProjectType = {
@@ -43,25 +44,25 @@ function ProjectForm<T>({
   onSubmit,
   isSubmitting,
   onRequestClose,
+  onDelete,
 }: Props<T>) {
+  const formName = 'project-form'
+
   const resolver = useYupValidationResolver<ProjectType>(projectSchema)
 
   const {
     handleSubmit,
     control,
     setError,
-    formState: { errors },
+    formState: { isDirty },
   } = useForm<ProjectType>({
     defaultValues,
     resolver,
   })
 
   const onSubmitHandler = async (data: ProjectType) => {
-    console.log('project form submitted')
-    onSubmit(data, setError)
+    onSubmit(_.omit(data, 'tasks'), setError)
   }
-
-  const formName = 'project-form'
 
   return (
     <Form
@@ -70,6 +71,7 @@ function ProjectForm<T>({
       title={title}
       onRequestClose={onRequestClose}
       onSubmit={handleSubmit(onSubmitHandler)}
+      isDirty={isDirty}
     >
       <Fieldset
         noBorder
@@ -144,14 +146,14 @@ function ProjectForm<T>({
       />
 
       <x.div display='flex' spaceX={3}>
-        {id === 'edit' && (
+        {onDelete && (
           <Button
             type='button'
             variant='textOnly'
             color='critical'
             justifyContent='center'
-            // flex='0 0 30%'
             w='30%'
+            onClick={onDelete}
           >
             Delete
           </Button>
@@ -163,7 +165,7 @@ function ProjectForm<T>({
           bottom={24}
           size='large'
           justifyContent='center'
-          w='70%'
+          w='100%'
         >
           {id === 'edit' ? 'Update' : 'Create'}
         </Button>

@@ -17,6 +17,8 @@ import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import { useModal } from '../../common/contexts/ModalCtx'
 import ProjectForm from '../../components/project/ProjectForm'
 import useCreateProject from '../../common/hooks/project/useCreateProject'
+import CreateProject from '../../components/project/CreateProject'
+import Button from '../../components/formElements/Button'
 
 const Index: NextPage = () => {
   // const [createProjectModal, setCreateProjectModal] = useToggle()
@@ -28,20 +30,12 @@ const Index: NextPage = () => {
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()
-  const { onSubmit, isSubmitting } = useCreateProject(() =>
-    clearModal('project-create')
-  )
 
   const createProjectHandler = () => {
     setModal({
       id: 'project-create',
       content: (
-        <ProjectForm
-          id='create'
-          title='New Project'
-          onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
-        />
+        <CreateProject onRequestClose={() => clearModal('project-create')} />
       ),
     })
   }
@@ -82,14 +76,22 @@ const Index: NextPage = () => {
 
   return (
     <main>
-      <Header>
-        <x.a onClick={() => router.push('/')}>
-          <Icon icon={FiArrowLeft} size='1.5rem' />
-        </x.a>
+      <Header pageTitle='Projects'>
+        <Button
+          variant='textOnly'
+          onClick={() => router.push('/')}
+          // borderColor='layout-divider'
+        >
+          <x.span fontSize='1.5rem' color='content-contrast'>
+            <FiArrowLeft />
+          </x.span>
+        </Button>
 
-        <x.a onClick={createProjectHandler}>
-          <Icon icon={FiPlus} size='1.5rem' />
-        </x.a>
+        <Button variant='textOnly' onClick={createProjectHandler}>
+          <x.span fontSize='1.5rem' color='content-contrast'>
+            <FiPlus />
+          </x.span>
+        </Button>
       </Header>
       <x.section overflow='hidden' px={4}>
         <x.h1 text='headline.two' mb={4}>

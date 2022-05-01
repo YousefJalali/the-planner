@@ -59,14 +59,9 @@ function ImageInput({
           >
             <Image
               src={img.path}
-              // height={img.height}
-              // width={img.width}
               alt={`preview-${i + 1}`}
               layout='fill'
               objectFit='cover'
-
-              // placeholder='blur'
-              // blurDataURL={img.path}
             />
 
             <x.div

@@ -3,9 +3,11 @@ import styled, { css, x } from '@xstyled/styled-components'
 import _ from 'lodash'
 
 export const Label = styled(x.label)`
+  color: content-subtle;
   display: block;
-  margin-bottom: 1;
+  /* margin-bottom: 1; */
   font-size: sm;
+  line-height: relaxed;
   &::first-letter {
     text-transform: uppercase;
   }
@@ -113,7 +115,7 @@ function FieldsetComp({
     <Fieldset disabled={disabled}>
       {label && (
         <Label
-          color={isError ? 'utility-critical' : 'content-subtle'}
+          color={isError && 'utility-critical'}
           htmlFor={id}
           visibility={showLabel ? 'visible' : 'hidden'}
         >

@@ -10,6 +10,8 @@ import { useNotification } from '../../common/contexts/NotificationCtx'
 import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
 import useFetchedRecentProjects from '../../common/data/useFetchedRecentProjects'
+import Button from '../formElements/Button'
+import { FiArrowRight } from 'react-icons/fi'
 
 type Props = {
   error: string | null
@@ -40,15 +42,20 @@ const ProjectsCardsList: FC = () => {
       <x.div
         display='flex'
         justifyContent='space-between'
-        alignItems='center'
+        alignItems='flex-end'
         px={4}
       >
         <x.h1 text='headline.two' mb={3}>
           Projects
         </x.h1>
-        <x.span color='content-subtle' onClick={() => router.push('/projects')}>
-          See All
-        </x.span>
+        <Button
+          variant='textOnly'
+          color='information'
+          onClick={() => router.push('/projects')}
+          spaceX={2}
+        >
+          See all
+        </Button>
       </x.div>
 
       {error ? (

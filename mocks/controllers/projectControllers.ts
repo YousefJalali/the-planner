@@ -2,7 +2,7 @@ import {
   ProjectType,
   ProjectWithTasksType,
 } from '../../common/types/ProjectType'
-import { TaskType } from '../../common/types/TaskType'
+import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '../../common/utils/validations/useYupValidationResolver'
 import projectSchema from '../../common/utils/validations/projectSchema'
@@ -144,4 +144,44 @@ export const editProjectController = async (
   }
 
   return res(ctx.status(201), ctx.json({ data: updatedProject }))
+}
+
+//-----------------delete project-----------------
+export const deleteProjectController = (
+  { req, res, ctx }: GET,
+  projects: ProjectType[],
+  tasks: TaskType[]
+) => {
+  const projectId = req.params.id
+
+  if (!projectId) return
+
+  const findProject = projects.find((project) => project.id === projectId)
+
+  if (!findProject) {
+    return res(ctx.status(404), ctx.json({ error: 'no project found!' }))
+  }
+
+  // delete all tasks related to project
+  for (let task of tasks) {
+    if (task.projectId === projectId) {
+      console.log(task)
+      const index = indexOf(tasks, task)
+      if (index > -1) {
+        tasks.splice(index, 1)
+      }
+    }
+  }
+
+  //delete project from projects
+  for (let project of projects) {
+    if (project.id === projectId) {
+      const index = indexOf(projects, project)
+      if (index > -1) {
+        projects.splice(index, 1)
+      }
+    }
+  }
+
+  return res(ctx.status(201), ctx.json({ data: projectId }))
 }

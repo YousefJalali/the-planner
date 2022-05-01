@@ -5,6 +5,7 @@ import { apiYupValidation } from '../../../../common/utils/validations/useYupVal
 import taskSchema from '../../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
+import { deleteImages } from '../../../../common/utils/cloudinary'
 
 const handler = async (
   req: NextApiRequest,
@@ -24,10 +25,15 @@ const handler = async (
       where: { id: taskId },
     })
 
-    res.status(200).json({ data: deletedTask })
+    if (deletedTask.attachments.length > 0) {
+      const ids = deletedTask.attachments.map((attachment) => attachment.id)
+      await deleteImages(ids)
+    }
+
+    return res.status(200).json({ data: deletedTask })
   } catch (error) {
     console.log(error)
-    res.status(500).json({ error })
+    return res.status(500).json({ error })
   }
 }
 

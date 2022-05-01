@@ -13,6 +13,7 @@ import {
 } from './controllers/taskControllers'
 import {
   createProjectController,
+  deleteProjectController,
   editProjectController,
   getInfiniteProjects,
   getProjectById,
@@ -147,7 +148,12 @@ export const handlers = [
   ),
 
   //edit project
-  rest.put<ProjectType>('/projects/:id', (req, res, ctx) =>
+  rest.put<ProjectType>('/projects/:id/edit', (req, res, ctx) =>
     editProjectController({ req, res, ctx }, projects)
+  ),
+
+  //delete project
+  rest.delete<ProjectType>('/projects/:id/delete', (req, res, ctx) =>
+    deleteProjectController({ req, res, ctx }, projects, tasks)
   ),
 ]

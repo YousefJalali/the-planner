@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import styled, { x } from '@xstyled/styled-components'
 import { FiArrowLeft } from 'react-icons/fi'
 
-import Icon from '../../components/Icon'
 import Header from '../../components/layout/Header'
 import CircleProgressBar from '../../components/CircleProgressBar'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
@@ -13,10 +12,9 @@ import TasksLists from '../../components/task/TasksLists'
 import FloatingButton from '../../components/FloatingButton'
 import TextEditor from '../../components/formElements/TextEditor'
 import { useModal } from '../../common/contexts/ModalCtx'
-import ProjectForm from '../../components/project/ProjectForm'
-import useCreateProject from '../../common/hooks/project/useCreateProject'
 import Button from '../../components/formElements/Button'
 import { statusAlias } from '../../common/utils/statusAlias'
+import EditProject from '../../components/project/EditProject'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -45,22 +43,18 @@ const Project = () => {
     projectId as string
   )
 
-  const { onSubmit, isSubmitting } = useCreateProject(() =>
-    clearModal('project-create')
-  )
-
   const editProjectHandler = () => {
     if (project) {
       setModal({
         id: 'project-edit',
         content: (
-          <ProjectForm
-            id='edit'
-            title='Edit Project'
-            onSubmit={onSubmit}
-            isSubmitting={isSubmitting}
-            defaultValues={project}
-            onRequestClose={() => clearModal('project-create')}
+          <EditProject
+            project={project}
+            onRequestCloseAfterEdit={() => clearModal('project-edit')}
+            onRequestCloseAfterDelete={() => {
+              clearModal('project-edit')
+              router.back()
+            }}
           />
         ),
       })
@@ -70,14 +64,15 @@ const Project = () => {
   return (
     <>
       <x.main minHeight='100vh'>
-        <Header>
-          <x.a onClick={() => router.back()} fontSize='1.5rem'>
-            {/* <Icon icon={FiArrowLeft} size='1.5rem' /> */}
-            <FiArrowLeft />
-          </x.a>
+        <Header pageTitle={project ? project.title : ''}>
+          <Button variant='textOnly' onClick={() => router.back()}>
+            <x.span fontSize='1.5rem' color='content-contrast'>
+              <FiArrowLeft />
+            </x.span>
+          </Button>
 
           <Button
-            variant='link'
+            variant='textOnly'
             color='information'
             onClick={editProjectHandler}
           >

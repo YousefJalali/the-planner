@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import { useModal } from '../../common/contexts/ModalCtx'
 import useWindowSize from '../../common/hooks/useWindowSize'
-import styled, { css, x } from '@xstyled/styled-components'
+import styled, { x } from '@xstyled/styled-components'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -12,23 +12,14 @@ import {
 
 type Props = {}
 
-const Motion = styled(motion.div)<{ fullScreen?: boolean }>`
-  max-height: calc(100% - 48px);
+const Motion = styled(motion(x.div))`
   overflow-x: hidden;
   overflow-y: scroll;
-  border-radius: 3 3 0 0;
   background-color: layout-level0;
-  /* z-index: 9999; */
+
   position: absolute;
   bottom: 0;
   width: 100%;
-
-  ${(props) =>
-    props.fullScreen &&
-    css`
-      max-height: 100%;
-      border-radius: 0;
-    `}
 `
 
 export const Backdrop = ({
@@ -73,12 +64,12 @@ const ContentWrapper = ({
   id,
   clearModal,
   children,
-  fullscreen = false,
+  fullScreen = false,
 }: {
   id: string
   clearModal: () => void
   children: JSX.Element | JSX.Element[]
-  fullscreen?: boolean
+  fullScreen?: boolean
 }) => {
   const { height, width } = useWindowSize()
 
@@ -134,7 +125,8 @@ const ContentWrapper = ({
         ref={targetRef}
         id={id}
         data-testid={id}
-        fullScreen={fullscreen}
+        maxHeight={fullScreen ? '100%' : 'calc(100% - 48px)'}
+        borderRadius={fullScreen ? 0 : '3 3 0 0'}
       >
         {children}
       </Motion>
@@ -157,7 +149,7 @@ const Modal: FC<Props> = () => {
               <ContentWrapper
                 id={modal.id}
                 clearModal={() => clearModal(modal.id)}
-                fullscreen={modal.fullScreen}
+                fullScreen={modal.fullScreen}
               >
                 {modal.content}
               </ContentWrapper>,

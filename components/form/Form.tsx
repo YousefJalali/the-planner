@@ -1,5 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import dynamic from 'next/dynamic'
+import { usePrompt } from '../../common/contexts/PromptCtx'
 import FormHeader from './FormHeader'
 import LoadingOverlay from './LoadingOverlay'
 
@@ -11,6 +11,7 @@ type Props = {
   onRequestClose?: () => void
   onSubmit: () => void
   isSubmitting?: boolean
+  isDirty?: boolean
 }
 // const Header = dynamic(() => import('./FormHeader'))
 
@@ -22,7 +23,26 @@ function Form({
   isSubmitting = false,
   onRequestClose,
   onSubmit,
+  isDirty,
 }: Props) {
+  const { setPrompt } = usePrompt()
+
+  const onCloseHandler = () => {
+    if (onRequestClose) {
+      if (isDirty) {
+        setPrompt({
+          id: 'task-form',
+          title: 'are you sure?',
+          message: "you can't undo this",
+          action: 'discard',
+          actionFn: onRequestClose,
+        })
+      } else {
+        onRequestClose()
+      }
+    }
+  }
+
   return (
     <x.form
       id={`${id}-${name}`}
@@ -34,7 +54,7 @@ function Form({
       {title && (
         <FormHeader
           title={title}
-          onRequestClose={isSubmitting ? undefined : onRequestClose}
+          onRequestClose={isSubmitting ? undefined : onCloseHandler}
         />
       )}
       {children}
