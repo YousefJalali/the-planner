@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../../common/lib/prisma'
-import { apiYupValidation } from '../../../../common/utils/validations/useYupValidationResolver'
+import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
 import _ from 'lodash'
 import {
   ProjectType,

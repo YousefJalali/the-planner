@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { ProjectType } from '../../common/types/ProjectType'
 import { x } from '@xstyled/styled-components'
-import Icon from '../Icon'
 import _ from 'lodash'
 import useFetchedProjects from '../../common/data/useFetchedProjects'
 import { useModal } from '../../common/contexts/ModalCtx'
@@ -102,7 +101,9 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
           {placeholder}
         </x.span>
       )}
-      <Icon icon={FiChevronDown} size='1rem' color='content-subtle' />
+      <x.span color='content-subtle' fontSize='lg'>
+        <FiChevronDown />
+      </x.span>
     </x.button>
   )
 }

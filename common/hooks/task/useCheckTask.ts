@@ -2,7 +2,7 @@ import { Status, TaskWithProjectType } from '../../types/TaskType'
 import useUpdateTaskStatus from './useUpdateTaskStatus'
 
 const useCheckTask = (callback?: (action?: any) => void) => {
-  const { taskStatusHandler } = useUpdateTaskStatus()
+  const { taskStatusHandler } = useUpdateTaskStatus('dateTasks')
 
   const checkTaskHandler = (task: TaskWithProjectType) => {
     const s =

@@ -4,6 +4,20 @@ import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import Tag from './Tag'
 import TasksList from './TasksList'
 
+const List = ({
+  status,
+  tasks,
+}: {
+  status: Status
+  tasks: TaskWithProjectType[]
+}) => (
+  <x.div pb={4}>
+    <Tag textOnly variant={status} />
+
+    <TasksList id={`${status}-tasks-list`} tasks={tasks} />
+  </x.div>
+)
+
 type Props = {
   tasks: TaskWithProjectType[]
 }
@@ -22,34 +36,15 @@ const TasksLists: FC<Props> = ({ tasks }) => {
   return (
     <>
       {inProgressTasks && inProgressTasks.length > 0 ? (
-        <x.div pb={4}>
-          <Tag textOnly variant={Status.INPROGRESS} />
-
-          <TasksList
-            id={`${Status.INPROGRESS}-tasks-list`}
-            tasks={inProgressTasks}
-          />
-        </x.div>
+        <List status={Status.INPROGRESS} tasks={inProgressTasks} />
       ) : null}
 
       {proposedTasks && proposedTasks.length > 0 ? (
-        <x.div pb={4}>
-          <Tag textOnly variant={Status.PROPOSED} />
-          <TasksList
-            id={`${Status.PROPOSED}-tasks-list`}
-            tasks={proposedTasks}
-          />
-        </x.div>
+        <List status={Status.PROPOSED} tasks={proposedTasks} />
       ) : null}
 
       {completedTasks && completedTasks.length > 0 ? (
-        <x.div pb={4}>
-          <Tag textOnly variant={Status.COMPLETED} />
-          <TasksList
-            id={`${Status.COMPLETED}-tasks-list`}
-            tasks={completedTasks}
-          />
-        </x.div>
+        <List status={Status.COMPLETED} tasks={completedTasks} />
       ) : null}
     </>
   )

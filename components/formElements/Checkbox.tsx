@@ -19,8 +19,8 @@ const CheckBox: FC<Props> = ({ checked, onChange, color, id }) => {
   return (
     <Container
       htmlFor={id}
-      h='3rem'
-      w='3rem'
+      h={36}
+      w={36}
       zIndex={101}
       display='flex'
       justifyContent='center'

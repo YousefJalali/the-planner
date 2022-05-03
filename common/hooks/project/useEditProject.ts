@@ -6,7 +6,7 @@ import { editProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { dateTaskKey, projectKey } from '../../data/keys'
 import { ProjectType } from '../../types/ProjectType'
-import addServerErrors from '../../utils/validations/addServerErrors'
+import addServerErrors from '../../utils/addServerErrors'
 
 const useEditProject = (callback?: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)

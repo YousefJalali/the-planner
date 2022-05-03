@@ -1,15 +1,6 @@
-import { ButtonHTMLAttributes, FC, useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import styled, { x } from '@xstyled/styled-components'
-import Icon from '../Icon'
-import {
-  FiAlertTriangle,
-  FiCheck,
-  FiInfo,
-  FiLoader,
-  FiX,
-  FiXCircle,
-} from 'react-icons/fi'
 import { PromptType } from '../../common/contexts/PromptCtx'
 import Button from '../formElements/Button'
 import { Backdrop } from './Modal'
@@ -24,24 +15,30 @@ const Motion = styled(motion(x.div))`
   top: 50%;
   left: 50%;
   min-width: 250px;
-  /* transform: translate(-50%, -50%); */
-  /* width: calc(100% - 48px); */
   border-radius: 2;
   background-color: layout-level0;
-  /* overflow: hidden; */
 `
 
 const Btn = ({
+  name,
   children,
   color,
   onClick,
 }: {
+  name: string
   children: string
   color: 'critical' | 'information'
   onClick: () => void
 }) => (
   <x.div flex={1} display='flex' alignItems='center' justifyContent='center'>
-    <Button variant='textOnly' size='small' color={color} onClick={onClick}>
+    <Button
+      name={name}
+      variant='textOnly'
+      size='small'
+      color={color}
+      onClick={onClick}
+      w='100%'
+    >
       {children}
     </Button>
   </x.div>
@@ -83,13 +80,13 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
           backgroundColor='layout-level0'
           borderRadius={2}
           boxShadow='#00000035 0px 5px 15px'
-          p={3}
         >
           <x.div
             display='flex'
             flexDirection='column'
             justifyContent='center'
             alignItems='center'
+            p={3}
           >
             <x.span
               textTransform={{ firstLetter: 'uppercase' }}
@@ -108,19 +105,14 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
             </x.span>
           </x.div>
 
-          <x.hr
-            h='1px'
-            w='100%'
-            backgroundColor='layout-level2accent'
-            mt={3}
-            mb={2}
-          />
+          <x.hr h='1px' w='100%' backgroundColor='layout-level2accent' />
 
           <x.div display='flex' divideX divideColor='layout-level2accent'>
-            <Btn color='information' onClick={clearPrompt}>
+            <Btn name='clear' color='information' onClick={clearPrompt}>
               Cancel
             </Btn>
             <Btn
+              name='action'
               color='critical'
               onClick={() => {
                 prompt.actionFn()

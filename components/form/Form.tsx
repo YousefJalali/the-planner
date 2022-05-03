@@ -1,4 +1,5 @@
 import { x } from '@xstyled/styled-components'
+import Head from 'next/head'
 import { usePrompt } from '../../common/contexts/PromptCtx'
 import FormHeader from './FormHeader'
 import LoadingOverlay from './LoadingOverlay'
@@ -44,23 +45,32 @@ function Form({
   }
 
   return (
-    <x.form
-      id={`${id}-${name}`}
-      name={name}
-      spaceY={5}
-      p={3}
-      onSubmit={onSubmit}
-    >
-      {title && (
-        <FormHeader
-          title={title}
-          onRequestClose={isSubmitting ? undefined : onCloseHandler}
-        />
-      )}
-      {children}
+    <>
+      <Head>
+        {/* <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title> */}
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, maximum-scale=1'
+        ></meta>
+      </Head>
+      <x.form
+        id={`${id}-${name}`}
+        name={name}
+        spaceY={5}
+        p={3}
+        onSubmit={onSubmit}
+      >
+        {title && (
+          <FormHeader
+            title={title}
+            onRequestClose={isSubmitting ? undefined : onCloseHandler}
+          />
+        )}
+        {children}
 
-      <LoadingOverlay isSubmitting={isSubmitting} />
-    </x.form>
+        <LoadingOverlay isSubmitting={isSubmitting} />
+      </x.form>
+    </>
   )
 }
 

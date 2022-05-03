@@ -7,7 +7,6 @@ import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import format from 'date-fns/format'
 import TextEditor from '../formElements/TextEditor'
-import Icon from '../Icon'
 import ScrollableList from '../ScrollableList'
 import { useRouter } from 'next/router'
 import Tag from './Tag'
@@ -68,13 +67,14 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
           </x.div>
           {onClose && (
             <Button
+              name='close'
               variant='textOnly'
               onClick={onClose}
               borderRadius='full'
-              flex='0 0 48px'
+              flex='0 0 36px'
               backgroundColor='layout-level0accent'
             >
-              <x.span fontSize='1.5rem' color='content-contrast'>
+              <x.span fontSize='1rem' color='content-contrast'>
                 <FiX />
               </x.span>
             </Button>

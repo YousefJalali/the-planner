@@ -4,7 +4,7 @@ import {
 } from '../../common/types/ProjectType'
 import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
-import { apiYupValidation } from '../../common/utils/validations/useYupValidationResolver'
+import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 import projectSchema from '../../common/utils/validations/projectSchema'
 import _, { indexOf } from 'lodash'
 import { GET, populateTask, POST, PUT } from '../handlers'

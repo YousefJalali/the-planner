@@ -11,7 +11,6 @@ import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
 import useFetchedRecentProjects from '../../common/data/useFetchedRecentProjects'
 import Button from '../formElements/Button'
-import { FiArrowRight } from 'react-icons/fi'
 
 type Props = {
   error: string | null
@@ -48,38 +47,45 @@ const ProjectsCardsList: FC = () => {
         <x.h1 text='headline.two' mb={3}>
           Projects
         </x.h1>
-        <Button
-          variant='textOnly'
-          color='information'
-          onClick={() => router.push('/projects')}
-          spaceX={2}
-        >
-          See all
-        </Button>
+        {projects && projects.length > 0 && (
+          <Button
+            name='see all projects'
+            variant='textOnly'
+            color='information'
+            onClick={() => router.push('/projects')}
+            spaceX={2}
+          >
+            See all
+          </Button>
+        )}
       </x.div>
 
-      {error ? (
-        <NewProjectCard px={4} />
-      ) : projects && projects.length <= 0 ? (
-        <NewProjectCard px={4} />
+      {isLoading ? (
+        <ScrollableList spaceX={4}>
+          <SkeletonList
+            component={<ProjectCardSkeleton adj={24} />}
+            length={5}
+          />
+        </ScrollableList>
+      ) : error ? (
+        <x.div px={4}>
+          <NewProjectCard />
+        </x.div>
+      ) : projects.length === 0 ? (
+        <x.div px={4}>
+          <NewProjectCard />
+        </x.div>
       ) : (
         <ScrollableList spaceX={4}>
-          {isLoading ? (
-            <SkeletonList
-              component={<ProjectCardSkeleton adj={24} />}
-              length={5}
-            />
-          ) : (
-            projects.slice(0, 5).map((project) => (
-              <x.li key={project.id} flex='0 0 calc(100% - 1.5rem)'>
-                <div />
-                <ProjectCard
-                  project={project}
-                  onClick={() => router.push(`/projects/${project.id}`)}
-                />
-              </x.li>
-            ))
-          )}
+          {projects.map((project) => (
+            <x.li key={project.id} flex='0 0 calc(100% - 1.5rem)'>
+              <div />
+              <ProjectCard
+                project={project}
+                onClick={() => router.push(`/projects/${project.id}`)}
+              />
+            </x.li>
+          ))}
         </ScrollableList>
       )}
     </x.section>

@@ -43,7 +43,7 @@ export default class MyDocument extends Document {
       <Html lang='en'>
         <Head>
           <meta name='description' content="Bija's task manager"></meta>
-          <link
+          {/* <link
             rel='preload'
             href='/fonts/montserrat-v23-latin-100'
             as='font'
@@ -56,7 +56,7 @@ export default class MyDocument extends Document {
             as='font'
             type='font/eot'
             crossOrigin='anonymous'
-          />
+          /> */}
         </Head>
         <body>
           {getColorModeInitScriptElement()}

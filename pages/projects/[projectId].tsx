@@ -65,13 +65,14 @@ const Project = () => {
     <>
       <x.main minHeight='100vh'>
         <Header pageTitle={project ? project.title : ''}>
-          <Button variant='textOnly' onClick={() => router.back()}>
+          <Button name='back' variant='textOnly' onClick={() => router.back()}>
             <x.span fontSize='1.5rem' color='content-contrast'>
               <FiArrowLeft />
             </x.span>
           </Button>
 
           <Button
+            name='edit project'
             variant='textOnly'
             color='information'
             onClick={editProjectHandler}

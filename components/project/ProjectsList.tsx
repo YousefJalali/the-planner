@@ -3,7 +3,6 @@ import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { ProjectType } from '../../common/types/ProjectType'
 import Fieldset from '../formElements/Fieldset'
-import Icon from '../Icon'
 import ProjectItem from '../project/ProjectItem'
 
 type Props = {
@@ -80,9 +79,14 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate, projects }) => {
         backgroundColor='layout-level0'
         onClick={onCreate}
       >
-        <Icon icon={FiPlus} color='brand-primary' size='1.125rem' />
-        <x.span text='body' ml={2} color='brand-primary'>
-          Create Project
+        <x.span
+          text='body'
+          color='brand-primary'
+          display='flex'
+          alignItems='center'
+        >
+          <FiPlus />
+          <x.span ml={1}>Create Project</x.span>
         </x.span>
       </x.li>
     </x.ul>

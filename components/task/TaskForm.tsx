@@ -16,7 +16,7 @@ import Button from '../formElements/Button'
 import Form from '../form/Form'
 
 import taskSchema from '../../common/utils/validations/taskSchema'
-import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
+import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
 
@@ -394,6 +394,7 @@ function TaskForm({
         />
 
         <Button
+          name='submit task'
           type='submit'
           position='sticky'
           zIndex={3}

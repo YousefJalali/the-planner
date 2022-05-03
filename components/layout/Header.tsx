@@ -11,10 +11,10 @@ const Header: FC<Props> = ({ children, pageTitle = '' }) => {
     <>
       <Head>
         <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title>
-        <meta
+        {/* <meta
           name='viewport'
           content='width=device-width, initial-scale=1, maximum-scale=1'
-        ></meta>
+        ></meta> */}
         <meta charSet='utf-8' />
       </Head>
       <x.header

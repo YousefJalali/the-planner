@@ -1,8 +1,7 @@
 import { x } from '@xstyled/styled-components'
-import NoTasksSVG from '../../styles/illustrations/NoTasksSVG'
-import Button from '../formElements/Button'
+import NoTasksSVG from '../../styles/illustrations/NoTask'
 
-const NoTasks = () => {
+const NoTask = () => {
   return (
     <x.div
       display='flex'
@@ -25,4 +24,4 @@ const NoTasks = () => {
   )
 }
 
-export default NoTasks
+export default NoTask

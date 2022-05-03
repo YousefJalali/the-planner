@@ -2,13 +2,12 @@ import ObjectID from 'bson-objectid'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
-import { apiYupValidation } from '../../../common/utils/validations/useYupValidationResolver'
+import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'
 import taskSchema from '../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
 import { uploadImages } from '../../../common/utils/cloudinary'
 import { Image } from '@prisma/client'
-import withCloudinary from '../../../common/middlewares/withCloudinary'
 
 const handler = async (
   req: NextApiRequest,

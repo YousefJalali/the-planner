@@ -3,7 +3,6 @@ import _, { uniqueId } from 'lodash'
 import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
 import { ImageType } from '../../common/types/TaskType'
-import Icon from '../Icon'
 import parseImage from '../../common/utils/parseImage'
 import Image from 'next/image'
 
@@ -119,7 +118,9 @@ function ImageInput({
             p={3}
           >
             <x.div display='flex' flexDirection='column' alignItems='center'>
-              <Icon icon={FiFileText} size='1.5rem' />
+              <x.span fontSize='1.5rem'>
+                <FiFileText />
+              </x.span>
               <x.div mt={2} display='flex' alignItems='center'>
                 <x.span
                   color='content-subtle'

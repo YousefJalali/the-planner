@@ -2,15 +2,14 @@ import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import { NotificationType } from '../../common/contexts/NotificationCtx'
 import styled, { x } from '@xstyled/styled-components'
-import Icon from '../Icon'
 import {
   FiAlertTriangle,
   FiCheck,
   FiInfo,
-  FiLoader,
   FiX,
   FiXCircle,
 } from 'react-icons/fi'
+import Spinner from '../Spinner'
 
 const Motion = styled(motion.div)`
   position: fixed;
@@ -58,18 +57,17 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
             display='flex'
             alignItems='center'
           >
-            <Icon
-              icon={
-                notification.variant === 'confirmation'
-                  ? FiCheck
-                  : notification.variant === 'warning'
-                  ? FiAlertTriangle
-                  : notification.variant === 'critical'
-                  ? FiXCircle
-                  : FiInfo
-              }
-              color='layout-level0'
-            />
+            <x.span color='layout-level0'>
+              {notification.variant === 'confirmation' ? (
+                <FiCheck />
+              ) : notification.variant === 'warning' ? (
+                <FiAlertTriangle />
+              ) : notification.variant === 'critical' ? (
+                <FiXCircle />
+              ) : (
+                <FiInfo />
+              )}
+            </x.span>
           </x.div>
         </x.div>
 
@@ -99,11 +97,11 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
             ml={2}
           >
             {notification.loading ? (
-              <x.div
-                animation='spin'
-                data-testid={`${notification.id}-loading`}
-              >
-                <Icon icon={FiLoader} />
+              <x.div data-testid={`${notification.id}-loading`}>
+                <Spinner
+                  pathColor='content-subtle'
+                  trailColor='layout-level0accent'
+                />
               </x.div>
             ) : (
               <>
@@ -121,8 +119,9 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
                 <x.a
                   onClick={clearNotification}
                   data-testid={`${notification.id}-close`}
+                  color='content-subtle'
                 >
-                  <Icon icon={FiX} color='content-subtle' />
+                  <FiX />
                 </x.a>
               </>
             )}

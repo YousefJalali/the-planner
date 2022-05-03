@@ -156,6 +156,7 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
         borderColor='brand-primary-a10'
       >
         <Button
+          name='previous month'
           backgroundColor='brand-primary-a10'
           onClick={() => onMonthArrowClick('previous')}
         >
@@ -172,18 +173,21 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
           showFourColumnMonthYearPicker
           popperPlacement='bottom'
           customInput={
-            <Button variant='textOnly' w='100%'>
-              <x.span
-                textAlign='center'
-                color='content-contrast'
-                fontWeight='bold'
-              >
-                {format(date, 'MMMM yyyy')}
-              </x.span>
-            </Button>
+            <div>
+              <Button name='current month' variant='textOnly' w='100%'>
+                <x.span
+                  textAlign='center'
+                  color='content-contrast'
+                  fontWeight='bold'
+                >
+                  {format(date, 'MMMM yyyy')}
+                </x.span>
+              </Button>
+            </div>
           }
         />
         <Button
+          name='next month'
           backgroundColor='brand-primary-a10'
           onClick={() => onMonthArrowClick('next')}
         >

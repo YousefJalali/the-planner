@@ -19,6 +19,7 @@ import { ButtonHTMLAttributes, FC } from 'react'
 import Spinner from '../Spinner'
 
 type Props = {
+  name: string
   as?: string
   variant?: 'outline' | 'textOnly' | 'link'
   color?: 'confirmation' | 'critical' | 'information'
@@ -45,21 +46,22 @@ type AllProps = {
   > &
   ButtonHTMLAttributes<HTMLButtonElement>
 
-const StyledButton = styled(x.button)<Pick<Props, 'size'>>`
-  text-transform: capitalize;
+// const StyledButton = styled(x.button)<Pick<Props, 'size'> & HTMLButtonElement>`
+//   text-transform: capitalize;
 
-  > svg {
-    margin-right: 2;
+//   > svg {
+//     margin-right: 2;
 
-    ${(props) =>
-      props.size === 'small' &&
-      css`
-        margin-right: 1;
-      `}
-  }
-`
+//     ${(props) =>
+//       props.size === 'small' &&
+//       css`
+//         margin-right: 1;
+//       `}
+//   }
+// `
 
 const Button: FC<AllProps> = ({
+  name,
   as = 'button',
   variant,
   color,
@@ -72,14 +74,16 @@ const Button: FC<AllProps> = ({
     size === 'large' ? '1.125rem' : size === 'small' ? '0.889rem' : '1rem'
 
   return (
-    <StyledButton
+    <x.button
       type='button'
-      minHeight={48}
-      minWidth={48}
+      name={name}
+      aria-label={name}
+      // as={variant === 'link' ? 'a' : 'button'}
+      // size={size}
+      minHeight={36}
+      minWidth={36}
       h='fit-content'
       w='fit-content'
-      as={variant === 'link' ? 'a' : 'button'}
-      size={size}
       px={
         variant === 'link' || variant === 'textOnly'
           ? 2
@@ -138,7 +142,7 @@ const Button: FC<AllProps> = ({
       ) : (
         children
       )}
-    </StyledButton>
+    </x.button>
   )
 }
 

@@ -1,6 +1,6 @@
-import styled, { x } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import { ChangeEvent, FC, InputHTMLAttributes } from 'react'
-import { FiLoader, FiMoon, FiSun } from 'react-icons/fi'
+import { FiMoon, FiSun } from 'react-icons/fi'
 
 type Props = {
   id: string
@@ -22,8 +22,6 @@ const SwitchButton: FC<Props> = ({
   const w = Math.floor(h / ratio)
   const ball = h - 4
   const movement = ball * 2 - w
-
-  console.log(ball * Math.PI, ball - movement * 3, ball / (ball - movement * 3))
 
   return (
     <x.label

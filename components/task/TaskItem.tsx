@@ -4,7 +4,6 @@ import format from 'date-fns/format'
 import { FiPaperclip, FiClock } from 'react-icons/fi'
 
 import { TaskWithProjectType, Status } from '../../common/types/TaskType'
-import Icon from '../Icon'
 import Checkbox from '../formElements/Checkbox'
 
 type Props = {
@@ -15,15 +14,15 @@ type Props = {
   options: JSX.Element
 }
 
-export const Clickable = styled(x.a)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 101;
-  user-select: none;
-`
+// export const Clickable = styled(x.a)`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   height: 100%;
+//   width: 100%;
+//   z-index: 101;
+//   user-select: none;
+// `
 
 const Title = styled(x.p)`
   display: -webkit-box;
@@ -31,6 +30,29 @@ const Title = styled(x.p)`
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
+
+const Details = ({
+  isTaskCompleted,
+  children,
+  icon,
+  ...props
+}: {
+  isTaskCompleted: boolean
+  children: string
+  icon: JSX.Element
+}) => (
+  <x.div display='flex' alignItems='center' mt={2} {...props}>
+    <x.span
+      fontSize='sm'
+      lineHeight='none'
+      color={isTaskCompleted ? 'content-nonessential' : 'content-subtle'}
+      display='flex'
+    >
+      {icon}
+      <x.span ml={1}>{children}</x.span>
+    </x.span>
+  </x.div>
+)
 
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
   //format time
@@ -53,7 +75,6 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
 
   return (
     <x.div position='relative' data-testid='task-item'>
-      {/* <Clickable onClick={onDetails} data-testid='taskItem-details' /> */}
       <x.div
         display='flex'
         justifyContent='space-between'
@@ -68,7 +89,7 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
           onClick={onDetails}
           display='flex'
           flexDirection='column'
-          flex='0 0 calc(100% - 48px - 48px)'
+          flex='0 0 calc(100% - 36px - 36px)'
           pr={1}
           userSelect='none'
         >
@@ -85,61 +106,23 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
           </Title>
 
           {/* time & attachments */}
-          <x.div display='flex'>
+          <x.div display='flex' spaceX={3}>
             {time && (
-              <x.div
-                display='flex'
-                alignItems='center'
-                mr={3}
-                mt={2}
+              <Details
                 data-testid='taskItem-time'
-              >
-                <Icon
-                  icon={FiClock}
-                  color={
-                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
-                  }
-                  size='0.889rem'
-                />
-                <x.span
-                  fontSize='sm'
-                  lineHeight='none'
-                  color={
-                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
-                  }
-                  ml={1}
-                >
-                  {time}
-                </x.span>
-              </x.div>
+                isTaskCompleted={isTaskCompleted}
+                icon={<FiClock />}
+                children={time}
+              />
             )}
 
             {task.attachments.length > 0 && (
-              <x.div
-                display='flex'
-                alignItems='center'
-                mt={2}
+              <Details
                 data-testid='taskItem-attachment'
-              >
-                <Icon
-                  icon={FiPaperclip}
-                  color={
-                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
-                  }
-                  size='0.889rem'
-                />
-
-                <x.span
-                  fontSize='sm'
-                  lineHeight='none'
-                  color={
-                    isTaskCompleted ? 'content-nonessential' : 'content-subtle'
-                  }
-                  ml={1}
-                >
-                  {attachment}
-                </x.span>
-              </x.div>
+                isTaskCompleted={isTaskCompleted}
+                icon={<FiPaperclip />}
+                children={attachment}
+              />
             )}
           </x.div>
         </x.a>
@@ -152,17 +135,6 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
         />
 
         {options}
-        {/* <x.div
-          position='relative'
-          minHeight='1.5rem'
-          minWidth='1.5rem'
-          display='flex'
-          justifyContent='center'
-          alignItems='center'
-        >
-          <Clickable onClick={onOptions} data-testid='taskItem-kebab' />
-          <Icon icon={FiMoreVertical} color='content-subtle' />
-        </x.div> */}
       </x.div>
     </x.div>
   )

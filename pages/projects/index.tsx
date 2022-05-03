@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { FiArrowLeft, FiLoader, FiPlus } from 'react-icons/fi'
+import { FiArrowLeft, FiPlus } from 'react-icons/fi'
 import { useInView } from 'react-intersection-observer'
 import _ from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
@@ -8,17 +8,15 @@ import { x } from '@xstyled/styled-components'
 
 import Header from '../../components/layout/Header'
 import ProjectCard from '../../components/project/ProjectCard'
-import Icon from '../../components/Icon'
 import NewProjectCard from '../../components/project/NewProjectCard'
 
 import FilterProjects from '../../components/project/FilterProjects'
 import useInfiniteFetchedProjects from '../../common/data/useFetchedInfiniteProjects'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import { useModal } from '../../common/contexts/ModalCtx'
-import ProjectForm from '../../components/project/ProjectForm'
-import useCreateProject from '../../common/hooks/project/useCreateProject'
 import CreateProject from '../../components/project/CreateProject'
 import Button from '../../components/formElements/Button'
+import Spinner from '../../components/Spinner'
 
 const Index: NextPage = () => {
   // const [createProjectModal, setCreateProjectModal] = useToggle()
@@ -78,6 +76,7 @@ const Index: NextPage = () => {
     <main>
       <Header pageTitle='Projects'>
         <Button
+          name='back'
           variant='textOnly'
           onClick={() => router.push('/')}
           // borderColor='layout-divider'
@@ -87,7 +86,11 @@ const Index: NextPage = () => {
           </x.span>
         </Button>
 
-        <Button variant='textOnly' onClick={createProjectHandler}>
+        <Button
+          name='create project'
+          variant='textOnly'
+          onClick={createProjectHandler}
+        >
           <x.span fontSize='1.5rem' color='content-contrast'>
             <FiPlus />
           </x.span>
@@ -126,12 +129,7 @@ const Index: NextPage = () => {
             <RenderProjects />
             {isValidating && (
               <x.div display='flex' justifyContent='center'>
-                <Icon
-                  icon={FiLoader}
-                  animation='spin'
-                  color='content-nonessential'
-                  size='1.5rem'
-                />
+                <Spinner />
               </x.div>
             )}
             <x.button visibility='hidden' ref={ref}>

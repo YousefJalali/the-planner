@@ -10,7 +10,7 @@ import {
 } from '../../common/types/ProjectType'
 import _, { indexOf } from 'lodash'
 import taskSchema from '../../common/utils/validations/taskSchema'
-import { apiYupValidation } from '../../common/utils/validations/useYupValidationResolver'
+import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 
 import { FieldError, FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'

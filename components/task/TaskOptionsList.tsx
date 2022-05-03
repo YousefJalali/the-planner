@@ -67,7 +67,12 @@ const TaskOptionsList: FC<Props> = ({
               <Tag variant={status} />
             </x.div>
 
-            <Button variant='textOnly' ml={2} onClick={onStatusChange}>
+            <Button
+              name='change task status'
+              variant='textOnly'
+              ml={2}
+              onClick={onStatusChange}
+            >
               Change
             </Button>
           </x.div>

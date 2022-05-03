@@ -2,7 +2,6 @@ import type { GetStaticProps, NextPage } from 'next'
 import { x, useColorMode } from '@xstyled/styled-components'
 import { FiSearch } from 'react-icons/fi'
 
-import Icon from '../components/Icon'
 import Header from '../components/layout/Header'
 import Emoji from '../components/Emoji'
 import ProjectsCardsList from '../components/project/ProjectsCardsList'
@@ -10,8 +9,8 @@ import SwitchButton from '../components/formElements/SwitchButton'
 
 import FloatingButton from '../components/FloatingButton'
 import Tasks from '../components/task/Tasks'
-import Head from 'next/head'
 import Button from '../components/formElements/Button'
+import Logo from '../styles/illustrations/Logo'
 
 type Props = {
   // projects: ProjectType[]
@@ -27,9 +26,9 @@ const Home: NextPage<Props> = (props) => {
   return (
     <>
       <Header pageTitle=''>
-        <x.span fontSize='xl' color='content-contrast'>
-          Za Blanner
-        </x.span>
+        <x.div h={24}>
+          <Logo />
+        </x.div>
 
         <x.div display='flex' alignItems='center' spaceX={1}>
           <SwitchButton
@@ -42,7 +41,7 @@ const Home: NextPage<Props> = (props) => {
             darkMode
           />
 
-          <Button variant='textOnly'>
+          <Button name='search' variant='textOnly'>
             <x.span fontSize='1.5rem' color='content-contrast'>
               <FiSearch />
             </x.span>

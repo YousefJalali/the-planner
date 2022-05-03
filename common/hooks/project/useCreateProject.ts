@@ -7,7 +7,7 @@ import { useNotification } from '../../contexts/NotificationCtx'
 import { projectsKey } from '../../data/keys'
 import { addProjectToLocalProjects } from '../../data/localData/localProjectsData'
 import { ProjectType } from '../../types/ProjectType'
-import addServerErrors from '../../utils/validations/addServerErrors'
+import addServerErrors from '../../utils/addServerErrors'
 
 const useCreateProject = (callback: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)

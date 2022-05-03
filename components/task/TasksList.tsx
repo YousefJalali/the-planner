@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { x } from '@xstyled/styled-components'
+import { AnimatePresence, motion, Variants } from 'framer-motion'
 
 import { TaskWithProjectType } from '../../common/types/TaskType'
 
@@ -9,6 +10,7 @@ import useCheckTask from '../../common/hooks/task/useCheckTask'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'
 import TaskOptions from './TaskOptions'
+import useWindowSize from '../../common/hooks/useWindowSize'
 
 type Props = {
   tasks: TaskWithProjectType[]
@@ -16,8 +18,9 @@ type Props = {
 }
 
 const TasksList: FC<Props> = ({ tasks, id }) => {
+  const { width } = useWindowSize()
   const { setModal, clearModal } = useModal()
-  //hooks
+
   const { checkTaskHandler } = useCheckTask()
 
   const onDetails = (task: TaskWithProjectType) => {
@@ -29,18 +32,26 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
     })
   }
 
+  const animations = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    exit: { opacity: 0 },
+  }
+
   return (
     <x.ul spaceY={3} id={id} data-testid={id}>
-      {tasks.map((task) => (
-        <x.li key={task.id}>
-          <TaskItem
-            task={task}
-            onCheck={checkTaskHandler}
-            onDetails={() => onDetails(task)}
-            options={<TaskOptions task={task} callLocation='taskId' />}
-          />
-        </x.li>
-      ))}
+      <AnimatePresence>
+        {tasks.map((task) => (
+          <motion.li {...animations} key={task.id}>
+            <TaskItem
+              task={task}
+              onCheck={checkTaskHandler}
+              onDetails={() => onDetails(task)}
+              options={<TaskOptions task={task} callLocation='taskId' />}
+            />
+          </motion.li>
+        ))}
+      </AnimatePresence>
     </x.ul>
   )
 }

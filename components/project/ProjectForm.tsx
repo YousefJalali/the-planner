@@ -6,7 +6,7 @@ import Input from '../formElements/Input'
 import TextEditor from '../formElements/TextEditor'
 import Fieldset from '../formElements/Fieldset'
 
-import useYupValidationResolver from '../../common/utils/validations/useYupValidationResolver'
+import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { ProjectType } from '../../common/types/ProjectType'
 import ColorInput from '../formElements/ColorInput'
@@ -148,6 +148,7 @@ function ProjectForm<T>({
       <x.div display='flex' spaceX={3}>
         {onDelete && (
           <Button
+            name='delete project'
             type='button'
             variant='textOnly'
             color='critical'
@@ -159,6 +160,7 @@ function ProjectForm<T>({
           </Button>
         )}
         <Button
+          name='submit project'
           type='submit'
           position='sticky'
           zIndex={3}

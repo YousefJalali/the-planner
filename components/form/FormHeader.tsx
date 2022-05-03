@@ -19,19 +19,18 @@ const FormHeader: FC<Props> = ({ title, onRequestClose }) => {
       zIndex={1}
       backgroundColor='layout-level0'
       py={1}
-      // borderBottom='1px solid'
-      // borderBottomColor='layout-level0accent'
     >
       <x.h1 text='headline.one'>{title}</x.h1>
       {onRequestClose && (
         <Button
+          name='close'
           variant='textOnly'
           onClick={onRequestClose}
           borderRadius='full'
-          flex='0 0 48px'
+          flex='0 0 36px'
           backgroundColor='layout-level0accent'
         >
-          <x.span fontSize='1.5rem' color='content-contrast'>
+          <x.span fontSize='1rem' color='content-contrast'>
             <FiX />
           </x.span>
         </Button>

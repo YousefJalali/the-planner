@@ -6,7 +6,7 @@ import { useSWRConfig } from 'swr'
 import { createTask } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType } from '../../types/TaskType'
-import addServerErrors from '../../utils/validations/addServerErrors'
+import addServerErrors from '../../utils/addServerErrors'
 import { dateTaskKey, projectKey } from '../../data/keys'
 
 const useCreateTask = (callback: (action?: any) => void) => {

@@ -77,6 +77,7 @@ const TaskOptions: FC<Props> = ({
 
   return (
     <Button
+      name='task options'
       variant='textOnly'
       color='information'
       onClick={onOptions}
