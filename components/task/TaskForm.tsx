@@ -1,7 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { useForm, Controller, UseFormSetError } from 'react-hook-form'
 import _ from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
 import { parseISO } from 'date-fns'
 import { useMemo } from 'react'
 
@@ -19,6 +18,7 @@ import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
+import ObjectID from 'bson-objectid'
 
 type Props = {
   id: 'create' | 'edit'
@@ -33,7 +33,7 @@ const stringToDate: (date: string | Date) => Date = (date) =>
   typeof date === 'string' ? parseISO(date) : date
 
 export const initialDefaultValues: TaskType = {
-  id: uuidv4(),
+  id: ObjectID().toHexString(),
   title: '',
   projectId: '',
   openTask: true,
@@ -44,6 +44,8 @@ export const initialDefaultValues: TaskType = {
   description: '',
   attachments: [],
   status: Status.PROPOSED,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 }
 
 function TaskForm({
@@ -63,7 +65,6 @@ function TaskForm({
 
   defValues = {
     ...defValues,
-
     startDate: stringToDate(defValues.startDate),
     endDate: defValues.endDate && stringToDate(defValues.endDate),
     startTime: defValues.startTime && stringToDate(defValues.startTime),

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { x } from '@xstyled/styled-components'
-import { AnimatePresence, motion, Variants } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { TaskWithProjectType } from '../../common/types/TaskType'
 
@@ -10,7 +10,6 @@ import useCheckTask from '../../common/hooks/task/useCheckTask'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'
 import TaskOptions from './TaskOptions'
-import useWindowSize from '../../common/hooks/useWindowSize'
 
 type Props = {
   tasks: TaskWithProjectType[]
@@ -18,7 +17,6 @@ type Props = {
 }
 
 const TasksList: FC<Props> = ({ tasks, id }) => {
-  const { width } = useWindowSize()
   const { setModal, clearModal } = useModal()
 
   const { checkTaskHandler } = useCheckTask()
@@ -47,7 +45,7 @@ const TasksList: FC<Props> = ({ tasks, id }) => {
               task={task}
               onCheck={checkTaskHandler}
               onDetails={() => onDetails(task)}
-              options={<TaskOptions task={task} callLocation='taskId' />}
+              options={<TaskOptions task={task} />}
             />
           </motion.li>
         ))}

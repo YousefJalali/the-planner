@@ -9,7 +9,7 @@ import ProjectCardSkeleton from '../skeletons/ProjectCardSkeleton'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
-import useFetchedRecentProjects from '../../common/data/useFetchedRecentProjects'
+import useRecentProjects from '../../common/data/useRecentProjects'
 import Button from '../formElements/Button'
 
 type Props = {
@@ -22,7 +22,7 @@ const ProjectsCardsList: FC = () => {
 
   const router = useRouter()
 
-  const { projects, error, isLoading } = useFetchedRecentProjects()
+  const { projects, error, isLoading } = useRecentProjects()
 
   const { setNotification } = useNotification()
 
@@ -42,7 +42,8 @@ const ProjectsCardsList: FC = () => {
         display='flex'
         justifyContent='space-between'
         alignItems='flex-end'
-        px={4}
+        pl={4}
+        pr='calc(24px - 0.5rem)'
       >
         <x.h1 text='headline.two' mb={3}>
           Projects

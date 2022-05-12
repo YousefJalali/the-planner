@@ -1,10 +1,15 @@
 import useSWR from 'swr'
+import { requestLogger } from '../middlewares/requestLogger'
 import { ProjectType } from '../types/ProjectType'
+import customFetch from '../utils/customFetch'
 import { recentProjectsKey } from './keys'
 
-const useFetchedRecentProjects = () => {
+const useRecentProjects = () => {
+  const key = recentProjectsKey()
   const { data, error, mutate } = useSWR<{ data: ProjectType[]; error: Error }>(
-    recentProjectsKey()
+    key,
+    customFetch,
+    { use: [requestLogger] }
   )
 
   const projects = data?.data || []
@@ -14,4 +19,4 @@ const useFetchedRecentProjects = () => {
   return { projects, setProjects, error, isLoading }
 }
 
-export default useFetchedRecentProjects
+export default useRecentProjects

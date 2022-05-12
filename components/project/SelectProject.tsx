@@ -3,16 +3,17 @@ import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { ProjectType } from '../../common/types/ProjectType'
 import { x } from '@xstyled/styled-components'
 import _ from 'lodash'
-import useFetchedProjects from '../../common/data/useFetchedProjects'
 import { useModal } from '../../common/contexts/ModalCtx'
 import ProjectsList from './ProjectsList'
 import CreateProject from './CreateProject'
+import useProject from '../../common/data/useProject'
+import Spinner from '../Spinner'
 
 type Props = {
   onChange: (v: string) => void
   value: string
   placeholder: string
-  id?: string
+  id: string
 }
 
 function SelectProject({ value, onChange, placeholder, id }: Props) {
@@ -20,25 +21,26 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
 
   const { setModal, clearModal } = useModal()
 
-  const {
-    projects,
-    setProjects,
-    error: projectsError,
-    isLoading: isProjectsLoading,
-  } = useFetchedProjects()
+  const { project: fetchedProject, isLoading } = useProject(value)
 
   useEffect(() => {
-    if (projects) {
-      const findProject = projects.find((p) => p.id === value)
-      setProject(findProject)
+    if (fetchedProject) {
+      setProject(fetchedProject)
     }
-  }, [value, projects])
+  }, [value, fetchedProject])
 
   const showCreateProjectModal = () => {
+    clearModal('project-list')
+
     setModal({
       id: 'project-create',
       content: (
-        <CreateProject onRequestClose={() => clearModal('project-create')} />
+        <CreateProject
+          onRequestClose={() => {
+            clearModal('project-create')
+            showProjectsList()
+          }}
+        />
       ),
     })
   }
@@ -50,7 +52,6 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
         <ProjectsList
           onSelect={selectHandler}
           onCreate={showCreateProjectModal}
-          projects={projects}
         />
       ),
     })
@@ -101,9 +102,22 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
           {placeholder}
         </x.span>
       )}
-      <x.span color='content-subtle' fontSize='lg'>
-        <FiChevronDown />
-      </x.span>
+      <x.div display='flex' spaceX={2}>
+        {value && isLoading && (
+          <Spinner
+            h={18}
+            w={18}
+            borderTop={2}
+            border={2}
+            pathColor='brand-primary'
+            trailColor='layout-level0accent'
+          />
+        )}
+
+        <x.span color='content-subtle' fontSize='lg'>
+          <FiChevronDown />
+        </x.span>
+      </x.div>
     </x.button>
   )
 }

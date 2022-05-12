@@ -52,7 +52,7 @@ const handler = async (
     }
 
     const paths = task.attachments.map((attachment: Image) => attachment.path)
-    const { images, error } = await uploadImages(paths, task.id)
+    const { images, error } = await uploadImages(paths, task.projectId, task.id)
 
     if (error) {
       return res.status(400).json({ error })
@@ -61,7 +61,6 @@ const handler = async (
     const createdTask = await prisma.task.create({
       data: {
         ...task,
-        id: ObjectID().toHexString(),
         attachments: images,
       },
       include: { project: { select: { title: true, color: true } } },

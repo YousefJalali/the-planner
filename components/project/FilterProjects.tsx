@@ -1,54 +1,62 @@
-import styled, { x, css } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
+import { Status } from '../../common/types/TaskType'
 
-const Item = styled(x.div)<{ active?: boolean }>`
-  padding: 1 3;
-  /* border: 1px solid;
-  border-color: brand-primary; */
-  border-radius: 50;
-  background-color: layout-level0accent;
+const Item = ({
+  children,
+  onClick,
+  active,
+}: {
+  children: string
+  onClick: () => void
+  active: boolean
+}) => (
+  <x.div
+    py={1}
+    px={3}
+    borderRadius={50}
+    backgroundColor={active ? 'brand-primary' : 'layout-level0accent'}
+    onClick={onClick}
+  >
+    <x.span
+      text='body.small'
+      textTransform='capitalize'
+      lineHeight='none'
+      color={active && 'layout-level0'}
+      userSelect='none'
+    >
+      {children}
+    </x.span>
+  </x.div>
+)
 
-  > span {
-    text-transform: capitalize;
-    line-height: 1;
-  }
-
-  ${(props) =>
-    props.active &&
-    css`
-      background-color: brand-primary;
-      > span {
-        color: layout-level0;
-      }
-    `};
-`
-
+export type filterType = Omit<Status, 'proposed'> | null
 type Props = {
-  active: string
-  setActive: (s: 'all' | 'ongoing' | 'completed') => void
+  active: filterType
+  setActive: (s: filterType) => void
 }
 
 const FilterProjects: FC<Props> = ({ active, setActive }) => {
-  const onClickHandler = (s: 'all' | 'ongoing' | 'completed') => {
+  const onClickHandler = (s: Omit<Status, 'proposed'> | null) => {
     setActive(s)
   }
 
   return (
     <x.div display='flex' spaceX={2}>
-      <Item active={active === 'all'} onClick={() => onClickHandler('all')}>
-        <x.span text='body.small'>all</x.span>
+      <Item active={active === null} onClick={() => onClickHandler(null)}>
+        all
       </Item>
       <Item
-        active={active === 'ongoing'}
-        onClick={() => onClickHandler('ongoing')}
+        active={active === Status.INPROGRESS}
+        onClick={() => onClickHandler(Status.INPROGRESS)}
       >
-        <x.span text='body.small'>In progress</x.span>
+        In progress
       </Item>
       <Item
-        active={active === 'completed'}
-        onClick={() => onClickHandler('completed')}
+        active={active === Status.COMPLETED}
+        onClick={() => onClickHandler(Status.COMPLETED)}
       >
-        <x.span text='body.small'>completed</x.span>
+        completed
       </Item>
     </x.div>
   )

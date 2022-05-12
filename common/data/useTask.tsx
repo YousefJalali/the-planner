@@ -1,14 +1,16 @@
 import useSWR from 'swr'
+import { requestLogger } from '../middlewares/requestLogger'
 import { TaskWithProjectType } from '../types/TaskType'
+import customFetch from '../utils/customFetch'
 import { taskKey } from './keys'
 
-const useFetchedTaskById = (taskId: string | null) => {
+const useTask = (taskId: string | null) => {
+  const key = taskId ? taskKey(taskId) : null
+
   const { data, error } = useSWR<
     { data: TaskWithProjectType; error: Error },
     Error
-  >(taskId ? taskKey(taskId) : null)
-
-  console.log(data)
+  >(key, customFetch, { use: [requestLogger] })
 
   const task = data?.data || null
   const isLoading = !error && !data
@@ -16,4 +18,4 @@ const useFetchedTaskById = (taskId: string | null) => {
   return { task, error, isLoading }
 }
 
-export default useFetchedTaskById
+export default useTask

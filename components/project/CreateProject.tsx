@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import useCreateProject from '../../common/hooks/project/useCreateProject'
 import ProjectForm from './ProjectForm'
+import randomColor from 'randomcolor'
 
 type Props = {
   onRequestClose: () => void
@@ -16,6 +17,7 @@ const CreateProject: FC<Props> = ({ onRequestClose }) => {
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
       onRequestClose={onRequestClose}
+      defaultValues={{ color: randomColor() }}
     />
   )
 }

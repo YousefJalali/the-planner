@@ -2,7 +2,7 @@ import {
   ProjectType,
   ProjectWithTasksType,
 } from '../../common/types/ProjectType'
-import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
+import { TaskType } from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 import projectSchema from '../../common/utils/validations/projectSchema'
@@ -20,6 +20,13 @@ export const getInfiniteProjects = (
   { req, res, ctx }: GET,
   projects: ProjectType[]
 ) => {
+  // return res(
+  //   ctx.status(400),
+  //   ctx.json({
+  //     error: 'wrong',
+  //   })
+  // )
+
   const qLimit = req.url.searchParams.get('limit')
   const qCursor = req.url.searchParams.get('cursor')
 

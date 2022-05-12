@@ -23,11 +23,12 @@ const NewProjectCard = () => {
       justifyContent='space-between'
       position='relative'
       overflow='hidden'
-      // backgroundColor='layout-level0accent'
-      border='1px solid'
-      borderColor='layout-divider'
+      backgroundColor='layout-level0accent'
+      // border='1px solid'
+      // borderColor='layout-divider'
       p={3}
       borderRadius={3}
+      minHeight={150}
     >
       <x.div
         display='flex'
@@ -35,10 +36,15 @@ const NewProjectCard = () => {
         justifyContent='space-between'
       >
         <x.div mb={4}>
-          <x.span color='content-contrast' text='body.default' display='block'>
+          <x.span
+            color='content-contrast'
+            text='body.large'
+            fontWeight='medium'
+            display='block'
+          >
             No active projects
           </x.span>
-          <x.span color='content-subtle' text='body.small'>
+          <x.span color='content-default' text='body.small'>
             Create your first project now
           </x.span>
         </x.div>

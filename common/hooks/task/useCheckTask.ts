@@ -2,15 +2,15 @@ import { Status, TaskWithProjectType } from '../../types/TaskType'
 import useUpdateTaskStatus from './useUpdateTaskStatus'
 
 const useCheckTask = (callback?: (action?: any) => void) => {
-  const { taskStatusHandler } = useUpdateTaskStatus('dateTasks')
+  const { taskStatusHandler } = useUpdateTaskStatus()
 
   const checkTaskHandler = (task: TaskWithProjectType) => {
-    const s =
+    const newStatus =
       task.status === Status.PROPOSED || task.status === Status.INPROGRESS
         ? Status.COMPLETED
         : Status.PROPOSED
 
-    taskStatusHandler(task, s)
+    taskStatusHandler(task, task.status, newStatus)
   }
 
   return { checkTaskHandler }

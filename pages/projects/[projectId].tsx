@@ -5,7 +5,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import Header from '../../components/layout/Header'
 import CircleProgressBar from '../../components/CircleProgressBar'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
-import useFetchedProjectById from '../../common/data/useFetchedProjectById'
+import useProject from '../../common/data/useProject'
 
 import ScrollableList from '../../components/ScrollableList'
 import TasksLists from '../../components/task/TasksLists'
@@ -15,6 +15,7 @@ import { useModal } from '../../common/contexts/ModalCtx'
 import Button from '../../components/formElements/Button'
 import { statusAlias } from '../../common/utils/statusAlias'
 import EditProject from '../../components/project/EditProject'
+import Spinner from '../../components/Spinner'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -39,9 +40,7 @@ const Project = () => {
   const router = useRouter()
   const projectId = router.query.projectId as string
 
-  const { project, error, isLoading } = useFetchedProjectById(
-    projectId as string
-  )
+  const { project, error, isLoading } = useProject(projectId as string)
 
   const editProjectHandler = () => {
     if (project) {
@@ -65,57 +64,87 @@ const Project = () => {
     <>
       <x.main minHeight='100vh'>
         <Header pageTitle={project ? project.title : ''}>
-          <Button name='back' variant='textOnly' onClick={() => router.back()}>
+          <Button
+            name='back'
+            variant='outline'
+            onClick={() => router.back()}
+            ml={4}
+            borderColor='layout-level0accent'
+            borderRadius='full'
+            p={1}
+          >
             <x.span fontSize='1.5rem' color='content-contrast'>
               <FiArrowLeft />
             </x.span>
           </Button>
 
-          <Button
-            name='edit project'
-            variant='textOnly'
-            color='information'
-            onClick={editProjectHandler}
-          >
-            Edit
-          </Button>
+          {project ? (
+            <Button
+              name='edit project'
+              variant='textOnly'
+              color='information'
+              onClick={editProjectHandler}
+              mr='calc(24px - 0.5rem)'
+            >
+              Edit
+            </Button>
+          ) : (
+            <div />
+          )}
         </Header>
 
-        {project && (
-          <>
-            <x.div overflow='hidden' px={4}>
-              <x.h1 text='headline.two' lineHeight='tighter' mb={2}>
-                {project.title}
-              </x.h1>
+        {isLoading ? (
+          <x.div px={4} display='flex' justifyContent='center'>
+            <Spinner pathColor='brand-primary' />
+          </x.div>
+        ) : error ? (
+          <x.div px={4} display='flex' justifyContent='center'>
+            {error}
+          </x.div>
+        ) : (
+          project && (
+            <>
+              <x.section overflow='hidden' px={4}>
+                <x.h1 text='headline.two' lineHeight='tighter' mb={2}>
+                  {project.title}
+                </x.h1>
 
-              {project.description?.length > 0 && (
-                <x.div mb={5} maxHeight='128px' overflowY='scroll'>
-                  <TextEditor value={project.description} readOnly />
-                </x.div>
-              )}
+                {project.description?.length > 0 && (
+                  <x.div mb={5} maxHeight='128px' overflowY='scroll'>
+                    <TextEditor value={project.description} readOnly />
+                  </x.div>
+                )}
 
-              <x.div display='grid' gridTemplateColumns={3} mb={5}>
-                <Item number={project.proposed} status={Status.PROPOSED} />
+                <x.div display='grid' gridTemplateColumns={3} mb={5}>
+                  <Item number={project.proposed} status={Status.PROPOSED} />
 
-                <x.div gridRow='span 3 / span 3'>
-                  <CircleProgressBar
-                    color={project.color}
-                    percentage={project.progressPercentage}
+                  <x.div gridRow='span 3 / span 3'>
+                    <CircleProgressBar
+                      color={project.color}
+                      percentage={project.progressPercentage}
+                    />
+                  </x.div>
+
+                  <Item
+                    number={project.inprogress}
+                    status={Status.INPROGRESS}
                   />
+                  <Item number={project.completed} status={Status.COMPLETED} />
                 </x.div>
+              </x.section>
 
-                <Item number={project.inprogress} status={Status.INPROGRESS} />
-                <Item number={project.completed} status={Status.COMPLETED} />
-              </x.div>
-            </x.div>
-
-            <Lists spaceX={3}>
-              <TasksLists tasks={project.tasks as TaskWithProjectType[]} />
-            </Lists>
-          </>
+              <Lists as='section' spaceX={3} mb={4}>
+                <TasksLists
+                  tasks={project.tasks as TaskWithProjectType[]}
+                  showEmptyState
+                  showDivider
+                />
+              </Lists>
+            </>
+          )
         )}
 
-        <FloatingButton />
+        {project && <FloatingButton />}
       </x.main>
     </>
   )

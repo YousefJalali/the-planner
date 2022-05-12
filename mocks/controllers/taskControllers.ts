@@ -4,17 +4,15 @@ import {
   TaskWithProjectType,
 } from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  ProjectType,
-  ProjectWithTasksType,
-} from '../../common/types/ProjectType'
+import { ProjectType } from '../../common/types/ProjectType'
 import _, { indexOf } from 'lodash'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 
-import { FieldError, FieldErrors } from 'react-hook-form'
+import { FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'
 import isValid from 'date-fns/isValid'
+import { updateProjectStats } from '../../common/utils/updateProjectStats'
 
 //-----------------get date tasks-----------------
 export const getDateTasksController = (
@@ -169,7 +167,8 @@ export const editTaskController = (
 // -----------------change task status-----------------
 export const changeTaskStatusController = (
   { req, res, ctx }: PUT<TaskType>,
-  tasks: TaskType[]
+  tasks: TaskType[],
+  projects: ProjectType[]
 ) => {
   const taskId = req.params.id
   const status = req.url.searchParams.get('status') as Status
@@ -180,9 +179,29 @@ export const changeTaskStatusController = (
 
   for (let task of tasks) {
     if (task.id === taskId) {
+      const oldStatus = task.status
+
       const index = indexOf(tasks, task)
       if (index > -1) {
         tasks[index].status = status
+      }
+
+      for (let project of projects) {
+        if (task.projectId === project.id) {
+          const { proposed, inprogress, completed, progressPercentage } =
+            updateProjectStats({
+              proposed: project.proposed,
+              inprogress: project.inprogress,
+              completed: project.completed,
+              oldStatus,
+              newStatus: status,
+            })
+
+          project.proposed = proposed
+          project.inprogress = inprogress
+          project.completed = completed
+          project.progressPercentage = progressPercentage
+        }
       }
     }
   }

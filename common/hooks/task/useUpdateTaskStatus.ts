@@ -8,23 +8,17 @@ import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTask
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskWithProjectType } from '../../types/TaskType'
 
-const useUpdateTaskStatus = (
-  callLocation: 'dateTasks' | 'projectId' | 'taskId',
-  callback?: (action?: any) => void
-) => {
-  // const [isSubmitting, setSubmit] = useState(false)
-
+const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
   const { mutate } = useSWRConfig()
 
   const taskStatusHandler = async (
     task: TaskWithProjectType,
+    oldStatus: Status,
     newStatus: Status
   ) => {
-    if (callLocation === 'taskId') {
-      console.log('called from taskId')
-    }
+    console.log(task, oldStatus, newStatus)
     // mutate tasks locally
     mutate(
       dateTaskKey(new Date(task.startDate).toDateString()),
@@ -37,7 +31,13 @@ const useUpdateTaskStatus = (
     mutate(
       projectKey(task.projectId),
       (data: { data: ProjectWithTasksType }) =>
-        data && updateTaskStatusInLocalProject(data.data, task.id, newStatus),
+        data &&
+        updateTaskStatusInLocalProject(
+          data.data,
+          task.id,
+          oldStatus,
+          newStatus
+        ),
       false
     )
 

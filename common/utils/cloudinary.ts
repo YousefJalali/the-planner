@@ -14,7 +14,8 @@ cloudinary.config({
 })
 
 const uploadImage = async (path: string, folderName: string) =>
-  new Promise((resolve, reject) => {
+  new Promise<Image>((resolve, reject) => {
+    console.log(folderName)
     cloudinary.uploader.upload(
       path,
       { folder: folderName },
@@ -34,11 +35,17 @@ const uploadImage = async (path: string, folderName: string) =>
     )
   })
 
-export const uploadImages = async (paths: string[], folderName: string) => {
+export const uploadImages = async (
+  paths: string[],
+  projectId: string,
+  taskId: string
+) => {
   try {
     return {
       images: await Promise.all(
-        paths.map(async (path) => await uploadImage(path, folderName))
+        paths.map(
+          async (path) => await uploadImage(path, `${projectId}/${taskId}`)
+        )
       ),
     }
   } catch (error) {
@@ -53,4 +60,28 @@ export const deleteImages = async (ids: string[]) =>
 
       if (result) resolve(result)
     })
+  })
+
+export const deleteWholeProject = async (projectId: string) =>
+  new Promise((resolve, reject) => {
+    cloudinary.api.delete_resources_by_prefix(
+      `${projectId}/`,
+      function (error, result) {
+        if (error) reject({ error })
+
+        if (result) resolve(result)
+      }
+    )
+  })
+
+export const deleteWholeTask = async (projectId: string, taskId: string) =>
+  new Promise((resolve, reject) => {
+    cloudinary.api.delete_resources_by_prefix(
+      `${projectId}/${taskId}/`,
+      function (error, result) {
+        if (error) reject({ error })
+
+        if (result) resolve(result)
+      }
+    )
   })

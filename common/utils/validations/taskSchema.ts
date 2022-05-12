@@ -38,6 +38,8 @@ const taskSchema: SchemaOf<TaskType> = object({
     .nullable(),
   attachments: array(),
   status: mixed<Status>().oneOf(Object.values(Status)).defined(),
+  createdAt: date().defined(),
+  updatedAt: date().defined(),
 })
 
 export default taskSchema

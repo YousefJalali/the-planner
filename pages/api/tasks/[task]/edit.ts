@@ -5,6 +5,8 @@ import { apiYupValidation } from '../../../../common/hooks/useYupValidationResol
 import taskSchema from '../../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
+import { compareAttachments } from '../../../../common/utils/compareAttachments'
+import { deleteImages, uploadImages } from '../../../../common/utils/cloudinary'
 
 const handler = async (
   req: NextApiRequest,
@@ -27,7 +29,7 @@ const handler = async (
     }
 
     //remove project key from task object
-    const task = _.omit(taskForm, 'project') as TaskType
+    let task = _.omit(taskForm, 'project') as TaskType
 
     //validate form
     const validate = await apiYupValidation<TaskType>(taskSchema, task)
@@ -50,6 +52,31 @@ const handler = async (
           } as FieldErrors<TaskType>,
         },
       })
+    }
+
+    const { toBeRemoved, toBeUploaded } = compareAttachments(
+      existedTask.attachments,
+      task.attachments
+    )
+
+    if (toBeRemoved.length > 0) {
+      const ids = toBeRemoved.map((attachment) => attachment.id)
+      await deleteImages(ids)
+    }
+    if (toBeUploaded.length > 0) {
+      const paths = toBeUploaded.map((attachment) => attachment.path)
+
+      const { images, error } = await uploadImages(
+        paths,
+        task.projectId,
+        task.id
+      )
+
+      if (error || !images) {
+        return res.status(400).json({ error })
+      }
+
+      task = { ...task, attachments: [...images, ...task.attachments] }
     }
 
     //push updated task

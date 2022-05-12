@@ -45,10 +45,10 @@ export type GET = {
 }
 
 const initialProjects = multipleProjects()
-const tasks = multipleTasks(initialProjects)
+export const tasks = multipleTasks(initialProjects)
 
 //add tasks ids to projects
-const projects: ProjectType[] = [...initialProjects].map((project) => {
+export const projects: ProjectType[] = [...initialProjects].map((project) => {
   const addTasks = []
   let proposed = 0
   let inprogress = 0
@@ -117,7 +117,7 @@ export const handlers = [
 
   //change task status
   rest.put<TaskType>('/tasks/:id', (req, res, ctx) =>
-    changeTaskStatusController({ req, res, ctx }, tasks)
+    changeTaskStatusController({ req, res, ctx }, tasks, projects)
   ),
 
   //delete a task

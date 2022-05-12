@@ -13,7 +13,11 @@ const handler = async (
 ) => {
   const projectId = req.query.project
 
-  if (!projectId) return
+  if (!projectId) {
+    return res
+      .status(400)
+      .json({ error: 'Something went wrong, please try again' })
+  }
 
   try {
     const project = await prisma.project.findUnique({

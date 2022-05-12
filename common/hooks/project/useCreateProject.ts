@@ -1,57 +1,46 @@
-import { uniqueId } from 'lodash'
+import ObjectID from 'bson-objectid'
 import { useState } from 'react'
 import { UseFormSetError } from 'react-hook-form'
-import { useSWRConfig } from 'swr'
+
 import { createProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { projectsKey } from '../../data/keys'
-import { addProjectToLocalProjects } from '../../data/localData/localProjectsData'
+import useInfiniteProjects from '../../data/useInfiniteProjects'
 import { ProjectType } from '../../types/ProjectType'
 import addServerErrors from '../../utils/addServerErrors'
 
 const useCreateProject = (callback: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)
 
-  const { mutate } = useSWRConfig()
-
   const { setNotification } = useNotification()
+
+  const { mutate } = useInfiniteProjects()
 
   const onSubmit = async (
     formData: ProjectType,
     setError: UseFormSetError<ProjectType>
   ) => {
-    //mutate project locally
-    mutate(
-      projectsKey(),
-      (data: { data: ProjectType[] }) =>
-        data && addProjectToLocalProjects(data.data, formData),
-      false
-    )
-
     const request = async () => {
       setSubmit(true)
-
       //send request
       const { data, error, validationErrors } = await createProject(formData)
 
+      const revalidate = await mutate()
       setSubmit(false)
 
-      mutate(projectsKey())
+      callback()
 
       if (validationErrors) {
         addServerErrors(validationErrors, setError)
       } else {
-        callback()
-
         if (error) {
           setNotification({
-            id: uniqueId(),
+            id: ObjectID().toHexString(),
             message: error,
             variant: 'critical',
             action: 'try again',
             actionFn: async () => {
               setNotification({
-                id: uniqueId(),
+                id: ObjectID().toHexString(),
                 message: 'Creating...',
                 variant: 'information',
                 loading: true,
@@ -65,7 +54,7 @@ const useCreateProject = (callback: (action?: any) => void) => {
 
         if (data) {
           setNotification({
-            id: uniqueId(),
+            id: ObjectID().toHexString(),
             message: 'Project created!',
             variant: 'information',
           })

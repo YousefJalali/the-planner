@@ -41,7 +41,7 @@ const Details = ({
   children: string
   icon: JSX.Element
 }) => (
-  <x.div display='flex' alignItems='center' mt={2} {...props}>
+  <x.span display='flex' alignItems='center' mt={2} {...props}>
     <x.span
       fontSize='sm'
       lineHeight='none'
@@ -51,7 +51,7 @@ const Details = ({
       {icon}
       <x.span ml={1}>{children}</x.span>
     </x.span>
-  </x.div>
+  </x.span>
 )
 
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
@@ -74,68 +74,67 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
   const isTaskCompleted = task.status === Status.COMPLETED
 
   return (
-    <x.div position='relative' data-testid='task-item'>
-      <x.div
+    <x.div
+      data-testid='task-item'
+      display='flex'
+      justifyContent='space-between'
+      alignItems='center'
+      position='relative'
+      p={2}
+      backgroundColor='layout-level1'
+      // border='1px solid'
+      // borderColor='layout-level0accent'
+      borderRadius={2}
+    >
+      <x.a
+        data-testid='taskItem-details'
+        onClick={onDetails}
         display='flex'
-        justifyContent='space-between'
-        alignItems='center'
-        position='relative'
-        p={2}
-        backgroundColor='layout-level0accent'
-        borderRadius={2}
+        flexDirection='column'
+        flex='0 0 calc(100% - 36px - 36px)'
+        pr={1}
+        userSelect='none'
       >
-        <x.a
-          data-testid='taskItem-details'
-          onClick={onDetails}
-          display='flex'
-          flexDirection='column'
-          flex='0 0 calc(100% - 36px - 36px)'
-          pr={1}
-          userSelect='none'
+        {/* Title text */}
+        <Title
+          text='body'
+          textDecoration={isTaskCompleted && 'line-through'}
+          color={isTaskCompleted ? 'content-nonessential' : 'content-contrast'}
+          data-testid='taskItem-title'
         >
-          {/* Title text */}
-          <Title
-            text='body'
-            textDecoration={isTaskCompleted && 'line-through'}
-            color={
-              isTaskCompleted ? 'content-nonessential' : 'content-contrast'
-            }
-            data-testid='taskItem-title'
-          >
-            {task.title}
-          </Title>
+          {task.title}
+        </Title>
 
-          {/* time & attachments */}
-          <x.div display='flex' spaceX={3}>
-            {time && (
-              <Details
-                data-testid='taskItem-time'
-                isTaskCompleted={isTaskCompleted}
-                icon={<FiClock />}
-                children={time}
-              />
-            )}
+        {/* time & attachments */}
+        <x.div display='flex' spaceX={3}>
+          {time && (
+            <Details
+              data-testid='taskItem-time'
+              isTaskCompleted={isTaskCompleted}
+              icon={<FiClock />}
+              children={time}
+            />
+          )}
 
-            {task.attachments.length > 0 && (
-              <Details
-                data-testid='taskItem-attachment'
-                isTaskCompleted={isTaskCompleted}
-                icon={<FiPaperclip />}
-                children={attachment}
-              />
-            )}
-          </x.div>
-        </x.a>
+          {task.attachments.length > 0 && (
+            <Details
+              data-testid='taskItem-attachment'
+              isTaskCompleted={isTaskCompleted}
+              icon={<FiPaperclip />}
+              children={attachment}
+            />
+          )}
+        </x.div>
+      </x.a>
 
-        <Checkbox
-          id={task.id}
-          checked={task.status === Status.COMPLETED}
-          onChange={() => onCheck(task)}
-          color={task.project.color}
-        />
+      <Checkbox
+        id={task.id}
+        checked={task.status === Status.COMPLETED}
+        onChange={() => onCheck(task)}
+        color={task.project.color}
+      />
 
-        {options}
-      </x.div>
+      {options}
     </x.div>
   )
 }

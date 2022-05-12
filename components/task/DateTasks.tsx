@@ -3,7 +3,7 @@ import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useNotification } from '../../common/contexts/NotificationCtx'
-import useFetchedDateTasks from '../../common/data/useFetchedDateTasks'
+import useDateTasks from '../../common/data/useDateTasks'
 import DateSelector from '../DateSelector'
 import SkeletonList from '../skeletons/SkeletonList'
 import TagSkeleton from '../skeletons/TagSkeleton'
@@ -11,12 +11,12 @@ import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'
 import NoTasks from './NoTasks'
 import TasksLists from './TasksLists'
 
-const Tasks = () => {
+const DateTasks = () => {
   const router = useRouter()
 
   const [d, setDate] = useState(new Date().toDateString())
 
-  const { dateTasks, isLoading, error } = useFetchedDateTasks(d, 'Tasks')
+  const { dateTasks, isLoading, error } = useDateTasks(d)
 
   const { setNotification } = useNotification()
 
@@ -64,7 +64,7 @@ const Tasks = () => {
 
       <DateSelector dateString={d} setDate={setDate} />
 
-      <x.div px={4}>
+      <x.div px={4} overflowX='hidden'>
         {error ? (
           <NoTasks />
         ) : isLoading ? (
@@ -78,13 +78,11 @@ const Tasks = () => {
         ) : dateTasks && dateTasks.length <= 0 ? (
           <NoTasks />
         ) : (
-          <x.ul>
-            <TasksLists tasks={dateTasks} />
-          </x.ul>
+          <TasksLists tasks={dateTasks} />
         )}
       </x.div>
     </x.section>
   )
 }
 
-export default Tasks
+export default DateTasks

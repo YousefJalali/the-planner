@@ -1,6 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { useForm, Controller, UseFormSetError } from 'react-hook-form'
-import _, { uniqueId } from 'lodash'
+import _ from 'lodash'
+import ObjectID from 'bson-objectid'
 
 import Input from '../formElements/Input'
 import TextEditor from '../formElements/TextEditor'
@@ -10,7 +11,6 @@ import useYupValidationResolver from '../../common/hooks/useYupValidationResolve
 
 import { ProjectType } from '../../common/types/ProjectType'
 import ColorInput from '../formElements/ColorInput'
-import randomColor from 'randomcolor'
 import Button from '../formElements/Button'
 import Form from '../form/Form'
 import projectSchema from '../../common/utils/validations/projectSchema'
@@ -18,7 +18,7 @@ import projectSchema from '../../common/utils/validations/projectSchema'
 type Props<T> = {
   id: 'edit' | 'create'
   title?: string
-  defaultValues?: ProjectType
+  defaultValues?: Partial<ProjectType>
   onSubmit: (data: ProjectType, setError: UseFormSetError<ProjectType>) => void
   isSubmitting?: boolean
   onRequestClose?: () => void
@@ -26,15 +26,17 @@ type Props<T> = {
 }
 
 const initialDefaultValues: ProjectType = {
-  id: uniqueId(),
+  id: ObjectID().toHexString(),
   title: '',
   description: '',
-  color: randomColor(),
+  color: '#cccccc',
   proposed: 0,
   inprogress: 0,
   completed: 0,
   progressPercentage: 0,
   isHidden: false,
+  updatedAt: new Date(),
+  createdAt: new Date(),
 }
 
 function ProjectForm<T>({
@@ -54,12 +56,15 @@ function ProjectForm<T>({
     handleSubmit,
     control,
     setError,
-    formState: { isDirty },
+    formState: { isDirty, errors },
   } = useForm<ProjectType>({
-    defaultValues,
+    defaultValues: {
+      ...initialDefaultValues,
+      ...defaultValues,
+    },
     resolver,
   })
-
+  console.log(errors)
   const onSubmitHandler = async (data: ProjectType) => {
     onSubmit(_.omit(data, 'tasks'), setError)
   }
@@ -71,6 +76,7 @@ function ProjectForm<T>({
       title={title}
       onRequestClose={onRequestClose}
       onSubmit={handleSubmit(onSubmitHandler)}
+      isSubmitting={isSubmitting}
       isDirty={isDirty}
     >
       <Fieldset
@@ -150,8 +156,9 @@ function ProjectForm<T>({
           <Button
             name='delete project'
             type='button'
-            variant='textOnly'
+            variant='outline'
             color='critical'
+            size='large'
             justifyContent='center'
             w='30%'
             onClick={onDelete}
@@ -162,9 +169,7 @@ function ProjectForm<T>({
         <Button
           name='submit project'
           type='submit'
-          position='sticky'
-          zIndex={3}
-          bottom={24}
+          isLoading={isSubmitting}
           size='large'
           justifyContent='center'
           w='100%'

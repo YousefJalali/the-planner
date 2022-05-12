@@ -8,7 +8,7 @@ import ProjectsCardsList from '../components/project/ProjectsCardsList'
 import SwitchButton from '../components/formElements/SwitchButton'
 
 import FloatingButton from '../components/FloatingButton'
-import Tasks from '../components/task/Tasks'
+import DateTasks from '../components/task/DateTasks'
 import Button from '../components/formElements/Button'
 import Logo from '../styles/illustrations/Logo'
 
@@ -26,11 +26,16 @@ const Home: NextPage<Props> = (props) => {
   return (
     <>
       <Header pageTitle=''>
-        <x.div h={24}>
+        <x.div ml={4} h={48}>
           <Logo />
         </x.div>
 
-        <x.div display='flex' alignItems='center' spaceX={1}>
+        <x.div
+          display='flex'
+          alignItems='center'
+          spaceX={1}
+          mr='calc(24px - 0.5rem)'
+        >
           <SwitchButton
             id='color-mode'
             height={24}
@@ -49,41 +54,38 @@ const Home: NextPage<Props> = (props) => {
         </x.div>
       </Header>
 
-      <x.main overflow='hidden'>
+      <>
         <x.section px={4} mt={4}>
-          <div>
-            <x.p
-              text='headline.three'
-              color='content-contrast'
-              fontWeight='light'
-            >
-              Hello mate,{' '}
-              <x.span text='headline.three' fontWeight='medium'>
-                still in doubt?
-              </x.span>
-            </x.p>
-          </div>
-          <div>
-            <x.p text='body.large' mt={2}>
-              <x.span display='inline' color='content-subtle'>
-                Check this out{' '}
-              </x.span>
+          <x.p
+            text='headline.three'
+            color='content-contrast'
+            fontWeight='light'
+          >
+            Hello mate,{' '}
+            <x.span text='headline.three' fontWeight='medium'>
+              still in doubt?
+            </x.span>
+          </x.p>
 
-              <Emoji
-                label='backhand index pointing down'
-                symbol='👇'
-                height={24}
-              />
-            </x.p>
-          </div>
+          <x.p text='body.large' mt={2}>
+            <x.span display='inline' color='content-subtle'>
+              Check this out{' '}
+            </x.span>
+
+            <Emoji
+              label='backhand index pointing down'
+              symbol='👇'
+              height={24}
+            />
+          </x.p>
         </x.section>
 
         <ProjectsCardsList />
 
-        <Tasks />
+        <DateTasks />
 
         <FloatingButton />
-      </x.main>
+      </>
     </>
   )
 }

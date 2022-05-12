@@ -1,6 +1,7 @@
 import _ from 'lodash'
-import { ProjectType, ProjectWithTasksType } from '../../types/ProjectType'
+import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskType } from '../../types/TaskType'
+import { updateProjectStats } from '../../utils/updateProjectStats'
 
 //create task
 export const addTaskToLocalProjectData = (
@@ -29,25 +30,15 @@ export const removeTaskFromLocalProjectData = (
   })
 }
 
-//create project
-export const addProjectToLocalProjects = (
-  data: ProjectType[],
-  formData: ProjectType
-) => {
-  return new Promise<{ data: ProjectType[] }>((resolve, reject) => {
-    resolve({ data: [...data, { ...formData }] })
-  })
-}
-
 //edit project
-export const updateProjectInLocalProjectId = (
-  data: ProjectType,
-  formData: ProjectType
-) => {
-  return new Promise<{ data: ProjectType }>((resolve, reject) => {
-    resolve({ data: { ...formData } })
-  })
-}
+// export const updateProjectInLocalProjectId = (
+//   data: ProjectType,
+//   formData: ProjectType
+// ) => {
+//   return new Promise<{ data: ProjectType }>((resolve, reject) => {
+//     resolve({ data: { ...formData } })
+//   })
+// }
 
 //edit task
 export const updateTaskInLocalProject = (
@@ -69,14 +60,28 @@ export const updateTaskInLocalProject = (
 export const updateTaskStatusInLocalProject = (
   data: ProjectWithTasksType,
   taskId: string,
-  status: Status
+  oldStatus: Status,
+  newStatus: Status
 ) => {
   return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
+    const { proposed, inprogress, completed, progressPercentage } =
+      updateProjectStats({
+        proposed: data.proposed,
+        inprogress: data.inprogress,
+        completed: data.completed,
+        oldStatus,
+        newStatus,
+      })
+
     resolve({
       data: {
         ...data,
+        proposed,
+        inprogress,
+        completed,
+        progressPercentage,
         tasks: (data.tasks as TaskType[]).map((task) =>
-          task.id === taskId ? { ...task, status } : task
+          task.id === taskId ? { ...task, status: newStatus } : task
         ),
       },
     })

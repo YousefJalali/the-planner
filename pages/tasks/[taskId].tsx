@@ -1,38 +1,49 @@
 import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
-import useFetchedTaskById from '../../common/data/useFetchedTaskById'
+import useTask from '../../common/data/useTask'
+import Button from '../../components/formElements/Button'
 import Header from '../../components/layout/Header'
+import Spinner from '../../components/Spinner'
 import TaskDetails from '../../components/task/TaskDetails'
 import TaskOptions from '../../components/task/TaskOptions'
 
 const TaskDetailsPage = () => {
   const router = useRouter()
 
-  const { task, error } = useFetchedTaskById(router.query.taskId as string)
-
-  if (!task) return <div>no task</div>
+  const { task, error, isLoading } = useTask(router.query.taskId as string)
 
   return (
     <main>
       <Header pageTitle={task ? task.title : ''}>
-        <x.a
+        <Button
+          name='back'
+          variant='outline'
           onClick={() => router.back()}
-          h='3rem'
-          w='3rem'
-          fontSize='1.5rem'
-          display='flex'
-          // justifyContent='center'
-          alignItems='center'
+          ml={4}
+          borderColor='layout-level0accent'
+          borderRadius='full'
+          p={1}
         >
-          <FiArrowLeft />
-        </x.a>
+          <x.span fontSize='1.5rem' color='content-contrast'>
+            <FiArrowLeft />
+          </x.span>
+        </Button>
 
-        <TaskOptions task={task} callLocation='taskId' iconSize='1.5rem' />
+        {task ? <TaskOptions task={task} inHeader /> : <div />}
       </Header>
 
-      {task && <TaskDetails task={task} showTag />}
-      <x.section overflow='hidden' px={4}></x.section>
+      {isLoading ? (
+        <x.div px={4} display='flex' justifyContent='center'>
+          <Spinner pathColor='brand-primary' />
+        </x.div>
+      ) : error ? (
+        <x.div px={4} display='flex' justifyContent='center'>
+          {error}
+        </x.div>
+      ) : (
+        task && <TaskDetails task={task} showTag />
+      )}
     </main>
   )
 }

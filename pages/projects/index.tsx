@@ -1,8 +1,7 @@
 import { NextPage } from 'next'
 import { FiArrowLeft, FiPlus } from 'react-icons/fi'
-import { useInView } from 'react-intersection-observer'
 import _ from 'lodash'
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { x } from '@xstyled/styled-components'
 
@@ -10,24 +9,45 @@ import Header from '../../components/layout/Header'
 import ProjectCard from '../../components/project/ProjectCard'
 import NewProjectCard from '../../components/project/NewProjectCard'
 
-import FilterProjects from '../../components/project/FilterProjects'
-import useInfiniteFetchedProjects from '../../common/data/useFetchedInfiniteProjects'
+import FilterProjects, {
+  filterType,
+} from '../../components/project/FilterProjects'
+import useInfiniteProjects from '../../common/data/useInfiniteProjects'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import { useModal } from '../../common/contexts/ModalCtx'
 import CreateProject from '../../components/project/CreateProject'
 import Button from '../../components/formElements/Button'
 import Spinner from '../../components/Spinner'
+import { AnimatePresence, motion } from 'framer-motion'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { Status } from '../../common/types/TaskType'
 
 const Index: NextPage = () => {
-  // const [createProjectModal, setCreateProjectModal] = useToggle()
-  const [filter, setFilter] = useState<'all' | 'ongoing' | 'completed'>('all')
+  const [filter, setFilter] = useState<filterType>(null)
 
-  const { projects, error, isLoading, size, setSize, isValidating } =
-    useInfiniteFetchedProjects()
+  const { projects, error, isLoading, size, setSize, hasReachedEnd } =
+    useInfiniteProjects(filter)
 
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()
+
+  const filterHandler = (filter: filterType) => {
+    setFilter(filter)
+
+    router.push(
+      {
+        query: filter
+          ? {
+              ...router.query,
+              q: filter.toLowerCase(),
+            }
+          : null,
+      },
+      undefined,
+      { shallow: true }
+    )
+  }
 
   const createProjectHandler = () => {
     setModal({
@@ -38,48 +58,68 @@ const Index: NextPage = () => {
     })
   }
 
-  const { ref, inView } = useInView({
-    threshold: 0,
-  })
+  const animations = {
+    initial: { y: 300 },
+    animate: { y: 0 },
+    exit: { y: 300 },
+  }
 
-  useEffect(() => {
-    if (!isLoading && inView) {
-      setSize(size + 1)
-    }
-  }, [inView, isLoading])
+  const renderProjects = useMemo(() => {
+    const filteredProjects = projects?.filter((p) =>
+      filter === 'completed'
+        ? p.progressPercentage === 100
+        : filter === 'ongoing'
+        ? p.progressPercentage !== 100
+        : p
+    )
 
-  const RenderProjects = useCallback(
-    () => (
-      <x.ul pb={3} spaceY={4}>
-        {projects
-          ?.filter((p) =>
-            filter === 'completed'
-              ? p.progressPercentage === 100
-              : filter === 'ongoing'
-              ? p.progressPercentage !== 100
-              : p
-          )
-          .map((project) => (
-            <x.li key={project.id}>
-              <ProjectCard
-                project={project}
-                onClick={() => router.push(`/projects/${project.id}`)}
-              />
-            </x.li>
-          ))}
-      </x.ul>
-    ),
-    [projects, filter]
-  )
+    return projects.length > 0 ? (
+      projects.map((project, i) => {
+        return (
+          <motion.li key={project.id} {...animations}>
+            <ProjectCard
+              project={project}
+              onClick={() => router.push(`/projects/${project.id}`)}
+            />
+          </motion.li>
+        )
+      })
+    ) : (
+      <x.li text='body.small' textAlign='center' color='content-subtle'>
+        {filter === 'completed'
+          ? 'No completed projects'
+          : 'No projects in progress'}
+      </x.li>
+    )
+  }, [projects, filter])
+
+  const EmptyState = () =>
+    !filter ? (
+      <NewProjectCard />
+    ) : (
+      <x.span
+        display='block'
+        text='body.small'
+        textAlign='center'
+        color='content-subtle'
+      >
+        {filter === Status.INPROGRESS
+          ? 'No projects in progress'
+          : 'No completed projects'}
+      </x.span>
+    )
 
   return (
-    <main>
+    <>
       <Header pageTitle='Projects'>
         <Button
           name='back'
-          variant='textOnly'
+          variant='outline'
           onClick={() => router.push('/')}
-          // borderColor='layout-divider'
+          ml={4}
+          borderColor='layout-level0accent'
+          borderRadius='full'
+          p={1}
         >
           <x.span fontSize='1.5rem' color='content-contrast'>
             <FiArrowLeft />
@@ -88,21 +128,26 @@ const Index: NextPage = () => {
 
         <Button
           name='create project'
-          variant='textOnly'
+          variant='outline'
           onClick={createProjectHandler}
+          mr={4}
+          borderColor='layout-level0accent'
+          borderRadius='full'
+          p={1}
         >
           <x.span fontSize='1.5rem' color='content-contrast'>
             <FiPlus />
           </x.span>
         </Button>
       </Header>
+
       <x.section overflow='hidden' px={4}>
         <x.h1 text='headline.two' mb={4}>
           Projects
         </x.h1>
 
         <x.div mb={3}>
-          <FilterProjects active={filter} setActive={setFilter} />
+          <FilterProjects active={filter} setActive={filterHandler} />
         </x.div>
 
         {isLoading ? (
@@ -113,32 +158,50 @@ const Index: NextPage = () => {
               </x.li>
             ))}
           </x.ul>
-        ) : projects && projects.length <= 0 ? (
-          <NewProjectCard />
         ) : error ? (
-          <x.div
-            position='fixed'
-            bottom={24}
-            left={0}
-            backgroundColor='layout-level0accent'
-          >
-            {JSON.stringify(error)}
-          </x.div>
+          <x.div>{error}</x.div>
+        ) : projects && projects.length <= 0 ? (
+          <EmptyState />
         ) : (
-          <>
-            <RenderProjects />
-            {isValidating && (
-              <x.div display='flex' justifyContent='center'>
-                <Spinner />
-              </x.div>
-            )}
-            <x.button visibility='hidden' ref={ref}>
-              load more
-            </x.button>
-          </>
+          <AnimatePresence>
+            <InfiniteScroll
+              dataLength={projects.length}
+              next={() => setSize(size + 1)}
+              hasMore={!hasReachedEnd}
+              loader={
+                <x.div display='flex' justifyContent='center' py={3}>
+                  <Spinner
+                    pathColor='brand-primary'
+                    trailColor='layout-level0accent'
+                  />
+                </x.div>
+              }
+              // endMessage={
+              //   <p style={{ textAlign: 'center' }}>
+              //     <b>Yay! You have seen it all</b>
+              //   </p>
+              // }
+              // below props only if you need pull down functionality
+              // refreshFunction={this.refresh}
+              // pullDownToRefresh
+              // pullDownToRefreshThreshold={50}
+              // pullDownToRefreshContent={
+              //   <h3 style={{ textAlign: 'center' }}>
+              //     &#8595; Pull down to refresh
+              //   </h3>
+              // }
+              // releaseToRefreshContent={
+              //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+              // }
+            >
+              <x.ul pb={3} spaceY={4}>
+                {renderProjects}
+              </x.ul>
+            </InfiniteScroll>
+          </AnimatePresence>
         )}
       </x.section>
-    </main>
+    </>
   )
 }
 

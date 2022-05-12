@@ -1,4 +1,4 @@
-import styled, {
+import {
   SystemProp,
   x,
   PositionProps,
@@ -10,7 +10,6 @@ import styled, {
   Theme,
   JustifyContentProps,
   FlexProps,
-  css,
   BorderRadiusProps,
   BackgroundColorProps,
   BorderColorProps,
@@ -46,20 +45,6 @@ type AllProps = {
   > &
   ButtonHTMLAttributes<HTMLButtonElement>
 
-// const StyledButton = styled(x.button)<Pick<Props, 'size'> & HTMLButtonElement>`
-//   text-transform: capitalize;
-
-//   > svg {
-//     margin-right: 2;
-
-//     ${(props) =>
-//       props.size === 'small' &&
-//       css`
-//         margin-right: 1;
-//       `}
-//   }
-// `
-
 const Button: FC<AllProps> = ({
   name,
   as = 'button',
@@ -78,8 +63,6 @@ const Button: FC<AllProps> = ({
       type='button'
       name={name}
       aria-label={name}
-      // as={variant === 'link' ? 'a' : 'button'}
-      // size={size}
       minHeight={36}
       minWidth={36}
       h='fit-content'
@@ -129,6 +112,10 @@ const Button: FC<AllProps> = ({
           : 'brand-primary'
       }
       textDecoration={(variant === 'link' && 'underline') || 'none'}
+      textTransform='capitalize'
+      // outline={{ focus: 'none' }}
+      // ring={{ focus: 2 }}
+      // ringColor={{ focus: 'red' }}
       {...props}
     >
       {isLoading ? (

@@ -1,28 +1,29 @@
-import { ProjectType } from '../../common/types/ProjectType'
 import faker from '@faker-js/faker'
-import { v4 as uuidv4 } from 'uuid'
-
-// function randomInteger(min: number, max: number) {
-//   return Math.floor(Math.random() * (max - min + 1)) + min
-// }
+import randomColor from 'randomcolor'
+import ObjectID from 'bson-objectid'
+import { ProjectType } from '../../common/types/ProjectType'
 
 export const project: () => ProjectType = () => {
   return {
-    id: uuidv4(),
+    id: ObjectID().toHexString(),
     title: faker.company.companyName(),
     description: faker.lorem.paragraph(),
-    color: `#${('00000' + ((Math.random() * (1 << 24)) | 0).toString(16)).slice(
-      -6
-    )}`,
-    // tasks: [],
+    color: randomColor(),
     proposed: 0,
     inprogress: 0,
     completed: 0,
     progressPercentage: 0,
     isHidden: Math.random() < 0.5,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }
 }
 
 export const multipleProjects: () => ProjectType[] = () => {
-  return Array.from({ length: 20 }, project)
+  const projects = Array.from({ length: 50 }, project)
+  return projects
+  // return projects.map((p, i) => ({
+  //   ...p,
+  //   title: i + 1 + ' - ' + p.title,
+  // }))
 }

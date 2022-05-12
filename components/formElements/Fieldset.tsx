@@ -3,9 +3,7 @@ import styled, { css, x } from '@xstyled/styled-components'
 import _ from 'lodash'
 
 export const Label = styled(x.label)`
-  color: content-subtle;
   display: block;
-  /* margin-bottom: 1; */
   font-size: sm;
   line-height: relaxed;
   &::first-letter {
@@ -18,6 +16,7 @@ type WrapperProps = {
   error?: boolean
   noBorder?: boolean
   width?: string
+  size?: 'small' | 'large'
 }
 
 const Wrapper = styled.div<WrapperProps>`
@@ -39,6 +38,12 @@ const Wrapper = styled.div<WrapperProps>`
     padding: 3 2;
     background-color: layout-level0;
     width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
+
+    ${({ size }) =>
+      size === 'small' &&
+      css`
+        padding: 2;
+      `}
   }
 
   &:focus-within {
@@ -94,6 +99,7 @@ type Props = {
   optionalField?: boolean
   id?: string
   width?: 'fit' | 'full'
+  size?: 'small' | 'large'
 }
 
 function FieldsetComp({
@@ -108,6 +114,7 @@ function FieldsetComp({
   optionalField,
   id,
   width,
+  size,
 }: Props) {
   const isError = _.isObject(error) || _.isArray(error)
 
@@ -115,7 +122,7 @@ function FieldsetComp({
     <Fieldset disabled={disabled}>
       {label && (
         <Label
-          color={isError && 'utility-critical'}
+          color={isError ? 'utility-critical' : 'content-subtle'}
           htmlFor={id}
           visibility={showLabel ? 'visible' : 'hidden'}
         >
@@ -125,7 +132,7 @@ function FieldsetComp({
           )}
         </Label>
       )}
-      <Wrapper error={isError} noBorder={noBorder} width={width}>
+      <Wrapper error={isError} noBorder={noBorder} width={width} size={size}>
         {children}
       </Wrapper>
 

@@ -47,12 +47,14 @@ function Form({
   return (
     <>
       <Head>
-        {/* <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title> */}
         <meta
           name='viewport'
           content='width=device-width, initial-scale=1, maximum-scale=1'
         ></meta>
       </Head>
+
+      <LoadingOverlay isSubmitting={isSubmitting} />
+
       <x.form
         id={`${id}-${name}`}
         name={name}
@@ -67,8 +69,6 @@ function Form({
           />
         )}
         {children}
-
-        <LoadingOverlay isSubmitting={isSubmitting} />
       </x.form>
     </>
   )

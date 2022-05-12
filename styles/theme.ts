@@ -57,7 +57,11 @@ const colors = {
   },
 }
 
-const shadows = [`${colors['brand-primary']}50 0px 5px 15px`]
+const shadows = [
+  `${colors['brand-primary']}50 0px 5px 15px`,
+  'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+  'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;',
+]
 // const shadows = ['rgba(0, 0, 0, 0.35) 0px 5px 15px']
 
 const space = {

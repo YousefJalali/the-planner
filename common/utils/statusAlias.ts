@@ -2,7 +2,7 @@ import { Status } from '../types/TaskType'
 
 export const statusAlias = (status: Status) => {
   return status === Status.PROPOSED
-    ? 'Proposed'
+    ? 'Pending'
     : status === Status.INPROGRESS
     ? 'Ongoing'
     : 'Completed'

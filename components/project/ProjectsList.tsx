@@ -1,18 +1,22 @@
 import { x } from '@xstyled/styled-components'
 import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import { ProjectType } from '../../common/types/ProjectType'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import useInfiniteProjects from '../../common/data/useInfiniteProjects'
 import Fieldset from '../formElements/Fieldset'
 import ProjectItem from '../project/ProjectItem'
+import Spinner from '../Spinner'
 
 type Props = {
   onSelect: (id: string) => void
   onCreate: () => void
-  projects: ProjectType[]
 }
 
-const ProjectsList: FC<Props> = ({ onSelect, onCreate, projects }) => {
+const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
   const [search, setSearch] = useState('')
+
+  const { projects, isLoading, size, setSize, hasReachedEnd } =
+    useInfiniteProjects()
 
   const onSelectHandler = (id: string) => {
     setSearch('')
@@ -48,13 +52,14 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate, projects }) => {
     >
       {projects?.length > 10 && (
         <x.li p={3} position='sticky' top='0'>
-          <Fieldset>
+          <Fieldset size='small'>
             <x.input
               type='search'
               placeholder='Search...'
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               backgroundColor='layout-level0'
+              boxShadow={2}
               // onFocus={() => setFocus(true)}
               // onBlur={() => setFocus(false)}
             />
@@ -63,7 +68,23 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate, projects }) => {
       )}
 
       {renderList.length > 0 ? (
-        renderList
+        <>
+          <InfiniteScroll
+            dataLength={projects.length}
+            next={() => setSize(size + 1)}
+            hasMore={!hasReachedEnd}
+            loader={
+              <x.div display='flex' justifyContent='center' py={3}>
+                <Spinner
+                  pathColor='brand-primary'
+                  trailColor='layout-level0accent'
+                />
+              </x.div>
+            }
+          >
+            {renderList}
+          </InfiniteScroll>
+        </>
       ) : (
         <x.li p={3} color='content-nonessential'>
           No project found

@@ -1,14 +1,15 @@
 import { FC } from 'react'
 import Image from 'next/image'
-import styled, { x } from '@xstyled/styled-components'
-import { FiXCircle, FiX } from 'react-icons/fi'
-import { TaskWithProjectType } from '../../common/types/TaskType'
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
+import { useRouter } from 'next/router'
 import format from 'date-fns/format'
+import { FiX } from 'react-icons/fi'
+import styled, { x } from '@xstyled/styled-components'
+import Zoom from 'react-medium-image-zoom'
+
+import 'react-medium-image-zoom/dist/styles.css'
+import { TaskWithProjectType } from '../../common/types/TaskType'
 import TextEditor from '../formElements/TextEditor'
 import ScrollableList from '../ScrollableList'
-import { useRouter } from 'next/router'
 import Tag from './Tag'
 import { Label } from '../formElements/Fieldset'
 import Button from '../formElements/Button'
@@ -25,17 +26,18 @@ const ImageItem = styled(x.div)`
   }
 
   img {
-    border-radius: 10px;
+    border-radius: 2;
   }
 `
 
 const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
-  const { title, project, attachments, description, startDate } = task
+  const { title, project, projectId, attachments, description, startDate } =
+    task
 
   const router = useRouter()
 
-  const onTitleClick = (taskId: string) => {
-    router.push(`/tasks/${taskId}`)
+  const linkHandler = (route: string) => {
+    router.push(route)
     if (onClose) {
       onClose()
     }
@@ -43,7 +45,7 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
 
   return (
     <>
-      <x.div px={4} mt={4} spaceY={5} mb={5}>
+      <x.section px={4} mt={4} spaceY={5} mb={5}>
         {/* project */}
         <x.div display='flex' justifyContent='space-between'>
           <x.div display='flex'>
@@ -60,6 +62,7 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
                 text='headline.three'
                 lineHeight='tight'
                 color='content-contrast'
+                onClick={() => linkHandler(`/projects/${projectId}`)}
               >
                 {project.title}
               </x.h1>
@@ -85,15 +88,15 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
         {/* task */}
         <x.div mt={3}>
           <Label>Task</Label>
-          <x.a onClick={() => onTitleClick(task.id)} textDecoration='underline'>
-            <x.p
+          <x.a onClick={() => linkHandler(`/tasks/${task.id}`)}>
+            <x.h2
               text='body.large'
               color='content-contrast'
               fontWeight='bold'
               data-testid='taskDetails-title'
             >
               {title}
-            </x.p>
+            </x.h2>
           </x.a>
 
           {description?.length > 0 && (
@@ -110,11 +113,11 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
             {format(new Date(startDate), 'PPPP')}
           </x.p>
         </x.div>
-      </x.div>
+      </x.section>
 
       {/* attachments */}
       {attachments.length > 0 && (
-        <x.div my={3}>
+        <x.section my={3}>
           <x.div ml={4}>
             <Label>Attachments</Label>
           </x.div>
@@ -136,7 +139,7 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
               </ImageItem>
             ))}
           </ScrollableList>
-        </x.div>
+        </x.section>
       )}
     </>
   )
