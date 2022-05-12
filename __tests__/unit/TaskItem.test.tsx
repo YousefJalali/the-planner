@@ -1,11 +1,8 @@
+import userEvent from '@testing-library/user-event'
 import { render, screen, waitFor } from '../../test-utils'
 import TaskItem from '../../components/task/TaskItem'
-import {
-  Status,
-  TaskType,
-  TaskWithProjectType,
-} from '../../common/types/TaskType'
-import userEvent from '@testing-library/user-event'
+import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import TaskOptions from '../../components/task/TaskOptions'
 
 const defaultTask = {
   id: 'test',
@@ -23,19 +20,20 @@ const defaultTask = {
     title: 'project-test',
     color: '#000000',
   },
+  createdAt: new Date(),
+  updatedAt: new Date(),
 } as TaskWithProjectType
 
 function setup(task: TaskWithProjectType = defaultTask) {
   const onCheck: (task: TaskWithProjectType) => void = jest.fn()
   const onDetails: () => void = jest.fn()
-  const onOptions: () => void = jest.fn()
 
   const utils = render(
     <TaskItem
       task={task}
       onCheck={onCheck}
       onDetails={onDetails}
-      onOptions={onOptions}
+      options={<TaskOptions task={task} />}
     />
   )
 
@@ -55,32 +53,13 @@ function setup(task: TaskWithProjectType = defaultTask) {
     attachment,
     time,
     onCheck,
-    onOptions,
     onDetails,
   }
 }
 
 describe('Task item', () => {
   test('render without time and attachments', async () => {
-    const task: TaskWithProjectType = {
-      id: 'test',
-      title: 'test task item',
-      description: 'task item to be tested',
-      projectId: 'test project',
-      openTask: false,
-      startDate: new Date(),
-      endDate: null,
-      startTime: null,
-      endTime: null,
-      attachments: [],
-      status: Status.PROPOSED,
-      project: {
-        title: 'project-test',
-        color: '#000000',
-      },
-    }
-
-    const { time, attachment } = setup(task)
+    const { time, attachment } = setup(defaultTask)
 
     expect(time).not.toBeInTheDocument()
     expect(attachment).not.toBeInTheDocument()
@@ -88,22 +67,9 @@ describe('Task item', () => {
 
   test('render with time and without attachments', async () => {
     const task: TaskWithProjectType = {
-      id: 'test',
-      title: 'test task item',
-      description: 'task item to be tested',
-      projectId: 'test project',
-      openTask: false,
-      startDate: new Date(),
-      endDate: null,
+      ...defaultTask,
       startTime: new Date(),
       endTime: new Date(),
-
-      attachments: [],
-      status: Status.PROPOSED,
-      project: {
-        title: 'project-test',
-        color: '#000000',
-      },
     }
 
     const { time, attachment } = setup(task)
@@ -114,15 +80,7 @@ describe('Task item', () => {
 
   test('render without time and with attachments', async () => {
     const task: TaskWithProjectType = {
-      id: 'test',
-      title: 'test task item',
-      description: 'task item to be tested',
-      projectId: 'test project',
-      openTask: false,
-      startDate: new Date(),
-      endDate: null,
-      startTime: null,
-      endTime: null,
+      ...defaultTask,
       attachments: [
         {
           id: 'img-test',
@@ -132,11 +90,6 @@ describe('Task item', () => {
           width: 100,
         },
       ],
-      status: Status.PROPOSED,
-      project: {
-        title: 'project-test',
-        color: '#000000',
-      },
     }
 
     const { time, attachment } = setup(task)
@@ -152,12 +105,12 @@ describe('Task item', () => {
     expect(onCheck).toHaveBeenCalledTimes(1)
   })
 
-  test('should call onOptions function one time', () => {
-    const { kebabButton, onOptions } = setup()
+  // test('should call onOptions function one time', () => {
+  //   const { kebabButton, onOptions } = setup()
 
-    userEvent.click(kebabButton)
-    expect(onOptions).toHaveBeenCalledTimes(1)
-  })
+  //   userEvent.click(kebabButton)
+  //   expect(onOptions).toHaveBeenCalledTimes(1)
+  // })
 
   test('task click should show details modal', async () => {
     const { detailsButton, onDetails } = setup()

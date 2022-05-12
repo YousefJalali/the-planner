@@ -11,16 +11,5 @@ export type ImageType = Image
 
 export type TaskType = Task
 export type TaskWithProjectType = Task & {
-  project: Omit<
-    ProjectType,
-    | 'id'
-    | 'description'
-    | 'tasks'
-    | 'proposed'
-    | 'inprogress'
-    | 'completed'
-    | 'progress'
-    | 'isHidden'
-    | 'progressPercentage'
-  >
+  project: Pick<ProjectType, 'title' | 'color'>
 }

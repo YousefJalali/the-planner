@@ -19,13 +19,11 @@ const NewProjectCard = () => {
 
   return (
     <x.div
+      position='relative'
       display='flex'
       justifyContent='space-between'
-      position='relative'
       overflow='hidden'
       backgroundColor='layout-level0accent'
-      // border='1px solid'
-      // borderColor='layout-divider'
       p={3}
       borderRadius={3}
       minHeight={150}

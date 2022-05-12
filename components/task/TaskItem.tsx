@@ -10,19 +10,8 @@ type Props = {
   task: TaskWithProjectType
   onCheck: (task: TaskWithProjectType) => void
   onDetails: () => void
-  // onOptions: () => void
   options: JSX.Element
 }
-
-// export const Clickable = styled(x.a)`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   height: 100%;
-//   width: 100%;
-//   z-index: 101;
-//   user-select: none;
-// `
 
 const Title = styled(x.p)`
   display: -webkit-box;
