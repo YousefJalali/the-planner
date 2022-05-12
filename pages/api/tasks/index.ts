@@ -9,6 +9,8 @@ const handler = async (
 ) => {
   const { d } = req.query
 
+  console.log('query', d)
+
   if (!d || typeof d !== 'string' || !isValid(new Date(d))) {
     return res.json({ error: 'Invalid date' })
   }
@@ -18,6 +20,8 @@ const handler = async (
       where: { startDate: new Date(d) },
       include: { project: { select: { title: true, color: true } } },
     })
+
+    console.log('prisma req', tasks)
 
     return res.status(200).json({ data: tasks })
   } catch (error) {
