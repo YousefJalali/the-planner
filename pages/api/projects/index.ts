@@ -51,7 +51,14 @@ const handler = async (
           },
         }),
 
-      orderBy: [{ createdAt: 'desc' }],
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: {
+            tasks: true,
+          },
+        },
+      },
     })
 
     const nextCursor =

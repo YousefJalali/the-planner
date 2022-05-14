@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '../../../../common/types/TaskType'
+import { Status, TaskType } from '../../../../common/types/TaskType'
 import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
 import taskSchema from '../../../../common/utils/validations/taskSchema'
@@ -24,6 +24,19 @@ const handler = async (
     const deletedTask = await prisma.task.delete({
       where: { id: taskId },
     })
+
+    if (deletedTask.status === Status.COMPLETED) {
+      await prisma.project.update({
+        where: {
+          id: deletedTask.projectId,
+        },
+        data: {
+          countOfCompletedTasks: {
+            decrement: 1,
+          },
+        },
+      })
+    }
 
     if (deletedTask.attachments.length > 0) {
       const ids = deletedTask.attachments.map((attachment) => attachment.id)
