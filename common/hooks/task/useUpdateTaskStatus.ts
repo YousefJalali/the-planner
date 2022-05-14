@@ -8,7 +8,11 @@ import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTask
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskWithProjectType } from '../../types/TaskType'
 
-const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
+const useUpdateTaskStatus = (
+  projectId: string | null,
+  date: string | null,
+  callback?: (action?: any) => void
+) => {
   const { setNotification } = useNotification()
 
   const { mutate } = useSWRConfig()
@@ -18,27 +22,32 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
     oldStatus: Status,
     newStatus: Status
   ) => {
-    // mutate tasks locally
-    // mutate(
-    //   dateTaskKey(new Date(task.startDate).toDateString()),
-    //   (data: { data: TaskWithProjectType[] }) =>
-    //     data && updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
-    //   false
-    // )
+    console.log('useUpdateTaskStatus called from: ', projectId, date)
 
-    //mutate project locally
-    // mutate(
-    //   projectKey(task.projectId),
-    //   (data: { data: ProjectWithTasksType }) =>
-    //     data &&
-    //     updateTaskStatusInLocalProject(
-    //       data.data,
-    //       task.id,
-    //       oldStatus,
-    //       newStatus
-    //     ),
-    //   false
-    // )
+    if (date) {
+      mutate(
+        dateTaskKey(new Date(task.startDate).toDateString()),
+        (data: { data: TaskWithProjectType[] }) =>
+          data &&
+          updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
+        false
+      )
+    }
+
+    if (projectId) {
+      mutate(
+        projectKey(task.projectId),
+        (data: { data: ProjectWithTasksType }) =>
+          data &&
+          updateTaskStatusInLocalProject(
+            data.data,
+            task.id,
+            oldStatus,
+            newStatus
+          ),
+        false
+      )
+    }
 
     const { data, error } = await changeTaskStatus(task.id, newStatus)
 

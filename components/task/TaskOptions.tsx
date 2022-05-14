@@ -13,16 +13,22 @@ import TaskOptionsList from './TaskOptionsList'
 type Props = {
   task: TaskWithProjectType
   inHeader?: boolean
+  date?: string
+  projectId?: string
 }
 
-const TaskOptions: FC<Props> = ({ task, inHeader }) => {
+const TaskOptions: FC<Props> = ({ task, inHeader, date, projectId }) => {
   const { setModal, clearModal } = useModal()
 
   //hooks
-  const { taskStatusHandler } = useUpdateTaskStatus(() => {
-    clearModal('task-status')
-    clearModal('task-options')
-  })
+  const { taskStatusHandler } = useUpdateTaskStatus(
+    projectId || null,
+    date || null,
+    () => {
+      clearModal('task-status')
+      clearModal('task-options')
+    }
+  )
 
   const { deleteTaskHandler } = useDeleteTask(() => clearModal('task-options'))
 

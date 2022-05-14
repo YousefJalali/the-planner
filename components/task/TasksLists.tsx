@@ -1,14 +1,27 @@
 import styled, { x, css } from '@xstyled/styled-components'
+import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import { statusAlias } from '../../common/utils/statusAlias'
 import Tag from './Tag'
-import TasksList from './TasksList'
+import useCheckTask from '../../common/hooks/task/useCheckTask'
+import { useModal } from '../../common/contexts/ModalCtx'
+import TaskDetails from './TaskDetails'
+import TaskOptions from './TaskOptions'
+// import TasksList from './TasksList'
+import TaskItem from './TaskItem'
 
 type WrapperProps = {
   status: string
   showDivider?: boolean
 }
+
+const animations = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+}
+
 const Wrapper = styled(x.div)<WrapperProps>`
   padding-bottom: 4;
 
@@ -26,11 +39,19 @@ const List = ({
   tasks,
   showEmptyState,
   showDivider,
+  onCheck,
+  onDetails,
+  date,
+  projectId,
 }: {
   status: Status
   tasks: TaskWithProjectType[] | null | false
   showEmptyState: boolean
   showDivider: boolean
+  onCheck: (task: TaskWithProjectType) => void
+  onDetails: (task: TaskWithProjectType) => void
+  date?: string
+  projectId?: string
 }) =>
   tasks ? (
     <Wrapper
@@ -41,7 +62,27 @@ const List = ({
     >
       <Tag variant={status} count={tasks.length} textOnly={!showDivider} />
 
-      <TasksList id={`${status}-tasks-list`} tasks={tasks} />
+      <x.ul
+        spaceY={3}
+        id={`${status}-tasks-list`}
+        data-testid={`${status}-tasks-list`}
+      >
+        <AnimatePresence>
+          {tasks.map((task) => (
+            <motion.li {...animations} key={task.id}>
+              <TaskItem
+                task={task}
+                onCheck={onCheck}
+                onDetails={() => onDetails(task)}
+                options={
+                  <TaskOptions task={task} date={date} projectId={projectId} />
+                }
+              />
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </x.ul>
+      {/* <TasksList id={`${status}-tasks-list`} tasks={tasks} /> */}
     </Wrapper>
   ) : showEmptyState ? (
     <Wrapper
@@ -67,13 +108,30 @@ type Props = {
   tasks: TaskWithProjectType[]
   showEmptyState?: boolean
   showDivider?: boolean
+  date?: string
+  projectId?: string
 }
 
 const TasksLists: FC<Props> = ({
   tasks,
   showEmptyState = false,
   showDivider = false,
+  date,
+  projectId,
 }) => {
+  const { setModal, clearModal } = useModal()
+
+  const { checkTaskHandler } = useCheckTask(projectId || null, date || null)
+
+  const onDetails = (task: TaskWithProjectType) => {
+    setModal({
+      id: 'task-details',
+      content: (
+        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+      ),
+    })
+  }
+
   let inProgressTasks = null
   let proposedTasks = null
   let completedTasks = null
@@ -91,18 +149,30 @@ const TasksLists: FC<Props> = ({
         tasks={inProgressTasks && inProgressTasks.length > 0 && inProgressTasks}
         showEmptyState={showEmptyState}
         showDivider={showDivider}
+        onCheck={checkTaskHandler}
+        onDetails={onDetails}
+        date={date}
+        projectId={projectId}
       />
       <List
         status={Status.PROPOSED}
         tasks={proposedTasks && proposedTasks.length > 0 && proposedTasks}
         showEmptyState={showEmptyState}
         showDivider={showDivider}
+        onCheck={checkTaskHandler}
+        onDetails={onDetails}
+        date={date}
+        projectId={projectId}
       />
       <List
         status={Status.COMPLETED}
         tasks={completedTasks && completedTasks.length > 0 && completedTasks}
         showEmptyState={showEmptyState}
         showDivider={showDivider}
+        onCheck={checkTaskHandler}
+        onDetails={onDetails}
+        date={date}
+        projectId={projectId}
       />
     </>
   )

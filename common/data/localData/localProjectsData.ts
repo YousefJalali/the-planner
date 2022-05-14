@@ -63,25 +63,20 @@ export const updateTaskStatusInLocalProject = (
   oldStatus: Status,
   newStatus: Status
 ) => {
-  return data
-  // return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
-  //   const { proposed, inprogress, completed, progressPercentage } =
-  //     updateProjectStats({
-  //       proposed: data.proposed,
-  //       inprogress: data.inprogress,
-  //       completed: data.completed,
-  //       oldStatus,
-  //       newStatus,
-  //     })
+  return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
+    let countOfCompletedTasks = data.countOfCompletedTasks
+    if (newStatus === Status.COMPLETED) countOfCompletedTasks++
+    if (oldStatus === Status.COMPLETED && newStatus !== Status.COMPLETED)
+      countOfCompletedTasks--
 
-  //   resolve({
-  //     data: {
-  //       ...data,
-  //       progress,
-  //       tasks: (data.tasks as TaskType[]).map((task) =>
-  //         task.id === taskId ? { ...task, status: newStatus } : task
-  //       ),
-  //     },
-  //   })
-  // })
+    resolve({
+      data: {
+        ...data,
+        countOfCompletedTasks,
+        tasks: (data.tasks as TaskType[]).map((task) =>
+          task.id === taskId ? { ...task, status: newStatus } : task
+        ),
+      },
+    })
+  })
 }
