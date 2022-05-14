@@ -16,6 +16,9 @@ import Button from '../../components/formElements/Button'
 import { statusAlias } from '../../common/utils/statusAlias'
 import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
+import useProjectStats from '../../common/data/useProjectStats'
+import _ from 'lodash'
+import { useMemo } from 'react'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -40,7 +43,8 @@ const Project = () => {
   const router = useRouter()
   const projectId = router.query.projectId as string
 
-  const { project, error, isLoading } = useProject(projectId as string)
+  const { project, error, isLoading } = useProject(projectId)
+  const { projectStats } = useProjectStats(projectId)
 
   const editProjectHandler = () => {
     if (project) {
@@ -59,6 +63,10 @@ const Project = () => {
       })
     }
   }
+
+  const progress = project
+    ? +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(0)
+    : 0
 
   return (
     <>
@@ -115,22 +123,30 @@ const Project = () => {
                   </x.div>
                 )}
 
-                <x.div display='grid' gridTemplateColumns={3} mb={5}>
-                  <Item number={project.proposed} status={Status.PROPOSED} />
+                {projectStats && (
+                  <x.div display='grid' gridTemplateColumns={3} mb={5}>
+                    <Item
+                      number={projectStats.get(Status.PROPOSED) || 0}
+                      status={Status.PROPOSED}
+                    />
 
-                  <x.div gridRow='span 3 / span 3'>
-                    <CircleProgressBar
-                      color={project.color}
-                      percentage={project.progressPercentage}
+                    <x.div gridRow='span 3 / span 3'>
+                      <CircleProgressBar
+                        color={project.color}
+                        percentage={progress}
+                      />
+                    </x.div>
+
+                    <Item
+                      number={projectStats.get(Status.INPROGRESS) || 0}
+                      status={Status.INPROGRESS}
+                    />
+                    <Item
+                      number={projectStats.get(Status.COMPLETED) || 0}
+                      status={Status.COMPLETED}
                     />
                   </x.div>
-
-                  <Item
-                    number={project.inprogress}
-                    status={Status.INPROGRESS}
-                  />
-                  <Item number={project.completed} status={Status.COMPLETED} />
-                </x.div>
+                )}
               </x.section>
 
               <Lists as='section' spaceX={3} mb={4}>

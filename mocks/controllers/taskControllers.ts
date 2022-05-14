@@ -12,7 +12,6 @@ import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 import { FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'
 import isValid from 'date-fns/isValid'
-import { updateProjectStats } from '../../common/utils/updateProjectStats'
 
 //-----------------get date tasks-----------------
 export const getDateTasksController = (
@@ -188,19 +187,12 @@ export const changeTaskStatusController = (
 
       for (let project of projects) {
         if (task.projectId === project.id) {
-          const { proposed, inprogress, completed, progressPercentage } =
-            updateProjectStats({
-              proposed: project.proposed,
-              inprogress: project.inprogress,
-              completed: project.completed,
-              oldStatus,
-              newStatus: status,
-            })
-
-          project.proposed = proposed
-          project.inprogress = inprogress
-          project.completed = completed
-          project.progressPercentage = progressPercentage
+          if (status === Status.COMPLETED) {
+            project.countOfCompletedTasks++
+          }
+          if (oldStatus === Status.COMPLETED && status !== Status.COMPLETED) {
+            project.countOfCompletedTasks--
+          }
         }
       }
     }

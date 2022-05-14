@@ -31,20 +31,20 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
 
   const deleteHandler = async (task: TaskWithProjectType) => {
     // mutate tasks locally
-    mutate(
-      dateTaskKey(new Date(task.startDate).toDateString()),
-      (data: { data: TaskWithProjectType[] }) =>
-        data && removeTaskFromLocalTasksData(data.data, task.id),
-      false
-    )
+    // mutate(
+    //   dateTaskKey(new Date(task.startDate).toDateString()),
+    //   (data: { data: TaskWithProjectType[] }) =>
+    //     data && removeTaskFromLocalTasksData(data.data, task.id),
+    //   false
+    // )
 
     //mutate project locally
-    mutate(
-      projectKey(task.projectId),
-      (data: { data: ProjectWithTasksType }) =>
-        data && removeTaskFromLocalProjectData(data.data, task.id),
-      false
-    )
+    // mutate(
+    //   projectKey(task.projectId),
+    //   (data: { data: ProjectWithTasksType }) =>
+    //     data && removeTaskFromLocalProjectData(data.data, task.id),
+    //   false
+    // )
 
     if (callback) {
       callback()
@@ -56,6 +56,7 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
 
       mutate(dateTaskKey(new Date(task.startDate).toDateString()))
       mutate(projectKey(task.projectId))
+      mutate(`${projectKey(task.projectId)}/stats`)
 
       if (error) {
         setNotification({

@@ -6,7 +6,10 @@ import { projectKey } from './keys'
 
 const useProject = (projectId: string | null) => {
   const { data, error, mutate, isValidating } = useSWR<
-    { data: ProjectWithTasksType; error: Error },
+    {
+      data: ProjectWithTasksType & { _count: { tasks: number } }
+      error: Error
+    },
     Error
   >(projectId ? projectKey(projectId) : null, customFetch, {
     use: [requestLogger],

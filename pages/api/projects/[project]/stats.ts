@@ -1,49 +1,49 @@
+import { Prisma } from '.prisma/client'
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '../../../../common/types/ProjectType'
 import { prisma } from '../../../../common/lib/prisma'
+
+export type StatsType = (Prisma.PickArray<
+  Prisma.TaskGroupByOutputType,
+  'status'[]
+> & {
+  _count: {
+    _all: number
+  }
+})[]
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType
+    data?: StatsType
     error?: Error | unknown
     nextCursor?: string
   }>
 ) => {
   const projectId = req.query.project
 
-  if (!projectId) {
+  if (!projectId || typeof projectId !== 'string') {
     return res
       .status(400)
       .json({ error: 'Something went wrong, please try again' })
   }
 
   try {
-    const project = await prisma.project.findUnique({
+    const projectStats = await prisma.task.groupBy({
       where: {
-        id: projectId as string,
+        projectId: projectId,
       },
-
-      include: {
-        _count: {
-          select: {
-            tasks: true,
-          },
-        },
-        tasks: {
-          include: {
-            project: { select: { title: true, color: true } },
-          },
-        },
+      by: ['status'],
+      _count: {
+        _all: true,
       },
     })
 
-    if (!project) {
+    if (!projectStats) {
       return res.status(404).json({ error: 'Project not found' })
     }
 
-    return res.status(200).json({ data: project })
+    return res.status(200).json({ data: projectStats })
   } catch (error) {
     console.log(error)
     res.status(500).json({ error })

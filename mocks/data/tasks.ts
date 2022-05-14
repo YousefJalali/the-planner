@@ -54,7 +54,7 @@ export const task: (projects: ProjectType[], startDate: Date) => TaskType = (
 export const multipleTasks: (projects: ProjectType[]) => TaskType[] = (
   projects
 ) => {
-  const tasks = new Array(90).fill(0).map((day, i) => {
+  const tasks = new Array(10).fill(0).map((day, i) => {
     const date = new Date(2022, 3, 1, 0, 0, 0, 0)
     date.setDate(date.getDate() + i)
 

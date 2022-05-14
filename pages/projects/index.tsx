@@ -65,13 +65,13 @@ const Index: NextPage = () => {
   }
 
   const renderProjects = useMemo(() => {
-    const filteredProjects = projects?.filter((p) =>
-      filter === 'completed'
-        ? p.progressPercentage === 100
-        : filter === 'ongoing'
-        ? p.progressPercentage !== 100
-        : p
-    )
+    // const filteredProjects = projects?.filter((p) =>
+    //   filter === 'completed'
+    //     ? p.progressPercentage === 100
+    //     : filter === 'ongoing'
+    //     ? p.progressPercentage !== 100
+    //     : p
+    // )
 
     return projects.length > 0 ? (
       projects.map((project, i) => {

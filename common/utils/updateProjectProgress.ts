@@ -8,7 +8,7 @@ type Args = {
   newStatus: Status
 }
 
-export const updateProjectStats = ({
+export const updateProjectProgress = ({
   proposed,
   inprogress,
   completed,
@@ -31,8 +31,7 @@ export const updateProjectStats = ({
   }
 
   return {
-    ...updated,
-    progressPercentage:
+    progress:
       updated.proposed + updated.completed + updated.inprogress <= 0
         ? 0
         : +(

@@ -4,7 +4,7 @@ import CircleProgressBar from '../CircleProgressBar'
 import styled, { x } from '@xstyled/styled-components'
 
 type Props = {
-  project: ProjectType
+  project: ProjectType & { _count: { tasks: number } }
   onClick: () => void
 }
 
@@ -23,6 +23,16 @@ export const Card = styled.div<{ color: string }>`
 
 const ProjectCard: FC<Props> = ({ project, onClick }) => {
   console.log('Project Card render')
+  console.log(
+    'Project Card render',
+    project.countOfCompletedTasks,
+    (project.countOfCompletedTasks * 100) / project._count.tasks
+  )
+
+  const progress = +(
+    (project.countOfCompletedTasks * 100) /
+    project._count.tasks
+  ).toFixed(0)
 
   return (
     <Card color={project.color} onClick={onClick}>
@@ -36,14 +46,11 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
           {project.title}
         </x.p>
         <x.p color='content-nonessential' fontSize='sm' mt={3}>
-          {project.proposed + project.inprogress + project.completed} Tasks
+          {project._count.tasks} Tasks
         </x.p>
       </x.div>
       <x.div flex='0 0 25%'>
-        <CircleProgressBar
-          color={project.color}
-          percentage={project.progressPercentage}
-        />
+        <CircleProgressBar color={project.color} percentage={progress} />
       </x.div>
     </Card>
   )

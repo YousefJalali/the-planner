@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskType } from '../../types/TaskType'
-import { updateProjectStats } from '../../utils/updateProjectStats'
+import { updateProjectProgress } from '../../utils/updateProjectProgress'
 
 //create task
 export const addTaskToLocalProjectData = (
@@ -63,27 +63,25 @@ export const updateTaskStatusInLocalProject = (
   oldStatus: Status,
   newStatus: Status
 ) => {
-  return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
-    const { proposed, inprogress, completed, progressPercentage } =
-      updateProjectStats({
-        proposed: data.proposed,
-        inprogress: data.inprogress,
-        completed: data.completed,
-        oldStatus,
-        newStatus,
-      })
+  return data
+  // return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
+  //   const { proposed, inprogress, completed, progressPercentage } =
+  //     updateProjectStats({
+  //       proposed: data.proposed,
+  //       inprogress: data.inprogress,
+  //       completed: data.completed,
+  //       oldStatus,
+  //       newStatus,
+  //     })
 
-    resolve({
-      data: {
-        ...data,
-        proposed,
-        inprogress,
-        completed,
-        progressPercentage,
-        tasks: (data.tasks as TaskType[]).map((task) =>
-          task.id === taskId ? { ...task, status: newStatus } : task
-        ),
-      },
-    })
-  })
+  //   resolve({
+  //     data: {
+  //       ...data,
+  //       progress,
+  //       tasks: (data.tasks as TaskType[]).map((task) =>
+  //         task.id === taskId ? { ...task, status: newStatus } : task
+  //       ),
+  //     },
+  //   })
+  // })
 }

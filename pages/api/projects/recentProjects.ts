@@ -11,7 +11,17 @@ const handler = async (
   }>
 ) => {
   try {
-    const projects = await prisma.project.findMany({ take: 4 })
+    const projects = await prisma.project.findMany({
+      take: 4,
+      orderBy: { createdAt: 'desc' },
+      include: {
+        _count: {
+          select: {
+            tasks: true,
+          },
+        },
+      },
+    })
 
     return res.status(200).json({ data: projects })
   } catch (error) {

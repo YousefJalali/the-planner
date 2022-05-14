@@ -18,25 +18,25 @@ const handler = async (
 
   try {
     const projects = await prisma.project.findMany({
-      ...(q &&
-        q !== 'undefined' &&
-        q === Status.COMPLETED.toLowerCase() && {
-          where: {
-            progressPercentage: {
-              equals: 100,
-            },
-          },
-        }),
+      // ...(q &&
+      //   q !== 'undefined' &&
+      //   q === Status.COMPLETED.toLowerCase() && {
+      //     where: {
+      //       progressPercentage: {
+      //         equals: 100,
+      //       },
+      //     },
+      //   }),
 
-      ...(q &&
-        q !== 'undefined' &&
-        q === Status.INPROGRESS.toLowerCase() && {
-          where: {
-            progressPercentage: {
-              lt: 100,
-            },
-          },
-        }),
+      // ...(q &&
+      //   q !== 'undefined' &&
+      //   q === Status.INPROGRESS.toLowerCase() && {
+      //     where: {
+      //       progressPercentage: {
+      //         lt: 100,
+      //       },
+      //     },
+      //   }),
 
       ...(limit &&
         limit !== 'undefined' && {

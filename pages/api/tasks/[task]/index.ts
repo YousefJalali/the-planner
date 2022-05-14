@@ -2,7 +2,6 @@ import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Status, TaskType } from '../../../../common/types/TaskType'
 import { prisma } from '../../../../common/lib/prisma'
-import { updateProjectStats } from '../../../../common/utils/updateProjectStats'
 
 const handler = async (
   req: NextApiRequest,
@@ -55,35 +54,31 @@ const handler = async (
           },
         })
 
-        const project = await prisma.project.findUnique({
-          where: {
-            id: task.projectId,
-          },
-        })
-
-        if (!project)
-          return res.status(404).json({ error: 'Project not found' })
-
-        const { proposed, inprogress, completed, progressPercentage } =
-          updateProjectStats({
-            proposed: project.proposed,
-            inprogress: project.inprogress,
-            completed: project.completed,
-            oldStatus: task.status,
-            newStatus: updatedTask.status,
+        if (status === Status.COMPLETED) {
+          await prisma.project.update({
+            where: {
+              id: updatedTask.projectId,
+            },
+            data: {
+              countOfCompletedTasks: {
+                increment: 1,
+              },
+            },
           })
+        }
 
-        await prisma.project.update({
-          where: {
-            id: project.id,
-          },
-          data: {
-            proposed,
-            inprogress,
-            completed,
-            progressPercentage,
-          },
-        })
+        if (task.status === Status.COMPLETED && status !== Status.COMPLETED) {
+          await prisma.project.update({
+            where: {
+              id: updatedTask.projectId,
+            },
+            data: {
+              countOfCompletedTasks: {
+                decrement: 1,
+              },
+            },
+          })
+        }
 
         return res.status(200).json({ data: task })
       } catch (error) {

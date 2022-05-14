@@ -47,6 +47,7 @@ const useCreateTask = (callback: (action?: any) => void) => {
       //mutate with validation
       mutate(dateTaskKey(formData.startDate))
       mutate(projectKey(formData.projectId))
+      mutate(`${projectKey(formData.projectId)}/stats`)
 
       if (data) {
         callback()

@@ -6,11 +6,13 @@ import { ProjectType } from '../types/ProjectType'
 import customFetch from '../utils/customFetch'
 import { projectsKey } from './keys'
 
+type ProjectWithTasksCount = ProjectType & { _count: { tasks: number } }
+
 export const LIMIT = 6
 
 const getKey = (
   pageIndex: number,
-  previousPageData: { data: ProjectType[]; nextCursor: string },
+  previousPageData: { data: ProjectWithTasksCount[]; nextCursor: string },
   filter?: Omit<Status, 'proposed'> | null
 ) => {
   const key = projectsKey()
@@ -36,7 +38,7 @@ const getKey = (
 const useInfiniteProjects = (filter?: Omit<Status, 'proposed'> | null) => {
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<
     {
-      data: ProjectType[]
+      data: ProjectWithTasksCount[]
       nextCursor?: string
     },
     { error: Error }
