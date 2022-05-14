@@ -1,13 +1,13 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { ProjectWithTasksType } from '../types/ProjectType'
+import { ProjectTasksCount, ProjectWithTasksType } from '../types/ProjectType'
 import customFetch from '../utils/customFetch'
 import { projectKey } from './keys'
 
 const useProject = (projectId: string | null) => {
   const { data, error, mutate, isValidating } = useSWR<
     {
-      data: ProjectWithTasksType & { _count: { tasks: number } }
+      data: ProjectWithTasksType & ProjectTasksCount
       error: Error
     },
     Error

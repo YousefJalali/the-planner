@@ -1,20 +1,14 @@
 import {
+  ProjectTasksCount,
   ProjectType,
   ProjectWithTasksType,
 } from '../../common/types/ProjectType'
-import { TaskType } from '../../common/types/TaskType'
+import { Status, TaskType } from '../../common/types/TaskType'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 import projectSchema from '../../common/utils/validations/projectSchema'
 import _, { indexOf } from 'lodash'
-import { GET, populateTask, POST, PUT } from '../handlers'
-
-export const getRecentProjects = (
-  { req, res, ctx }: GET,
-  projects: ProjectType[]
-) => {
-  return res(ctx.json({ data: projects.slice(0, 5) }))
-}
+import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
 
 export const getInfiniteProjects = (
   { req, res, ctx }: GET,
@@ -47,13 +41,22 @@ export const getInfiniteProjects = (
 
     return res(
       ctx.json({
-        data: projects.slice(indexOfCursor, limit + indexOfCursor),
+        data: projects
+          .slice(indexOfCursor, limit + indexOfCursor)
+          .map((p) => ({ ...p, _count: { tasks: countTasksInProject(p) } })),
         nextCursor,
       })
     )
   }
 
-  return res(ctx.json({ data: projects }))
+  return res(
+    ctx.json({
+      data: projects.map((p) => ({
+        ...p,
+        _count: { tasks: countTasksInProject(p) },
+      })),
+    })
+  )
 }
 
 export const getProjectById = (
@@ -79,15 +82,56 @@ export const getProjectById = (
     }
   }
 
-  const populatedProject: ProjectWithTasksType = {
+  const populatedProject: ProjectWithTasksType & ProjectTasksCount = {
     ...project,
     tasks: tasksInProject.map((task) => populateTask(task)),
+    _count: { tasks: countTasksInProject(project) },
   }
 
   return res(
     ctx.status(200),
     ctx.json({
       data: populatedProject,
+    })
+  )
+}
+
+export const getProjectStats = (
+  { req, res, ctx }: GET,
+  projects: ProjectType[],
+  tasks: TaskType[]
+) => {
+  const id = req.params.projectId
+
+  const project = projects.find((project) => project.id === id) as ProjectType
+
+  if (!project) {
+    return res(
+      ctx.status(404),
+      ctx.json({ error: 'Something went wrong, please try again' })
+    )
+  }
+
+  let proposed = 0
+  let inprogress = 0
+  let completed = 0
+
+  for (let task of tasks) {
+    if (task.projectId === id) {
+      if (task.status === Status.PROPOSED) proposed++
+      if (task.status === Status.INPROGRESS) inprogress++
+      if (task.status === Status.COMPLETED) completed++
+    }
+  }
+
+  return res(
+    ctx.status(200),
+    ctx.json({
+      data: [
+        { _count: { _all: proposed }, status: Status.PROPOSED },
+        { _count: { _all: inprogress }, status: Status.INPROGRESS },
+        { _count: { _all: completed }, status: Status.COMPLETED },
+      ],
     })
   )
 }

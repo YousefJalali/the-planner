@@ -17,6 +17,7 @@ import {
   editProjectController,
   getInfiniteProjects,
   getProjectById,
+  getProjectStats,
 } from './controllers/projectControllers'
 import {
   DefaultRequestBody,
@@ -51,23 +52,13 @@ export const tasks = multipleTasks(initialProjects)
 export const projects: ProjectType[] = [...initialProjects].map((project) => {
   const addTasks = []
   let countOfCompletedTasks = 0
-  let countTasks = 0
 
   for (let task of tasks) {
     if (task.projectId === project.id) {
-      countTasks++
-
       if (task.status === Status.COMPLETED) countOfCompletedTasks++
 
       addTasks.push(task.id)
     }
-  }
-
-  if (countTasks > 0) {
-    countOfCompletedTasks = +(
-      (countOfCompletedTasks * 100) /
-      countTasks
-    ).toFixed(0)
   }
 
   return {
@@ -87,6 +78,17 @@ export const populateTask = (task: TaskType) => {
       color: project.color,
     },
   } as TaskWithProjectType
+}
+
+export const countTasksInProject = (project: ProjectType) => {
+  let count = 0
+  for (let task of tasks) {
+    if (task.projectId === project.id) {
+      count++
+    }
+  }
+
+  return count
 }
 
 export const handlers = [
@@ -135,6 +137,11 @@ export const handlers = [
   //get project by ID
   rest.get('/projects/:projectId', (req, res, ctx) =>
     getProjectById({ req, res, ctx }, projects, tasks)
+  ),
+
+  //get project stats
+  rest.get('/projects/:projectId/stats', (req, res, ctx) =>
+    getProjectStats({ req, res, ctx }, projects, tasks)
   ),
 
   //create project

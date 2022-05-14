@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { ProjectType } from '../../common/types/ProjectType'
+import { ProjectTasksCount, ProjectType } from '../../common/types/ProjectType'
 import CircleProgressBar from '../CircleProgressBar'
 import styled, { x } from '@xstyled/styled-components'
 
 type Props = {
-  project: ProjectType & { _count: { tasks: number } }
+  project: ProjectType & ProjectTasksCount
   onClick: () => void
 }
 
