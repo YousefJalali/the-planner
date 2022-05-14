@@ -58,9 +58,16 @@ const handler = async (
       return res.status(400).json({ error })
     }
 
+    let id = task.id
+    if (!ObjectID.isValid(id)) {
+      console.log('id not valid, new id will be assigned')
+      id = ObjectID().toHexString()
+    }
+
     const createdTask = await prisma.task.create({
       data: {
         ...task,
+        id,
         attachments: images,
       },
       include: { project: { select: { title: true, color: true } } },

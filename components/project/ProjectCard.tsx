@@ -29,10 +29,10 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
     (project.countOfCompletedTasks * 100) / project._count.tasks
   )
 
-  const progress = +(
-    (project.countOfCompletedTasks * 100) /
-    project._count.tasks
-  ).toFixed(0)
+  const progress =
+    +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(
+      0
+    ) || 0
 
   return (
     <Card color={project.color} onClick={onClick}>

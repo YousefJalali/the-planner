@@ -30,10 +30,6 @@ const initialDefaultValues: ProjectType = {
   title: '',
   description: '',
   color: '#cccccc',
-  // proposed: 0,
-  // inprogress: 0,
-  // completed: 0,
-  // progressPercentage: 0,
   countOfCompletedTasks: 0,
   isHidden: false,
   updatedAt: new Date(),
@@ -65,9 +61,13 @@ function ProjectForm<T>({
     },
     resolver,
   })
-  console.log(errors)
+
   const onSubmitHandler = async (data: ProjectType) => {
-    onSubmit(_.omit(data, 'tasks'), setError)
+    const formData = {
+      ...data,
+      id: ObjectID().toHexString(),
+    }
+    onSubmit(_.omit(formData, 'tasks'), setError)
   }
 
   return (

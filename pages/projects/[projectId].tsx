@@ -64,9 +64,12 @@ const Project = () => {
     }
   }
 
-  const progress = project
-    ? +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(0)
-    : 0
+  const progress =
+    (project &&
+      +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(
+        0
+      )) ||
+    0
 
   return (
     <>

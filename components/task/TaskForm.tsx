@@ -86,7 +86,11 @@ function TaskForm({
   })
 
   const onSubmitHandler = async (data: TaskType) => {
-    onSubmit(_.omit(data, 'project'), setError)
+    const formData = {
+      ...data,
+      id: ObjectID().toHexString(),
+    }
+    onSubmit(_.omit(formData, 'project'), setError)
   }
 
   const dateErrors = useMemo(

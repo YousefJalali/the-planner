@@ -30,10 +30,16 @@ const handler = async (
       return res.json({ validationErrors: validate.errors })
     }
 
+    let id = project.id
+    if (!ObjectID.isValid(id)) {
+      console.log('id not valid, new id will be assigned')
+      id = ObjectID().toHexString()
+    }
+
     const createdProject = await prisma.project.create({
       data: {
         ...project,
-        id: ObjectID().toHexString(),
+        id,
       },
     })
 
