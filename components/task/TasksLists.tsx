@@ -8,7 +8,6 @@ import useCheckTask from '../../common/hooks/task/useCheckTask'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'
 import TaskOptions from './TaskOptions'
-// import TasksList from './TasksList'
 import TaskItem from './TaskItem'
 
 type WrapperProps = {
@@ -33,76 +32,6 @@ const Wrapper = styled(x.div)<WrapperProps>`
       height: fit-content;
     `}
 `
-
-const List = ({
-  status,
-  tasks,
-  showEmptyState,
-  showDivider,
-  onCheck,
-  onDetails,
-  date,
-  projectId,
-}: {
-  status: Status
-  tasks: TaskWithProjectType[] | null | false
-  showEmptyState: boolean
-  showDivider: boolean
-  onCheck: (task: TaskWithProjectType) => void
-  onDetails: (task: TaskWithProjectType) => void
-  date?: string
-  projectId?: string
-}) =>
-  tasks ? (
-    <Wrapper
-      spaceY={2}
-      showDivider={showDivider}
-      status={status}
-      backgroundColor={showDivider ? `tag-${status}-a10` : 'transparent'}
-    >
-      <Tag variant={status} count={tasks.length} textOnly={!showDivider} />
-
-      <x.ul
-        spaceY={3}
-        id={`${status}-tasks-list`}
-        data-testid={`${status}-tasks-list`}
-      >
-        <AnimatePresence>
-          {tasks.map((task) => (
-            <motion.li {...animations} key={task.id}>
-              <TaskItem
-                task={task}
-                onCheck={onCheck}
-                onDetails={() => onDetails(task)}
-                options={
-                  <TaskOptions task={task} date={date} projectId={projectId} />
-                }
-              />
-            </motion.li>
-          ))}
-        </AnimatePresence>
-      </x.ul>
-      {/* <TasksList id={`${status}-tasks-list`} tasks={tasks} /> */}
-    </Wrapper>
-  ) : showEmptyState ? (
-    <Wrapper
-      spaceY={2}
-      showDivider={showDivider}
-      status={status}
-      backgroundColor={showDivider ? `tag-${status}-a10` : 'transparent'}
-    >
-      <Tag variant={status} count='0' textOnly={!showDivider} />
-
-      <x.span
-        display='block'
-        textTransform='capitalize'
-        color='content-subtle'
-        text='body.small'
-      >
-        No {statusAlias(status)} tasks
-      </x.span>
-    </Wrapper>
-  ) : null
 
 type Props = {
   tasks: TaskWithProjectType[]
@@ -132,48 +61,80 @@ const TasksLists: FC<Props> = ({
     })
   }
 
-  let inProgressTasks = null
-  let proposedTasks = null
-  let completedTasks = null
-
-  if (tasks) {
-    inProgressTasks = tasks.filter((task) => task.status === Status.INPROGRESS)
-    proposedTasks = tasks.filter((task) => task.status === Status.PROPOSED)
-    completedTasks = tasks.filter((task) => task.status === Status.COMPLETED)
-  }
-
   return (
     <>
-      <List
-        status={Status.INPROGRESS}
-        tasks={inProgressTasks && inProgressTasks.length > 0 && inProgressTasks}
-        showEmptyState={showEmptyState}
-        showDivider={showDivider}
-        onCheck={checkTaskHandler}
-        onDetails={onDetails}
-        date={date}
-        projectId={projectId}
-      />
-      <List
-        status={Status.PROPOSED}
-        tasks={proposedTasks && proposedTasks.length > 0 && proposedTasks}
-        showEmptyState={showEmptyState}
-        showDivider={showDivider}
-        onCheck={checkTaskHandler}
-        onDetails={onDetails}
-        date={date}
-        projectId={projectId}
-      />
-      <List
-        status={Status.COMPLETED}
-        tasks={completedTasks && completedTasks.length > 0 && completedTasks}
-        showEmptyState={showEmptyState}
-        showDivider={showDivider}
-        onCheck={checkTaskHandler}
-        onDetails={onDetails}
-        date={date}
-        projectId={projectId}
-      />
+      {tasks
+        ? [Status.INPROGRESS, Status.PROPOSED, Status.COMPLETED].map(
+            (status) => {
+              const filteredTasks = tasks.filter(
+                (task) => task.status === status
+              )
+              return filteredTasks.length > 0 ? (
+                <Wrapper
+                  key={status}
+                  spaceY={2}
+                  showDivider={showDivider}
+                  status={status}
+                  backgroundColor={
+                    showDivider ? `tag-${status}-a10` : 'transparent'
+                  }
+                >
+                  <Tag
+                    variant={status}
+                    count={tasks.length}
+                    textOnly={!showDivider}
+                  />
+
+                  <x.ul
+                    spaceY={3}
+                    id={`${status}-tasks-list`}
+                    data-testid={`${status}-tasks-list`}
+                  >
+                    <AnimatePresence>
+                      {filteredTasks.map((task) => (
+                        <motion.li {...animations} key={task.id}>
+                          <TaskItem
+                            task={task}
+                            onCheck={checkTaskHandler}
+                            onDetails={() => onDetails(task)}
+                            options={
+                              <TaskOptions
+                                task={task}
+                                date={date}
+                                projectId={projectId}
+                              />
+                            }
+                          />
+                        </motion.li>
+                      ))}
+                    </AnimatePresence>
+                  </x.ul>
+                  {/* <TasksList id={`${status}-tasks-list`} tasks={tasks} /> */}
+                </Wrapper>
+              ) : showEmptyState ? (
+                <Wrapper
+                  spaceY={2}
+                  showDivider={showDivider}
+                  status={status}
+                  backgroundColor={
+                    showDivider ? `tag-${status}-a10` : 'transparent'
+                  }
+                >
+                  <Tag variant={status} count='0' textOnly={!showDivider} />
+
+                  <x.span
+                    display='block'
+                    textTransform='capitalize'
+                    color='content-subtle'
+                    text='body.small'
+                  >
+                    No {statusAlias(status)} tasks
+                  </x.span>
+                </Wrapper>
+              ) : null
+            }
+          )
+        : null}
     </>
   )
 }

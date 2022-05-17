@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { StatsType } from '../../../pages/api/projects/[project]/stats'
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskType } from '../../types/TaskType'
 import { updateProjectProgress } from '../../utils/updateProjectProgress'
@@ -77,6 +78,54 @@ export const updateTaskStatusInLocalProject = (
           task.id === taskId ? { ...task, status: newStatus } : task
         ),
       },
+    })
+  })
+}
+
+export const updateProjectStats = (
+  data: StatsType,
+  oldStatus: Status,
+  newStatus: Status
+) => {
+  let hasNewStatus = false
+
+  let updated = data.map((stat) => {
+    if (stat.status === newStatus) {
+      hasNewStatus = true
+      return {
+        ...stat,
+        _count: {
+          _all: stat._count._all + 1,
+        },
+      }
+    }
+
+    if (stat.status === oldStatus) {
+      return {
+        ...stat,
+        _count: {
+          _all: stat._count._all - 1,
+        },
+      }
+    }
+    return stat
+  })
+
+  if (!hasNewStatus) {
+    updated = [
+      ...updated,
+      {
+        status: newStatus,
+        _count: {
+          _all: 1,
+        },
+      },
+    ]
+  }
+
+  return new Promise<{ data: StatsType }>((resolve, reject) => {
+    resolve({
+      data: updated.filter((stat) => stat._count._all !== 0),
     })
   })
 }

@@ -1,9 +1,13 @@
 import { uniqueId } from 'lodash'
 import { useSWRConfig } from 'swr'
+import { StatsType } from '../../../pages/api/projects/[project]/stats'
 import { changeTaskStatus } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { dateTaskKey, projectKey } from '../../data/keys'
-import { updateTaskStatusInLocalProject } from '../../data/localData/localProjectsData'
+import {
+  updateProjectStats,
+  updateTaskStatusInLocalProject,
+} from '../../data/localData/localProjectsData'
 import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTasksData'
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskWithProjectType } from '../../types/TaskType'
@@ -23,10 +27,13 @@ const useUpdateTaskStatus = (
     newStatus: Status
   ) => {
     console.log('useUpdateTaskStatus called from: ', projectId, date)
+    const dateKey = dateTaskKey(new Date(task.startDate).toDateString())
+    const projKey = projectKey(task.projectId)
+    const statsKey = `${projectKey(task.projectId)}/stats`
 
     if (date) {
       mutate(
-        dateTaskKey(new Date(task.startDate).toDateString()),
+        dateKey,
         (data: { data: TaskWithProjectType[] }) =>
           data &&
           updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
@@ -36,7 +43,7 @@ const useUpdateTaskStatus = (
 
     if (projectId) {
       mutate(
-        projectKey(task.projectId),
+        projKey,
         (data: { data: ProjectWithTasksType }) =>
           data &&
           updateTaskStatusInLocalProject(
@@ -47,19 +54,24 @@ const useUpdateTaskStatus = (
           ),
         false
       )
+
+      mutate(
+        statsKey,
+        (data: { data: StatsType }) =>
+          data && updateProjectStats(data.data, oldStatus, newStatus),
+        false
+      )
     }
 
     const { data, error } = await changeTaskStatus(task.id, newStatus)
 
-    mutate(dateTaskKey(new Date(task.startDate).toDateString()))
-    mutate(projectKey(task.projectId))
-    mutate(`${projectKey(task.projectId)}/stats`)
+    mutate(dateKey)
+    mutate(projKey)
+    mutate(statsKey)
 
     if (callback) {
       callback()
     }
-    // setStatusModal(false)
-    // setOptionsModal(false)
 
     if (error) {
       setNotification({

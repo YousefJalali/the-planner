@@ -23,11 +23,6 @@ export const Card = styled.div<{ color: string }>`
 
 const ProjectCard: FC<Props> = ({ project, onClick }) => {
   console.log('Project Card render')
-  console.log(
-    'Project Card render',
-    project.countOfCompletedTasks,
-    (project.countOfCompletedTasks * 100) / project._count.tasks
-  )
 
   const progress =
     +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(
