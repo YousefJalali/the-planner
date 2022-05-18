@@ -32,20 +32,29 @@ type Props = {
 const stringToDate: (date: string | Date) => Date = (date) =>
   typeof date === 'string' ? parseISO(date) : date
 
+const newDate = new Date()
+const today = new Date(
+  Date.UTC(
+    newDate.getUTCFullYear(),
+    newDate.getUTCMonth(),
+    newDate.getUTCDate()
+  )
+)
+
 export const initialDefaultValues: TaskType = {
   id: ObjectID().toHexString(),
   title: '',
   projectId: '',
   openTask: true,
-  startDate: new Date(),
+  startDate: today,
   endDate: null,
   startTime: null,
   endTime: null,
   description: '',
   attachments: [],
   status: Status.PROPOSED,
-  createdAt: new Date(),
-  updatedAt: new Date(),
+  createdAt: today,
+  updatedAt: today,
 }
 
 function TaskForm({

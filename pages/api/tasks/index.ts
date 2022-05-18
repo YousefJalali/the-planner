@@ -13,18 +13,21 @@ const handler = async (
   console.log('query', d)
 
   const date = parse(d as string, DATE_FORMAT, new Date())
-  date.setHours(0, 0, 0)
 
   if (!d || typeof d !== 'string' || !isValid(date)) {
     return res.json({ error: 'Invalid date' })
   }
 
-  console.log('parsed date: ', date)
+  const startDate = new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  )
+
+  console.log('parsed date: ', date, startDate)
 
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        startDate: date,
+        startDate,
       },
       // take: 5,
       include: { project: { select: { title: true, color: true } } },
