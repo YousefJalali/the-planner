@@ -1,7 +1,9 @@
 import { x } from '@xstyled/styled-components'
+import { format, lightFormat, parse, parseISO } from 'date-fns'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { DATE_FORMAT } from '../../common/constants'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import useDateTasks from '../../common/data/useDateTasks'
 import DateSelector from '../DateSelector'
@@ -14,19 +16,19 @@ import TasksLists from './TasksLists'
 const DateTasks = () => {
   const router = useRouter()
 
-  const [d, setDate] = useState(new Date().toDateString())
+  const [urlDate, setUrlDate] = useState(format(new Date(), DATE_FORMAT))
 
-  const { dateTasks, isLoading, error } = useDateTasks(d)
+  const { dateTasks, isLoading, error } = useDateTasks(urlDate)
 
   const { setNotification } = useNotification()
 
   //set state if there is a valid date in URL
   useEffect(() => {
     if (router.query.d) {
-      const date = new Date((router.query.d as string).replaceAll('-', ' '))
+      const date = new Date(router.query.d as string)
 
       if (date instanceof Date && !isNaN(date.valueOf())) {
-        setDate(date.toDateString())
+        setUrlDate(date.toDateString())
       }
     }
   }, [router.isReady])
@@ -37,14 +39,14 @@ const DateTasks = () => {
       {
         query: {
           ...router.query,
-          d: d.replaceAll(' ', '-'),
+          d: urlDate,
         },
       },
       // `/?d=${d.replaceAll(' ', '-')}`,
       undefined,
       { shallow: true }
     )
-  }, [d])
+  }, [urlDate])
 
   useEffect(() => {
     if (error) {
@@ -62,7 +64,7 @@ const DateTasks = () => {
         Tasks
       </x.h1>
 
-      <DateSelector dateString={d} setDate={setDate} />
+      <DateSelector dateString={urlDate} setUrlDate={setUrlDate} />
 
       <x.div px={4} overflowX='hidden'>
         {error ? (
@@ -78,7 +80,7 @@ const DateTasks = () => {
         ) : dateTasks && dateTasks.length <= 0 ? (
           <NoTasks />
         ) : (
-          <TasksLists tasks={dateTasks} date={d} />
+          <TasksLists tasks={dateTasks} date={urlDate} />
         )}
       </x.div>
     </x.section>

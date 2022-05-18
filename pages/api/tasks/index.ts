@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
-import { isValid } from 'date-fns'
+import { format, isValid, parse } from 'date-fns'
+import { DATE_FORMAT } from '../../../common/constants'
 
 const handler = async (
   req: NextApiRequest,
@@ -11,23 +12,19 @@ const handler = async (
 
   console.log('query', d)
 
-  if (!d || typeof d !== 'string' || !isValid(new Date(d))) {
+  const date = parse(d as string, DATE_FORMAT, new Date())
+  date.setHours(0, 0, 0)
+
+  if (!d || typeof d !== 'string' || !isValid(date)) {
     return res.json({ error: 'Invalid date' })
   }
 
-  const startDate = new Date(d)
-  startDate.setHours(0, 0, 0, 0)
-  console.log('startDate', startDate)
-
-  // 2022-05-18T21:00:00.000Z
-  // 2022-03-31T21:00:00.000+00:00
+  console.log('parsed date: ', date)
 
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        startDate: {
-          lte: startDate,
-        },
+        startDate: date,
       },
       // take: 5,
       include: { project: { select: { title: true, color: true } } },

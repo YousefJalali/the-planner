@@ -10,10 +10,12 @@ import format from 'date-fns/format'
 import setDate from 'date-fns/setDate'
 import isToday from 'date-fns/isToday'
 import Button from './formElements/Button'
+import { parse } from 'date-fns'
+import { DATE_FORMAT } from '../common/constants'
 
 type Props = {
   dateString: string
-  setDate: (date: string) => void
+  setUrlDate: (date: string) => void
 }
 
 const DayItem = ({
@@ -64,14 +66,19 @@ const DayItem = ({
   )
 }
 
-const DateSelector: FC<Props> = ({ dateString, setDate }) => {
+const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   const { height, width } = useWindowSize()
 
   const [active, setActive] = useState(1)
 
   const listRef = useRef<HTMLUListElement>(null)
 
-  const date = useMemo(() => new Date(dateString), [dateString])
+  const date = parse(dateString, DATE_FORMAT, new Date())
+  console.log(date)
+  // const date = useMemo(
+  //   () => parse(dateString, DATE_FORMAT, new Date()),
+  //   [dateString]
+  // )
 
   useEffect(() => {
     setActive(date.getDate())
@@ -88,14 +95,15 @@ const DateSelector: FC<Props> = ({ dateString, setDate }) => {
   }, [active, width])
 
   const onSelectDateHandler = (day: number) => {
-    const updatedDate = new Date(date.setDate(day)).toDateString()
+    // const updatedDate = new Date(date.setDate(day)).toDateString()
 
     setActive(day)
-    setDate(updatedDate)
+    setUrlDate(format(new Date(date.setDate(day)), DATE_FORMAT))
   }
 
   const onChangeMonthHandler = (date: Date) => {
-    setDate(date.toDateString())
+    // setDate(date.toDateString())
+    setUrlDate(format(date, DATE_FORMAT))
   }
 
   const onMonthArrowClick = (direction: 'next' | 'previous') => {

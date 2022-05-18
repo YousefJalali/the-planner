@@ -8,6 +8,8 @@ import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType } from '../../types/TaskType'
 import addServerErrors from '../../utils/addServerErrors'
 import { dateTaskKey, projectKey } from '../../data/keys'
+import { DATE_FORMAT } from '../../constants'
+import { parse } from 'date-fns'
 
 const useCreateTask = (callback: (action?: any) => void) => {
   const [isSubmitting, setSubmit] = useState(false)
@@ -28,7 +30,8 @@ const useCreateTask = (callback: (action?: any) => void) => {
   if (router.query.d) {
     defaultValues = {
       ...defaultValues,
-      startDate: new Date((router.query.d as string).replaceAll('-', ' ')),
+      startDate: parse(router.query.d as string, DATE_FORMAT, new Date()),
+      // startDate: new Date((router.query.d as string).replaceAll('-', ' ')),
     }
   }
 
