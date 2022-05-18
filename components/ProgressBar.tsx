@@ -50,7 +50,7 @@ export const LinearProgress: FC<Props> = ({ color, percentage }) => {
           h={8}
           backgroundImage='gradient-to-l'
           gradientFrom='transparent 4px'
-          gradientTo='#ccc 4px'
+          gradientTo={`${color}20 4px`}
           backgroundSize='20%'
         />
 
