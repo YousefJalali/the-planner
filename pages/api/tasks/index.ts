@@ -19,7 +19,8 @@ const handler = async (
 
   try {
     const tasks = await prisma.task.findMany({
-      where: { startDate },
+      // where: { startDate },
+      take: 5,
       include: { project: { select: { title: true, color: true } } },
     })
 
