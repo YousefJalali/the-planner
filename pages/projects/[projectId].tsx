@@ -4,7 +4,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import _ from 'lodash'
 
 import Header from '../../components/layout/Header'
-import CircleProgressBar from '../../components/CircleProgressBar'
+import { LinearProgress } from '../../components/ProgressBar'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import useProject from '../../common/data/useProject'
 
@@ -17,7 +17,10 @@ import Button from '../../components/formElements/Button'
 import { statusAlias } from '../../common/utils/statusAlias'
 import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
-import useProjectStats from '../../common/data/useProjectStats'
+import { ProjectWithTasksType } from '../../common/types/ProjectType'
+
+const countTasks = (project: ProjectWithTasksType | null, status: Status) =>
+  project ? project.tasks.filter((task) => task.status === status).length : 0
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -43,7 +46,6 @@ const Project = () => {
   const projectId = router.query.projectId as string
 
   const { project, error, isLoading } = useProject(projectId)
-  const { projectStats } = useProjectStats(projectId)
 
   const editProjectHandler = () => {
     if (project) {
@@ -72,6 +74,10 @@ const Project = () => {
         project._count.tasks
       ).toFixed(0)) ||
     0
+
+  const countProposedTasks = countTasks(project, Status.PROPOSED)
+  const countInProgressTasks = countTasks(project, Status.INPROGRESS)
+  const countCompletedTasks = countTasks(project, Status.COMPLETED)
 
   return (
     <>
@@ -123,36 +129,40 @@ const Project = () => {
                 </x.h1>
 
                 {project.description?.length > 0 && (
-                  <x.div mb={5} maxHeight='128px' overflowY='scroll'>
+                  <x.div mb={3} maxHeight='128px' overflowY='scroll'>
                     <TextEditor value={project.description} readOnly />
                   </x.div>
                 )}
 
-                {projectStats && (
-                  <x.div display='grid' gridTemplateColumns={3} mb={5}>
-                    <Item
-                      number={projectStats.get(Status.PROPOSED) || 0}
-                      status={Status.PROPOSED}
-                    />
+                <LinearProgress color={project.color} percentage={progress} />
 
-                    <x.div gridRow='span 3 / span 3'>
-                      <CircleProgressBar
-                        color={project.color}
-                        percentage={progress}
-                      />
-                    </x.div>
+                {/* <x.div display='grid' gridTemplateColumns={3} mb={5}>
+                  <Item
+                    number={countProposedTasks || 0}
+                    status={Status.PROPOSED}
+                  />
 
-                    <Item
-                      number={projectStats.get(Status.INPROGRESS) || 0}
-                      status={Status.INPROGRESS}
-                    />
-                    <Item
-                      number={projectStats.get(Status.COMPLETED) || 0}
-                      status={Status.COMPLETED}
+                  <x.div gridRow='span 3 / span 3'>
+                    <LinearProgress
+                      color={project.color}
+                      percentage={progress}
                     />
                   </x.div>
-                )}
+
+                  <Item
+                    number={countInProgressTasks || 0}
+                    status={Status.INPROGRESS}
+                  />
+                  <Item
+                    number={countCompletedTasks || 0}
+                    status={Status.COMPLETED}
+                  />
+                </x.div> */}
               </x.section>
+
+              <x.h1 text='headline.three' px={4} mt={5} mb={2}>
+                Tasks
+              </x.h1>
 
               <Lists as='section' spaceX={3} mb={4}>
                 <TasksLists

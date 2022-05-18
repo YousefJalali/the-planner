@@ -3,7 +3,7 @@ import {
   ProjectTasksCount,
   ProjectWithTasksType,
 } from '../../common/types/ProjectType'
-import CircleProgressBar from '../CircleProgressBar'
+import { CircleProgress } from '../ProgressBar'
 import styled, { x } from '@xstyled/styled-components'
 import { Status } from '@prisma/client'
 
@@ -51,7 +51,7 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
         </x.p>
       </x.div>
       <x.div flex='0 0 25%'>
-        <CircleProgressBar color={project.color} percentage={progress} />
+        <CircleProgress color={project.color} percentage={progress} />
       </x.div>
     </Card>
   )

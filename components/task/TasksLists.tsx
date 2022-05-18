@@ -81,7 +81,7 @@ const TasksLists: FC<Props> = ({
                 >
                   <Tag
                     variant={status}
-                    count={tasks.length}
+                    count={filteredTasks.length}
                     textOnly={!showDivider}
                   />
 
