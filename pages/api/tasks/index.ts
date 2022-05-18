@@ -15,9 +15,11 @@ const handler = async (
     return res.json({ error: 'Invalid date' })
   }
 
+  const startDate = new Date(d)
+
   try {
     const tasks = await prisma.task.findMany({
-      where: { startDate: new Date(d) },
+      where: { startDate },
       include: { project: { select: { title: true, color: true } } },
     })
 

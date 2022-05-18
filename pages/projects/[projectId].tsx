@@ -14,30 +14,14 @@ import FloatingButton from '../../components/FloatingButton'
 import TextEditor from '../../components/formElements/TextEditor'
 import { useModal } from '../../common/contexts/ModalCtx'
 import Button from '../../components/formElements/Button'
-import { statusAlias } from '../../common/utils/statusAlias'
 import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
-import { ProjectWithTasksType } from '../../common/types/ProjectType'
-
-const countTasks = (project: ProjectWithTasksType | null, status: Status) =>
-  project ? project.tasks.filter((task) => task.status === status).length : 0
 
 const Lists = styled(ScrollableList)`
   > div {
     flex: 0 0 calc(100% - 24px);
   }
 `
-
-const Item = ({ number, status }: { number: number; status: Status }) => (
-  <>
-    <x.span alignSelf='center' textTransform='capitalize'>
-      {statusAlias(status)}
-    </x.span>
-    <x.span alignSelf='center' textAlign='center'>
-      {number}
-    </x.span>
-  </>
-)
 
 const Project = () => {
   const { setModal, clearModal } = useModal()
@@ -74,10 +58,6 @@ const Project = () => {
         project._count.tasks
       ).toFixed(0)) ||
     0
-
-  const countProposedTasks = countTasks(project, Status.PROPOSED)
-  const countInProgressTasks = countTasks(project, Status.INPROGRESS)
-  const countCompletedTasks = countTasks(project, Status.COMPLETED)
 
   return (
     <>
@@ -135,29 +115,6 @@ const Project = () => {
                 )}
 
                 <LinearProgress color={project.color} percentage={progress} />
-
-                {/* <x.div display='grid' gridTemplateColumns={3} mb={5}>
-                  <Item
-                    number={countProposedTasks || 0}
-                    status={Status.PROPOSED}
-                  />
-
-                  <x.div gridRow='span 3 / span 3'>
-                    <LinearProgress
-                      color={project.color}
-                      percentage={progress}
-                    />
-                  </x.div>
-
-                  <Item
-                    number={countInProgressTasks || 0}
-                    status={Status.INPROGRESS}
-                  />
-                  <Item
-                    number={countCompletedTasks || 0}
-                    status={Status.COMPLETED}
-                  />
-                </x.div> */}
               </x.section>
 
               <x.h1 text='headline.three' px={4} mt={5} mb={2}>
