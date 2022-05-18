@@ -52,7 +52,13 @@ const handler = async (
         }),
 
       orderBy: { createdAt: 'desc' },
+
       include: {
+        tasks: {
+          select: {
+            status: true,
+          },
+        },
         _count: {
           select: {
             tasks: true,

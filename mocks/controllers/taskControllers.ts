@@ -184,17 +184,6 @@ export const changeTaskStatusController = (
       if (index > -1) {
         tasks[index].status = status
       }
-
-      for (let project of projects) {
-        if (task.projectId === project.id) {
-          if (status === Status.COMPLETED) {
-            project.countOfCompletedTasks++
-          }
-          if (oldStatus === Status.COMPLETED && status !== Status.COMPLETED) {
-            project.countOfCompletedTasks--
-          }
-        }
-      }
     }
   }
 

@@ -30,7 +30,6 @@ const initialDefaultValues: ProjectType = {
   title: '',
   description: '',
   color: '#cccccc',
-  countOfCompletedTasks: 0,
   isHidden: false,
   updatedAt: new Date(),
   createdAt: new Date(),

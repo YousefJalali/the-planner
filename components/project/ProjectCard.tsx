@@ -1,10 +1,14 @@
 import { FC } from 'react'
-import { ProjectTasksCount, ProjectType } from '../../common/types/ProjectType'
+import {
+  ProjectTasksCount,
+  ProjectWithTasksType,
+} from '../../common/types/ProjectType'
 import CircleProgressBar from '../CircleProgressBar'
 import styled, { x } from '@xstyled/styled-components'
+import { Status } from '@prisma/client'
 
 type Props = {
-  project: ProjectType & ProjectTasksCount
+  project: ProjectWithTasksType & ProjectTasksCount
   onClick: () => void
 }
 
@@ -22,12 +26,14 @@ export const Card = styled.div<{ color: string }>`
 `
 
 const ProjectCard: FC<Props> = ({ project, onClick }) => {
-  console.log('Project Card render')
+  // console.log('Project Card render', project)
 
   const progress =
-    +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(
-      0
-    ) || 0
+    +(
+      (project.tasks.filter((task) => task.status === Status.COMPLETED).length *
+        100) /
+      project._count.tasks
+    ).toFixed(0) || 0
 
   return (
     <Card color={project.color} onClick={onClick}>

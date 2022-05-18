@@ -2,7 +2,6 @@ import _ from 'lodash'
 import { StatsType } from '../../../pages/api/projects/[project]/stats'
 import { ProjectWithTasksType } from '../../types/ProjectType'
 import { Status, TaskType } from '../../types/TaskType'
-import { updateProjectProgress } from '../../utils/updateProjectProgress'
 
 //create task
 export const addTaskToLocalProjectData = (
@@ -65,15 +64,9 @@ export const updateTaskStatusInLocalProject = (
   newStatus: Status
 ) => {
   return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
-    let countOfCompletedTasks = data.countOfCompletedTasks
-    if (newStatus === Status.COMPLETED) countOfCompletedTasks++
-    if (oldStatus === Status.COMPLETED && newStatus !== Status.COMPLETED)
-      countOfCompletedTasks--
-
     resolve({
       data: {
         ...data,
-        countOfCompletedTasks,
         tasks: (data.tasks as TaskType[]).map((task) =>
           task.id === taskId ? { ...task, status: newStatus } : task
         ),

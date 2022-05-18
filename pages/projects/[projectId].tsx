@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import styled, { x } from '@xstyled/styled-components'
 import { FiArrowLeft } from 'react-icons/fi'
+import _ from 'lodash'
 
 import Header from '../../components/layout/Header'
 import CircleProgressBar from '../../components/CircleProgressBar'
@@ -17,8 +18,6 @@ import { statusAlias } from '../../common/utils/statusAlias'
 import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
 import useProjectStats from '../../common/data/useProjectStats'
-import _ from 'lodash'
-import { useMemo } from 'react'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -29,7 +28,7 @@ const Lists = styled(ScrollableList)`
 const Item = ({ number, status }: { number: number; status: Status }) => (
   <>
     <x.span alignSelf='center' textTransform='capitalize'>
-      • {statusAlias(status)}
+      {statusAlias(status)}
     </x.span>
     <x.span alignSelf='center' textAlign='center'>
       {number}
@@ -66,9 +65,12 @@ const Project = () => {
 
   const progress =
     (project &&
-      +((project.countOfCompletedTasks * 100) / project._count.tasks).toFixed(
-        0
-      )) ||
+      +(
+        (project.tasks.filter((task) => task.status === Status.COMPLETED)
+          .length *
+          100) /
+        project._count.tasks
+      ).toFixed(0)) ||
     0
 
   return (

@@ -51,19 +51,18 @@ export const tasks = multipleTasks(initialProjects)
 //add tasks ids to projects
 export const projects: ProjectType[] = [...initialProjects].map((project) => {
   const addTasks = []
-  let countOfCompletedTasks = 0
 
   for (let task of tasks) {
     if (task.projectId === project.id) {
-      if (task.status === Status.COMPLETED) countOfCompletedTasks++
-
-      addTasks.push(task.id)
+      if (task.status === Status.COMPLETED) {
+        addTasks.push(task.status)
+      }
     }
   }
 
   return {
     ...project,
-    countOfCompletedTasks,
+    tasks: addTasks,
   }
 })
 

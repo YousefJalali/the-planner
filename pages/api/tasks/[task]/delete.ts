@@ -1,10 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { Status, TaskType } from '../../../../common/types/TaskType'
-import { prisma } from '../../../../common/lib/prisma'
-import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
-import taskSchema from '../../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
-import { FieldErrors } from 'react-hook-form'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { TaskType } from '../../../../common/types/TaskType'
+import { prisma } from '../../../../common/lib/prisma'
 import { deleteImages } from '../../../../common/utils/cloudinary'
 
 const handler = async (
@@ -24,19 +21,6 @@ const handler = async (
     const deletedTask = await prisma.task.delete({
       where: { id: taskId },
     })
-
-    if (deletedTask.status === Status.COMPLETED) {
-      await prisma.project.update({
-        where: {
-          id: deletedTask.projectId,
-        },
-        data: {
-          countOfCompletedTasks: {
-            decrement: 1,
-          },
-        },
-      })
-    }
 
     if (deletedTask.attachments.length > 0) {
       const ids = deletedTask.attachments.map((attachment) => attachment.id)

@@ -41,6 +41,11 @@ const handler = async (
 
     //change task status
     case 'PUT':
+      //return if same status
+      if (task.status === status) {
+        return res.status(200).json({ data: task })
+      }
+
       try {
         const updatedTask = await prisma.task.update({
           where: {
@@ -54,33 +59,33 @@ const handler = async (
           },
         })
 
-        if (status === Status.COMPLETED) {
-          await prisma.project.update({
-            where: {
-              id: updatedTask.projectId,
-            },
-            data: {
-              countOfCompletedTasks: {
-                increment: 1,
-              },
-            },
-          })
-        }
+        // if (status === Status.COMPLETED) {
+        //   await prisma.project.update({
+        //     where: {
+        //       id: updatedTask.projectId,
+        //     },
+        //     data: {
+        //       countOfCompletedTasks: {
+        //         increment: 1,
+        //       },
+        //     },
+        //   })
+        // }
 
-        if (task.status === Status.COMPLETED && status !== Status.COMPLETED) {
-          await prisma.project.update({
-            where: {
-              id: updatedTask.projectId,
-            },
-            data: {
-              countOfCompletedTasks: {
-                decrement: 1,
-              },
-            },
-          })
-        }
+        // if (task.status === Status.COMPLETED) {
+        //   await prisma.project.update({
+        //     where: {
+        //       id: updatedTask.projectId,
+        //     },
+        //     data: {
+        //       countOfCompletedTasks: {
+        //         decrement: 1,
+        //       },
+        //     },
+        //   })
+        // }
 
-        return res.status(200).json({ data: task })
+        return res.status(200).json({ data: updatedTask })
       } catch (error) {
         console.log(error)
         return res.status(500).json({ error })

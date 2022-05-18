@@ -38,7 +38,7 @@ const Wrapper = styled.div<{ readonly?: boolean }>`
           max-height: calc(21px * 16 + 32px);
           padding: 0;
           font-size: default;
-          color: content-subtle;
+          color: inherit;
         }
       `}
   }

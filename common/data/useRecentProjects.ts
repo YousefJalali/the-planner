@@ -1,13 +1,16 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { ProjectType } from '../types/ProjectType'
+import { ProjectWithTasksType } from '../types/ProjectType'
 import customFetch from '../utils/customFetch'
-import { recentProjectsKey } from './keys'
+import { projectsKey } from './keys'
 
-type ProjectWithTasksCount = ProjectType & { _count: { tasks: number } }
+type ProjectWithTasksCount = ProjectWithTasksType & {
+  _count: { tasks: number }
+}
 
 const useRecentProjects = () => {
-  const key = recentProjectsKey()
+  const key = `${projectsKey()}?limit=4`
+
   const { data, error, mutate } = useSWR<{
     data: ProjectWithTasksCount[]
     error: Error

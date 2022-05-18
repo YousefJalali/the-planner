@@ -25,15 +25,14 @@ type Image {
 }
 
 model Project {
-  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
-  title                 String
-  description           String
-  color                 String
-  tasks                 Task[]
-  countOfCompletedTasks Int
-  isHidden              Boolean  @default(false)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  color       String
+  tasks       Task[]
+  isHidden    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Task {

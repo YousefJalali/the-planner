@@ -2,7 +2,11 @@ import { Status } from '@prisma/client'
 import _ from 'lodash'
 import useSWRInfinite from 'swr/infinite'
 import { requestLogger } from '../middlewares/requestLogger'
-import { ProjectTasksCount, ProjectType } from '../types/ProjectType'
+import {
+  ProjectTasksCount,
+  ProjectType,
+  ProjectWithTasksType,
+} from '../types/ProjectType'
 import customFetch from '../utils/customFetch'
 import { projectsKey } from './keys'
 
@@ -13,7 +17,7 @@ export const LIMIT = 6
 const getKey = (
   pageIndex: number,
   previousPageData: {
-    data: (ProjectType & ProjectTasksCount)[]
+    data: (ProjectWithTasksType & ProjectTasksCount)[]
     nextCursor: string
   },
   filter?: Omit<Status, 'proposed'> | null
@@ -41,7 +45,7 @@ const getKey = (
 const useInfiniteProjects = (filter?: Omit<Status, 'proposed'> | null) => {
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<
     {
-      data: (ProjectType & ProjectTasksCount)[]
+      data: (ProjectWithTasksType & ProjectTasksCount)[]
       nextCursor?: string
     },
     { error: Error }

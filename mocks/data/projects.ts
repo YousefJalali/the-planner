@@ -9,7 +9,6 @@ export const project: () => ProjectType = () => {
     title: faker.company.companyName(),
     description: faker.lorem.paragraph(),
     color: randomColor(),
-    countOfCompletedTasks: 0,
     isHidden: Math.random() < 0.5,
     createdAt: new Date(),
     updatedAt: new Date(),
