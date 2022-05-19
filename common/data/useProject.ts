@@ -5,22 +5,13 @@ import customFetch from '../utils/customFetch'
 import { projectKey } from './keys'
 
 const useProject = (projectId: string | null) => {
-  const { data, error, mutate, isValidating } = useSWR(
+  const { data, error, mutate } = useSWR(
     projectId ? projectKey(projectId) : null,
     customFetch,
     {
       use: [requestLogger],
     }
   )
-  // const { data, error, mutate, isValidating } = useSWR<
-  //   {
-  //     data: ProjectWithTasksAndCount
-  //     error: Error
-  //   },
-  //   Error
-  // >(projectId ? projectKey(projectId) : null, customFetch, {
-  //   use: [requestLogger],
-  // })
 
   const project: ProjectWithTasksAndCount = data?.data || null
   const isLoading = !error && !data
