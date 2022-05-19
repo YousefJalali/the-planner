@@ -1,13 +1,15 @@
 import ObjectID from 'bson-objectid'
+import { Image } from '@prisma/client'
+import { FieldErrors } from 'react-hook-form'
+import _ from 'lodash'
+
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'
 import taskSchema from '../../../common/utils/validations/taskSchema'
-import _ from 'lodash'
-import { FieldErrors } from 'react-hook-form'
 import { uploadImages } from '../../../common/utils/cloudinary'
-import { Image } from '@prisma/client'
+import { dateToUTC } from '../../../common/utils/dateToUTC'
 
 const handler = async (
   req: NextApiRequest,
@@ -17,7 +19,7 @@ const handler = async (
     validationErrors?: any
   }>
 ) => {
-  const task = req.body
+  const task: TaskType = req.body
 
   if (!task) {
     return res
@@ -60,15 +62,19 @@ const handler = async (
 
     let id = task.id
     if (!ObjectID.isValid(id)) {
-      console.log('id not valid, new id will be assigned')
       id = ObjectID().toHexString()
     }
+
+    // const startDate = setHours(new Date(task.startDate), 12)
+    // const endDate = task.endDate ? setHours(new Date(task.endDate), 12) : null
 
     const createdTask = await prisma.task.create({
       data: {
         ...task,
         id,
         attachments: images,
+        startDate: dateToUTC(task.startDate, true),
+        endDate: task.endDate ? dateToUTC(task.endDate, true) : null,
       },
       include: { project: { select: { title: true, color: true } } },
     })

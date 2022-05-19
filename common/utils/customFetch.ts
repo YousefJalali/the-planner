@@ -13,8 +13,6 @@ async function customFetch<T>(
     },
   })
 
-  console.log('fetch', res)
-
   if (!res.ok) {
     const err = new Error(res.statusText)
     const { error } = await res.json()

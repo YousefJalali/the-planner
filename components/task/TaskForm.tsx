@@ -1,3 +1,4 @@
+import ObjectID from 'bson-objectid'
 import { x } from '@xstyled/styled-components'
 import { useForm, Controller, UseFormSetError } from 'react-hook-form'
 import _ from 'lodash'
@@ -18,7 +19,7 @@ import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
-import ObjectID from 'bson-objectid'
+import { dateToUTC } from '../../common/utils/dateToUTC'
 
 type Props = {
   id: 'create' | 'edit'
@@ -32,29 +33,20 @@ type Props = {
 const stringToDate: (date: string | Date) => Date = (date) =>
   typeof date === 'string' ? parseISO(date) : date
 
-const newDate = new Date()
-const today = new Date(
-  Date.UTC(
-    newDate.getUTCFullYear(),
-    newDate.getUTCMonth(),
-    newDate.getUTCDate()
-  )
-)
-
 export const initialDefaultValues: TaskType = {
   id: ObjectID().toHexString(),
   title: '',
   projectId: '',
   openTask: true,
-  startDate: today,
+  startDate: new Date(),
   endDate: null,
   startTime: null,
   endTime: null,
   description: '',
   attachments: [],
   status: Status.PROPOSED,
-  createdAt: today,
-  updatedAt: today,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 }
 
 function TaskForm({
@@ -98,6 +90,8 @@ function TaskForm({
     const formData = {
       ...data,
       id: ObjectID().toHexString(),
+      startDate: dateToUTC(data.startDate, true),
+      endDate: data.endDate ? dateToUTC(data.endDate, true) : null,
     }
     onSubmit(_.omit(formData, 'project'), setError)
   }

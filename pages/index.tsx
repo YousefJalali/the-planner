@@ -40,9 +40,9 @@ const Home: NextPage<Props> = (props) => {
             id='color-mode'
             height={24}
             checked={colorMode === 'dark'}
-            onChange={(e) => {
-              setColorMode(colorMode === 'default' ? 'dark' : 'default')
-            }}
+            onChange={(e) =>
+              setColorMode(colorMode === 'light' ? 'dark' : 'light')
+            }
             darkMode
           />
 

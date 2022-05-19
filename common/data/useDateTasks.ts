@@ -13,8 +13,6 @@ const useDateTasks = (date: string | null) => {
     }
   )
 
-  console.log('useDateTasks', data)
-
   const dateTasks: TaskWithProjectType[] = data?.data || []
   const isLoading = !data
 
