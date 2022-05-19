@@ -1,12 +1,16 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Status, TaskType } from '../../../../common/types/TaskType'
+import {
+  Status,
+  TaskType,
+  TaskWithProjectType,
+} from '../../../../common/types/TaskType'
 import { prisma } from '../../../../common/lib/prisma'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: TaskType
+    data?: TaskWithProjectType[] | TaskType
     error?: Error | unknown
   }>
 ) => {
@@ -59,33 +63,16 @@ const handler = async (
           },
         })
 
-        // if (status === Status.COMPLETED) {
-        //   await prisma.project.update({
-        //     where: {
-        //       id: updatedTask.projectId,
-        //     },
-        //     data: {
-        //       countOfCompletedTasks: {
-        //         increment: 1,
-        //       },
-        //     },
-        //   })
-        // }
+        const tasks = await prisma.task.findMany({
+          where: {
+            startDate: updatedTask.startDate,
+          },
+          include: {
+            project: { select: { title: true, color: true } },
+          },
+        })
 
-        // if (task.status === Status.COMPLETED) {
-        //   await prisma.project.update({
-        //     where: {
-        //       id: updatedTask.projectId,
-        //     },
-        //     data: {
-        //       countOfCompletedTasks: {
-        //         decrement: 1,
-        //       },
-        //     },
-        //   })
-        // }
-
-        return res.status(200).json({ data: updatedTask })
+        return res.status(200).json({ data: tasks })
       } catch (error) {
         console.log(error)
         return res.status(500).json({ error })

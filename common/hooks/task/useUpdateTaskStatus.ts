@@ -17,35 +17,29 @@ const useUpdateTaskStatus = (
   const { mutate: mutateDateTasks } = useDateTasks(date)
   const { mutate: mutateProject } = useProject(projectId)
 
-  const taskStatusHandler = async (
-    task: TaskWithProjectType,
-    oldStatus: Status,
+  const taskStatusHandler = async ({
+    tasks,
+    task,
+    newStatus,
+  }: {
+    tasks: TaskWithProjectType[]
+    task: TaskWithProjectType
     newStatus: Status
-  ) => {
+  }) => {
     console.log('useUpdateTaskStatus called from: ', projectId, date)
+    console.log(tasks, task, newStatus)
 
     if (date) {
-      mutateDateTasks(async (data: { data: TaskWithProjectType[] }) => {
-        const { data: updatedTask, error } = await changeTaskStatus(
-          task.id,
-          newStatus
-        )
+      const updatedTasks = tasks.map((t) =>
+        t.id === task.id ? { ...t, status: newStatus } : t
+      )
 
-        const filteredTasks = data.data.filter((t) => t.id !== task.id)
+      console.log('updatedTasks', { date: updatedTasks })
 
-        return { data: [...filteredTasks, updatedTask] }
-        // data && updateTaskStatusInLocalProject(data.data, task.id, newStatus)
+      mutateDateTasks(changeTaskStatus(task.id, newStatus), {
+        optimisticData: { data: updatedTasks },
+        rollbackOnError: true,
       })
-      // mutateDateTasks(
-      //   changeTaskStatus(task.id, newStatus),
-
-      //   {
-      //     optimisticData: (data: { data: TaskWithProjectType[] }) =>
-      //       data &&
-      //       updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
-      //     rollbackOnError: true,
-      //   }
-      // )
     }
 
     if (projectId) {

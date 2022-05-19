@@ -4,11 +4,11 @@ import { FC } from 'react'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import { statusAlias } from '../../common/utils/statusAlias'
 import Tag from './Tag'
-import useCheckTask from '../../common/hooks/task/useCheckTask'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'
 import TaskOptions from './TaskOptions'
 import TaskItem from './TaskItem'
+import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
 
 type WrapperProps = {
   status: string
@@ -50,7 +50,24 @@ const TasksLists: FC<Props> = ({
 }) => {
   const { setModal, clearModal } = useModal()
 
-  const { checkTaskHandler } = useCheckTask(projectId || null, date || null)
+  // const { checkTaskHandler } = useCheckTask(projectId || null, date || null)
+  const { taskStatusHandler } = useUpdateTaskStatus(
+    projectId || null,
+    date || null,
+    () => {
+      clearModal('task-status')
+      clearModal('task-options')
+    }
+  )
+
+  const checkTaskHandler = (task: TaskWithProjectType) => {
+    const newStatus =
+      task.status === Status.PROPOSED || task.status === Status.INPROGRESS
+        ? Status.COMPLETED
+        : Status.PROPOSED
+
+    taskStatusHandler({ tasks, task, newStatus })
+  }
 
   const onDetails = (task: TaskWithProjectType) => {
     setModal({
@@ -100,8 +117,9 @@ const TasksLists: FC<Props> = ({
                             options={
                               <TaskOptions
                                 task={task}
-                                date={date}
-                                projectId={projectId}
+                                onChangeStatus={(task, newStatus) =>
+                                  taskStatusHandler({ tasks, task, newStatus })
+                                }
                               />
                             }
                           />
