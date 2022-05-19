@@ -1,15 +1,11 @@
 import { uniqueId } from 'lodash'
-import { useSWRConfig } from 'swr'
-import { StatsType } from '../../../pages/api/projects/[project]/stats'
 import { changeTaskStatus } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { dateTaskKey, projectKey } from '../../data/keys'
-import {
-  updateProjectStats,
-  updateTaskStatusInLocalProject,
-} from '../../data/localData/localProjectsData'
+import { updateTaskStatusInLocalProject } from '../../data/localData/localProjectsData'
 import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTasksData'
-import { ProjectWithTasksType } from '../../types/ProjectType'
+import useDateTasks from '../../data/useDateTasks'
+import useProject from '../../data/useProject'
+import { ProjectWithTasksAndCount } from '../../types/ProjectType'
 import { Status, TaskWithProjectType } from '../../types/TaskType'
 
 const useUpdateTaskStatus = (
@@ -18,8 +14,8 @@ const useUpdateTaskStatus = (
   callback?: (action?: any) => void
 ) => {
   const { setNotification } = useNotification()
-
-  const { mutate } = useSWRConfig()
+  const { mutate: mutateDateTasks } = useDateTasks(date)
+  const { mutate: mutateProject } = useProject(projectId)
 
   const taskStatusHandler = async (
     task: TaskWithProjectType,
@@ -27,13 +23,9 @@ const useUpdateTaskStatus = (
     newStatus: Status
   ) => {
     console.log('useUpdateTaskStatus called from: ', projectId, date)
-    const dateKey = dateTaskKey(new Date(task.startDate).toDateString())
-    const projKey = projectKey(task.projectId)
-    const statsKey = `${projectKey(task.projectId)}/stats`
 
     if (date) {
-      mutate(
-        dateKey,
+      mutateDateTasks(
         (data: { data: TaskWithProjectType[] }) =>
           data &&
           updateTaskStatusInLocalTasksData(data.data, task.id, newStatus),
@@ -42,32 +34,17 @@ const useUpdateTaskStatus = (
     }
 
     if (projectId) {
-      mutate(
-        projKey,
-        (data: { data: ProjectWithTasksType }) =>
-          data &&
-          updateTaskStatusInLocalProject(
-            data.data,
-            task.id,
-            oldStatus,
-            newStatus
-          ),
-        false
-      )
-
-      mutate(
-        statsKey,
-        (data: { data: StatsType }) =>
-          data && updateProjectStats(data.data, oldStatus, newStatus),
+      mutateProject(
+        (data: { data: ProjectWithTasksAndCount }) =>
+          data && updateTaskStatusInLocalProject(data.data, task.id, newStatus),
         false
       )
     }
 
     const { data, error } = await changeTaskStatus(task.id, newStatus)
 
-    mutate(dateKey)
-    mutate(projKey)
-    mutate(statsKey)
+    mutateDateTasks()
+    mutateProject()
 
     if (callback) {
       callback()

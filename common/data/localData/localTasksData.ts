@@ -12,6 +12,7 @@ export const updateTaskStatusInLocalTasksData = (
   taskId: string,
   status: Status
 ) => {
+  console.log('here')
   return new Promise<{ data: TaskType[] }>((resolve, reject) => {
     resolve({
       data: [

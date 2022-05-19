@@ -1,6 +1,8 @@
 import _ from 'lodash'
-import { StatsType } from '../../../pages/api/projects/[project]/stats'
-import { ProjectWithTasksType } from '../../types/ProjectType'
+import {
+  ProjectWithTasksAndCount,
+  ProjectWithTasksType,
+} from '../../types/ProjectType'
 import { Status, TaskType } from '../../types/TaskType'
 
 //create task
@@ -58,12 +60,11 @@ export const updateTaskInLocalProject = (
 }
 
 export const updateTaskStatusInLocalProject = (
-  data: ProjectWithTasksType,
+  data: ProjectWithTasksAndCount,
   taskId: string,
-  oldStatus: Status,
   newStatus: Status
 ) => {
-  return new Promise<{ data: ProjectWithTasksType }>((resolve, reject) => {
+  return new Promise<{ data: ProjectWithTasksAndCount }>((resolve, reject) => {
     resolve({
       data: {
         ...data,
@@ -71,54 +72,6 @@ export const updateTaskStatusInLocalProject = (
           task.id === taskId ? { ...task, status: newStatus } : task
         ),
       },
-    })
-  })
-}
-
-export const updateProjectStats = (
-  data: StatsType,
-  oldStatus: Status,
-  newStatus: Status
-) => {
-  let hasNewStatus = false
-
-  let updated = data.map((stat) => {
-    if (stat.status === newStatus) {
-      hasNewStatus = true
-      return {
-        ...stat,
-        _count: {
-          _all: stat._count._all + 1,
-        },
-      }
-    }
-
-    if (stat.status === oldStatus) {
-      return {
-        ...stat,
-        _count: {
-          _all: stat._count._all - 1,
-        },
-      }
-    }
-    return stat
-  })
-
-  if (!hasNewStatus) {
-    updated = [
-      ...updated,
-      {
-        status: newStatus,
-        _count: {
-          _all: 1,
-        },
-      },
-    ]
-  }
-
-  return new Promise<{ data: StatsType }>((resolve, reject) => {
-    resolve({
-      data: updated.filter((stat) => stat._count._all !== 0),
     })
   })
 }
