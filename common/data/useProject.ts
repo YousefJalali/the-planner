@@ -22,7 +22,7 @@ const useProject = (projectId: string | null) => {
   //   use: [requestLogger],
   // })
 
-  const project = data?.data || null
+  const project: ProjectWithTasksAndCount = data?.data || null
   const isLoading = !error && !data
 
   return { project, mutate, error, isLoading }
