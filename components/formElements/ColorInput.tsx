@@ -23,6 +23,12 @@ const ColorInput: FC<Props> = ({ value, onChange }) => {
       placement: 'bottom-end',
       modifiers: [
         {
+          name: 'flip',
+          options: {
+            fallbackPlacements: ['bottom'],
+          },
+        },
+        {
           name: 'offset',
           enabled: true,
           options: {
