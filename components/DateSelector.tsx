@@ -74,7 +74,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   const listRef = useRef<HTMLUListElement>(null)
 
   const date = parse(dateString, DATE_FORMAT, new Date())
-  console.log(date)
+
   // const date = useMemo(
   //   () => parse(dateString, DATE_FORMAT, new Date()),
   //   [dateString]

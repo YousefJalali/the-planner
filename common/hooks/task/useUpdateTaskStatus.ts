@@ -18,7 +18,7 @@ const useUpdateTaskStatus = (
   date: string | null,
   callback?: (action?: any) => void
 ) => {
-  const [error, setError] = useState<null | string>(null)
+  console.log(date)
 
   const { setNotification, clearNotification } = useNotification()
   const { mutate } = useSWRConfig()
@@ -68,11 +68,17 @@ const useUpdateTaskStatus = (
       const updatedTasks = dateTasks.map((t) =>
         t.id === taskId ? { ...t, status: newStatus } : t
       )
+      console.log('updatedTasks', updatedTasks)
 
-      mutateDateTasks(request(), {
-        optimisticData: { data: updatedTasks },
-        rollbackOnError: true,
-      })
+      mutateDateTasks(() => ({ data: updatedTasks }), false)
+      await request()
+      mutateDateTasks()
+
+      // await changeTaskStatus(taskId, newStatus)
+      // mutateDateTasks(changeTaskStatus(taskId, newStatus), {
+      //   optimisticData: { data: updatedTasks },
+      //   rollbackOnError: true,
+      // })
 
       // try {
       //   const hola = await mutateDateTasks(

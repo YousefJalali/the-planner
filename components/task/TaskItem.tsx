@@ -44,7 +44,7 @@ const Details = ({
 )
 
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
-  console.log('TaskItem rendered')
+  // console.log('TaskItem rendered')
   //format time
   let time = null
 
