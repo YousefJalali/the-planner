@@ -1,3 +1,4 @@
+import { useNotification } from '../contexts/NotificationCtx'
 import { taskKey, tasksKey } from '../data/keys'
 import { Status, TaskType } from '../types/TaskType'
 import customFetch from '../utils/customFetch'
@@ -23,7 +24,7 @@ export const changeTaskStatus = async (taskId: string, status: Status) => {
   // try {
   //   return await customFetch(`${taskKey(taskId)}?status=${status}`, 'PUT')
   // } catch (error) {
-  //   return { error: getErrorMessage(error) }
+  //   console.log(error)
   // }
   await customFetch(`${taskKey(taskId)}?status=${status}`, 'PUT')
 }

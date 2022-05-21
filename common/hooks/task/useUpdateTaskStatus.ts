@@ -3,7 +3,6 @@ import { uniqueId } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useSWRConfig } from 'swr'
 import { changeTaskStatus } from '../../actions/taskActions'
-import { DATE_FORMAT } from '../../constants'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { dateTasksKey } from '../../data/keys'
 import { updateTaskStatusInLocalProject } from '../../data/localData/localProjectsData'
@@ -23,7 +22,7 @@ const useUpdateTaskStatus = (
 
   const { setNotification, clearNotification } = useNotification()
   const { mutate } = useSWRConfig()
-  const { mutate: mutateDateTasks } = useDateTasks(date)
+  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date)
   const { mutate: mutateProject } = useProject(projectId)
 
   // useEffect(() => {
@@ -42,30 +41,42 @@ const useUpdateTaskStatus = (
   // }, [error])
 
   const taskStatusHandler = async ({
-    tasks,
-    task,
+    // tasks,
+    taskId,
     newStatus,
   }: {
-    tasks: TaskWithProjectType[]
-    task: TaskWithProjectType
+    // tasks: TaskWithProjectType[]
+    taskId: string
     newStatus: Status
   }) => {
     // console.log('useUpdateTaskStatus called from: ', projectId, date)
     // console.log(tasks, task, newStatus)
 
+    const request = async () => {
+      try {
+        await changeTaskStatus(taskId, newStatus)
+      } catch (error) {
+        setNotification({
+          id: uniqueId(),
+          message: getErrorMessage(error),
+          variant: 'critical',
+        })
+      }
+    }
+
     if (date) {
-      const updatedTasks = tasks.map((t) =>
-        t.id === task.id ? { ...t, status: newStatus } : t
+      const updatedTasks = dateTasks.map((t) =>
+        t.id === taskId ? { ...t, status: newStatus } : t
       )
 
-      mutateDateTasks(changeTaskStatus(task.id, newStatus), {
+      mutateDateTasks(request(), {
         optimisticData: { data: updatedTasks },
         rollbackOnError: true,
       })
 
       // try {
       //   const hola = await mutateDateTasks(
-      //     changeTaskStatus(task.id, newStatus),
+      //     changeTaskStatus(taskId, newStatus),
       //     {
       //       optimisticData: { data: updatedTasks },
       //       rollbackOnError: true,
@@ -89,12 +100,12 @@ const useUpdateTaskStatus = (
     if (projectId) {
       mutateProject(
         (data: { data: ProjectWithTasksAndCount }) =>
-          data && updateTaskStatusInLocalProject(data.data, task.id, newStatus),
+          data && updateTaskStatusInLocalProject(data.data, taskId, newStatus),
         false
       )
     }
 
-    // const { data, error } = await changeTaskStatus(task.id, newStatus)
+    // const { data, error } = await changeTaskStatus(taskId, newStatus)
 
     if (callback) {
       callback()

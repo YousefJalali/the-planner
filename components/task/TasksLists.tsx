@@ -63,7 +63,7 @@ const TasksLists: FC<Props> = ({
         ? Status.COMPLETED
         : Status.PROPOSED
 
-    taskStatusHandler({ tasks, task, newStatus })
+    taskStatusHandler({ taskId: task.id, newStatus })
   }
 
   const onDetails = (task: TaskWithProjectType) => {
@@ -115,7 +115,10 @@ const TasksLists: FC<Props> = ({
                               <TaskOptions
                                 task={task}
                                 onChangeStatus={(task, newStatus) =>
-                                  taskStatusHandler({ tasks, task, newStatus })
+                                  taskStatusHandler({
+                                    taskId: task.id,
+                                    newStatus,
+                                  })
                                 }
                               />
                             }
