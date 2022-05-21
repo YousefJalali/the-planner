@@ -36,26 +36,15 @@ type Props = {
   tasks: TaskWithProjectType[]
   showEmptyState?: boolean
   showDivider?: boolean
-  date?: string
-  projectId?: string
 }
 const TasksLists: FC<Props> = ({
   tasks,
   showEmptyState = false,
   showDivider = false,
-  date,
-  projectId,
 }) => {
   const { setModal, clearModal } = useModal()
 
-  const { taskStatusHandler } = useUpdateTaskStatus(
-    projectId || null,
-    date || null,
-    () => {
-      clearModal('task-status')
-      clearModal('task-options')
-    }
-  )
+  const { taskStatusHandler } = useUpdateTaskStatus()
 
   const checkTaskHandler = (task: TaskWithProjectType) => {
     const newStatus =
@@ -111,17 +100,7 @@ const TasksLists: FC<Props> = ({
                             task={task}
                             onCheck={checkTaskHandler}
                             onDetails={() => onDetails(task)}
-                            options={
-                              <TaskOptions
-                                task={task}
-                                onChangeStatus={(task, newStatus) =>
-                                  taskStatusHandler({
-                                    taskId: task.id,
-                                    newStatus,
-                                  })
-                                }
-                              />
-                            }
+                            options={<TaskOptions task={task} />}
                           />
                         </motion.li>
                       ))}

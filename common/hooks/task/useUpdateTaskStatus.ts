@@ -1,21 +1,23 @@
 import { uniqueId } from 'lodash'
+import { useRouter } from 'next/router'
 import { changeTaskStatus } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
+import useTask from '../../data/useTask'
 import { Status } from '../../types/TaskType'
 import getErrorMessage from '../../utils/getErrorMessage'
 
-const useUpdateTaskStatus = (
-  projectId: string | null,
-  date: string | null,
-  callback?: (action?: any) => void
-) => {
+const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
-  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date)
-  const { mutate: mutateProject, project } = useProject(projectId)
+  const router = useRouter()
+  const { d: date, projectId, taskId } = router.query
+
+  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
+  const { mutate: mutateProject, project } = useProject(projectId as string)
+  const { mutate: mutateTask, task } = useTask(taskId as string)
 
   const taskStatusHandler = async ({
     taskId,
@@ -36,6 +38,7 @@ const useUpdateTaskStatus = (
       }
     }
 
+    // in date tasks
     if (date) {
       const updatedTasks = {
         data: dateTasks.map((t) =>
@@ -59,6 +62,7 @@ const useUpdateTaskStatus = (
       )
     }
 
+    // in project details
     if (projectId) {
       const updatedProject = {
         data: {
@@ -83,6 +87,32 @@ const useUpdateTaskStatus = (
         },
         {
           optimisticData: updatedProject,
+          rollbackOnError: true,
+        }
+      )
+    }
+
+    // in task details
+    if (taskId) {
+      const updatedTask = {
+        data: {
+          ...task,
+          status: newStatus,
+        },
+      }
+
+      mutateTask(
+        async () => {
+          const req = await request()
+          return {
+            data: {
+              ...task,
+              status: req.data.status,
+            },
+          }
+        },
+        {
+          optimisticData: updatedTask,
           rollbackOnError: true,
         }
       )

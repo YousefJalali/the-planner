@@ -126,7 +126,6 @@ const Project = () => {
                   tasks={project.tasks as TaskWithProjectType[]}
                   showEmptyState
                   showDivider
-                  projectId={project.id}
                 />
               </Lists>
             </>

@@ -80,7 +80,7 @@ const DateTasks = () => {
         ) : dateTasks && dateTasks.length <= 0 ? (
           <NoTasks />
         ) : (
-          <TasksLists tasks={dateTasks} date={urlDate} />
+          <TasksLists tasks={dateTasks} />
         )}
       </x.div>
     </x.section>

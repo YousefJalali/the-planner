@@ -7,15 +7,14 @@ import { taskKey } from './keys'
 const useTask = (taskId: string | null) => {
   const key = taskId ? taskKey(taskId) : null
 
-  const { data, error } = useSWR<
-    { data: TaskWithProjectType; error: Error },
-    Error
-  >(key, customFetch, { use: [requestLogger] })
+  const { data, error, mutate } = useSWR(key, customFetch, {
+    use: [requestLogger],
+  })
 
-  const task = data?.data || null
+  const task: TaskWithProjectType = data?.data || null
   const isLoading = !error && !data
 
-  return { task, error, isLoading }
+  return { task, error, isLoading, mutate }
 }
 
 export default useTask

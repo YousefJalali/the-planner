@@ -61,15 +61,6 @@ const handler = async (
           },
         })
 
-        const tasks = await prisma.task.findMany({
-          where: {
-            startDate: updatedTask.startDate,
-          },
-          include: {
-            project: { select: { title: true, color: true } },
-          },
-        })
-
         return res.status(200).json({ data: updatedTask })
       } catch (error) {
         console.log(error)

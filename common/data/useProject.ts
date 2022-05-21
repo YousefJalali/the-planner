@@ -13,8 +13,6 @@ const useProject = (projectId: string | null) => {
     }
   )
 
-  console.log(data)
-
   const project: ProjectWithTasksAndCount = data?.data || null
   const isLoading = !error && !data
 

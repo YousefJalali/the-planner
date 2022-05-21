@@ -3,7 +3,8 @@ import { FC } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useModal } from '../../common/contexts/ModalCtx'
 import useDeleteTask from '../../common/hooks/task/useDeleteTask'
-import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
+import { TaskWithProjectType } from '../../common/types/TaskType'
 import Button from '../formElements/Button'
 import EditTask from './EditTask'
 import StatusList from './StatusList'
@@ -12,13 +13,16 @@ import TaskOptionsList from './TaskOptionsList'
 type Props = {
   task: TaskWithProjectType
   inHeader?: boolean
-  onChangeStatus: (task: TaskWithProjectType, newStatus: Status) => void
 }
 
-const TaskOptions: FC<Props> = ({ task, inHeader, onChangeStatus }) => {
+const TaskOptions: FC<Props> = ({ task, inHeader }) => {
   const { setModal, clearModal } = useModal()
 
   const { deleteTaskHandler } = useDeleteTask(() => clearModal('task-options'))
+  const { taskStatusHandler } = useUpdateTaskStatus(() => {
+    clearModal('task-status')
+    clearModal('task-options')
+  })
 
   const onOptions = () => {
     setModal({
@@ -42,7 +46,9 @@ const TaskOptions: FC<Props> = ({ task, inHeader, onChangeStatus }) => {
       content: (
         <StatusList
           status={task.status}
-          onChange={(newStatus) => onChangeStatus(task, newStatus)}
+          onChange={(newStatus) =>
+            taskStatusHandler({ taskId: task.id, newStatus })
+          }
         />
       ),
     })
