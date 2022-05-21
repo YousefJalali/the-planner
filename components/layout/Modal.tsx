@@ -1,6 +1,6 @@
-import { FC, useEffect, useMemo, useRef } from 'react'
+import { DragEventHandler, FC, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { AnimatePresence, motion, Variants } from 'framer-motion'
+import { AnimatePresence, motion, Variants, PanInfo } from 'framer-motion'
 import { useModal } from '../../common/contexts/ModalCtx'
 import useWindowSize from '../../common/hooks/useWindowSize'
 import styled, { x } from '@xstyled/styled-components'
@@ -105,6 +105,19 @@ const ContentWrapper = ({
     }
   }, [height])
 
+  const onDragHandler = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const childHeight = targetRef.current?.getBoundingClientRect().height
+
+    if (childHeight && info.point.y > childHeight) {
+      clearModal()
+    } else {
+      return
+    }
+  }
+
   return height ? (
     <x.div
       position='absolute'
@@ -122,6 +135,11 @@ const ContentWrapper = ({
         animate='open'
         exit='closed'
         variants={variants}
+        drag='y'
+        dragConstraints={{ bottom: 0, top: 0 }}
+        dragElastic={0.2}
+        // @ts-ignore
+        onDragEnd={onDragHandler}
         ref={targetRef}
         id={id}
         data-testid={id}
