@@ -8,6 +8,7 @@ import {
   ProjectWithTasksType,
 } from '../types/ProjectType'
 import customFetch from '../utils/customFetch'
+import getErrorMessage from '../utils/getErrorMessage'
 import { projectsKey } from './keys'
 
 type ProjectWithTasksCount = ProjectType & ProjectTasksCount
@@ -65,7 +66,7 @@ const useInfiniteProjects = (filter?: Omit<Status, 'proposed'> | null) => {
 
   return {
     projects,
-    error,
+    error: getErrorMessage(error),
     isLoading,
     size,
     setSize,

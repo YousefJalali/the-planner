@@ -2,6 +2,7 @@ import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
 import { TaskWithProjectType } from '../types/TaskType'
 import customFetch from '../utils/customFetch'
+import getErrorMessage from '../utils/getErrorMessage'
 import { taskKey } from './keys'
 
 const useTask = (taskId: string | null) => {
@@ -14,7 +15,7 @@ const useTask = (taskId: string | null) => {
   const task: TaskWithProjectType = data?.data || null
   const isLoading = !error && !data
 
-  return { task, error, isLoading, mutate }
+  return { task, error: getErrorMessage(error), isLoading, mutate }
 }
 
 export default useTask

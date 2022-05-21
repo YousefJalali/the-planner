@@ -16,6 +16,7 @@ import { useModal } from '../../common/contexts/ModalCtx'
 import Button from '../../components/formElements/Button'
 import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
+import ErrorMessage from '../../components/ErrorMessage'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -98,7 +99,7 @@ const Project = () => {
           </x.div>
         ) : error ? (
           <x.div px={4} display='flex' justifyContent='center'>
-            {error}
+            <ErrorMessage error={error} />
           </x.div>
         ) : (
           project && (

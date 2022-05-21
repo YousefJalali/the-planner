@@ -1,8 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import useInfiniteProjects from '../../common/data/useInfiniteProjects'
+import useProjects from '../../common/data/useProjects'
 import Fieldset from '../formElements/Fieldset'
 import ProjectItem from '../project/ProjectItem'
 import Spinner from '../Spinner'
@@ -15,8 +14,7 @@ type Props = {
 const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
   const [search, setSearch] = useState('')
 
-  const { projects, isLoading, size, setSize, hasReachedEnd } =
-    useInfiniteProjects()
+  const { projects, error, isLoading } = useProjects()
 
   const onSelectHandler = (id: string) => {
     setSearch('')
@@ -38,17 +36,24 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
             <ProjectItem project={project} />
           </x.li>
         )),
-    [projects]
+    [projects, search]
   )
 
-  return (
+  return error ? (
+    <x.div p={3} display='flex' justifyContent='center'>
+      {error}
+    </x.div>
+  ) : isLoading ? (
+    <x.div p={4} display='flex' justifyContent='center'>
+      <Spinner pathColor='brand-primary' trailColor='layout-level0accent' />
+    </x.div>
+  ) : (
     <x.ul
       position='relative'
       my={1}
       divideY
       divideColor='layout-level0accent'
       id='project-list-select'
-      // pb={focus ? '200px' : 0}
     >
       {projects?.length > 10 && (
         <x.li p={3} position='sticky' top='0'>
@@ -60,31 +65,13 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
               onChange={(e) => setSearch(e.target.value)}
               backgroundColor='layout-level0'
               boxShadow={2}
-              // onFocus={() => setFocus(true)}
-              // onBlur={() => setFocus(false)}
             />
           </Fieldset>
         </x.li>
       )}
 
       {renderList.length > 0 ? (
-        <>
-          <InfiniteScroll
-            dataLength={projects.length}
-            next={() => setSize(size + 1)}
-            hasMore={!hasReachedEnd}
-            loader={
-              <x.div display='flex' justifyContent='center' py={3}>
-                <Spinner
-                  pathColor='brand-primary'
-                  trailColor='layout-level0accent'
-                />
-              </x.div>
-            }
-          >
-            {renderList}
-          </InfiniteScroll>
-        </>
+        renderList
       ) : (
         <x.li p={3} color='content-nonessential'>
           No project found
