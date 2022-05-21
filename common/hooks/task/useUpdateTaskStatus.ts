@@ -1,16 +1,10 @@
-import { format } from 'date-fns'
 import { uniqueId } from 'lodash'
-import { useEffect, useState } from 'react'
-import { useSWRConfig } from 'swr'
 import { changeTaskStatus } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { dateTasksKey } from '../../data/keys'
-import { updateTaskStatusInLocalProject } from '../../data/localData/localProjectsData'
-import { updateTaskStatusInLocalTasksData } from '../../data/localData/localTasksData'
+
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
-import { ProjectWithTasksAndCount } from '../../types/ProjectType'
-import { Status, TaskWithProjectType } from '../../types/TaskType'
+import { Status } from '../../types/TaskType'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 const useUpdateTaskStatus = (
@@ -18,43 +12,21 @@ const useUpdateTaskStatus = (
   date: string | null,
   callback?: (action?: any) => void
 ) => {
-  console.log(date)
+  const { setNotification } = useNotification()
 
-  const { setNotification, clearNotification } = useNotification()
-  const { mutate } = useSWRConfig()
   const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date)
-  const { mutate: mutateProject } = useProject(projectId)
-
-  // useEffect(() => {
-  //   if (error) {
-  //     setNotification({
-  //       id: uniqueId(),
-  //       message: error,
-  //       variant: 'critical',
-  //     })
-  //   }
-
-  //   return () => {
-  //     setError(null)
-  //     clearNotification()
-  //   }
-  // }, [error])
+  const { mutate: mutateProject, project } = useProject(projectId)
 
   const taskStatusHandler = async ({
-    // tasks,
     taskId,
     newStatus,
   }: {
-    // tasks: TaskWithProjectType[]
     taskId: string
     newStatus: Status
   }) => {
-    // console.log('useUpdateTaskStatus called from: ', projectId, date)
-    // console.log(tasks, task, newStatus)
-
     const request = async () => {
       try {
-        await changeTaskStatus(taskId, newStatus)
+        return await changeTaskStatus(taskId, newStatus)
       } catch (error) {
         setNotification({
           id: uniqueId(),
@@ -65,65 +37,60 @@ const useUpdateTaskStatus = (
     }
 
     if (date) {
-      const updatedTasks = dateTasks.map((t) =>
-        t.id === taskId ? { ...t, status: newStatus } : t
+      const updatedTasks = {
+        data: dateTasks.map((t) =>
+          t.id === taskId ? { ...t, status: newStatus } : t
+        ),
+      }
+
+      mutateDateTasks(
+        async () => {
+          const updatedTask = await request()
+          return {
+            data: dateTasks.map((t) =>
+              t.id === updatedTask.data.id ? updatedTask.data : t
+            ),
+          }
+        },
+        {
+          optimisticData: updatedTasks,
+          rollbackOnError: true,
+        }
       )
-      console.log('updatedTasks', updatedTasks)
-
-      mutateDateTasks(() => ({ data: updatedTasks }), false)
-      await request()
-      mutateDateTasks()
-
-      // await changeTaskStatus(taskId, newStatus)
-      // mutateDateTasks(changeTaskStatus(taskId, newStatus), {
-      //   optimisticData: { data: updatedTasks },
-      //   rollbackOnError: true,
-      // })
-
-      // try {
-      //   const hola = await mutateDateTasks(
-      //     changeTaskStatus(taskId, newStatus),
-      //     {
-      //       optimisticData: { data: updatedTasks },
-      //       rollbackOnError: true,
-      //     }
-      //   )
-
-      //   console.log(hola)
-      // } catch (error) {
-      //   if (error) {
-      //     setNotification({
-      //       id: uniqueId(),
-      //       message: getErrorMessage(error),
-      //       variant: 'critical',
-      //     })
-      //   }
-      //   // console.log(getErrorMessage(error))
-      //   setError(getErrorMessage(error))
-      // }
     }
 
     if (projectId) {
+      const updatedProject = {
+        data: {
+          ...project,
+          tasks: project.tasks.map((t) =>
+            t.id === taskId ? { ...t, status: newStatus } : t
+          ),
+        },
+      }
+
       mutateProject(
-        (data: { data: ProjectWithTasksAndCount }) =>
-          data && updateTaskStatusInLocalProject(data.data, taskId, newStatus),
-        false
+        async () => {
+          const updatedTask = await request()
+          return {
+            data: {
+              ...project,
+              tasks: project.tasks.map((t) =>
+                t.id === updatedTask.data.id ? updatedTask.data : t
+              ),
+            },
+          }
+        },
+        {
+          optimisticData: updatedProject,
+          rollbackOnError: true,
+        }
       )
     }
-
-    // const { data, error } = await changeTaskStatus(taskId, newStatus)
 
     if (callback) {
       callback()
     }
-
-    // if (error) {
-    //   setNotification({
-    //     id: uniqueId(),
-    //     message: error,
-    //     variant: 'critical',
-    //   })
-    // }
   }
 
   return { taskStatusHandler }

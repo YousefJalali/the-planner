@@ -11,7 +11,6 @@ const useDateTasks = (date: string | null) => {
   })
 
   const { data, error, mutate } = res
-  console.log(res, data, date)
 
   const dateTasks: TaskWithProjectType[] = data?.data || []
   const isLoading = !data && !error

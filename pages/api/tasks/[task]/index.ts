@@ -45,8 +45,6 @@ const handler = async (
 
     //change task status
     case 'PUT':
-      // return res.status(404).json({ error: 'Task not found' })
-
       //return if same status
       if (task.status === status) return
 
@@ -72,7 +70,7 @@ const handler = async (
           },
         })
 
-        return res.status(200).json({ data: tasks })
+        return res.status(200).json({ data: updatedTask })
       } catch (error) {
         console.log(error)
         return res.status(500).json({ error })

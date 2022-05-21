@@ -26,7 +26,7 @@ export const changeTaskStatus = async (taskId: string, status: Status) => {
   // } catch (error) {
   //   console.log(error)
   // }
-  await customFetch(`${taskKey(taskId)}?status=${status}`, 'PUT')
+  return await customFetch(`${taskKey(taskId)}?status=${status}`, 'PUT')
 }
 
 export const deleteTask = async (taskId: string) => {

@@ -42,11 +42,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             refetchInterval={2 * 60 * 60}
           > */}
           <SWRConfig
-            value={{
-              // refreshInterval: 3000,
-              fetcher: (resource, init) =>
-                fetch(resource, init).then((res) => res.json()),
-            }}
+            value={
+              {
+                // refreshInterval: 3000,
+                // fetcher: (resource, init) =>
+                //   fetch(resource, init).then((res) => res.json()),
+              }
+            }
           >
             <NotificationCtxProvider>
               <PromptCtxProvider>
