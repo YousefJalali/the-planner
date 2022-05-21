@@ -1,49 +1,43 @@
 import getErrorMessage from './getErrorMessage'
 
+// function logout() {
+//   window.localStorage.removeItem(localStorageKey)
+// }
+
 async function customFetch<T>(
   url: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   bodyData?: T
 ) {
+  // const token = window.localStorage.getItem(localStorageKey)
+  const headers = { 'Content-Type': 'application/json' }
+  // if (token) {
+  //   headers.Authorization = `Bearer ${token}`
+  // }
+
   const res = await fetch(url, {
     method,
     ...(bodyData && { body: JSON.stringify(bodyData) }),
     headers: {
-      'Content-Type': 'application/json',
+      ...headers,
     },
   })
+
+  // if (res.status === 401) {
+  //   logout()
+  //   window.location.assign(window.location)
+  //   return
+  // }
 
   if (!res.ok) {
     const err = new Error(res.statusText)
     const { error } = await res.json()
     err.message = error
-    throw getErrorMessage(err)
+    throw err
+    // throw getErrorMessage(err)
   }
 
   return await res.json()
 }
-// async function customFetch<T>(
-//   url: string,
-//   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-//   bodyData?: T
-// ) {
-//   try {
-//     const res = await fetch(url, {
-//       method,
-//       ...(bodyData && { body: JSON.stringify(bodyData) }),
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     })
-
-//     if (!res.ok) {
-//       throw new Error(res.statusText)
-//     }
-
-//     return await res.json()
-//   } catch (err) {
-//     return { error: getErrorMessage(err) }
-//   }
-// }
 
 export default customFetch

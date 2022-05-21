@@ -4,7 +4,7 @@ import { useSWRConfig } from 'swr'
 import { deleteTask } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { usePrompt } from '../../contexts/PromptCtx'
-import { dateTaskKey, projectKey } from '../../data/keys'
+import { dateTasksKey, projectKey } from '../../data/keys'
 import { removeTaskFromLocalProjectData } from '../../data/localData/localProjectsData'
 import { removeTaskFromLocalTasksData } from '../../data/localData/localTasksData'
 import { ProjectWithTasksType } from '../../types/ProjectType'
@@ -32,7 +32,7 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
   const deleteHandler = async (task: TaskWithProjectType) => {
     // mutate tasks locally
     // mutate(
-    //   dateTaskKey(new Date(task.startDate).toDateString()),
+    //   dateTasksKey(new Date(task.startDate).toDateString()),
     //   (data: { data: TaskWithProjectType[] }) =>
     //     data && removeTaskFromLocalTasksData(data.data, task.id),
     //   false
@@ -54,7 +54,7 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
       //send request
       const { error } = await deleteTask(task.id)
 
-      mutate(dateTaskKey(new Date(task.startDate).toDateString()))
+      mutate(dateTasksKey(new Date(task.startDate).toDateString()))
       mutate(projectKey(task.projectId))
       mutate(`${projectKey(task.projectId)}/stats`)
 

@@ -7,7 +7,7 @@ import { createTask } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType } from '../../types/TaskType'
 import addServerErrors from '../../utils/addServerErrors'
-import { dateTaskKey, projectKey } from '../../data/keys'
+import { dateTasksKey, projectKey } from '../../data/keys'
 import { DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
 
@@ -48,7 +48,7 @@ const useCreateTask = (callback: (action?: any) => void) => {
       addServerErrors(validationErrors, setError)
     } else {
       //mutate with validation
-      mutate(dateTaskKey(formData.startDate))
+      mutate(dateTasksKey(formData.startDate))
       mutate(projectKey(formData.projectId))
       mutate(`${projectKey(formData.projectId)}/stats`)
 

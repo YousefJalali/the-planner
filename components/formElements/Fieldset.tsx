@@ -6,6 +6,7 @@ export const Label = styled(x.label)`
   display: block;
   font-size: sm;
   line-height: relaxed;
+  color: content-subtle;
   &::first-letter {
     text-transform: uppercase;
   }

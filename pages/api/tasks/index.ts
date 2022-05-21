@@ -10,7 +10,7 @@ const handler = async (
 ) => {
   const { d } = req.query
 
-  console.log('query', d)
+  // console.log('query', d)
 
   const date = parse(d as string, DATE_FORMAT, new Date())
 
@@ -22,7 +22,7 @@ const handler = async (
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
   )
 
-  console.log('parsed date: ', date, startDate)
+  // console.log('parsed date: ', date, startDate)
 
   try {
     const tasks = await prisma.task.findMany({

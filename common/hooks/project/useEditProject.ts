@@ -4,7 +4,7 @@ import { UseFormSetError } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
 import { editProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { dateTaskKey, projectKey } from '../../data/keys'
+import { projectKey } from '../../data/keys'
 import { ProjectType } from '../../types/ProjectType'
 import addServerErrors from '../../utils/addServerErrors'
 

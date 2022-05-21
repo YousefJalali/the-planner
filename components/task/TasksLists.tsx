@@ -10,17 +10,16 @@ import TaskOptions from './TaskOptions'
 import TaskItem from './TaskItem'
 import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
 
-type WrapperProps = {
-  status: string
-  showDivider?: boolean
-}
-
 const animations = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
   exit: { opacity: 0 },
 }
 
+type WrapperProps = {
+  status: string
+  showDivider?: boolean
+}
 const Wrapper = styled(x.div)<WrapperProps>`
   padding-bottom: 4;
 
@@ -40,7 +39,6 @@ type Props = {
   date?: string
   projectId?: string
 }
-
 const TasksLists: FC<Props> = ({
   tasks,
   showEmptyState = false,
@@ -50,7 +48,6 @@ const TasksLists: FC<Props> = ({
 }) => {
   const { setModal, clearModal } = useModal()
 
-  // const { checkTaskHandler } = useCheckTask(projectId || null, date || null)
   const { taskStatusHandler } = useUpdateTaskStatus(
     projectId || null,
     date || null,
@@ -127,7 +124,6 @@ const TasksLists: FC<Props> = ({
                       ))}
                     </AnimatePresence>
                   </x.ul>
-                  {/* <TasksList id={`${status}-tasks-list`} tasks={tasks} /> */}
                 </Wrapper>
               ) : showEmptyState ? (
                 <Wrapper

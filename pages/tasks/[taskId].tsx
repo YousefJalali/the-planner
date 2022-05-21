@@ -54,7 +54,7 @@ const TaskDetailsPage = () => {
           {error}
         </x.div>
       ) : (
-        task && <TaskDetails task={task} showTag />
+        task && <TaskDetails task={task} />
       )}
     </main>
   )

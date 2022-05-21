@@ -4,7 +4,7 @@ import { UseFormSetError } from 'react-hook-form'
 import { useSWRConfig } from 'swr'
 import { editTask } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { dateTaskKey, projectKey } from '../../data/keys'
+import { dateTasksKey, projectKey } from '../../data/keys'
 import { TaskType } from '../../types/TaskType'
 import addServerErrors from '../../utils/addServerErrors'
 
@@ -29,7 +29,7 @@ const useEditTask = (callback?: (action?: any) => void) => {
       addServerErrors(validationErrors, setError)
     } else {
       //mutate with validation
-      mutate(dateTaskKey(formData.startDate))
+      mutate(dateTasksKey(formData.startDate))
       mutate(projectKey(formData.projectId))
 
       if (data) {

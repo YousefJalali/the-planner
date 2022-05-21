@@ -45,10 +45,9 @@ const handler = async (
 
     //change task status
     case 'PUT':
+      // return res.status(404).json({ error: 'Task not found' })
       //return if same status
-      if (task.status === status) {
-        return res.status(200).json({ data: task })
-      }
+      if (task.status === status) return
 
       try {
         const updatedTask = await prisma.task.update({

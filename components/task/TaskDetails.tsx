@@ -5,6 +5,7 @@ import format from 'date-fns/format'
 import { FiX } from 'react-icons/fi'
 import styled, { x } from '@xstyled/styled-components'
 import Zoom from 'react-medium-image-zoom'
+import isSameYear from 'date-fns/isSameYear'
 
 import 'react-medium-image-zoom/dist/styles.css'
 import { TaskWithProjectType } from '../../common/types/TaskType'
@@ -17,7 +18,6 @@ import Button from '../formElements/Button'
 type Props = {
   task: TaskWithProjectType
   onClose?: (action?: any) => void
-  showTag?: boolean
 }
 
 const ImageItem = styled(x.div)`
@@ -30,9 +30,18 @@ const ImageItem = styled(x.div)`
   }
 `
 
-const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
-  const { title, project, projectId, attachments, description, startDate } =
-    task
+const TaskDetails: FC<Props> = ({ task, onClose }) => {
+  const {
+    title,
+    project,
+    projectId,
+    attachments,
+    description,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+  } = task
 
   const router = useRouter()
 
@@ -42,6 +51,10 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
       onClose()
     }
   }
+
+  const dateFormat = isSameYear(new Date(), new Date(startDate))
+    ? 'E dd MMM '
+    : 'E dd MMM y'
 
   return (
     <>
@@ -82,11 +95,10 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
               </x.span>
             </Button>
           )}
-          {showTag && !onClose && <Tag variant={task.status} />}
         </x.div>
 
         {/* task */}
-        <x.div mt={3}>
+        <x.div>
           <Label>Task</Label>
           <x.a onClick={() => linkHandler(`/tasks/${task.id}`)}>
             <x.h2
@@ -106,13 +118,49 @@ const TaskDetails: FC<Props> = ({ task, onClose, showTag }) => {
           )}
         </x.div>
 
-        {/* time */}
-        <x.div mt={3}>
-          <Label>Date</Label>
-          <x.p color='content.subtle'>
-            {format(new Date(startDate), 'PPPP')}
-          </x.p>
-        </x.div>
+        {/* Date & Time */}
+        <div>
+          <x.div>
+            <Label>Created On</Label>
+
+            <x.div
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <x.div display='flex'>
+                <x.p color='content.subtle'>
+                  {format(new Date(startDate), dateFormat)}
+                </x.p>
+                {startTime && (
+                  <x.p color='content.subtle' ml={2}>
+                    {format(new Date(startTime), 'KK:mm a')}
+                  </x.p>
+                )}
+              </x.div>
+
+              <Tag variant={task.status} />
+            </x.div>
+          </x.div>
+
+          {/* Due Date */}
+          {endDate && (
+            <x.div mt={2}>
+              <Label>Due Date</Label>
+
+              <x.div display='flex'>
+                <x.p color='content.subtle'>
+                  {format(new Date(endDate), dateFormat)}
+                </x.p>
+                {endTime && (
+                  <x.p color='content.subtle' ml={2}>
+                    {format(new Date(endTime), 'KK:mm a')}
+                  </x.p>
+                )}
+              </x.div>
+            </x.div>
+          )}
+        </div>
       </x.section>
 
       {/* attachments */}

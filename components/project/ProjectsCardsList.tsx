@@ -41,7 +41,7 @@ const ProjectsCardsList: FC = () => {
       <x.div
         display='flex'
         justifyContent='space-between'
-        alignItems='flex-end'
+        alignItems='center'
         pl={4}
         pr='calc(24px - 0.5rem)'
       >
