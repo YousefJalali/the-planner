@@ -2,18 +2,35 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useModal } from '../common/contexts/ModalCtx'
-import CreateTask from './task/CreateTask'
+import useCreateTask from '../common/hooks/task/useCreateTask'
+import { TaskType } from '../common/types/TaskType'
+import TaskForm from './task/TaskForm'
 
 const FloatingButton: FC = () => {
   const { setModal, clearModal } = useModal()
 
-  const clickHandler = () => {
+  const showForm = (defValues?: Partial<TaskType>, serverErrors?: object) => {
+    console.log('defValue', defValues)
     setModal({
       id: 'task-create',
       fullScreen: true,
-      content: <CreateTask onRequestClose={() => clearModal('task-create')} />,
+      content: (
+        <TaskForm
+          id='create'
+          title='New Task'
+          defaultValues={defValues || defaultValues}
+          onSubmit={onSubmit}
+          serverErrors={serverErrors}
+          // isSubmitting={isSubmitting}
+          onRequestClose={() => clearModal('task-create')}
+        />
+      ),
     })
   }
+
+  const { onSubmit, defaultValues } = useCreateTask(showForm, () =>
+    clearModal('task-create')
+  )
 
   return (
     <x.button
@@ -32,7 +49,7 @@ const FloatingButton: FC = () => {
       display='flex'
       justifyContent='center'
       alignItems='center'
-      onClick={clickHandler}
+      onClick={() => showForm()}
     >
       <x.div color='layout-level0' fontSize='2rem'>
         <FiPlus />

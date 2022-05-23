@@ -32,6 +32,9 @@ const handler = async (
           },
         },
         tasks: {
+          orderBy: {
+            createdAt: 'desc',
+          },
           include: {
             project: { select: { title: true, color: true } },
           },

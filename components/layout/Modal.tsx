@@ -135,11 +135,11 @@ const ContentWrapper = ({
         animate='open'
         exit='closed'
         variants={variants}
-        drag='y'
-        dragConstraints={{ bottom: 0, top: 0 }}
-        dragElastic={0.2}
-        // @ts-ignore
-        onDragEnd={onDragHandler}
+        // drag='y'
+        // dragConstraints={{ bottom: 0, top: 0 }}
+        // dragElastic={0.2}
+        // // @ts-ignore
+        // onDragEnd={onDragHandler}
         ref={targetRef}
         id={id}
         data-testid={id}

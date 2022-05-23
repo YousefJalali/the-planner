@@ -4,11 +4,12 @@ import customFetch from '../utils/customFetch'
 import getErrorMessage from '../utils/getErrorMessage'
 
 export const createTask = async (task: TaskType) => {
-  try {
-    return await customFetch(`${tasksKey()}/create`, 'POST', task)
-  } catch (error) {
-    return { error: getErrorMessage(error) }
-  }
+  return await customFetch(`${tasksKey()}/create`, 'POST', task)
+  // try {
+  //   return await customFetch(`${tasksKey()}/create`, 'POST', task)
+  // } catch (error) {
+  //   return { error: getErrorMessage(error) }
+  // }
 }
 
 export const editTask = async (task: TaskType) => {

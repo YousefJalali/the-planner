@@ -21,6 +21,17 @@ const handler = async (
 ) => {
   const task: TaskType = req.body
 
+  // return res.status(400).json({ error: 'something wrong happened' })
+
+  // return res.json({
+  //   validationErrors: {
+  //     projectId: {
+  //       type: 'required',
+  //       message: 'Cannot find the selected project',
+  //     } as FieldErrors<TaskType>,
+  //   },
+  // })
+
   if (!task) {
     return res
       .status(400)
@@ -43,7 +54,7 @@ const handler = async (
     })
 
     if (!project) {
-      return res.json({
+      return res.status(400).json({
         validationErrors: {
           projectId: {
             type: 'required',

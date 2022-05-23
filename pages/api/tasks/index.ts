@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
-import { format, isValid, parse } from 'date-fns'
+import { isValid, parse } from 'date-fns'
 import { DATE_FORMAT } from '../../../common/constants'
 
 const handler = async (
@@ -9,8 +9,6 @@ const handler = async (
   res: NextApiResponse<{ data?: TaskType[]; error?: Error | unknown }>
 ) => {
   const { d } = req.query
-
-  // console.log('query', d)
 
   const date = parse(d as string, DATE_FORMAT, new Date())
 
@@ -22,18 +20,14 @@ const handler = async (
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
   )
 
-  // console.log('parsed date: ', date, startDate)
-
   try {
     const tasks = await prisma.task.findMany({
       where: {
         startDate,
       },
-      // take: 5,
+      orderBy: { createdAt: 'desc' },
       include: { project: { select: { title: true, color: true } } },
     })
-
-    // console.log('prisma req', tasks)
 
     return res.status(200).json({ data: tasks })
   } catch (error) {

@@ -3,7 +3,7 @@ import { x } from '@xstyled/styled-components'
 import { useForm, Controller, UseFormSetError } from 'react-hook-form'
 import _ from 'lodash'
 import { parseISO } from 'date-fns'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import Input from '../formElements/Input'
 import DatePicker from '../formElements/DatePicker'
@@ -20,6 +20,7 @@ import useYupValidationResolver from '../../common/hooks/useYupValidationResolve
 
 import { TaskType, Status } from '../../common/types/TaskType'
 import { dateToUTC } from '../../common/utils/dateToUTC'
+import addServerErrors from '../../common/utils/addServerErrors'
 
 type Props = {
   id: 'create' | 'edit'
@@ -28,6 +29,7 @@ type Props = {
   onSubmit: (data: TaskType, setError: UseFormSetError<TaskType>) => void
   isSubmitting?: boolean
   onRequestClose?: () => void
+  serverErrors?: object
 }
 
 const stringToDate: (date: string | Date) => Date = (date) =>
@@ -56,6 +58,7 @@ function TaskForm({
   onSubmit,
   isSubmitting = false,
   onRequestClose,
+  serverErrors,
 }: Props) {
   const formName = 'task-form'
 
@@ -81,10 +84,20 @@ function TaskForm({
     formState: { errors, isDirty },
     getValues,
     resetField,
+    clearErrors,
   } = useForm<TaskType>({
     defaultValues: defValues,
     resolver,
   })
+
+  useEffect(() => {
+    if (serverErrors) {
+      addServerErrors(serverErrors, setError)
+    }
+    return () => {
+      clearErrors()
+    }
+  }, [serverErrors])
 
   const onSubmitHandler = async (data: TaskType) => {
     const formData = {
