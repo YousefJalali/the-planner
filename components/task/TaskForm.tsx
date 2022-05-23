@@ -100,12 +100,15 @@ function TaskForm({
   }, [serverErrors])
 
   const onSubmitHandler = async (data: TaskType) => {
+    console.log('before: ', data.startDate)
     const formData = {
       ...data,
       id: ObjectID().toHexString(),
       startDate: dateToUTC(data.startDate, true),
       endDate: data.endDate ? dateToUTC(data.endDate, true) : null,
     }
+    console.log('after: ', formData.startDate)
+
     onSubmit(_.omit(formData, 'project'), setError)
   }
 

@@ -79,6 +79,8 @@ const handler = async (
     // const startDate = setHours(new Date(task.startDate), 12)
     // const endDate = task.endDate ? setHours(new Date(task.endDate), 12) : null
 
+    console.log('before: ', task.startDate)
+
     const createdTask = await prisma.task.create({
       data: {
         ...task,
@@ -89,6 +91,8 @@ const handler = async (
       },
       include: { project: { select: { title: true, color: true } } },
     })
+
+    console.log('before: ', createdTask.startDate)
 
     res.status(200).json({ data: createdTask })
   } catch (error) {
