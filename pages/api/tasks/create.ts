@@ -92,7 +92,7 @@ const handler = async (
       include: { project: { select: { title: true, color: true } } },
     })
 
-    console.log('before: ', createdTask.startDate)
+    console.log('after: ', createdTask.startDate)
 
     res.status(200).json({ data: createdTask })
   } catch (error) {
