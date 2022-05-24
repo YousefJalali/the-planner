@@ -75,7 +75,9 @@ const handler = async (
       id = ObjectID().toHexString()
     }
 
-    const startDate = new Date(task.startDate).toISOString()
+    const startDate = new Date(
+      new Date(task.startDate).toISOString().slice(0, -1)
+    )
     const endDate = task.endDate ? new Date(task.endDate).toISOString() : null
 
     const createdTask = await prisma.task.create({
