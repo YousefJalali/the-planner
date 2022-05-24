@@ -75,13 +75,16 @@ const handler = async (
       id = ObjectID().toHexString()
     }
 
+    const startDate = new Date(task.startDate).toISOString()
+    const endDate = task.endDate ? new Date(task.endDate).toISOString() : null
+
     const createdTask = await prisma.task.create({
       data: {
         ...task,
         id,
         attachments: images,
-        startDate: task.startDate.toISOString(),
-        endDate: task.endDate ? task.endDate.toISOString() : null,
+        startDate,
+        endDate,
       },
       include: { project: { select: { title: true, color: true } } },
     })
