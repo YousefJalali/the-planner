@@ -86,7 +86,7 @@ const handler = async (
         ...task,
         id,
         attachments: images,
-        startDate: dateToUTC(task.startDate, true),
+        startDate: dateToUTC(task.startDate),
         endDate: task.endDate ? dateToUTC(task.endDate, true) : null,
       },
       include: { project: { select: { title: true, color: true } } },

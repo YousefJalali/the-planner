@@ -21,10 +21,10 @@ const handler = async (
   //   Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1)
   // )
 
-  const startDate = dateToUTC(date, true)
+  const startDate = date
+  // const startDate = dateToUTC(date)
 
-  console.log('before UTC', date)
-  console.log('after UTC', startDate)
+  console.log(date)
 
   try {
     const tasks = await prisma.task.findMany({

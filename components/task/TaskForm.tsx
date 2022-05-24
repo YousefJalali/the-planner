@@ -104,7 +104,7 @@ function TaskForm({
     const formData = {
       ...data,
       id: ObjectID().toHexString(),
-      // startDate: dateToUTC(data.startDate, true),
+      // startDate: dateToUTC(data.startDate),
       // endDate: data.endDate ? dateToUTC(data.endDate, true) : null,
     }
     console.log('after form: ', formData.startDate)
