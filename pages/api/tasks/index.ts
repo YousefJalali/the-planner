@@ -3,6 +3,7 @@ import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
 import { isValid, parse } from 'date-fns'
 import { DATE_FORMAT } from '../../../common/constants'
+import { dateToUTC } from '../../../common/utils/dateToUTC'
 
 const handler = async (
   req: NextApiRequest,
@@ -16,9 +17,14 @@ const handler = async (
     return res.json({ error: 'Invalid date' })
   }
 
-  const startDate = new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-  )
+  // const startDate = new Date(
+  //   Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1)
+  // )
+
+  const startDate = dateToUTC(date, true)
+
+  console.log('before UTC', date)
+  console.log('after UTC', startDate)
 
   try {
     const tasks = await prisma.task.findMany({
