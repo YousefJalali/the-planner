@@ -3,7 +3,6 @@ import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
 import { isValid, parse } from 'date-fns'
 import { DATE_FORMAT } from '../../../common/constants'
-import { dateToUTC } from '../../../common/utils/dateToUTC'
 
 const handler = async (
   req: NextApiRequest,
@@ -21,7 +20,6 @@ const handler = async (
   //   Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 1)
   // )
 
-  const startDate = date
   // const startDate = dateToUTC(date)
 
   console.log(date)
@@ -29,7 +27,7 @@ const handler = async (
   try {
     const tasks = await prisma.task.findMany({
       where: {
-        startDate,
+        startDate: date,
       },
       orderBy: { createdAt: 'desc' },
       include: { project: { select: { title: true, color: true } } },

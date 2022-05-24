@@ -5,7 +5,6 @@ import _ from 'lodash'
 import ObjectID from 'bson-objectid'
 import { setHours } from 'date-fns'
 import set from 'date-fns/set'
-import { dateToUTC } from '../../common/utils/dateToUTC'
 
 function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -45,8 +44,8 @@ export const task: (projects: ProjectType[], initialDate: Date) => TaskType = (
     title: faker.lorem.sentence(),
     description: faker.lorem.paragraph(),
     projectId: project.id,
-    startDate: dateToUTC(startDate, true),
-    endDate: openTask ? null : dateToUTC(endDate, true),
+    startDate: startDate,
+    endDate: openTask ? null : endDate,
     openTask,
     startTime: openTask ? null : startTime,
     endTime: openTask ? null : endTime,

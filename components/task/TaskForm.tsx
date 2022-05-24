@@ -4,6 +4,7 @@ import { useForm, Controller, UseFormSetError } from 'react-hook-form'
 import _ from 'lodash'
 import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
+import set from 'date-fns/set'
 
 import Input from '../formElements/Input'
 import DatePicker from '../formElements/DatePicker'
@@ -19,7 +20,6 @@ import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { TaskType, Status } from '../../common/types/TaskType'
-import { dateToUTC } from '../../common/utils/dateToUTC'
 import addServerErrors from '../../common/utils/addServerErrors'
 
 type Props = {
@@ -100,14 +100,24 @@ function TaskForm({
   }, [serverErrors])
 
   const onSubmitHandler = async (data: TaskType) => {
-    console.log('before form: ', data.startDate)
     const formData = {
       ...data,
       id: ObjectID().toHexString(),
-      // startDate: dateToUTC(data.startDate),
-      // endDate: data.endDate ? dateToUTC(data.endDate, true) : null,
+      startDate: set(new Date(data.startDate), {
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      }),
+      endDate: data.endDate
+        ? set(new Date(data.endDate), {
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0,
+          })
+        : null,
     }
-    console.log('after form: ', formData.startDate)
 
     onSubmit(_.omit(formData, 'project'), setError)
   }

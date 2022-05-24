@@ -9,7 +9,6 @@ import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'
 import taskSchema from '../../../common/utils/validations/taskSchema'
 import { uploadImages } from '../../../common/utils/cloudinary'
-import { dateToUTC } from '../../../common/utils/dateToUTC'
 
 const handler = async (
   req: NextApiRequest,
@@ -76,23 +75,16 @@ const handler = async (
       id = ObjectID().toHexString()
     }
 
-    // const startDate = setHours(new Date(task.startDate), 12)
-    // const endDate = task.endDate ? setHours(new Date(task.endDate), 12) : null
-
-    console.log('before: ', task.startDate)
-
     const createdTask = await prisma.task.create({
       data: {
         ...task,
         id,
         attachments: images,
-        startDate: dateToUTC(task.startDate),
-        endDate: task.endDate ? dateToUTC(task.endDate, true) : null,
+        startDate: task.startDate.toISOString(),
+        endDate: task.endDate ? task.endDate.toISOString() : null,
       },
       include: { project: { select: { title: true, color: true } } },
     })
-
-    console.log('after: ', createdTask.startDate)
 
     res.status(200).json({ data: createdTask })
   } catch (error) {
