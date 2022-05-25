@@ -2,9 +2,8 @@ import ObjectID from 'bson-objectid'
 import { x } from '@xstyled/styled-components'
 import { useForm, Controller, UseFormSetError } from 'react-hook-form'
 import _ from 'lodash'
-import { getHours, getMinutes, parseISO } from 'date-fns'
+import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
-import set from 'date-fns/set'
 
 import Input from '../formElements/Input'
 import DatePicker from '../formElements/DatePicker'
@@ -21,7 +20,10 @@ import useYupValidationResolver from '../../common/hooks/useYupValidationResolve
 
 import { TaskType, Status } from '../../common/types/TaskType'
 import addServerErrors from '../../common/utils/addServerErrors'
-import { dateFormatPattern } from '../../common/utils/dateHelpers'
+import {
+  addCurrentTime,
+  dateFormatPattern,
+} from '../../common/utils/dateHelpers'
 
 type Props = {
   id: 'create' | 'edit'
@@ -101,16 +103,8 @@ function TaskForm({
   }, [serverErrors])
 
   const onSubmitHandler = async (data: TaskType) => {
-    const startDate = set(new Date(data.startDate), {
-      hours: getHours(new Date()),
-      minutes: getMinutes(new Date()),
-    })
-    const endDate = data.endDate
-      ? set(new Date(data.endDate), {
-          hours: getHours(new Date()),
-          minutes: getMinutes(new Date()),
-        })
-      : null
+    const startDate = addCurrentTime(data.startDate)
+    const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 
     const formData = {
       ...data,
@@ -258,7 +252,7 @@ function TaskForm({
                           endDate={getValues('endDate')}
                           popperPlacement='bottom-start'
                           placeholderText='Click to select a date'
-                          // dateFormat={dateFormatPattern(value)}
+                          dateFormat={dateFormatPattern(value)}
                         />
                       </Fieldset>
                     )

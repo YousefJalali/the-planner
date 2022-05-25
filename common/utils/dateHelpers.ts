@@ -1,4 +1,4 @@
-import { format, isSameYear } from 'date-fns'
+import { format, getHours, getMinutes, isSameYear, set } from 'date-fns'
 
 export const dateFormatPattern = (date: Date | string) =>
   isSameYear(new Date(), new Date(date)) ? 'E dd MMM ' : 'E dd MMM y'
@@ -14,3 +14,9 @@ export const UTCDate = (date: Date | string) => {
 
   return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
 }
+
+export const addCurrentTime = (date: Date | string) =>
+  set(new Date(date), {
+    hours: getHours(new Date()),
+    minutes: getMinutes(new Date()),
+  })
