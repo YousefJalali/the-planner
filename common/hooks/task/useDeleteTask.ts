@@ -103,6 +103,9 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
         data: {
           ...project,
           tasks: project.tasks.filter((t) => t.id !== taskId),
+          _count: {
+            tasks: project._count.tasks - 1,
+          },
         },
       }
 
@@ -113,6 +116,9 @@ const useDeleteTask = (callback?: (action?: any) => void) => {
             data: {
               ...project,
               tasks: project.tasks.filter((t) => t.id !== deletedTask.id),
+              _count: {
+                tasks: project._count.tasks - 1,
+              },
             },
           }
         },

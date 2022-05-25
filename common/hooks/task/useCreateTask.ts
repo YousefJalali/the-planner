@@ -1,13 +1,9 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { UseFormSetError } from 'react-hook-form'
-import { useSWRConfig } from 'swr'
 import { createTask as createTaskHandler } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType } from '../../types/TaskType'
-import addServerErrors from '../../utils/addServerErrors'
-import { dateTasksKey, projectKey } from '../../data/keys'
 import { DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
 import useDateTasks from '../../data/useDateTasks'
@@ -119,6 +115,9 @@ const useCreateTask = (
             },
             ...project.tasks,
           ],
+          _count: {
+            tasks: project._count.tasks + 1,
+          },
         },
       }
 
@@ -131,6 +130,9 @@ const useCreateTask = (
               ? {
                   ...project,
                   tasks: [createdTask, ...project.tasks],
+                  _count: {
+                    tasks: project._count.tasks + 1,
+                  },
                 }
               : project,
           }
