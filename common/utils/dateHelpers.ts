@@ -8,3 +8,9 @@ export const formatDate = (date: Date | string) =>
 
 export const formatTime = (time: Date | string) =>
   format(new Date(time), 'KK:mm a')
+
+export const UTCDate = (date: Date | string) => {
+  const d = new Date(date)
+
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()))
+}
