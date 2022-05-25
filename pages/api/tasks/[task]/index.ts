@@ -6,6 +6,7 @@ import {
   TaskWithProjectType,
 } from '../../../../common/types/TaskType'
 import { prisma } from '../../../../common/lib/prisma'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const handler = async (
   req: NextApiRequest,
@@ -19,39 +20,36 @@ const handler = async (
     method,
   } = req
 
-  if (!taskId) {
+  if (!taskId || typeof taskId !== 'string') {
     return res
       .status(400)
       .json({ error: 'Something went wrong, please try again' })
   }
 
-  const task = await prisma.task.findUnique({
-    where: {
-      id: taskId as string,
-    },
-    include: {
-      project: { select: { title: true, color: true } },
-    },
-  })
-
-  if (!task) {
-    return res.status(404).json({ error: 'Task not found' })
-  }
-
   switch (method) {
     //get task by id
     case 'GET':
+      const task = await prisma.task.findUnique({
+        where: {
+          id: taskId as string,
+        },
+        include: {
+          project: { select: { title: true, color: true } },
+        },
+      })
+
+      if (!task) {
+        return res.status(404).json({ error: 'Task not found' })
+      }
+
       return res.status(200).json({ data: task })
 
     //change task status
     case 'PUT':
-      //return if same status
-      if (task.status === status) return
-
       try {
         const updatedTask = await prisma.task.update({
           where: {
-            id: task.id,
+            id: taskId,
           },
           data: {
             status: status as Status,
@@ -63,7 +61,9 @@ const handler = async (
 
         return res.status(200).json({ data: updatedTask })
       } catch (error) {
-        console.log(error)
+        if (error instanceof PrismaClientKnownRequestError) {
+          return res.status(400).json({ error: 'Sorry! Something went wrong!' })
+        }
         return res.status(500).json({ error })
       }
 

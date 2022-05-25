@@ -27,14 +27,23 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
     newStatus: Status
   }) => {
     const request = async () => {
+      console.log('request')
       try {
-        return await changeTaskStatus(taskId, newStatus)
+        const { data: updatedTask } = await changeTaskStatus(taskId, newStatus)
+
+        if (!updatedTask) {
+          throw new Error('Something went wrong!')
+        }
+
+        return updatedTask
       } catch (error) {
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
           variant: 'critical',
         })
+
+        return null
       }
     }
 
@@ -51,7 +60,7 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
           const updatedTask = await request()
           return {
             data: dateTasks.map((t) =>
-              t.id === updatedTask.data.id ? updatedTask.data : t
+              t.id === updatedTask?.id ? updatedTask : t
             ),
           }
         },
@@ -76,13 +85,16 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
       mutateProject(
         async () => {
           const updatedTask = await request()
+
           return {
-            data: {
-              ...project,
-              tasks: project.tasks.map((t) =>
-                t.id === updatedTask.data.id ? updatedTask.data : t
-              ),
-            },
+            data: updatedTask
+              ? {
+                  ...project,
+                  tasks: project.tasks.map((t) =>
+                    t.id === updatedTask.id ? updatedTask : t
+                  ),
+                }
+              : project,
           }
         },
         {
@@ -107,7 +119,7 @@ const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
           return {
             data: {
               ...task,
-              status: req.data.status,
+              status: req.status,
             },
           }
         },

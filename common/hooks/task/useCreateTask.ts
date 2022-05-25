@@ -58,6 +58,12 @@ const useCreateTask = (
           throw new Error(error)
         }
 
+        setNotification({
+          id: uniqueId(),
+          message: 'task created!',
+          variant: 'confirmation',
+        })
+
         return createdTask
       } catch (error) {
         setNotification({
