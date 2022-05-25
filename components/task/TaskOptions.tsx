@@ -32,7 +32,7 @@ const TaskOptions: FC<Props> = ({ task, inHeader }) => {
           status={task.status}
           onStatusChange={onStatus}
           onEdit={onEdit}
-          onDelete={() => deleteTaskHandler(task)}
+          onDelete={() => deleteTaskHandler(task.id)}
         />
       ),
     })
