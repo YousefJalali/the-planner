@@ -14,6 +14,7 @@ import ScrollableList from '../ScrollableList'
 import Tag from './Tag'
 import { Label } from '../formElements/Fieldset'
 import Button from '../formElements/Button'
+import { formatDate, formatTime } from '../../common/utils/dateHelpers'
 
 type Props = {
   task: TaskWithProjectType
@@ -51,10 +52,6 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
       onClose()
     }
   }
-
-  const dateFormat = isSameYear(new Date(), new Date(startDate))
-    ? 'E dd MMM '
-    : 'E dd MMM y'
 
   return (
     <>
@@ -129,12 +126,10 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
               alignItems='center'
             >
               <x.div display='flex'>
-                <x.p color='content.subtle'>
-                  {format(new Date(startDate), dateFormat)}
-                </x.p>
+                <x.p color='content.subtle'>{formatDate(startDate)}</x.p>
                 {startTime && (
                   <x.p color='content.subtle' ml={2}>
-                    {format(new Date(startTime), 'KK:mm a')}
+                    {formatTime(startTime)}
                   </x.p>
                 )}
               </x.div>
@@ -149,12 +144,10 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
               <Label>Due Date</Label>
 
               <x.div display='flex'>
-                <x.p color='content.subtle'>
-                  {format(new Date(endDate), dateFormat)}
-                </x.p>
+                <x.p color='content.subtle'>{formatDate(endDate)}</x.p>
                 {endTime && (
                   <x.p color='content.subtle' ml={2}>
-                    {format(new Date(endTime), 'KK:mm a')}
+                    {formatTime(endTime)}
                   </x.p>
                 )}
               </x.div>

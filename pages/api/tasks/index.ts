@@ -22,7 +22,7 @@ const handler = async (
 
   // const startDate = dateToUTC(date)
 
-  console.log(date)
+  // console.log(date)
 
   try {
     const tasks = await prisma.task.findMany({

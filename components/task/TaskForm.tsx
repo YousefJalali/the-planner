@@ -21,6 +21,7 @@ import useYupValidationResolver from '../../common/hooks/useYupValidationResolve
 
 import { TaskType, Status } from '../../common/types/TaskType'
 import addServerErrors from '../../common/utils/addServerErrors'
+import { dateFormatPattern } from '../../common/utils/dateHelpers'
 
 type Props = {
   id: 'create' | 'edit'
@@ -100,23 +101,37 @@ function TaskForm({
   }, [serverErrors])
 
   const onSubmitHandler = async (data: TaskType) => {
+    // const startDate = set(new Date(data.startDate), {
+    //   hours: 0,
+    //   minutes: 0,
+    //   seconds: 0,
+    //   milliseconds: 0,
+    // })
+
+    // const endDate = data.endDate
+    //   ? set(new Date(data.endDate), {
+    //       hours: 0,
+    //       minutes: 0,
+    //       seconds: 0,
+    //       milliseconds: 0,
+    //     })
+    //   : null
+
+    // console.log('form', startDate)
+
+    console.log('form', data.startDate)
+    const today = new Date()
+    const startDate = new Date(data.startDate)
+    startDate.setHours(today.getHours())
+    startDate.setMinutes(today.getMinutes())
+
+    console.log(startDate)
+
     const formData = {
       ...data,
       id: ObjectID().toHexString(),
-      startDate: set(new Date(data.startDate), {
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-      }),
-      endDate: data.endDate
-        ? set(new Date(data.endDate), {
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
-            milliseconds: 0,
-          })
-        : null,
+      startDate: new Date(startDate),
+      // endDate,
     }
 
     onSubmit(_.omit(formData, 'project'), setError)
@@ -240,6 +255,7 @@ function TaskForm({
                     field: { value, onChange },
                     fieldState: { error },
                   }) => {
+                    console.log(value, new Date())
                     return (
                       <Fieldset
                         id={`${formName}-startDate`}
@@ -257,7 +273,7 @@ function TaskForm({
                           endDate={getValues('endDate')}
                           popperPlacement='bottom-start'
                           placeholderText='Click to select a date'
-                          dateFormat='PPPP'
+                          // dateFormat={dateFormatPattern(value)}
                         />
                       </Fieldset>
                     )
@@ -333,7 +349,9 @@ function TaskForm({
                           disabled={watch('openTask')}
                           popperPlacement='bottom-start'
                           placeholderText='Due date'
-                          dateFormat='PPPP'
+                          dateFormat={
+                            value ? dateFormatPattern(value) : undefined
+                          }
                         />
                       </Fieldset>
                     )
