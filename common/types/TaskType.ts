@@ -11,5 +11,5 @@ export type ImageType = Image
 
 export type TaskType = Task
 export type TaskWithProjectType = Task & {
-  project: Pick<ProjectType, 'title' | 'color'>
+  project: Pick<ProjectType, 'title' | 'color' | 'id'>
 }

@@ -16,7 +16,9 @@ export const UTCDate = (date: Date | string) => {
 }
 
 export const addCurrentTime = (date: Date | string) =>
-  set(new Date(date), {
-    hours: getHours(new Date()),
-    minutes: getMinutes(new Date()),
-  })
+  new Date(date).getHours() > 0
+    ? new Date(date)
+    : set(new Date(date), {
+        hours: getHours(new Date()),
+        minutes: getMinutes(new Date()),
+      })

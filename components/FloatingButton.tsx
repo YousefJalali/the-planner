@@ -10,7 +10,6 @@ const FloatingButton: FC = () => {
   const { setModal, clearModal } = useModal()
 
   const showForm = (defValues?: Partial<TaskType>, serverErrors?: object) => {
-    console.log('defValue', defValues)
     setModal({
       id: 'task-create',
       fullScreen: true,
@@ -21,7 +20,6 @@ const FloatingButton: FC = () => {
           defaultValues={defValues || defaultValues}
           onSubmit={onSubmit}
           serverErrors={serverErrors}
-          // isSubmitting={isSubmitting}
           onRequestClose={() => clearModal('task-create')}
         />
       ),

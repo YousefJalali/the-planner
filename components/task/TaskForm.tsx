@@ -1,6 +1,6 @@
 import ObjectID from 'bson-objectid'
 import { x } from '@xstyled/styled-components'
-import { useForm, Controller, UseFormSetError } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import _ from 'lodash'
 import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
@@ -18,7 +18,11 @@ import Form from '../form/Form'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
-import { TaskType, Status } from '../../common/types/TaskType'
+import {
+  TaskType,
+  Status,
+  TaskWithProjectType,
+} from '../../common/types/TaskType'
 import addServerErrors from '../../common/utils/addServerErrors'
 import {
   addCurrentTime,
@@ -29,7 +33,7 @@ type Props = {
   id: 'create' | 'edit'
   title?: string
   defaultValues?: Partial<TaskType>
-  onSubmit: (data: TaskType, setError: UseFormSetError<TaskType>) => void
+  onSubmit: (data: TaskType) => void
   isSubmitting?: boolean
   onRequestClose?: () => void
   serverErrors?: object
@@ -38,7 +42,7 @@ type Props = {
 const stringToDate: (date: string | Date) => Date = (date) =>
   typeof date === 'string' ? parseISO(date) : date
 
-export const initialDefaultValues: TaskType = {
+export const initialDefaultValues: TaskType | TaskWithProjectType = {
   id: ObjectID().toHexString(),
   title: '',
   projectId: '',
@@ -78,7 +82,9 @@ function TaskForm({
     endTime: defValues.endTime && stringToDate(defValues.endTime),
   }
 
-  const resolver = useYupValidationResolver<TaskType>(taskSchema)
+  const resolver = useYupValidationResolver<TaskType | TaskWithProjectType>(
+    taskSchema
+  )
   const {
     handleSubmit,
     control,
@@ -88,7 +94,8 @@ function TaskForm({
     getValues,
     resetField,
     clearErrors,
-  } = useForm<TaskType>({
+    setValue,
+  } = useForm<TaskType | TaskWithProjectType>({
     defaultValues: defValues,
     resolver,
   })
@@ -102,18 +109,17 @@ function TaskForm({
     }
   }, [serverErrors])
 
-  const onSubmitHandler = async (data: TaskType) => {
+  const onSubmitHandler = async (data: TaskWithProjectType) => {
     const startDate = addCurrentTime(data.startDate)
     const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 
     const formData = {
       ...data,
-      id: ObjectID().toHexString(),
       startDate,
       endDate,
     }
 
-    onSubmit(_.omit(formData, 'project'), setError)
+    onSubmit(formData)
   }
 
   const dateErrors = useMemo(
@@ -177,9 +183,10 @@ function TaskForm({
                 error={error}
               >
                 <SelectProject
-                  id={`${formName}-project`}
+                  inputId={`${formName}-project`}
                   value={value}
                   onChange={onChange}
+                  taskProject={(project) => setValue('project', project)}
                   placeholder='Select a project'
                 />
               </Fieldset>

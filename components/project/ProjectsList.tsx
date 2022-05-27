@@ -2,12 +2,13 @@ import { x } from '@xstyled/styled-components'
 import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import useProjects from '../../common/data/useProjects'
+import { ProjectType } from '../../common/types/ProjectType'
 import Fieldset from '../formElements/Fieldset'
 import ProjectItem from '../project/ProjectItem'
 import Spinner from '../Spinner'
 
 type Props = {
-  onSelect: (id: string) => void
+  onSelect: (project: ProjectType) => void
   onCreate: () => void
 }
 
@@ -16,9 +17,9 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
 
   const { projects, error, isLoading } = useProjects()
 
-  const onSelectHandler = (id: string) => {
+  const onSelectHandler = (project: ProjectType) => {
     setSearch('')
-    onSelect(id)
+    onSelect(project)
   }
 
   const renderList = useMemo(
@@ -31,7 +32,7 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
             display='flex'
             alignItems='center'
             p={3}
-            onClick={() => onSelectHandler(project.id)}
+            onClick={() => onSelectHandler(project)}
           >
             <ProjectItem project={project} />
           </x.li>

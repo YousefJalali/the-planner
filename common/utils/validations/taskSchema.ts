@@ -9,6 +9,7 @@ const taskSchema: SchemaOf<TaskType> = object({
   projectId: string().required(
     'task must be under a project, select or create a project'
   ),
+  project: object().nullable(),
   openTask: boolean().defined(),
   startDate: date().defined().required('Start date is required').defined(),
   endDate: date()

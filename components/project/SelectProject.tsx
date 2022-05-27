@@ -12,11 +12,18 @@ import Spinner from '../Spinner'
 type Props = {
   onChange: (v: string) => void
   value: string
+  taskProject: (project: Pick<ProjectType, 'title' | 'color' | 'id'>) => void
   placeholder: string
-  id: string
+  inputId: string
 }
 
-function SelectProject({ value, onChange, placeholder, id }: Props) {
+function SelectProject({
+  value,
+  onChange,
+  placeholder,
+  inputId,
+  taskProject,
+}: Props) {
   const [project, setProject] = useState<ProjectType>()
 
   const { setModal, clearModal } = useModal()
@@ -57,8 +64,15 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
     })
   }
 
-  const selectHandler = (id: string) => {
-    onChange(id)
+  const selectHandler = (project: ProjectType) => {
+    onChange(project.id)
+
+    taskProject({
+      id: project.id,
+      title: project.title,
+      color: project.color,
+    })
+
     clearModal('project-list')
   }
 
@@ -72,7 +86,7 @@ function SelectProject({ value, onChange, placeholder, id }: Props) {
       w='100%'
       backgroundColor='layout-level0'
       borderRadius={2}
-      id={id}
+      id={inputId}
     >
       {project ? (
         <x.div display='flex' alignItems='center'>

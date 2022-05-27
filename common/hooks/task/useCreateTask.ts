@@ -1,14 +1,15 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { UseFormSetError } from 'react-hook-form'
 import { createTask as createTaskHandler } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { TaskType } from '../../types/TaskType'
+import { TaskType, TaskWithProjectType } from '../../types/TaskType'
 import { DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
 import getErrorMessage from '../../utils/getErrorMessage'
+import ObjectID from 'bson-objectid'
+import _ from 'lodash'
 
 const useCreateTask = (
   showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
@@ -22,7 +23,9 @@ const useCreateTask = (
   const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
   const { mutate: mutateProject, project } = useProject(projectId as string)
 
-  let defaultValues: Partial<TaskType> = {}
+  let defaultValues: Partial<TaskType> = {
+    id: ObjectID().toHexString(),
+  }
 
   if (projectId) {
     defaultValues = {
@@ -37,17 +40,14 @@ const useCreateTask = (
     }
   }
 
-  const onSubmit = async (
-    formData: TaskType,
-    setError: UseFormSetError<TaskType>
-  ) => {
+  const onSubmit = async (formData: TaskType | TaskWithProjectType) => {
     const request = async () => {
       try {
         const {
           data: createdTask,
           error,
           validationErrors,
-        } = await createTaskHandler(formData)
+        } = await createTaskHandler(_.omit(formData, 'project'))
 
         if (validationErrors) {
           showForm(formData, validationErrors)
@@ -79,16 +79,7 @@ const useCreateTask = (
     // in date tasks
     if (date) {
       const updatedTasks = {
-        data: [
-          {
-            ...formData,
-            project: {
-              title: 'local',
-              color: '#000000',
-            },
-          },
-          ...dateTasks,
-        ],
+        data: [formData, ...dateTasks],
       }
 
       mutateDateTasks(

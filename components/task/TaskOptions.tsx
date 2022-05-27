@@ -3,11 +3,12 @@ import { FC } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useModal } from '../../common/contexts/ModalCtx'
 import useDeleteTask from '../../common/hooks/task/useDeleteTask'
+import useEditTask from '../../common/hooks/task/useEditTask'
 import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
-import { TaskWithProjectType } from '../../common/types/TaskType'
+import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
 import Button from '../formElements/Button'
-import EditTask from './EditTask'
 import StatusList from './StatusList'
+import TaskForm from './TaskForm'
 import TaskOptionsList from './TaskOptionsList'
 
 type Props = {
@@ -18,6 +19,33 @@ type Props = {
 const TaskOptions: FC<Props> = ({ task, inHeader }) => {
   const { setModal, clearModal } = useModal()
 
+  const showTaskForm = (
+    defValues?: Partial<TaskType>,
+    serverErrors?: object
+  ) => {
+    setModal({
+      id: 'task-edit',
+      fullScreen: true,
+      content: (
+        <TaskForm
+          id='edit'
+          title='Edit Task'
+          defaultValues={defValues || task}
+          onSubmit={onSubmit}
+          serverErrors={serverErrors}
+          onRequestClose={() => {
+            clearModal('task-edit')
+            clearModal('task-options')
+          }}
+        />
+      ),
+    })
+  }
+
+  const { onSubmit } = useEditTask(showTaskForm, () => {
+    clearModal('task-edit')
+    clearModal('task-options')
+  })
   const { deleteTaskHandler } = useDeleteTask(() => clearModal('task-options'))
   const { taskStatusHandler } = useUpdateTaskStatus(() => {
     clearModal('task-status')
@@ -56,20 +84,7 @@ const TaskOptions: FC<Props> = ({ task, inHeader }) => {
 
   const onEdit = () => {
     clearModal('task-options')
-
-    setModal({
-      id: 'task-edit',
-      fullScreen: true,
-      content: (
-        <EditTask
-          task={task}
-          onRequestClose={() => {
-            clearModal('task-edit')
-            clearModal('task-options')
-          }}
-        />
-      ),
-    })
+    showTaskForm()
   }
 
   return (

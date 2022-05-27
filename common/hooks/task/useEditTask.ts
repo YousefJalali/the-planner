@@ -1,60 +1,154 @@
 import { uniqueId } from 'lodash'
-import { useState } from 'react'
-import { UseFormSetError } from 'react-hook-form'
-import { useSWRConfig } from 'swr'
+import { useRouter } from 'next/router'
 import { editTask } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { dateTasksKey, projectKey } from '../../data/keys'
+import useDateTasks from '../../data/useDateTasks'
+import useProject from '../../data/useProject'
+import useTask from '../../data/useTask'
 import { TaskType } from '../../types/TaskType'
-import addServerErrors from '../../utils/addServerErrors'
+import getErrorMessage from '../../utils/getErrorMessage'
 
-const useEditTask = (callback?: (action?: any) => void) => {
-  const [isSubmitting, setSubmit] = useState(false)
-
+const useEditTask = (
+  showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
+  callback: (action?: any) => void
+) => {
   const { setNotification } = useNotification()
 
-  const { mutate } = useSWRConfig()
+  const router = useRouter()
+  const { d: date, projectId, taskId } = router.query
 
-  const onSubmit = async (
-    formData: TaskType,
-    setError: UseFormSetError<TaskType>
-  ) => {
-    setSubmit(true)
+  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
+  const { mutate: mutateProject, project } = useProject(projectId as string)
+  const { mutate: mutateTask, task } = useTask(taskId as string)
 
-    const { data, error, validationErrors } = await editTask(formData)
+  const onSubmit = async (formData: TaskType) => {
+    const request = async () => {
+      try {
+        const {
+          data: updatedTask,
+          error,
+          validationErrors,
+        } = await editTask(formData)
 
-    setSubmit(false)
+        if (validationErrors) {
+          showForm(formData, validationErrors)
+          return null
+        }
 
-    if (validationErrors) {
-      addServerErrors(validationErrors, setError)
-    } else {
-      //mutate with validation
-      mutate(dateTasksKey(formData.startDate))
-      mutate(projectKey(formData.projectId))
-
-      if (data) {
-        if (callback) {
-          callback()
+        if (error) {
+          throw new Error(error)
         }
 
         setNotification({
           id: uniqueId(),
-          message: 'Task updated successfully',
+          message: 'task updated!',
           variant: 'confirmation',
         })
-      }
 
-      if (error) {
+        return updatedTask
+      } catch (error) {
         setNotification({
           id: uniqueId(),
-          message: error,
+          message: getErrorMessage(error),
           variant: 'critical',
+          action: 'try again',
+          actionFn: () => showForm(formData),
         })
       }
     }
+
+    // in date tasks
+    if (date) {
+      const updateTasks = (updatedTask = formData) => {
+        return {
+          data: dateTasks.map((task) =>
+            task.id === updatedTask.id ? updatedTask : task
+          ),
+        }
+      }
+
+      mutateDateTasks(
+        async () => {
+          const updatedTask = await request()
+
+          if (!updatedTask) {
+            return { data: dateTasks }
+          }
+
+          return updateTasks(updatedTask)
+        },
+        {
+          optimisticData: updateTasks(),
+          rollbackOnError: true,
+        }
+      )
+    }
+
+    // in project details
+    if (projectId) {
+      const updateProject = (updatedTask = formData) => {
+        let updatedProject = {}
+
+        if (updatedTask.projectId === projectId) {
+          updatedProject = {
+            data: {
+              ...project,
+              tasks: project.tasks.map((task) =>
+                task.id === updatedTask.id ? updatedTask : task
+              ),
+            },
+          }
+        } else {
+          updatedProject = {
+            data: {
+              ...project,
+              tasks: project.tasks.filter((task) => task.id !== updatedTask.id),
+            },
+          }
+        }
+
+        return updatedProject
+      }
+
+      mutateProject(
+        async () => {
+          const updatedTask = await request()
+
+          if (!updatedTask) {
+            return {
+              data: project,
+            }
+          }
+
+          return updateProject(updatedTask)
+        },
+        {
+          optimisticData: updateProject(),
+          rollbackOnError: true,
+        }
+      )
+    }
+
+    if (task) {
+      mutateTask(
+        async () => {
+          const updatedTask = await request()
+
+          return {
+            data: updatedTask,
+          }
+        },
+        {
+          optimisticData: { data: formData },
+          rollbackOnError: true,
+        }
+      )
+    }
+
+    callback()
   }
 
-  return { isSubmitting, onSubmit }
+  return { onSubmit }
 }
 
 export default useEditTask
