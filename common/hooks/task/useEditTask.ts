@@ -61,11 +61,23 @@ const useEditTask = (
     if (date) {
       const updateTasks = (updatedTask = formData) => {
         return {
-          data: dateTasks.map((task) =>
-            task.id === updatedTask.id ? updatedTask : task
-          ),
+          data: dateTasks.reduce((updatedTasks: TaskType[], task) => {
+            if (task.id === updatedTask.id) {
+              if (
+                new Date(task.startDate).getTime() ===
+                new Date(updatedTask.startDate).getTime()
+              ) {
+                updatedTasks.push(updatedTask)
+              }
+            } else {
+              updatedTasks.push(task)
+            }
+            return updatedTasks
+          }, []),
         }
       }
+
+      console.log(updateTasks())
 
       mutateDateTasks(
         async () => {
