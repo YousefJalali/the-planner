@@ -1,71 +1,113 @@
-import ObjectID from 'bson-objectid'
-import { useState } from 'react'
+import { uniqueId } from 'lodash'
+import { useRouter } from 'next/router'
 import { UseFormSetError } from 'react-hook-form'
 
 import { createProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import useInfiniteProjects from '../../data/useInfiniteProjects'
-import { ProjectType } from '../../types/ProjectType'
-import addServerErrors from '../../utils/addServerErrors'
+import useInfiniteProjects, { LIMIT } from '../../data/useInfiniteProjects'
+import useProjects from '../../data/useProjects'
+import {
+  ProjectTasksCount,
+  ProjectType,
+  ProjectWithTasksAndCount,
+  ProjectWithTasksType,
+} from '../../types/ProjectType'
+import getErrorMessage from '../../utils/getErrorMessage'
+
+// const updateInfiniteProjects = (
+//   newProject: ProjectType | ProjectWithTasksAndCount,
+//   projects: (ProjectWithTasksType & ProjectTasksCount)[]
+// ) => {
+//   const updatedProjects = [{ ...newProject }, ...projects]
+
+//   const splitProjects = []
+
+//   for (let i = 0; i < updatedProjects.length; i += LIMIT) {
+//     splitProjects.push({
+//       data: updatedProjects.slice(i, i + LIMIT),
+//       nextCursor: updatedProjects[i + LIMIT + 1].id,
+//     })
+//   }
+
+//   return [...splitProjects]
+// }
 
 const useCreateProject = (callback: (action?: any) => void) => {
-  const [isSubmitting, setSubmit] = useState(false)
-
   const { setNotification } = useNotification()
 
-  const { mutate } = useInfiniteProjects()
+  const router = useRouter()
+  const { pathname } = router
+
+  const { mutate: mutateInfiniteProjects, projects: infiniteProjects } =
+    useInfiniteProjects()
+  const { mutate: mutateProjects, projects } = useProjects()
 
   const onSubmit = async (
     formData: ProjectType,
     setError: UseFormSetError<ProjectType>
   ) => {
     const request = async () => {
-      setSubmit(true)
-      //send request
-      const { data, error, validationErrors } = await createProject(formData)
+      try {
+        const {
+          data: createdProject,
+          error,
+          validationErrors,
+        } = await createProject(formData)
 
-      const revalidate = await mutate()
-      setSubmit(false)
+        // if (validationErrors) {
+        //   showForm(formData, validationErrors)
+        //   return null
+        // }
 
-      callback()
-
-      if (validationErrors) {
-        addServerErrors(validationErrors, setError)
-      } else {
         if (error) {
-          setNotification({
-            id: ObjectID().toHexString(),
-            message: error,
-            variant: 'critical',
-            action: 'try again',
-            actionFn: async () => {
-              setNotification({
-                id: ObjectID().toHexString(),
-                message: 'Creating...',
-                variant: 'information',
-                loading: true,
-              })
-              setTimeout(async () => {
-                await request()
-              }, 3000)
-            },
-          })
+          throw new Error(error)
         }
 
-        if (data) {
-          setNotification({
-            id: ObjectID().toHexString(),
-            message: 'Project created!',
-            variant: 'information',
-          })
-        }
+        setNotification({
+          id: uniqueId(),
+          message: 'project created!',
+          variant: 'confirmation',
+        })
+
+        return createdProject as ProjectWithTasksAndCount
+      } catch (error) {
+        setNotification({
+          id: uniqueId(),
+          message: getErrorMessage(error),
+          variant: 'critical',
+          // action: 'try again',
+          // actionFn: () => showForm(formData),
+        })
       }
     }
 
-    await request()
+    if (pathname === '/projects') {
+      await request()
+      mutateInfiniteProjects()
+    } else {
+      const updatedProjects = {
+        data: [{ ...formData }, ...projects],
+      }
+
+      mutateProjects(
+        async () => {
+          const createdProject = await request()
+
+          return {
+            data: createdProject ? [createdProject, ...projects] : projects,
+          }
+        },
+        {
+          optimisticData: updatedProjects,
+          rollbackOnError: true,
+        }
+      )
+    }
+
+    callback()
   }
 
-  return { isSubmitting, onSubmit }
+  return { onSubmit }
 }
 
 export default useCreateProject

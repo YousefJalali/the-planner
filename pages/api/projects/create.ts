@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '../../../common/types/ProjectType'
+import {
+  ProjectTasksCount,
+  ProjectType,
+} from '../../../common/types/ProjectType'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'
@@ -9,7 +12,7 @@ import _ from 'lodash'
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType
+    data?: ProjectType & ProjectTasksCount
     error?: Error | unknown
     validationErrors?: any
   }>
@@ -40,6 +43,18 @@ const handler = async (
       data: {
         ...project,
         id,
+      },
+      include: {
+        tasks: {
+          select: {
+            status: true,
+          },
+        },
+        _count: {
+          select: {
+            tasks: true,
+          },
+        },
       },
     })
 

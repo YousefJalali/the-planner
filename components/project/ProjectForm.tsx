@@ -14,6 +14,8 @@ import ColorInput from '../formElements/ColorInput'
 import Button from '../formElements/Button'
 import Form from '../form/Form'
 import projectSchema from '../../common/utils/validations/projectSchema'
+import { useEffect } from 'react'
+import addServerErrors from '../../common/utils/addServerErrors'
 
 type Props<T> = {
   id: 'edit' | 'create'
@@ -23,6 +25,7 @@ type Props<T> = {
   isSubmitting?: boolean
   onRequestClose?: () => void
   onDelete?: () => void
+  serverErrors?: object
 }
 
 const initialDefaultValues: ProjectType = {
@@ -43,6 +46,7 @@ function ProjectForm<T>({
   isSubmitting,
   onRequestClose,
   onDelete,
+  serverErrors,
 }: Props<T>) {
   const formName = 'project-form'
 
@@ -53,6 +57,7 @@ function ProjectForm<T>({
     control,
     setError,
     formState: { isDirty, errors },
+    clearErrors,
   } = useForm<ProjectType>({
     defaultValues: {
       ...initialDefaultValues,
@@ -60,6 +65,15 @@ function ProjectForm<T>({
     },
     resolver,
   })
+
+  useEffect(() => {
+    if (serverErrors) {
+      addServerErrors(serverErrors, setError)
+    }
+    return () => {
+      clearErrors()
+    }
+  }, [serverErrors])
 
   const onSubmitHandler = async (data: ProjectType) => {
     const formData = {

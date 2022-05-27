@@ -28,6 +28,8 @@ const Index: NextPage = () => {
   const { projects, error, isLoading, size, setSize, hasReachedEnd } =
     useInfiniteProjects(filter)
 
+  // console.log(projects)
+
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()

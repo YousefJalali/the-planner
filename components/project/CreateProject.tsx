@@ -8,14 +8,13 @@ type Props = {
 }
 
 const CreateProject: FC<Props> = ({ onRequestClose }) => {
-  const { onSubmit, isSubmitting } = useCreateProject(() => onRequestClose())
+  const { onSubmit } = useCreateProject(() => onRequestClose())
 
   return (
     <ProjectForm
       id='create'
       title='New Project'
       onSubmit={onSubmit}
-      isSubmitting={isSubmitting}
       onRequestClose={onRequestClose}
       defaultValues={{ color: randomColor() }}
     />

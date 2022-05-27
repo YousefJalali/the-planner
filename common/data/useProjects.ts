@@ -11,11 +11,12 @@ const useProjects = (from?: string) => {
     use: [requestLogger],
   })
 
+  // console.log(data)
+
   const projects: ProjectType[] = data?.data || []
   const isLoading = !error && !data
-  const setProjects = mutate
 
-  return { projects, setProjects, error: getErrorMessage(error), isLoading }
+  return { projects, mutate, error: getErrorMessage(error), isLoading }
 }
 
 export default useProjects

@@ -234,7 +234,6 @@ function TaskForm({
                     field: { value, onChange },
                     fieldState: { error },
                   }) => {
-                    console.log(value, new Date())
                     return (
                       <Fieldset
                         id={`${formName}-startDate`}
