@@ -1,16 +1,13 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import DatePicker from './formElements/DatePicker'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
-import ScrollableList from './ScrollableList'
 import _ from 'lodash'
+import { format, parse, getDaysInMonth, setDate, isToday } from 'date-fns'
+
+import DatePicker from './formElements/DatePicker'
+import ScrollableList from './ScrollableList'
 import useWindowSize from '../common/hooks/useWindowSize'
-import getDaysInMonth from 'date-fns/getDaysInMonth'
-import format from 'date-fns/format'
-import setDate from 'date-fns/setDate'
-import isToday from 'date-fns/isToday'
 import Button from './formElements/Button'
-import { parse } from 'date-fns'
 import { DATE_FORMAT } from '../common/constants'
 
 type Props = {
@@ -49,7 +46,6 @@ const DayItem = ({
       p={2}
       cursor='pointer'
       data-active={active ? true : null}
-      // transition='ease-out .3s'
       userSelect='none'
     >
       <x.span
@@ -67,22 +63,17 @@ const DayItem = ({
 }
 
 const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
-  const { height, width } = useWindowSize()
-
-  const [active, setActive] = useState(1)
+  const { width } = useWindowSize()
 
   const listRef = useRef<HTMLUListElement>(null)
 
-  const date = parse(dateString, DATE_FORMAT, new Date())
+  const [active, setActive] = useState(1)
 
-  // const date = useMemo(
-  //   () => parse(dateString, DATE_FORMAT, new Date()),
-  //   [dateString]
-  // )
+  const parsedDate = parse(dateString, DATE_FORMAT, new Date())
 
   useEffect(() => {
-    setActive(date.getDate())
-  }, [date])
+    setActive(parsedDate.getDate())
+  }, [parsedDate])
 
   //center active date
   useEffect(() => {
@@ -95,59 +86,58 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   }, [active, width])
 
   const onSelectDateHandler = (day: number) => {
-    // const updatedDate = new Date(date.setDate(day)).toDateString()
-
     setActive(day)
-    setUrlDate(format(new Date(date.setDate(day)), DATE_FORMAT))
+    const formattedDate = format(new Date(parsedDate.setDate(day)), DATE_FORMAT)
+    setUrlDate(formattedDate)
   }
 
   const onChangeMonthHandler = (date: Date) => {
-    // setDate(date.toDateString())
-    setUrlDate(format(date, DATE_FORMAT))
+    const formattedDate = format(date, DATE_FORMAT)
+    setUrlDate(formattedDate)
   }
 
   const onMonthArrowClick = (direction: 'next' | 'previous') => {
     if (direction === 'next') {
-      const nextMonth = new Date(date)
+      const nextMonth = new Date(parsedDate)
 
-      if (date.getMonth() === 11) {
-        nextMonth.setFullYear(date.getFullYear() + 1)
+      if (parsedDate.getMonth() === 11) {
+        nextMonth.setFullYear(parsedDate.getFullYear() + 1)
         nextMonth.setMonth(0)
         return onChangeMonthHandler(nextMonth)
       }
 
-      nextMonth.setMonth(date.getMonth() + 1)
+      nextMonth.setMonth(parsedDate.getMonth() + 1)
       return onChangeMonthHandler(nextMonth)
     }
 
     if (direction === 'previous') {
-      const previousMonth = new Date(date)
+      const previousMonth = new Date(parsedDate)
 
-      if (date.getMonth() === 0) {
-        previousMonth.setFullYear(date.getFullYear() - 1)
+      if (parsedDate.getMonth() === 0) {
+        previousMonth.setFullYear(parsedDate.getFullYear() - 1)
         previousMonth.setMonth(11)
         return onChangeMonthHandler(previousMonth)
       }
 
-      previousMonth.setMonth(date.getMonth() - 1)
+      previousMonth.setMonth(parsedDate.getMonth() - 1)
       return onChangeMonthHandler(previousMonth)
     }
   }
 
   const renderDays = useMemo(
     () =>
-      new Array(getDaysInMonth(date)).fill(0).map((item, i) => {
+      new Array(getDaysInMonth(parsedDate)).fill(0).map((item, i) => {
         return (
           <DayItem
             key={i}
             onClick={onSelectDateHandler}
             active={active === i + 1}
             day={i + 1}
-            date={date}
+            date={parsedDate}
           />
         )
       }),
-    [date, active]
+    [parsedDate, active]
   )
 
   return (
@@ -174,7 +164,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
         </Button>
 
         <DatePicker
-          selected={date}
+          selected={parsedDate}
           onChange={onChangeMonthHandler}
           dateFormat='MMMM - yyyy'
           showMonthYearPicker
@@ -188,7 +178,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
                   color='content-contrast'
                   fontWeight='bold'
                 >
-                  {format(date, 'MMMM yyyy')}
+                  {format(parsedDate, 'MMMM yyyy')}
                 </x.span>
               </Button>
             </div>
@@ -210,7 +200,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
         aria-labelledby='days'
         mt={2}
         spaceX={2}
-        data-date={date.toDateString()}
+        data-date={parsedDate.toDateString()}
       >
         {renderDays}
       </ScrollableList>

@@ -1,7 +1,8 @@
 import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import DateSelector from '../../components/DateSelector'
-import { waitFor } from '@testing-library/dom'
+import { format } from 'date-fns'
+import { DATE_FORMAT } from '../../common/constants'
 
 const getRandomArbitrary = (min: number, max: number) =>
   Math.ceil(Math.random() * (max - min) + min)
@@ -15,9 +16,12 @@ const randomDate = (start: Date, end: Date) =>
 function setup({ date }: { date: string }) {
   window.HTMLElement.prototype.scrollTo = function () {}
 
-  const setDate: (date: string) => void = jest.fn()
+  const stringDate = format(new Date(date), DATE_FORMAT)
+  const setDate: (stringDate: string) => void = jest.fn()
 
-  const utils = render(<DateSelector dateString={date} setDate={setDate} />)
+  const utils = render(
+    <DateSelector dateString={stringDate} setUrlDate={setDate} />
+  )
 
   const list = utils.getByRole('list')
   const days = () => utils.getAllByRole('listitem')
@@ -55,9 +59,10 @@ describe('Date selector', () => {
   })
 
   test('setDate should be called on DayItem click', async () => {
-    const date = new Date('Sat Apr 2 2022')
+    const date = new Date()
+    date.setDate(5)
 
-    const { days, setDate } = setup({ date: date.toDateString() })
+    const { days, setDate } = setup({ date: new Date(date).toDateString() })
 
     const numberOfDays = daysInMonth(date)
     const day = getRandomArbitrary(1, numberOfDays)
@@ -69,7 +74,7 @@ describe('Date selector', () => {
 
     expect(setDate).toHaveBeenCalledTimes(1)
 
-    const newDate = new Date(date.setDate(day)).toDateString()
+    const newDate = format(new Date(date.setDate(day)), DATE_FORMAT)
 
     expect(setDate).toHaveBeenCalledWith(newDate)
   })
@@ -89,13 +94,15 @@ describe('Date selector', () => {
     let index = randomDay - 1
 
     utils.rerender(
-      <DateSelector dateString={newDate} setDate={utils.setDate} />
+      <DateSelector
+        dateString={format(new Date(newDate), DATE_FORMAT)}
+        setUrlDate={utils.setDate}
+      />
     )
 
     expect(utils.list).toHaveAttribute('data-date', newDate)
 
     const renderedDays = utils.days()
-    // console.log(renderedDays[index], newDate)
 
     expect(renderedDays[index]).toHaveAttribute('data-active', 'true')
 
@@ -105,7 +112,10 @@ describe('Date selector', () => {
     randomDay = getRandomArbitrary(1, daysInMonth(date))
     newDate = new Date(date.setDate(randomDay)).toDateString()
     utils.rerender(
-      <DateSelector dateString={newDate} setDate={utils.setDate} />
+      <DateSelector
+        dateString={format(new Date(newDate), DATE_FORMAT)}
+        setUrlDate={utils.setDate}
+      />
     )
 
     // //old date should not be highlighted
