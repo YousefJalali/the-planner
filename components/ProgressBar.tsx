@@ -2,6 +2,7 @@ import styled, { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import MechanicalCounter from './MechanicalCounter'
 
 type Props = {
   percentage: number
@@ -43,38 +44,43 @@ export const LinearProgress: FC<Props> = ({ color, percentage }) => {
         </x.span>
       </x.div>
 
-      <x.div w='100%' borderRadius={3} overflow='hidden' position='relative'>
-        <x.div
-          container
-          w='calc(100vw + 4px - 48px)'
-          h={8}
-          backgroundImage='gradient-to-l'
-          gradientFrom='transparent 4px'
-          gradientTo={`${color}20 4px`}
-          backgroundSize='20%'
-        />
+      <x.div
+        w='100%'
+        h={8}
+        borderRadius={3}
+        overflow='hidden'
+        position='relative'
+        backgroundColor={`${color}20`}
+      >
+        {new Array(5)
+          .fill(0)
+          .map((ele, i) =>
+            i === 4 || i === 0 ? null : (
+              <x.div
+                position='absolute'
+                top={0}
+                left={`${(100 * i) / 4}%`}
+                h='100%'
+                w={4}
+                backgroundColor='layout-level0'
+                zIndex={10}
+              />
+            )
+          )}
 
         <x.div
+          borderRadius={3}
+          backgroundColor={color}
+          h='100%'
+          w='100%'
           position='absolute'
-          h={8}
+          left='-100%'
           top={0}
-          left={0}
-          w={`calc(${percentage}% + 4px)`}
-          overflow='hidden'
-        >
-          <x.div
-            container
-            position='absolute'
-            top={0}
-            left={0}
-            w='calc(100vw + 4px - 48px)'
-            h={8}
-            backgroundImage='gradient-to-l'
-            gradientFrom='transparent 4px'
-            gradientTo={`${color} 4px`}
-            backgroundSize='20%'
-          />
-        </x.div>
+          transform
+          translateX={`${percentage}%`}
+          transition
+          transitionDuration={500}
+        ></x.div>
       </x.div>
     </x.div>
   )
