@@ -1,3 +1,4 @@
+import ObjectID from 'bson-objectid'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { UseFormSetError } from 'react-hook-form'
@@ -42,20 +43,22 @@ const useCreateProject = (callback: (action?: any) => void) => {
     useInfiniteProjects()
   const { mutate: mutateProjects, projects } = useProjects()
 
-  const onSubmit = async (
-    formData: ProjectType,
-    setError: UseFormSetError<ProjectType>
-  ) => {
+  const onSubmit = async (formData: ProjectType) => {
+    const projectFormData = {
+      ...formData,
+      id: ObjectID().toHexString(),
+    }
+
     const request = async () => {
       try {
         const {
           data: createdProject,
           error,
           validationErrors,
-        } = await createProject(formData)
+        } = await createProject(projectFormData)
 
         // if (validationErrors) {
-        //   showForm(formData, validationErrors)
+        //   showForm(projectFormData, validationErrors)
         //   return null
         // }
 
@@ -76,7 +79,7 @@ const useCreateProject = (callback: (action?: any) => void) => {
           message: getErrorMessage(error),
           variant: 'critical',
           // action: 'try again',
-          // actionFn: () => showForm(formData),
+          // actionFn: () => showForm(projectFormData),
         })
       }
     }
@@ -86,7 +89,7 @@ const useCreateProject = (callback: (action?: any) => void) => {
       mutateInfiniteProjects()
     } else {
       const updatedProjects = {
-        data: [{ ...formData }, ...projects],
+        data: [{ ...projectFormData }, ...projects],
       }
 
       mutateProjects(

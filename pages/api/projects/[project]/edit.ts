@@ -47,6 +47,12 @@ const handler = async (
       include: {
         tasks: {
           include: { project: { select: { title: true, color: true } } },
+          orderBy: { createdAt: 'desc' },
+        },
+        _count: {
+          select: {
+            tasks: true,
+          },
         },
       },
     })

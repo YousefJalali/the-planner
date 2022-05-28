@@ -1,6 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import { useForm, Controller, UseFormSetError } from 'react-hook-form'
-import _ from 'lodash'
+import { useForm, Controller } from 'react-hook-form'
 import ObjectID from 'bson-objectid'
 
 import Input from '../formElements/Input'
@@ -21,7 +20,7 @@ type Props<T> = {
   id: 'edit' | 'create'
   title?: string
   defaultValues?: Partial<ProjectType>
-  onSubmit: (data: ProjectType, setError: UseFormSetError<ProjectType>) => void
+  onSubmit: (data: ProjectType) => void
   isSubmitting?: boolean
   onRequestClose?: () => void
   onDelete?: () => void
@@ -76,11 +75,7 @@ function ProjectForm<T>({
   }, [serverErrors])
 
   const onSubmitHandler = async (data: ProjectType) => {
-    const formData = {
-      ...data,
-      id: ObjectID().toHexString(),
-    }
-    onSubmit(_.omit(formData, 'tasks'), setError)
+    onSubmit(data)
   }
 
   return (

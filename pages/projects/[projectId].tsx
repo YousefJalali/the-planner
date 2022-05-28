@@ -14,9 +14,11 @@ import FloatingButton from '../../components/FloatingButton'
 import TextEditor from '../../components/formElements/TextEditor'
 import { useModal } from '../../common/contexts/ModalCtx'
 import Button from '../../components/formElements/Button'
-import EditProject from '../../components/project/EditProject'
 import Spinner from '../../components/Spinner'
 import ErrorMessage from '../../components/ErrorMessage'
+import useEditProject from '../../common/hooks/project/useEditProject'
+import useDeleteProject from '../../common/hooks/project/useDeleteProject'
+import ProjectForm from '../../components/project/ProjectForm'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -32,18 +34,24 @@ const Project = () => {
 
   const { project, error, isLoading } = useProject(projectId)
 
+  const { onSubmit } = useEditProject(() => clearModal('project-edit'))
+  const { deleteProjectHandler } = useDeleteProject(() => {
+    clearModal('project-edit')
+    router.back()
+  })
+
   const editProjectHandler = () => {
     if (project) {
       setModal({
         id: 'project-edit',
         content: (
-          <EditProject
-            project={project}
-            onRequestCloseAfterEdit={() => clearModal('project-edit')}
-            onRequestCloseAfterDelete={() => {
-              clearModal('project-edit')
-              router.back()
-            }}
+          <ProjectForm
+            id='edit'
+            title='Edit Project'
+            onSubmit={onSubmit}
+            defaultValues={project}
+            onRequestClose={() => clearModal('project-edit')}
+            onDelete={() => deleteProjectHandler(project)}
           />
         ),
       })

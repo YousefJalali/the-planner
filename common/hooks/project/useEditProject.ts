@@ -1,68 +1,82 @@
+import _ from 'lodash'
 import { uniqueId } from 'lodash'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { UseFormSetError } from 'react-hook-form'
-import { useSWRConfig } from 'swr'
 import { editProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import { projectKey } from '../../data/keys'
+import useProject from '../../data/useProject'
 import { ProjectType } from '../../types/ProjectType'
-import addServerErrors from '../../utils/addServerErrors'
+import getErrorMessage from '../../utils/getErrorMessage'
 
-const useEditProject = (callback?: (action?: any) => void) => {
-  const [isSubmitting, setSubmit] = useState(false)
-
+const useEditProject = (callback: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
-  const { mutate } = useSWRConfig()
+  const router = useRouter()
+  const { projectId } = router.query
+  const { mutate: mutateProject, project } = useProject(projectId as string)
 
-  const onSubmit = async (
-    formData: ProjectType,
-    setError: UseFormSetError<ProjectType>
-  ) => {
-    if (callback) {
-      callback()
-    }
-
+  const onSubmit = async (formData: ProjectType) => {
     const request = async () => {
-      const { data, error, validationErrors } = await editProject(formData)
+      try {
+        const {
+          data: updatedProject,
+          error,
+          validationErrors,
+        } = await editProject(_.omit(formData, 'tasks', '_count'))
+        // } = await editProject(formData)
 
-      mutate(projectKey(formData.id))
+        // if (validationErrors) {
+        //   showForm(formData, validationErrors)
+        //   return null
+        // }
 
-      if (validationErrors) {
-        return addServerErrors(validationErrors, setError)
-      }
+        if (error) {
+          throw new Error(error)
+        }
 
-      if (error) {
         setNotification({
           id: uniqueId(),
-          message: error,
-          variant: 'critical',
-          action: 'try again',
-          actionFn: async () => {
-            setSubmit(true)
-
-            setNotification({
-              id: uniqueId(),
-              message: 'deleting...',
-              variant: 'critical',
-              loading: isSubmitting,
-            })
-
-            await request()
-
-            setSubmit(false)
-          },
-        })
-      } else {
-        setNotification({
-          id: uniqueId(),
-          message: 'Project updated successfully',
+          message: 'project updated!',
           variant: 'confirmation',
         })
+
+        return updatedProject
+      } catch (error) {
+        setNotification({
+          id: uniqueId(),
+          message: getErrorMessage(error),
+          variant: 'critical',
+          // action: 'try again',
+          // actionFn: () => showForm(formData),
+        })
       }
     }
 
-    await request()
+    const updatedProject = {
+      data: {
+        ...formData,
+      },
+    }
+
+    mutateProject(
+      async () => {
+        const updatedProject = await request()
+
+        if (!updatedProject) {
+          return { data: project }
+        }
+
+        return {
+          data: updatedProject,
+        }
+      },
+      {
+        optimisticData: updatedProject,
+        rollbackOnError: true,
+      }
+    )
+
+    callback()
   }
 
   return { onSubmit }
