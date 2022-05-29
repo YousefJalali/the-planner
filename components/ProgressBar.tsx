@@ -51,6 +51,7 @@ export const LinearProgress: FC<Props> = ({ color, percentage }) => {
         overflow='hidden'
         position='relative'
         backgroundColor={`${color}20`}
+        zIndex={5}
       >
         {new Array(5)
           .fill(0)
@@ -69,7 +70,7 @@ export const LinearProgress: FC<Props> = ({ color, percentage }) => {
           )}
 
         <x.div
-          borderRadius={3}
+          // borderRadius={4}
           backgroundColor={color}
           h='100%'
           w='100%'
