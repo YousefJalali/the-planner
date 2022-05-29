@@ -8,6 +8,7 @@ import Router from 'next/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { SWRConfig } from 'swr'
+import { CookiesProvider } from 'react-cookie'
 
 import theme from '../styles/theme'
 import GlobalStyle from '../styles/GlobalStyle'
@@ -41,25 +42,27 @@ function MyApp({ Component, pageProps }: AppProps) {
             session={pageProps.session}
             refetchInterval={2 * 60 * 60}
           > */}
-          <SWRConfig
-            value={
-              {
-                // refreshInterval: 3000,
-                // fetcher: (resource, init) =>
-                //   fetch(resource, init).then((res) => res.json()),
+          <CookiesProvider>
+            <SWRConfig
+              value={
+                {
+                  // refreshInterval: 3000,
+                  // fetcher: (resource, init) =>
+                  //   fetch(resource, init).then((res) => res.json()),
+                }
               }
-            }
-          >
-            <NotificationCtxProvider>
-              <PromptCtxProvider>
-                <ModalCtxProvider>
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </ModalCtxProvider>
-              </PromptCtxProvider>
-            </NotificationCtxProvider>
-          </SWRConfig>
+            >
+              <NotificationCtxProvider>
+                <PromptCtxProvider>
+                  <ModalCtxProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </ModalCtxProvider>
+                </PromptCtxProvider>
+              </NotificationCtxProvider>
+            </SWRConfig>
+          </CookiesProvider>
           {/* </SessionProvider> */}
         </ColorModeProvider>
       </ThemeProvider>

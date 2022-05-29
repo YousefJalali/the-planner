@@ -11,6 +11,7 @@ import FloatingButton from '../components/FloatingButton'
 import DateTasks from '../components/task/DateTasks'
 import Button from '../components/formElements/Button'
 import Logo from '../styles/illustrations/Logo'
+import SearchInput from '../components/formElements/SearchInput'
 
 type Props = {
   // projects: ProjectType[]
@@ -46,11 +47,7 @@ const Home: NextPage<Props> = (props) => {
             darkMode
           />
 
-          <Button name='search' variant='textOnly'>
-            <x.span fontSize='1.5rem' color='content-contrast'>
-              <FiSearch />
-            </x.span>
-          </Button>
+          <SearchInput />
         </x.div>
       </Header>
 

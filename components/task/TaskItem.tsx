@@ -13,14 +13,31 @@ type Props = {
   options: JSX.Element
 }
 
-const Title = styled(x.p)`
+export const TaskTitleWrapper = styled(x.p)`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `
 
-const Details = ({
+export const TaskTitle = ({
+  children,
+  isTaskCompleted,
+}: {
+  children: string
+  isTaskCompleted: boolean
+}) => (
+  <TaskTitleWrapper
+    text='body'
+    textDecoration={isTaskCompleted && 'line-through'}
+    color={isTaskCompleted ? 'content-nonessential' : 'content-contrast'}
+    data-testid='taskItem-title'
+  >
+    {children}
+  </TaskTitleWrapper>
+)
+
+export const Details = ({
   isTaskCompleted,
   children,
   icon,
@@ -44,7 +61,6 @@ const Details = ({
 )
 
 const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
-  // console.log('TaskItem rendered')
   //format time
   let time = null
 
@@ -72,8 +88,6 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
       position='relative'
       p={2}
       backgroundColor='layout-level1'
-      // border='1px solid'
-      // borderColor='layout-level0accent'
       borderRadius={2}
     >
       <x.a
@@ -86,14 +100,9 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
         userSelect='none'
       >
         {/* Title text */}
-        <Title
-          text='body'
-          textDecoration={isTaskCompleted && 'line-through'}
-          color={isTaskCompleted ? 'content-nonessential' : 'content-contrast'}
-          data-testid='taskItem-title'
-        >
+        <TaskTitle isTaskCompleted={task.status === Status.COMPLETED}>
           {task.title}
-        </Title>
+        </TaskTitle>
 
         {/* time & attachments */}
         <x.div display='flex' spaceX={3}>
