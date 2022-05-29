@@ -1,6 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { x, useColorMode } from '@xstyled/styled-components'
-import { FiSearch } from 'react-icons/fi'
+
+import { prisma } from '../common/lib/prisma'
 
 import Header from '../components/layout/Header'
 import Emoji from '../components/Emoji'
@@ -9,9 +10,9 @@ import SwitchButton from '../components/formElements/SwitchButton'
 
 import FloatingButton from '../components/FloatingButton'
 import DateTasks from '../components/task/DateTasks'
-import Button from '../components/formElements/Button'
 import Logo from '../styles/illustrations/Logo'
 import SearchInput from '../components/formElements/SearchInput'
+import { addCurrentTime, UTCDate } from '../common/utils/dateHelpers'
 
 type Props = {
   // projects: ProjectType[]
@@ -23,6 +24,7 @@ const Home: NextPage<Props> = (props) => {
   const [colorMode, setColorMode] = useColorMode()
 
   console.log('%cindex rendered', 'color:green')
+  // console.log(props.tasks)
 
   return (
     <>
@@ -88,6 +90,20 @@ const Home: NextPage<Props> = (props) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  // const startDate = UTCDate(addCurrentTime(new Date()))
+
+  // const res = await prisma.task.findMany({
+  //   where: {
+  //     startDate,
+  //   },
+  //   orderBy: { createdAt: 'desc' },
+  //   include: { project: { select: { title: true, color: true } } },
+  // })
+
+  // const tasks = JSON.parse(JSON.stringify(res))
+
+  // console.log(tasks)
+
   return {
     props: {},
   }

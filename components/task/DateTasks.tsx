@@ -1,5 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -25,26 +25,26 @@ const DateTasks = () => {
   //set state if there is a valid date in URL
   useEffect(() => {
     if (router.query.d) {
-      const date = new Date(router.query.d as string)
+      const parsedDate = parse(
+        router.query.d as string,
+        DATE_FORMAT,
+        new Date()
+      )
 
-      if (date instanceof Date && !isNaN(date.valueOf())) {
-        setUrlDate(date.toDateString())
+      if (parsedDate instanceof Date && !isNaN(parsedDate.valueOf())) {
+        setUrlDate(format(parsedDate, DATE_FORMAT))
       }
     }
   }, [router.isReady])
 
   //update url whenever state changes
   useEffect(() => {
-    router.push(
-      {
-        query: {
-          ...router.query,
-          d: urlDate,
-        },
-      },
-      // `/?d=${d.replaceAll(' ', '-')}`,
-      undefined,
-      { shallow: true }
+    const newUrl = `/?d=${urlDate}`
+
+    window.history.replaceState(
+      { ...window.history.state, as: newUrl, url: newUrl },
+      '',
+      newUrl
     )
   }, [urlDate])
 
