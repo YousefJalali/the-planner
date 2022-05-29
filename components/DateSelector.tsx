@@ -8,7 +8,7 @@ import DatePicker from './formElements/DatePicker'
 import ScrollableList from './ScrollableList'
 import useWindowSize from '../common/hooks/useWindowSize'
 import Button from './formElements/Button'
-import { DATE_FORMAT } from '../common/constants'
+import { URL_DATE_FORMAT } from '../common/constants'
 
 type Props = {
   dateString: string
@@ -69,7 +69,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
 
   const [active, setActive] = useState(1)
 
-  const parsedDate = parse(dateString, DATE_FORMAT, new Date())
+  const parsedDate = parse(dateString, URL_DATE_FORMAT, new Date())
 
   useEffect(() => {
     setActive(parsedDate.getDate())
@@ -87,12 +87,15 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
 
   const onSelectDateHandler = (day: number) => {
     setActive(day)
-    const formattedDate = format(new Date(parsedDate.setDate(day)), DATE_FORMAT)
+    const formattedDate = format(
+      new Date(parsedDate.setDate(day)),
+      URL_DATE_FORMAT
+    )
     setUrlDate(formattedDate)
   }
 
   const onChangeMonthHandler = (date: Date) => {
-    const formattedDate = format(date, DATE_FORMAT)
+    const formattedDate = format(date, URL_DATE_FORMAT)
     setUrlDate(formattedDate)
   }
 

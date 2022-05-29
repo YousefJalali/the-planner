@@ -1,2 +1,1 @@
-export const DATE_FORMAT = 'dd-MM-yyyy'
-// export const DATE_FORMAT = "dd-MM-yyyy'T'x"
+export const URL_DATE_FORMAT = 'dd-MM-yyyy'

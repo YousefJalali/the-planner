@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '../../../common/types/TaskType'
 import { prisma } from '../../../common/lib/prisma'
 import { isValid, parse } from 'date-fns'
-import { DATE_FORMAT } from '../../../common/constants'
+import { URL_DATE_FORMAT } from '../../../common/constants'
 import { addCurrentTime, UTCDate } from '../../../common/utils/dateHelpers'
 
 const handler = async (
@@ -11,7 +11,7 @@ const handler = async (
 ) => {
   const { d } = req.query
 
-  const date = parse(d as string, DATE_FORMAT, new Date())
+  const date = parse(d as string, URL_DATE_FORMAT, new Date())
 
   if (!d || typeof d !== 'string' || !isValid(date)) {
     return res.json({ error: 'Invalid date' })

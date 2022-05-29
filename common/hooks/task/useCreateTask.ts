@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { createTask as createTaskHandler } from '../../actions/taskActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType, TaskWithProjectType } from '../../types/TaskType'
-import { DATE_FORMAT } from '../../constants'
+import { URL_DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
@@ -36,7 +36,7 @@ const useCreateTask = (
   if (date) {
     defaultValues = {
       ...defaultValues,
-      startDate: parse(date as string, DATE_FORMAT, new Date()),
+      startDate: parse(date as string, URL_DATE_FORMAT, new Date()),
     }
   }
 

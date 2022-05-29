@@ -3,7 +3,7 @@ import { format, parse } from 'date-fns'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { DATE_FORMAT } from '../../common/constants'
+import { URL_DATE_FORMAT } from '../../common/constants'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import useDateTasks from '../../common/data/useDateTasks'
 import DateSelector from '../DateSelector'
@@ -16,7 +16,7 @@ import TasksLists from './TasksLists'
 const DateTasks = () => {
   const router = useRouter()
 
-  const [urlDate, setUrlDate] = useState(format(new Date(), DATE_FORMAT))
+  const [urlDate, setUrlDate] = useState(format(new Date(), URL_DATE_FORMAT))
 
   const { dateTasks, isLoading, error } = useDateTasks(urlDate)
 
@@ -27,12 +27,12 @@ const DateTasks = () => {
     if (router.query.d) {
       const parsedDate = parse(
         router.query.d as string,
-        DATE_FORMAT,
+        URL_DATE_FORMAT,
         new Date()
       )
 
       if (parsedDate instanceof Date && !isNaN(parsedDate.valueOf())) {
-        setUrlDate(format(parsedDate, DATE_FORMAT))
+        setUrlDate(format(parsedDate, URL_DATE_FORMAT))
       }
     }
   }, [router.isReady])

@@ -2,7 +2,7 @@ import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import DateSelector from '../../components/DateSelector'
 import { format } from 'date-fns'
-import { DATE_FORMAT } from '../../common/constants'
+import { URL_DATE_FORMAT } from '../../common/constants'
 
 const getRandomArbitrary = (min: number, max: number) =>
   Math.ceil(Math.random() * (max - min) + min)
@@ -16,7 +16,7 @@ const randomDate = (start: Date, end: Date) =>
 function setup({ date }: { date: string }) {
   window.HTMLElement.prototype.scrollTo = function () {}
 
-  const stringDate = format(new Date(date), DATE_FORMAT)
+  const stringDate = format(new Date(date), URL_DATE_FORMAT)
   const setDate: (stringDate: string) => void = jest.fn()
 
   const utils = render(
@@ -74,7 +74,7 @@ describe('Date selector', () => {
 
     expect(setDate).toHaveBeenCalledTimes(1)
 
-    const newDate = format(new Date(date.setDate(day)), DATE_FORMAT)
+    const newDate = format(new Date(date.setDate(day)), URL_DATE_FORMAT)
 
     expect(setDate).toHaveBeenCalledWith(newDate)
   })
@@ -95,7 +95,7 @@ describe('Date selector', () => {
 
     utils.rerender(
       <DateSelector
-        dateString={format(new Date(newDate), DATE_FORMAT)}
+        dateString={format(new Date(newDate), URL_DATE_FORMAT)}
         setUrlDate={utils.setDate}
       />
     )
@@ -113,7 +113,7 @@ describe('Date selector', () => {
     newDate = new Date(date.setDate(randomDay)).toDateString()
     utils.rerender(
       <DateSelector
-        dateString={format(new Date(newDate), DATE_FORMAT)}
+        dateString={format(new Date(newDate), URL_DATE_FORMAT)}
         setUrlDate={utils.setDate}
       />
     )
