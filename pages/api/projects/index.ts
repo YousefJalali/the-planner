@@ -7,16 +7,27 @@ import { Status } from '../../../common/types/TaskType'
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType[]
+    data?: ProjectType[] | Partial<ProjectType>[]
     error?: Error | unknown
     nextCursor?: string
   }>
 ) => {
   const { cursor, limit, q } = req.query
 
-  // return res.status(400).json({ error: 'wrong' })
-
   try {
+    if (q === 'list') {
+      const projects: Partial<ProjectType>[] = await prisma.project.findMany({
+        select: {
+          id: true,
+          color: true,
+          title: true,
+        },
+        orderBy: { createdAt: 'desc' },
+      })
+
+      return res.status(200).json({ data: projects })
+    }
+
     const projects = await prisma.project.findMany({
       // ...(q &&
       //   q !== 'undefined' &&

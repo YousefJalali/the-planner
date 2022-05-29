@@ -15,7 +15,7 @@ type Props = {
 const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
   const [search, setSearch] = useState('')
 
-  const { projects, error, isLoading } = useProjects()
+  const { projects, error, isLoading } = useProjects('list')
 
   const onSelectHandler = (project: ProjectType) => {
     setSearch('')

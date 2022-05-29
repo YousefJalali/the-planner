@@ -5,8 +5,8 @@ import customFetch from '../utils/customFetch'
 import getErrorMessage from '../utils/getErrorMessage'
 import { projectsKey } from './keys'
 
-const useProjects = (from?: string) => {
-  const key = projectsKey()
+const useProjects = (query?: string) => {
+  const key = `${projectsKey()}?q=${query}`
   const { data, error, mutate } = useSWR(key, customFetch, {
     use: [requestLogger],
   })
