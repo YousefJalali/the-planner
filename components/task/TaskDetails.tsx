@@ -1,11 +1,9 @@
 import { FC } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import format from 'date-fns/format'
 import { FiX } from 'react-icons/fi'
 import styled, { x } from '@xstyled/styled-components'
 import Zoom from 'react-medium-image-zoom'
-import isSameYear from 'date-fns/isSameYear'
 
 import 'react-medium-image-zoom/dist/styles.css'
 import { TaskWithProjectType } from '../../common/types/TaskType'
@@ -19,6 +17,7 @@ import { formatDate, formatTime } from '../../common/utils/dateHelpers'
 type Props = {
   task: TaskWithProjectType
   onClose?: (action?: any) => void
+  onRoute?: (action?: any) => void
 }
 
 const ImageItem = styled(x.div)`
@@ -31,7 +30,7 @@ const ImageItem = styled(x.div)`
   }
 `
 
-const TaskDetails: FC<Props> = ({ task, onClose }) => {
+const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
   const {
     title,
     project,
@@ -50,6 +49,9 @@ const TaskDetails: FC<Props> = ({ task, onClose }) => {
     router.push(route)
     if (onClose) {
       onClose()
+    }
+    if (onRoute) {
+      onRoute()
     }
   }
 

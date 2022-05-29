@@ -1,4 +1,5 @@
 import { x } from '@xstyled/styled-components'
+import Head from 'next/head'
 import { KeyboardEvent, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { FiClock, FiSearch, FiX } from 'react-icons/fi'
@@ -33,7 +34,11 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
     setModal({
       id: 'task-details',
       content: (
-        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+        <TaskDetails
+          task={task}
+          onClose={() => clearModal('task-details')}
+          onRoute={() => clearModal('search-modal')}
+        />
       ),
     })
   }
@@ -71,69 +76,80 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
   }
 
   return (
-    <x.div h='100vh' py={4}>
-      <x.section px={4}>
-        <FormHeader title='Search' onRequestClose={onRequestClose} />
-        <x.span
-          text='body.large'
-          display='block'
-          w='calc(100% - 48px)'
-          lineHeight='normal'
-        >
-          What task or project are you looking for?
-        </x.span>
+    <>
+      <Head>
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, maximum-scale=1'
+        ></meta>
+      </Head>
 
-        <x.form mt={3}>
-          <Fieldset supportiveText='type a word from task or project title'>
-            <x.input
-              type='search'
-              name='keyword'
-              placeholder='Search...'
-              value={val}
-              onChange={(e) => setVal(e.target.value)}
-              onKeyDown={(e) => onEnterClickHandler(e)}
-              autoComplete='off'
-            />
-          </Fieldset>
-        </x.form>
-      </x.section>
+      <x.div h='100vh' py={4}>
+        <x.section px={4}>
+          <FormHeader title='Search' onRequestClose={onRequestClose} />
+          <x.span
+            text='body.large'
+            display='block'
+            w='calc(100% - 48px)'
+            lineHeight='normal'
+          >
+            What task or project are you looking for?
+          </x.span>
 
-      <x.section px={4}>
-        {val.length <= 0 ? null : isLoading ? (
-          <x.div m='0 auto' w='fit-content' my={3}>
-            <Spinner pathColor='brand-primary' trailColor='brand-primary-a10' />
-          </x.div>
-        ) : searchedTasks?.length > 0 ? (
-          <x.ul spaceY={3} py={3}>
-            {searchedTasks.map((task) => (
-              <x.li key={task.id} onClick={() => onDetails(task)}>
-                <SearchedTask task={task} />
-              </x.li>
-            ))}
-          </x.ul>
-        ) : (
-          <>
-            <x.div textAlign='center'>
-              <x.div w='30%' m='0 auto' mt={3} mb={2}>
-                <NoSearchData />
-              </x.div>
-              <x.span text='body.small' color='content-subtle'>
-                No data found
-              </x.span>
+          <x.form mt={3}>
+            <Fieldset supportiveText='type a word from task or project title'>
+              <x.input
+                type='search'
+                name='keyword'
+                placeholder='Search...'
+                value={val}
+                onChange={(e) => setVal(e.target.value)}
+                onKeyDown={(e) => onEnterClickHandler(e)}
+                autoComplete='off'
+              />
+            </Fieldset>
+          </x.form>
+        </x.section>
+
+        <x.section px={4}>
+          {val.length <= 0 ? null : isLoading ? (
+            <x.div m='0 auto' w='fit-content' my={3}>
+              <Spinner
+                pathColor='brand-primary'
+                trailColor='brand-primary-a10'
+              />
             </x.div>
+          ) : searchedTasks?.length > 0 ? (
+            <x.ul spaceY={3} py={3}>
+              {searchedTasks.map((task) => (
+                <x.li key={task.id} onClick={() => onDetails(task)}>
+                  <SearchedTask task={task} />
+                </x.li>
+              ))}
+            </x.ul>
+          ) : (
+            <>
+              <x.div textAlign='center'>
+                <x.div w='30%' m='0 auto' mt={3} mb={2}>
+                  <NoSearchData />
+                </x.div>
+                <x.span text='body.small' color='content-subtle'>
+                  No data found
+                </x.span>
+              </x.div>
 
-            {/* <ProductsWrapper>
+              {/* <ProductsWrapper>
             <ProductsList
               products={popularProducts}
               title='Popular products'
               onClick='/'
             />
           </ProductsWrapper> */}
-          </>
-        )}
-      </x.section>
+            </>
+          )}
+        </x.section>
 
-      {/* <x.section px={4} mt={4}>
+        {/* <x.section px={4} mt={4}>
         <x.h2 text='body.large' mb={1}>
           Recent tasks
         </x.h2>
@@ -148,41 +164,42 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
         )}
       </x.section> */}
 
-      <x.section>
-        {val.length <= 0 && (
-          <x.div>
-            <x.ul>
-              {cookie['search-history']?.map((item: string, i: number) => (
-                <x.li key={i} display='flex'>
-                  <div>
-                    <FiClock />
-                    <x.a onClick={() => setVal(item)}>{item}</x.a>
-                  </div>
-                  <x.a onClick={() => removeFromSearchHistory(item)}>
-                    <FiX />
-                  </x.a>
-                </x.li>
-              ))}
-            </x.ul>
+        <x.section>
+          {val.length <= 0 && (
+            <x.div>
+              <x.ul>
+                {cookie['search-history']?.map((item: string, i: number) => (
+                  <x.li key={i} display='flex'>
+                    <div>
+                      <FiClock />
+                      <x.a onClick={() => setVal(item)}>{item}</x.a>
+                    </div>
+                    <x.a onClick={() => removeFromSearchHistory(item)}>
+                      <FiX />
+                    </x.a>
+                  </x.li>
+                ))}
+              </x.ul>
 
-            <x.div px={4} mt={4}>
-              <x.h2 text='body.large' mb={1}>
-                Recent tasks
-              </x.h2>
-              {recentTasks && (
-                <x.ul spaceY={3}>
-                  {recentTasks.map((task) => (
-                    <x.li key={task.id} onClick={() => onDetails(task)}>
-                      <SearchedTask task={task} />
-                    </x.li>
-                  ))}
-                </x.ul>
-              )}
+              <x.div px={4} mt={4}>
+                <x.h2 text='body.large' mb={1}>
+                  Recent tasks
+                </x.h2>
+                {recentTasks && (
+                  <x.ul spaceY={3}>
+                    {recentTasks.map((task) => (
+                      <x.li key={task.id} onClick={() => onDetails(task)}>
+                        <SearchedTask task={task} />
+                      </x.li>
+                    ))}
+                  </x.ul>
+                )}
+              </x.div>
             </x.div>
-          </x.div>
-        )}
-      </x.section>
-    </x.div>
+          )}
+        </x.section>
+      </x.div>
+    </>
   )
 }
 
