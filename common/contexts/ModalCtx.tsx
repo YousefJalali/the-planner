@@ -1,4 +1,11 @@
-import { createContext, useState, ReactNode, useContext } from 'react'
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useMemo,
+  useCallback,
+} from 'react'
 
 export type ModalType = {
   id: string
@@ -25,13 +32,21 @@ export const ModalCtxProvider = ({
 }) => {
   const [modals, setModal] = useState<ModalType[]>([])
 
-  const clearModalHandler = (id: string) => {
-    setModal((modals) => modals.filter((n) => n.id !== id))
-  }
+  // const clearModalHandler = (id: string) => {
+  //   setModal((modals) => modals.filter((n) => n.id !== id))
+  // }
 
-  const setModalHandler = (newModal: ModalType) => {
+  // const setModalHandler = (newModal: ModalType) => {
+  //   setModal((modals) => [...modals, newModal])
+  // }
+
+  const clearModalHandler = useCallback((id: string) => {
+    setModal((modals) => modals.filter((n) => n.id !== id))
+  }, [])
+
+  const setModalHandler = useCallback((newModal: ModalType) => {
     setModal((modals) => [...modals, newModal])
-  }
+  }, [])
 
   const context = {
     modals,
@@ -45,7 +60,10 @@ export const ModalCtxProvider = ({
 export const useModal = () => {
   const { modals, setModal, clearModal } = useContext(ModalCtx)
 
-  return { modals, setModal, clearModal }
+  return useMemo(
+    () => ({ modals, setModal, clearModal }),
+    [modals, setModal, clearModal]
+  )
 }
 
 export default ModalCtx

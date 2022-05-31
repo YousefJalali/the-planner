@@ -4,11 +4,7 @@ import { FC } from 'react'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import { statusAlias } from '../../common/utils/statusAlias'
 import Tag from './Tag'
-import { useModal } from '../../common/contexts/ModalCtx'
-import TaskDetails from './TaskDetails'
-import TaskOptions from './TaskOptions'
 import TaskItem from './TaskItem'
-import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
 
 const animations = {
   initial: { opacity: 0 },
@@ -42,28 +38,6 @@ const TasksLists: FC<Props> = ({
   showEmptyState = false,
   showDivider = false,
 }) => {
-  const { setModal, clearModal } = useModal()
-
-  const { taskStatusHandler } = useUpdateTaskStatus()
-
-  const checkTaskHandler = (task: TaskWithProjectType) => {
-    const newStatus =
-      task.status === Status.PROPOSED || task.status === Status.INPROGRESS
-        ? Status.COMPLETED
-        : Status.PROPOSED
-
-    taskStatusHandler({ taskId: task.id, newStatus })
-  }
-
-  const onDetails = (task: TaskWithProjectType) => {
-    setModal({
-      id: 'task-details',
-      content: (
-        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
-      ),
-    })
-  }
-
   return (
     <>
       {tasks
@@ -95,14 +69,11 @@ const TasksLists: FC<Props> = ({
                   >
                     <AnimatePresence>
                       {filteredTasks.map((task) => (
-                        <motion.li {...animations} key={task.id}>
-                          <TaskItem
-                            task={task}
-                            onCheck={checkTaskHandler}
-                            onDetails={() => onDetails(task)}
-                            options={<TaskOptions task={task} />}
-                          />
-                        </motion.li>
+                        // <motion.li {...animations} key={task.id}>
+
+                        // <Task key={task.id} task={task} />
+                        // </motion.li>
+                        <TaskItem key={task.id} task={task} />
                       ))}
                     </AnimatePresence>
                   </x.ul>

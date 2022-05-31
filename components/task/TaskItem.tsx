@@ -1,16 +1,20 @@
-import { FC } from 'react'
+import { FC, useCallback, useMemo } from 'react'
 import styled, { x } from '@xstyled/styled-components'
 import format from 'date-fns/format'
 import { FiPaperclip, FiClock } from 'react-icons/fi'
 
 import { TaskWithProjectType, Status } from '../../common/types/TaskType'
 import Checkbox from '../formElements/Checkbox'
+import TaskOptions from './TaskOptions'
+import { useModal } from '../../common/contexts/ModalCtx'
+import TaskDetails from './TaskDetails'
+import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
 
 type Props = {
   task: TaskWithProjectType
-  onCheck: (task: TaskWithProjectType) => void
-  onDetails: () => void
-  options: JSX.Element
+  // onCheck: (task: TaskWithProjectType) => void
+  // onDetails: () => void
+  // options: JSX.Element
 }
 
 export const TaskTitleWrapper = styled(x.p)`
@@ -60,7 +64,29 @@ export const Details = ({
   </x.span>
 )
 
-const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
+const TaskItem: FC<Props> = ({ task }) => {
+  const { setModal, clearModal } = useModal()
+
+  const { taskStatusHandler } = useUpdateTaskStatus()
+
+  const onDetails = () => {
+    setModal({
+      id: 'task-details',
+      content: (
+        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+      ),
+    })
+  }
+
+  const checkTaskHandler = () => {
+    const newStatus =
+      task.status === Status.PROPOSED || task.status === Status.INPROGRESS
+        ? Status.COMPLETED
+        : Status.PROPOSED
+
+    taskStatusHandler({ taskId: task.id, newStatus })
+  }
+
   //format time
   let time = null
 
@@ -129,11 +155,12 @@ const TaskItem: FC<Props> = ({ task, onCheck, onDetails, options }) => {
       <Checkbox
         id={task.id}
         checked={task.status === Status.COMPLETED}
-        onChange={() => onCheck(task)}
+        onChange={checkTaskHandler}
         color={task.project.color}
       />
 
-      {options}
+      {/* {options} */}
+      <TaskOptions task={task} />
     </x.div>
   )
 }

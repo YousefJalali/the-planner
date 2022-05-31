@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import { format, parse } from 'date-fns'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { URL_DATE_FORMAT } from '../../common/constants'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import useDateTasks from '../../common/data/useDateTasks'
@@ -58,13 +58,18 @@ const DateTasks = () => {
     }
   }, [error])
 
+  const dateSelect = useMemo(
+    () => <DateSelector dateString={urlDate} setUrlDate={setUrlDate} />,
+    [urlDate]
+  )
+
   return (
     <x.section my={4} mt={6}>
       <x.h1 text='headline.two' px={4} mb={3}>
         Tasks
       </x.h1>
 
-      <DateSelector dateString={urlDate} setUrlDate={setUrlDate} />
+      {dateSelect}
 
       <x.div px={4} overflowX='hidden'>
         {error ? (

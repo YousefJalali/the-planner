@@ -53,38 +53,28 @@ const Home: NextPage<Props> = (props) => {
         </x.div>
       </Header>
 
-      <>
-        <x.section px={4} mt={4}>
-          <x.p
-            text='headline.three'
-            color='content-contrast'
-            fontWeight='light'
-          >
-            Hello mate,{' '}
-            <x.span text='headline.three' fontWeight='medium'>
-              still in doubt?
-            </x.span>
-          </x.p>
+      <x.section px={4} mt={4}>
+        <x.p text='headline.three' color='content-contrast' fontWeight='light'>
+          Hello mate,{' '}
+          <x.span text='headline.three' fontWeight='medium'>
+            still in doubt?
+          </x.span>
+        </x.p>
 
-          <x.p text='body.large' mt={2}>
-            <x.span display='inline' color='content-subtle'>
-              Check this out{' '}
-            </x.span>
+        <x.p text='body.large' mt={2}>
+          <x.span display='inline' color='content-subtle'>
+            Check this out{' '}
+          </x.span>
 
-            <Emoji
-              label='backhand index pointing down'
-              symbol='👇'
-              height={24}
-            />
-          </x.p>
-        </x.section>
+          <Emoji label='backhand index pointing down' symbol='👇' height={24} />
+        </x.p>
+      </x.section>
 
-        <ProjectsCardsList />
+      <ProjectsCardsList />
 
-        <DateTasks />
+      <DateTasks />
 
-        <FloatingButton />
-      </>
+      <FloatingButton />
     </>
   )
 }

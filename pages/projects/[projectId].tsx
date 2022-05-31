@@ -19,6 +19,7 @@ import ErrorMessage from '../../components/ErrorMessage'
 import useEditProject from '../../common/hooks/project/useEditProject'
 import useDeleteProject from '../../common/hooks/project/useDeleteProject'
 import ProjectForm from '../../components/project/ProjectForm'
+import { useMemo } from 'react'
 
 const Lists = styled(ScrollableList)`
   > div {
@@ -58,15 +59,18 @@ const Project = () => {
     }
   }
 
-  const progress =
-    (project &&
-      +(
-        (project.tasks.filter((task) => task.status === Status.COMPLETED)
-          .length *
-          100) /
-        project._count.tasks
-      ).toFixed(0)) ||
-    0
+  const progress = useMemo(() => {
+    return (
+      (project &&
+        +(
+          (project.tasks.filter((task) => task.status === Status.COMPLETED)
+            .length *
+            100) /
+          project._count.tasks
+        ).toFixed(0)) ||
+      0
+    )
+  }, [project])
 
   return (
     <>
@@ -86,7 +90,7 @@ const Project = () => {
             </x.span>
           </Button>
 
-          {project ? (
+          {project && !error ? (
             <Button
               name='edit project'
               variant='textOnly'
