@@ -2,7 +2,10 @@ import { x } from '@xstyled/styled-components'
 import Head from 'next/head'
 import { KeyboardEvent, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { FiClock, FiSearch, FiX } from 'react-icons/fi'
+import { FiClock, FiX } from 'react-icons/fi'
+import { FixedSizeList as List } from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
+
 import { useModal } from '../common/contexts/ModalCtx'
 import useRecentTasks from '../common/data/useRecentTasks'
 import useSearch from '../common/data/useSearch'
@@ -13,6 +16,7 @@ import Fieldset from './formElements/Fieldset'
 import Spinner from './Spinner'
 import SearchedTask from './task/SearchedTask'
 import TaskDetails from './task/TaskDetails'
+import TaskItemSkeleton from './skeletons/TaskItemSkeleton'
 
 //helper function
 const replaceAt = (array: string[], index: number, value: string) => {
@@ -26,7 +30,7 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
   const [cookie, setCookie] = useCookies(['search-history'])
 
   const { searchedTasks, isLoading } = useSearch(val)
-  const { recentTasks } = useRecentTasks()
+  const { recentTasks, isLoading: recentTasksLoading } = useRecentTasks()
 
   const { setModal, clearModal } = useModal()
 
@@ -111,58 +115,51 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
           </x.form>
         </x.section>
 
-        <x.section px={4}>
-          {val.length <= 0 ? null : isLoading ? (
-            <x.div m='0 auto' w='fit-content' my={3}>
-              <Spinner
-                pathColor='brand-primary'
-                trailColor='brand-primary-a10'
-              />
-            </x.div>
-          ) : searchedTasks?.length > 0 ? (
-            <x.ul spaceY={3} py={3}>
-              {searchedTasks.map((task) => (
-                <x.li key={task.id} onClick={() => onDetails(task)}>
-                  <SearchedTask task={task} />
-                </x.li>
-              ))}
-            </x.ul>
-          ) : (
-            <>
-              <x.div textAlign='center'>
-                <x.div w='30%' m='0 auto' mt={3} mb={2}>
-                  <NoSearchData />
-                </x.div>
-                <x.span text='body.small' color='content-subtle'>
-                  No data found
-                </x.span>
+        {val.length <= 0 ? null : isLoading ? (
+          <x.div m='0 auto' w='fit-content' my={3}>
+            <Spinner pathColor='brand-primary' trailColor='brand-primary-a10' />
+          </x.div>
+        ) : searchedTasks?.length > 0 ? (
+          <x.section p={3} h='100%' flex='1 1 auto'>
+            <AutoSizer>
+              {({ height, width }) => {
+                return (
+                  <List
+                    innerElementType='ul'
+                    itemData={searchedTasks}
+                    itemCount={searchedTasks.length}
+                    itemSize={85 + 8}
+                    height={height}
+                    width={width}
+                  >
+                    {({ data, index, style }) => {
+                      return (
+                        <x.li
+                          key={data[index].id}
+                          onClick={() => onDetails(data[index])}
+                          style={style}
+                        >
+                          <SearchedTask task={data[index]} />
+                        </x.li>
+                      )
+                    }}
+                  </List>
+                )
+              }}
+            </AutoSizer>
+          </x.section>
+        ) : (
+          <>
+            <x.div textAlign='center'>
+              <x.div w='30%' m='0 auto' mt={3} mb={2}>
+                <NoSearchData />
               </x.div>
-
-              {/* <ProductsWrapper>
-            <ProductsList
-              products={popularProducts}
-              title='Popular products'
-              onClick='/'
-            />
-          </ProductsWrapper> */}
-            </>
-          )}
-        </x.section>
-
-        {/* <x.section px={4} mt={4}>
-        <x.h2 text='body.large' mb={1}>
-          Recent tasks
-        </x.h2>
-        {recentTasks && (
-          <x.ul spaceY={3}>
-            {recentTasks.map((task) => (
-              <x.li key={task.id} onClick={() => onDetails(task)}>
-                <SearchedTask task={task} />
-              </x.li>
-            ))}
-          </x.ul>
+              <x.span text='body.small' color='content-subtle'>
+                No data found
+              </x.span>
+            </x.div>
+          </>
         )}
-      </x.section> */}
 
         <x.section>
           {val.length <= 0 && (
@@ -185,14 +182,24 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
                 <x.h2 text='body.large' mb={1}>
                   Recent tasks
                 </x.h2>
-                {recentTasks && (
+                {recentTasksLoading ? (
                   <x.ul spaceY={3}>
-                    {recentTasks.map((task) => (
-                      <x.li key={task.id} onClick={() => onDetails(task)}>
-                        <SearchedTask task={task} />
-                      </x.li>
+                    {new Array(5).fill(0).map((e, i) => (
+                      <li key={i}>
+                        <TaskItemSkeleton />
+                      </li>
                     ))}
                   </x.ul>
+                ) : (
+                  recentTasks && (
+                    <x.ul spaceY={3}>
+                      {recentTasks.map((task) => (
+                        <x.li key={task.id} onClick={() => onDetails(task)}>
+                          <SearchedTask task={task} />
+                        </x.li>
+                      ))}
+                    </x.ul>
+                  )
                 )}
               </x.div>
             </x.div>

@@ -1,5 +1,4 @@
 import { x } from '@xstyled/styled-components'
-import { subDays } from 'date-fns'
 import { FiCalendar } from 'react-icons/fi'
 import { Status, TaskWithProjectType } from '../../common/types/TaskType'
 import { formatDate } from '../../common/utils/dateHelpers'
