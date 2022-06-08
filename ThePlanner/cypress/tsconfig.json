@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../node_modules",
+    "target": "es5",
+    "types": ["cypress", "cypress-file-upload"]
+  },
+
+  "include": [
+    "../node_modules/cypress",
+    "../node_modules/cypress-file-upload",
+    "**/*.ts",
+    "**/*.js"
+  ]
+}
