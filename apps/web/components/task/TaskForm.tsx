@@ -28,6 +28,7 @@ import {
   addCurrentTime,
   dateFormatPattern,
 } from '../../common/utils/dateHelpers'
+import { Task } from '@prisma/client'
 
 type Props = {
   id: 'create' | 'edit'
@@ -109,7 +110,7 @@ function TaskForm({
     }
   }, [serverErrors])
 
-  const onSubmitHandler = async (data: TaskWithProjectType) => {
+  const onSubmitHandler = async (data: Task | TaskWithProjectType) => {
     const startDate = addCurrentTime(data.startDate)
     const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 
@@ -148,19 +149,19 @@ function TaskForm({
       >
         {/* Title */}
         <Controller
-          name='title'
+          name="title"
           control={control}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
             return (
               <Fieldset
                 id={`${formName}-title`}
-                label='Task title'
+                label="Task title"
                 error={error}
               >
                 <Input
                   id={`${formName}-title`}
-                  type='text'
-                  placeholder='i.e. speakers'
+                  type="text"
+                  placeholder="i.e. speakers"
                   value={value}
                   onChange={onChange}
                 />
@@ -171,7 +172,7 @@ function TaskForm({
 
         {/* Project */}
         <Controller
-          name='projectId'
+          name="projectId"
           control={control}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
             // const v = _.isObject(value) ? value.id : value
@@ -179,7 +180,7 @@ function TaskForm({
             return (
               <Fieldset
                 id={`${formName}-project`}
-                label='Project'
+                label="Project"
                 error={error}
               >
                 <SelectProject
@@ -187,7 +188,7 @@ function TaskForm({
                   value={value}
                   onChange={onChange}
                   taskProject={(project) => setValue('project', project)}
-                  placeholder='Select a project'
+                  placeholder="Select a project"
                 />
               </Fieldset>
             )
@@ -198,21 +199,21 @@ function TaskForm({
         <Fieldset
           noBorder
           error={dateErrors}
-          supportiveText='End date & end time are optional'
+          supportiveText="End date & end time are optional"
         >
           <>
             <x.div
-              display='flex'
-              justifyContent='space-between'
-              alignItems='center'
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
               mb={1}
             >
               <x.span>Date & Time</x.span>
-              <x.div display='flex' alignItems='center'>
+              <x.div display="flex" alignItems="center">
                 <x.span mr={2}>Open task?</x.span>
 
                 <Controller
-                  name='openTask'
+                  name="openTask"
                   control={control}
                   render={({ field: { value, onChange } }) => {
                     return (
@@ -232,10 +233,10 @@ function TaskForm({
             </x.div>
 
             {/* Start Date */}
-            <x.div display='flex'>
-              <x.div flex='0 0 calc(100% - 8px - 85px)'>
+            <x.div display="flex">
+              <x.div flex="0 0 calc(100% - 8px - 85px)">
                 <Controller
-                  name='startDate'
+                  name="startDate"
                   control={control}
                   render={({
                     field: { value, onChange },
@@ -246,18 +247,18 @@ function TaskForm({
                         id={`${formName}-startDate`}
                         error={error}
                         noErrorMessage
-                        label='from'
+                        label="from"
                       >
                         <DatePicker
                           id={`${formName}-startDate`}
-                          dataTestId='task-form-start-date'
+                          dataTestId="task-form-start-date"
                           selectsStart
                           selected={value}
                           onChange={onChange}
                           startDate={value}
                           endDate={getValues('endDate')}
-                          popperPlacement='bottom-start'
-                          placeholderText='Click to select a date'
+                          popperPlacement="bottom-start"
+                          placeholderText="Click to select a date"
                           dateFormat={dateFormatPattern(value)}
                         />
                       </Fieldset>
@@ -267,9 +268,9 @@ function TaskForm({
               </x.div>
 
               {/* Start Time */}
-              <x.div w={85} ml={2} mt='calc((0.889rem * 1.5) + 0.25rem)'>
+              <x.div w={85} ml={2} mt="calc((0.889rem * 1.5) + 0.25rem)">
                 <Controller
-                  name='startTime'
+                  name="startTime"
                   control={control}
                   render={({
                     field: { value, onChange },
@@ -284,17 +285,17 @@ function TaskForm({
                       >
                         <DatePicker
                           id={`${formName}-startTime`}
-                          dataTestId='task-form-start-time'
+                          dataTestId="task-form-start-time"
                           selected={value}
                           onChange={onChange}
                           disabled={watch('openTask')}
-                          popperPlacement='bottom-end'
+                          popperPlacement="bottom-end"
                           showTimeSelect
                           showTimeSelectOnly
                           timeIntervals={30}
-                          timeCaption=''
-                          dateFormat='h:mm aa'
-                          placeholderText='hh:mm'
+                          timeCaption=""
+                          dateFormat="h:mm aa"
+                          placeholderText="hh:mm"
                         />
                       </Fieldset>
                     )
@@ -304,10 +305,10 @@ function TaskForm({
             </x.div>
 
             {/* End Date */}
-            <x.div display='flex' mt={3}>
-              <x.div flex='0 0 calc(100% - 8px - 85px)'>
+            <x.div display="flex" mt={3}>
+              <x.div flex="0 0 calc(100% - 8px - 85px)">
                 <Controller
-                  name='endDate'
+                  name="endDate"
                   control={control}
                   render={({
                     field: { value, onChange },
@@ -316,7 +317,7 @@ function TaskForm({
                     return (
                       <Fieldset
                         id={`${formName}-endDate`}
-                        label='To'
+                        label="To"
                         disabled={watch('openTask')}
                         error={error}
                         noErrorMessage
@@ -324,7 +325,7 @@ function TaskForm({
                       >
                         <DatePicker
                           id={`${formName}-endDate`}
-                          dataTestId='task-form-end-date'
+                          dataTestId="task-form-end-date"
                           selectsEnd
                           selected={value}
                           onChange={onChange}
@@ -332,8 +333,8 @@ function TaskForm({
                           endDate={value}
                           minDate={getValues('startDate')}
                           disabled={watch('openTask')}
-                          popperPlacement='bottom-start'
-                          placeholderText='Due date'
+                          popperPlacement="bottom-start"
+                          placeholderText="Due date"
                           dateFormat={
                             value ? dateFormatPattern(value) : undefined
                           }
@@ -345,9 +346,9 @@ function TaskForm({
               </x.div>
 
               {/* End Time */}
-              <x.div w={85} ml={2} mt='calc((0.889rem * 1.5) + 0.25rem)'>
+              <x.div w={85} ml={2} mt="calc((0.889rem * 1.5) + 0.25rem)">
                 <Controller
-                  name='endTime'
+                  name="endTime"
                   control={control}
                   render={({
                     field: { value, onChange },
@@ -362,17 +363,17 @@ function TaskForm({
                       >
                         <DatePicker
                           id={`${formName}-endTime`}
-                          dataTestId='task-form-end-time'
+                          dataTestId="task-form-end-time"
                           selected={value}
                           onChange={onChange}
                           disabled={watch('openTask')}
-                          popperPlacement='bottom-end'
+                          popperPlacement="bottom-end"
                           showTimeSelect
                           showTimeSelectOnly
                           timeIntervals={30}
-                          timeCaption=''
-                          dateFormat='h:mm aa'
-                          placeholderText='hh:mm'
+                          timeCaption=""
+                          dateFormat="h:mm aa"
+                          placeholderText="hh:mm"
                         />
                       </Fieldset>
                     )
@@ -384,13 +385,13 @@ function TaskForm({
         </Fieldset>
 
         <Controller
-          name='description'
+          name="description"
           control={control}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
             return (
               <Fieldset
                 id={`${formName}-description`}
-                label='description'
+                label="description"
                 error={error}
                 optionalField
               >
@@ -398,7 +399,7 @@ function TaskForm({
                   id={`${formName}-description`}
                   value={value}
                   onChange={onChange}
-                  placeholder='A brief about the task...'
+                  placeholder="A brief about the task..."
                 />
               </Fieldset>
             )
@@ -406,12 +407,12 @@ function TaskForm({
         />
 
         <Controller
-          name='attachments'
+          name="attachments"
           control={control}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
             return (
               <Fieldset
-                label='attachments'
+                label="attachments"
                 id={`${formName}-attachments`}
                 error={error}
                 supportiveText={`Photos • ${value.length}/10 `}
@@ -431,16 +432,16 @@ function TaskForm({
         />
 
         <Button
-          name='submit task'
-          type='submit'
-          position='sticky'
+          name="submit task"
+          type="submit"
+          position="sticky"
           zIndex={3}
           bottom={24}
-          justifyContent='center'
+          justifyContent="center"
           boxShadow={0}
           isLoading={isSubmitting}
-          w='100%'
-          size='large'
+          w="100%"
+          size="large"
         >
           {id === 'edit' ? 'Update' : 'Create'}
         </Button>

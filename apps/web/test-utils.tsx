@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 import theme from './styles/theme'
@@ -6,6 +6,7 @@ import { ColorModeProvider } from '@xstyled/styled-components'
 import { NotificationCtxProvider } from './common/contexts/NotificationCtx'
 
 // Mocks useRouter
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 /**
@@ -26,7 +27,11 @@ export function mockNextUseRouter(props: {
   }))
 }
 
-const AllTheProviders: FC = ({ children }) => {
+const AllTheProviders = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[]
+}) => {
   return (
     <ThemeProvider theme={theme}>
       <ColorModeProvider>

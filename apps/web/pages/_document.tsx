@@ -8,6 +8,7 @@ import Document, {
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { getColorModeInitScriptElement } from '@xstyled/styled-components'
+import { Fragment, ReactElement } from 'react'
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -24,25 +25,26 @@ export default class MyDocument extends Document {
         })
 
       const initialProps = await Document.getInitialProps(ctx)
+
       return {
         ...initialProps,
-        styles: (
-          <>
+        styles: [
+          <Fragment key="1">
             {initialProps.styles}
             {sheet.getStyleElement()}
-          </>
-        ),
+          </Fragment>,
+        ],
       }
     } finally {
       sheet.seal()
     }
   }
 
-  render() {
+  render(): ReactElement {
     return (
-      <Html lang='en'>
+      <Html lang="en">
         <Head>
-          <meta name='description' content="Bija's task manager"></meta>
+          <meta name="description" content="Bija's task manager"></meta>
           {/* <link
             rel='preload'
             href='/fonts/montserrat-v23-latin-100'
@@ -62,9 +64,9 @@ export default class MyDocument extends Document {
           {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
-          <div id='modal' />
-          <div id='prompt' />
-          <div id='notification' />
+          <div id="modal" />
+          <div id="prompt" />
+          <div id="notification" />
         </body>
       </Html>
     )
