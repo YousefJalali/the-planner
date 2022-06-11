@@ -1,32 +1,72 @@
-/* eslint-disable react/display-name */
-import { ReactElement } from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+  DocumentInitialProps,
+} from 'next/document'
+import { ServerStyleSheet } from 'styled-components'
+import { getColorModeInitScriptElement } from '@xstyled/styled-components'
 
-export default class CustomDocument extends Document<{
-  styleTags: ReactElement[];
-}> {
-  static getInitialProps({ renderPage }) {
-    const sheet = new ServerStyleSheet();
+export default class MyDocument extends Document {
+  static async getInitialProps(
+    ctx: DocumentContext
+  ): Promise<DocumentInitialProps> {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
 
-    const page = renderPage(
-      (App) => (props) => sheet.collectStyles(<App {...props} />)
-    );
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        })
 
-    const styleTags = sheet.getStyleElement();
-
-    return { ...page, styleTags };
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
   }
 
   render() {
     return (
-      <Html>
-        <Head>{this.props.styleTags}</Head>
+      <Html lang='en'>
+        <Head>
+          <meta name='description' content="Bija's task manager"></meta>
+          {/* <link
+            rel='preload'
+            href='/fonts/montserrat-v23-latin-100'
+            as='font'
+            type='font/eot'
+            crossOrigin='anonymous'
+          />
+          <link
+            rel='preload'
+            href='fonts/carter-one-v15-latin-regular'
+            as='font'
+            type='font/eot'
+            crossOrigin='anonymous'
+          /> */}
+        </Head>
         <body>
+          {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
+          <div id='modal' />
+          <div id='prompt' />
+          <div id='notification' />
         </body>
       </Html>
-    );
+    )
   }
 }
