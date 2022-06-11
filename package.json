@@ -7,6 +7,9 @@
     "build": "nx build",
     "test": "nx test"
   },
+  "prisma": {
+    "schema": "./apps/web/prisma/schema.prisma"
+  },
   "private": true,
   "dependencies": {
     "@nrwl/next": "14.2.2",
