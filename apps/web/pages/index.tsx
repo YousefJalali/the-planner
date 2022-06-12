@@ -13,6 +13,7 @@ import DateTasks from '../components/task/DateTasks'
 import Logo from '../styles/illustrations/Logo'
 import SearchInput from '../components/formElements/SearchInput'
 import { addCurrentTime, UTCDate } from '../common/utils/dateHelpers'
+import { useEffect } from 'react'
 
 type Props = {
   // projects: ProjectType[]
@@ -23,24 +24,36 @@ const Home: NextPage<Props> = (props) => {
   // console.log(props)
   const [colorMode, setColorMode] = useColorMode()
 
+  const fetchTest = async () => {
+    const res = await fetch('http://localhost:3333/test')
+    const data = await res.json()
+    console.log(data)
+
+    return data
+  }
+
+  useEffect(() => {
+    fetchTest()
+  }, [])
+
   console.log('%cindex rendered', 'color:green')
   // console.log(props.tasks)
 
   return (
     <>
-      <Header pageTitle=''>
+      <Header pageTitle="">
         <x.div ml={4} h={48}>
           <Logo />
         </x.div>
 
         <x.div
-          display='flex'
-          alignItems='center'
+          display="flex"
+          alignItems="center"
           spaceX={1}
-          mr='calc(24px - 0.5rem)'
+          mr="calc(24px - 0.5rem)"
         >
           <SwitchButton
-            id='color-mode'
+            id="color-mode"
             height={24}
             checked={colorMode === 'dark'}
             onChange={(e) =>
@@ -54,19 +67,19 @@ const Home: NextPage<Props> = (props) => {
       </Header>
 
       <x.section px={4} mt={4}>
-        <x.p text='headline.three' color='content-contrast' fontWeight='light'>
+        <x.p text="headline.three" color="content-contrast" fontWeight="light">
           Hello mate,{' '}
-          <x.span text='headline.three' fontWeight='medium'>
+          <x.span text="headline.three" fontWeight="medium">
             still in doubt?
           </x.span>
         </x.p>
 
-        <x.p text='body.large' mt={2}>
-          <x.span display='inline' color='content-subtle'>
+        <x.p text="body.large" mt={2}>
+          <x.span display="inline" color="content-subtle">
             Check this out{' '}
           </x.span>
 
-          <Emoji label='backhand index pointing down' symbol='👇' height={24} />
+          <Emoji label="backhand index pointing down" symbol="👇" height={24} />
         </x.p>
       </x.section>
 
