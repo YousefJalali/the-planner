@@ -15,7 +15,7 @@ import {
   BorderColorProps,
 } from '@xstyled/styled-components'
 import { ButtonHTMLAttributes, FC } from 'react'
-import Spinner from '../Spinner'
+import { Spinner } from '@the-planner/ui-web'
 
 type Props = {
   name: string
@@ -60,13 +60,13 @@ const Button: FC<AllProps> = ({
 
   return (
     <x.button
-      type='button'
+      type="button"
       name={name}
       aria-label={name}
       minHeight={36}
       minWidth={36}
-      h='fit-content'
-      w='fit-content'
+      h="fit-content"
+      w="fit-content"
       px={
         variant === 'link' || variant === 'textOnly'
           ? 2
@@ -90,9 +90,9 @@ const Button: FC<AllProps> = ({
         variant === 'link' || variant === 'textOnly' ? 'normal' : 'none'
       }
       borderRadius={2}
-      display='flex'
-      alignItems='center'
-      justifyContent='center'
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
       backgroundColor={
         (variant && 'transparent') ||
         (color && `utility-${color}`) ||
@@ -103,7 +103,7 @@ const Button: FC<AllProps> = ({
         (color && `utility-${color}`) ||
         'brand-primary'
       }
-      border='1px solid'
+      border="1px solid"
       borderColor={
         variant !== 'outline'
           ? 'transparent'
@@ -112,7 +112,7 @@ const Button: FC<AllProps> = ({
           : 'brand-primary'
       }
       textDecoration={(variant === 'link' && 'underline') || 'none'}
-      textTransform='capitalize'
+      textTransform="capitalize"
       // outline={{ focus: 'none' }}
       // ring={{ focus: 2 }}
       // ringColor={{ focus: 'red' }}
@@ -124,7 +124,7 @@ const Button: FC<AllProps> = ({
           w={spinnerSize}
           border={size === 'small' ? '2px solid' : '3px solid'}
           borderTop={size === 'small' ? '2px solid' : '3px solid'}
-          trailColor='content-nonessential'
+          trailColor="content-nonessential"
         />
       ) : (
         children

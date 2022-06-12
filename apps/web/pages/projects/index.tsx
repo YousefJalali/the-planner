@@ -17,7 +17,7 @@ import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import { useModal } from '../../common/contexts/ModalCtx'
 import CreateProject from '../../components/project/CreateProject'
 import Button from '../../components/formElements/Button'
-import Spinner from '../../components/Spinner'
+import { Spinner } from '@the-planner/ui-web'
 import { AnimatePresence, motion } from 'framer-motion'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Status } from '../../common/types/TaskType'
@@ -87,7 +87,7 @@ const Index: NextPage = () => {
         )
       })
     ) : (
-      <x.li text='body.small' textAlign='center' color='content-subtle'>
+      <x.li text="body.small" textAlign="center" color="content-subtle">
         {filter === 'completed'
           ? 'No completed projects'
           : 'No projects in progress'}
@@ -100,10 +100,10 @@ const Index: NextPage = () => {
       <NewProjectCard />
     ) : (
       <x.span
-        display='block'
-        text='body.small'
-        textAlign='center'
-        color='content-subtle'
+        display="block"
+        text="body.small"
+        textAlign="center"
+        color="content-subtle"
       >
         {filter === Status.INPROGRESS
           ? 'No projects in progress'
@@ -113,38 +113,38 @@ const Index: NextPage = () => {
 
   return (
     <>
-      <Header pageTitle='Projects'>
+      <Header pageTitle="Projects">
         <Button
-          name='back'
-          variant='outline'
+          name="back"
+          variant="outline"
           onClick={() => router.push('/')}
           ml={4}
-          borderColor='layout-level0accent'
-          borderRadius='full'
+          borderColor="layout-level0accent"
+          borderRadius="full"
           p={1}
         >
-          <x.span fontSize='1.5rem' color='content-contrast'>
+          <x.span fontSize="1.5rem" color="content-contrast">
             <FiArrowLeft />
           </x.span>
         </Button>
 
         <Button
-          name='create project'
-          variant='outline'
+          name="create project"
+          variant="outline"
           onClick={createProjectHandler}
           mr={4}
-          borderColor='layout-level0accent'
-          borderRadius='full'
+          borderColor="layout-level0accent"
+          borderRadius="full"
           p={1}
         >
-          <x.span fontSize='1.5rem' color='content-contrast'>
+          <x.span fontSize="1.5rem" color="content-contrast">
             <FiPlus />
           </x.span>
         </Button>
       </Header>
 
-      <x.section overflow='hidden' px={4}>
-        <x.h1 text='headline.two' mb={4}>
+      <x.section overflow="hidden" px={4}>
+        <x.h1 text="headline.two" mb={4}>
           Projects
         </x.h1>
 
@@ -171,10 +171,10 @@ const Index: NextPage = () => {
               next={() => setSize(size + 1)}
               hasMore={!hasReachedEnd}
               loader={
-                <x.div display='flex' justifyContent='center' py={3}>
+                <x.div display="flex" justifyContent="center" py={3}>
                   <Spinner
-                    pathColor='brand-primary'
-                    trailColor='layout-level0accent'
+                    pathColor="brand-primary"
+                    trailColor="layout-level0accent"
                   />
                 </x.div>
               }

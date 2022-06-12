@@ -26,17 +26,17 @@ type Props = {
   Theme
 >
 
-const Spinner: FC<Props> = (props) => {
+export const Spinner: FC<Props> = (props) => {
   return (
-    <x.div display='flex'>
+    <x.div display="flex">
       <Spin
-        w='1.5rem'
-        h='1.5rem'
-        border='4px solid'
+        w="1.5rem"
+        h="1.5rem"
+        border="4px solid"
         borderColor={props.trailColor || 'transparent'}
-        borderTop='4px solid'
+        borderTop="4px solid"
         borderTopColor={props.pathColor || 'layout-level0'}
-        borderRadius='50%'
+        borderRadius="50%"
         {...props}
       />
     </x.div>

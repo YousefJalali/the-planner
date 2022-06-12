@@ -15,6 +15,8 @@ import SearchInput from '../components/formElements/SearchInput'
 import { addCurrentTime, UTCDate } from '../common/utils/dateHelpers'
 import { useEffect } from 'react'
 
+import { Button } from '@the-planner/ui-web'
+
 type Props = {
   // projects: ProjectType[]
   // initialDate: string
@@ -65,6 +67,8 @@ const Home: NextPage<Props> = (props) => {
           <SearchInput />
         </x.div>
       </Header>
+
+      <Button />
 
       <x.section px={4} mt={4}>
         <x.p text="headline.three" color="content-contrast" fontWeight="light">

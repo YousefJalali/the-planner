@@ -13,7 +13,7 @@ import { TaskWithProjectType } from '../common/types/TaskType'
 import NoSearchData from '../styles/illustrations/NoSearchData'
 import FormHeader from './form/FormHeader'
 import Fieldset from './formElements/Fieldset'
-import Spinner from './Spinner'
+import { Spinner } from '@the-planner/ui-web'
 import SearchedTask from './task/SearchedTask'
 import TaskDetails from './task/TaskDetails'
 import TaskItemSkeleton from './skeletons/TaskItemSkeleton'
@@ -83,49 +83,49 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
     <>
       <Head>
         <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1, maximum-scale=1'
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
         ></meta>
       </Head>
 
-      <x.div h='100vh' py={4}>
+      <x.div h="100vh" py={4}>
         <x.section px={4}>
-          <FormHeader title='Search' onRequestClose={onRequestClose} />
+          <FormHeader title="Search" onRequestClose={onRequestClose} />
           <x.span
-            text='body.large'
-            display='block'
-            w='calc(100% - 48px)'
-            lineHeight='normal'
+            text="body.large"
+            display="block"
+            w="calc(100% - 48px)"
+            lineHeight="normal"
           >
             What task or project are you looking for?
           </x.span>
 
           <x.form mt={3}>
-            <Fieldset supportiveText='type a word from task or project title'>
+            <Fieldset supportiveText="type a word from task or project title">
               <x.input
-                type='search'
-                name='keyword'
-                placeholder='Search...'
+                type="search"
+                name="keyword"
+                placeholder="Search..."
                 value={val}
                 onChange={(e) => setVal(e.target.value)}
                 onKeyDown={(e) => onEnterClickHandler(e)}
-                autoComplete='off'
+                autoComplete="off"
               />
             </Fieldset>
           </x.form>
         </x.section>
 
         {val.length <= 0 ? null : isLoading ? (
-          <x.div m='0 auto' w='fit-content' my={3}>
-            <Spinner pathColor='brand-primary' trailColor='brand-primary-a10' />
+          <x.div m="0 auto" w="fit-content" my={3}>
+            <Spinner pathColor="brand-primary" trailColor="brand-primary-a10" />
           </x.div>
         ) : searchedTasks?.length > 0 ? (
-          <x.section p={3} h='100%' flex='1 1 auto'>
+          <x.section p={3} h="100%" flex="1 1 auto">
             <AutoSizer>
               {({ height, width }) => {
                 return (
                   <List
-                    innerElementType='ul'
+                    innerElementType="ul"
                     itemData={searchedTasks}
                     itemCount={searchedTasks.length}
                     itemSize={85 + 8}
@@ -150,11 +150,11 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
           </x.section>
         ) : (
           <>
-            <x.div textAlign='center'>
-              <x.div w='30%' m='0 auto' mt={3} mb={2}>
+            <x.div textAlign="center">
+              <x.div w="30%" m="0 auto" mt={3} mb={2}>
                 <NoSearchData />
               </x.div>
-              <x.span text='body.small' color='content-subtle'>
+              <x.span text="body.small" color="content-subtle">
                 No data found
               </x.span>
             </x.div>
@@ -166,7 +166,7 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
             <x.div>
               <x.ul>
                 {cookie['search-history']?.map((item: string, i: number) => (
-                  <x.li key={i} display='flex'>
+                  <x.li key={i} display="flex">
                     <div>
                       <FiClock />
                       <x.a onClick={() => setVal(item)}>{item}</x.a>
@@ -179,7 +179,7 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
               </x.ul>
 
               <x.div px={4} mt={4}>
-                <x.h2 text='body.large' mb={1}>
+                <x.h2 text="body.large" mb={1}>
                   Recent tasks
                 </x.h2>
                 {recentTasksLoading ? (

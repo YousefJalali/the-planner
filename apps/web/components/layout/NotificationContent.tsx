@@ -9,7 +9,7 @@ import {
   FiX,
   FiXCircle,
 } from 'react-icons/fi'
-import Spinner from '../Spinner'
+import { Spinner } from '@the-planner/ui-web'
 
 const Motion = styled(motion.div)`
   position: fixed;
@@ -37,27 +37,27 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
   return (
     <Motion
       transition={{ type: 'spring', duration: 0.3 }}
-      initial='closed'
-      animate='open'
-      exit='closed'
+      initial="closed"
+      animate="open"
+      exit="closed"
       variants={variants}
       data-testid={notification.id}
     >
       <x.div
-        backgroundColor='layout-level2accent'
+        backgroundColor="layout-level2accent"
         borderRadius={2}
-        display='flex'
+        display="flex"
         h={36}
       >
-        <x.div display='flex' alignItems='center' h='100%'>
+        <x.div display="flex" alignItems="center" h="100%">
           <x.div
             backgroundColor={`utility-${notification.variant}`}
             px={2}
-            h='100%'
-            display='flex'
-            alignItems='center'
+            h="100%"
+            display="flex"
+            alignItems="center"
           >
-            <x.span color='layout-level0'>
+            <x.span color="layout-level0">
               {notification.variant === 'confirmation' ? (
                 <FiCheck />
               ) : notification.variant === 'warning' ? (
@@ -72,46 +72,46 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
         </x.div>
 
         <x.div
-          display='flex'
-          justifyContent='space-between'
-          alignItems='center'
-          w='calc(100% - 32px)'
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          w="calc(100% - 32px)"
           px={2}
         >
           <x.span
-            text='body.small'
-            color='content-default'
+            text="body.small"
+            color="content-default"
             textTransform={{ firstLetter: 'uppercase' }}
-            textOverflow='ellipsis'
-            overflow='hidden'
-            whiteSpace='nowrap'
+            textOverflow="ellipsis"
+            overflow="hidden"
+            whiteSpace="nowrap"
             minWidth={0}
           >
             {notification.message}
           </x.span>
 
           <x.div
-            display='flex'
-            alignItems='center'
-            justifyContent='flex-end'
+            display="flex"
+            alignItems="center"
+            justifyContent="flex-end"
             ml={2}
           >
             {notification.loading ? (
               <x.div data-testid={`${notification.id}-loading`}>
                 <Spinner
-                  pathColor='content-subtle'
-                  trailColor='layout-level0accent'
+                  pathColor="content-subtle"
+                  trailColor="layout-level0accent"
                 />
               </x.div>
             ) : (
               <>
                 <x.a
                   onClick={notification.actionFn}
-                  text='body.small'
-                  textDecoration='underline'
+                  text="body.small"
+                  textDecoration="underline"
                   data-testid={`${notification.id}-action`}
                   mx={2}
-                  whiteSpace='nowrap'
+                  whiteSpace="nowrap"
                 >
                   {notification.action}
                 </x.a>
@@ -119,7 +119,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
                 <x.a
                   onClick={clearNotification}
                   data-testid={`${notification.id}-close`}
-                  color='content-subtle'
+                  color="content-subtle"
                 >
                   <FiX />
                 </x.a>

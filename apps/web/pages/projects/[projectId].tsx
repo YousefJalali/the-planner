@@ -14,7 +14,7 @@ import FloatingButton from '../../components/FloatingButton'
 import TextEditor from '../../components/formElements/TextEditor'
 import { useModal } from '../../common/contexts/ModalCtx'
 import Button from '../../components/formElements/Button'
-import Spinner from '../../components/Spinner'
+import { Spinner } from '@the-planner/ui-web'
 import ErrorMessage from '../../components/ErrorMessage'
 import useEditProject from '../../common/hooks/project/useEditProject'
 import useDeleteProject from '../../common/hooks/project/useDeleteProject'
@@ -47,8 +47,8 @@ const Project = () => {
         id: 'project-edit',
         content: (
           <ProjectForm
-            id='edit'
-            title='Edit Project'
+            id="edit"
+            title="Edit Project"
             onSubmit={onSubmit}
             defaultValues={project}
             onRequestClose={() => clearModal('project-edit')}
@@ -74,29 +74,29 @@ const Project = () => {
 
   return (
     <>
-      <x.main minHeight='100vh'>
+      <x.main minHeight="100vh">
         <Header pageTitle={project ? project.title : ''}>
           <Button
-            name='back'
-            variant='outline'
+            name="back"
+            variant="outline"
             onClick={() => router.back()}
             ml={4}
-            borderColor='layout-level0accent'
-            borderRadius='full'
+            borderColor="layout-level0accent"
+            borderRadius="full"
             p={1}
           >
-            <x.span fontSize='1.5rem' color='content-contrast'>
+            <x.span fontSize="1.5rem" color="content-contrast">
               <FiArrowLeft />
             </x.span>
           </Button>
 
           {project && !error ? (
             <Button
-              name='edit project'
-              variant='textOnly'
-              color='information'
+              name="edit project"
+              variant="textOnly"
+              color="information"
               onClick={editProjectHandler}
-              mr='calc(24px - 0.5rem)'
+              mr="calc(24px - 0.5rem)"
             >
               Edit
             </Button>
@@ -106,23 +106,23 @@ const Project = () => {
         </Header>
 
         {isLoading ? (
-          <x.div px={4} display='flex' justifyContent='center'>
-            <Spinner pathColor='brand-primary' />
+          <x.div px={4} display="flex" justifyContent="center">
+            <Spinner pathColor="brand-primary" />
           </x.div>
         ) : error ? (
-          <x.div px={4} display='flex' justifyContent='center'>
+          <x.div px={4} display="flex" justifyContent="center">
             <ErrorMessage error={error} />
           </x.div>
         ) : (
           project && (
             <>
-              <x.section overflow='hidden' px={4}>
-                <x.h1 text='headline.two' lineHeight='tighter' mb={2}>
+              <x.section overflow="hidden" px={4}>
+                <x.h1 text="headline.two" lineHeight="tighter" mb={2}>
                   {project.title}
                 </x.h1>
 
                 {project.description?.length > 0 && (
-                  <x.div mb={3} maxHeight='128px' overflowY='scroll'>
+                  <x.div mb={3} maxHeight="128px" overflowY="scroll">
                     <TextEditor value={project.description} readOnly />
                   </x.div>
                 )}
@@ -130,11 +130,11 @@ const Project = () => {
                 <LinearProgress color={project.color} percentage={progress} />
               </x.section>
 
-              <x.h1 text='headline.three' px={4} mt={5} mb={2}>
+              <x.h1 text="headline.three" px={4} mt={5} mb={2}>
                 Tasks
               </x.h1>
 
-              <Lists as='section' spaceX={3} mb={4}>
+              <Lists as="section" spaceX={3} mb={4}>
                 <TasksLists
                   tasks={project.tasks as TaskWithProjectType[]}
                   showEmptyState
