@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { Status, TaskType } from '../../types/TaskType'
+import { Status, TaskType } from '@the-planner/types'
 
 export const removeTaskFromLocalTasksData = (data: TaskType[], id: string) => {
   return new Promise<{ data: TaskType[] }>((resolve, reject) => {

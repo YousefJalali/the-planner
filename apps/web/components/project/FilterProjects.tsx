@@ -1,6 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { Status } from '../../common/types/TaskType'
+import { Status } from '@the-planner/types'
 
 const Item = ({
   children,
@@ -19,11 +19,11 @@ const Item = ({
     onClick={onClick}
   >
     <x.span
-      text='body.small'
-      textTransform='capitalize'
-      lineHeight='none'
+      text="body.small"
+      textTransform="capitalize"
+      lineHeight="none"
       color={active && 'layout-level0'}
-      userSelect='none'
+      userSelect="none"
     >
       {children}
     </x.span>
@@ -42,7 +42,7 @@ const FilterProjects: FC<Props> = ({ active, setActive }) => {
   }
 
   return (
-    <x.div display='flex' spaceX={2}>
+    <x.div display="flex" spaceX={2}>
       <Item active={active === null} onClick={() => onClickHandler(null)}>
         all
       </Item>

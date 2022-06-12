@@ -20,7 +20,7 @@ import Button from '../../components/formElements/Button'
 import { Spinner } from '@the-planner/ui-web'
 import { AnimatePresence, motion } from 'framer-motion'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { Status } from '../../common/types/TaskType'
+import { Status } from '@the-planner/types'
 
 const Index: NextPage = () => {
   const [filter, setFilter] = useState<filterType>(null)

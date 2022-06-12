@@ -2,8 +2,8 @@ import _ from 'lodash'
 import {
   ProjectWithTasksAndCount,
   ProjectWithTasksType,
-} from '../../types/ProjectType'
-import { Status, TaskType } from '../../types/TaskType'
+} from '@the-planner/types'
+import { Status, TaskType } from '@the-planner/types'
 
 //create task
 export const addTaskToLocalProjectData = (

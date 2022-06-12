@@ -5,7 +5,7 @@ import { useNotification } from '../../contexts/NotificationCtx'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
 import useTask from '../../data/useTask'
-import { TaskType } from '../../types/TaskType'
+import { TaskType } from '@the-planner/types'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 const useEditTask = (

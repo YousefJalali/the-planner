@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '../../../../common/types/TaskType'
+import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
 import taskSchema from '../../../../common/utils/validations/taskSchema'

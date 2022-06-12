@@ -1,8 +1,8 @@
 import { rest } from 'msw'
 import { multipleTasks } from './data/tasks'
 import { multipleProjects } from './data/projects'
-import { TaskType, Status, TaskWithProjectType } from '../common/types/TaskType'
-import { ProjectType } from '../common/types/ProjectType'
+import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
+import { ProjectType } from '@the-planner/types'
 import {
   createTaskController,
   deleteTaskController,

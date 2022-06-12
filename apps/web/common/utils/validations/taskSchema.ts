@@ -1,5 +1,5 @@
-import { array, boolean, date, mixed, object, ref, SchemaOf, string } from 'yup'
-import { Status, TaskType } from '../../types/TaskType'
+import { array, boolean, date, mixed, object, SchemaOf, string } from 'yup'
+import { Status, TaskType } from '@the-planner/types'
 
 // const taskSchema: SchemaOf<Omit<TaskType, 'id' | 'status'>> = object({
 const taskSchema: SchemaOf<TaskType> = object({

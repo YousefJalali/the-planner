@@ -1,5 +1,5 @@
 import { boolean, date, number, object, SchemaOf, string } from 'yup'
-import { ProjectType } from '../../types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 
 const projectSchema: SchemaOf<ProjectType> = object({
   id: string().defined(),

@@ -6,7 +6,7 @@ import { useNotification } from '../../contexts/NotificationCtx'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
 import useTask from '../../data/useTask'
-import { Status } from '../../types/TaskType'
+import { Status } from '@the-planner/types'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 const useUpdateTaskStatus = (callback?: (action?: any) => void) => {

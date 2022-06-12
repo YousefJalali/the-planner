@@ -8,7 +8,7 @@ import Fieldset from '../formElements/Fieldset'
 
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
-import { ProjectType } from '../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import ColorInput from '../formElements/ColorInput'
 import Button from '../formElements/Button'
 import Form from '../form/Form'
@@ -90,24 +90,24 @@ function ProjectForm<T>({
     >
       <Fieldset
         noBorder
-        supportiveText='select a color so it will be easy for you to organize your projects'
+        supportiveText="select a color so it will be easy for you to organize your projects"
       >
-        <x.div display='flex' spaceX={2}>
+        <x.div display="flex" spaceX={2}>
           {/* Title */}
           <Controller
-            name='title'
+            name="title"
             control={control}
             render={({ field: { value, onChange }, fieldState: { error } }) => {
               return (
                 <Fieldset
                   id={`${formName}-title`}
-                  label='Project title'
+                  label="Project title"
                   error={error}
                 >
                   <Input
                     id={`${formName}-title`}
-                    type='text'
-                    placeholder='i.e. speakers'
+                    type="text"
+                    placeholder="i.e. speakers"
                     value={value}
                     onChange={onChange}
                   />
@@ -117,17 +117,17 @@ function ProjectForm<T>({
           />
 
           <Controller
-            name='color'
+            name="color"
             control={control}
             render={({ field: { value, onChange }, fieldState: { error } }) => {
               return (
-                <x.div flex='1'>
+                <x.div flex="1">
                   <Fieldset
                     id={`${formName}-color`}
-                    label='color'
+                    label="color"
                     showLabel={false}
                     error={error}
-                    width='fit'
+                    width="fit"
                   >
                     <ColorInput value={value} onChange={onChange} />
                   </Fieldset>
@@ -139,49 +139,49 @@ function ProjectForm<T>({
       </Fieldset>
 
       <Controller
-        name='description'
+        name="description"
         control={control}
         render={({ field: { value, onChange }, fieldState: { error } }) => {
           return (
             <Fieldset
               id={`${formName}-description`}
-              label='description'
+              label="description"
               error={error}
               optionalField
             >
               <TextEditor
-                id='description'
+                id="description"
                 value={value}
                 onChange={onChange}
-                placeholder='A brief about the project...'
+                placeholder="A brief about the project..."
               />
             </Fieldset>
           )
         }}
       />
 
-      <x.div display='flex' spaceX={3}>
+      <x.div display="flex" spaceX={3}>
         {onDelete && (
           <Button
-            name='delete project'
-            type='button'
-            variant='outline'
-            color='critical'
-            size='large'
-            justifyContent='center'
-            w='30%'
+            name="delete project"
+            type="button"
+            variant="outline"
+            color="critical"
+            size="large"
+            justifyContent="center"
+            w="30%"
             onClick={onDelete}
           >
             Delete
           </Button>
         )}
         <Button
-          name='submit project'
-          type='submit'
+          name="submit project"
+          type="submit"
           isLoading={isSubmitting}
-          size='large'
-          justifyContent='center'
-          w='100%'
+          size="large"
+          justifyContent="center"
+          w="100%"
         >
           {id === 'edit' ? 'Update' : 'Create'}
         </Button>

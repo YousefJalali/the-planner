@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { TaskWithProjectType } from '../types/TaskType'
+import { TaskWithProjectType } from '@the-planner/types'
 import customFetch from '../utils/customFetch'
 import getErrorMessage from '../utils/getErrorMessage'
 import { dateTasksKey } from './keys'

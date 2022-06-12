@@ -1,10 +1,6 @@
-import {
-  Status,
-  TaskType,
-  TaskWithProjectType,
-} from '../../common/types/TaskType'
+import { Status, TaskType, TaskWithProjectType } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
-import { ProjectType } from '../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import _, { indexOf } from 'lodash'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'

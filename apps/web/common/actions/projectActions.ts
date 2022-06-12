@@ -1,5 +1,5 @@
 import { projectKey, projectsKey } from '../data/keys'
-import { ProjectType } from '../types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import customFetch from '../utils/customFetch'
 
 export const createProject = async (project: ProjectType) =>

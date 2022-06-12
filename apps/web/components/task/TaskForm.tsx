@@ -18,11 +18,7 @@ import Form from '../form/Form'
 import taskSchema from '../../common/utils/validations/taskSchema'
 import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
-import {
-  TaskType,
-  Status,
-  TaskWithProjectType,
-} from '../../common/types/TaskType'
+import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
 import addServerErrors from '../../common/utils/addServerErrors'
 import {
   addCurrentTime,

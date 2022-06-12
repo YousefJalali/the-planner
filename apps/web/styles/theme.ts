@@ -3,7 +3,7 @@ import {
   generateHexAlphaVariants,
 } from '@xstyled/styled-components'
 
-import { Status } from '../common/types/TaskType'
+import { Status } from '@the-planner/types'
 
 const colors = {
   ...generateHexAlphaVariants({

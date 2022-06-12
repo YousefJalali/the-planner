@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event'
 import { render } from '../../test-utils'
 import TaskItem from '../../components/task/TaskItem'
-import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '@the-planner/types'
 import TaskOptions from '../../components/task/TaskOptions'
 
 const defaultTask = {

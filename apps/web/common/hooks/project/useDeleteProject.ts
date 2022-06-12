@@ -5,7 +5,7 @@ import { deleteProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { usePrompt } from '../../contexts/PromptCtx'
 import { projectsKey } from '../../data/keys'
-import { ProjectType, ProjectWithTasksType } from '../../types/ProjectType'
+import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
 
 const useDeleteProject = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)

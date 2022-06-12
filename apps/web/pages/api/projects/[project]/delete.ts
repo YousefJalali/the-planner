@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../../common/lib/prisma'
 import _ from 'lodash'
-import { ProjectType } from '../../../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import {
   deleteImages,
   deleteWholeProject,

@@ -1,5 +1,5 @@
-import { TaskType, Status, ImageType } from '../../common/types/TaskType'
-import { ProjectType } from '../../common/types/ProjectType'
+import { TaskType, Status, ImageType } from '@the-planner/types'
+import { ProjectType } from '@the-planner/types'
 import faker from '@faker-js/faker'
 import _ from 'lodash'
 import ObjectID from 'bson-objectid'

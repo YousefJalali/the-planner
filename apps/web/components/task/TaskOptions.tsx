@@ -5,7 +5,7 @@ import { useModal } from '../../common/contexts/ModalCtx'
 import useDeleteTask from '../../common/hooks/task/useDeleteTask'
 import useEditTask from '../../common/hooks/task/useEditTask'
 import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
-import { TaskType, TaskWithProjectType } from '../../common/types/TaskType'
+import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import Button from '../formElements/Button'
 import StatusList from './StatusList'
 import TaskForm from './TaskForm'
@@ -28,8 +28,8 @@ const TaskOptions: FC<Props> = ({ task, inHeader }) => {
       fullScreen: true,
       content: (
         <TaskForm
-          id='edit'
-          title='Edit Task'
+          id="edit"
+          title="Edit Task"
           defaultValues={defValues || task}
           onSubmit={onSubmit}
           serverErrors={serverErrors}
@@ -89,11 +89,11 @@ const TaskOptions: FC<Props> = ({ task, inHeader }) => {
 
   return (
     <Button
-      data-testid='taskItem-kebab'
-      name='task options'
+      data-testid="taskItem-kebab"
+      name="task options"
       onClick={onOptions}
-      variant='outline'
-      borderRadius='full'
+      variant="outline"
+      borderRadius="full"
       mr={inHeader ? 4 : 0}
       borderColor={inHeader ? 'layout-level0accent' : 'transparent'}
       p={inHeader ? 1 : 0}

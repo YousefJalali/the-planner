@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import _, { uniqueId } from 'lodash'
 import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
-import { ImageType } from '../../common/types/TaskType'
+import { ImageType } from '@the-planner/types'
 import parseImage from '../../common/utils/parseImage'
 import Image from 'next/image'
 
@@ -39,10 +39,10 @@ function ImageInput({
 
   return (
     <x.div
-      display='flex'
-      position='relative'
-      overflowX='scroll'
-      minWidth='100%'
+      display="flex"
+      position="relative"
+      overflowX="scroll"
+      minWidth="100%"
       h={156}
       spaceX={3}
     >
@@ -50,32 +50,32 @@ function ImageInput({
         value.map((img: ImageType, i: number) => (
           <x.div
             key={img.id}
-            position='relative'
+            position="relative"
             borderRadius={2}
-            overflow='hidden'
-            h='100%'
+            overflow="hidden"
+            h="100%"
             flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
           >
             <Image
               src={img.path}
               alt={`preview-${i + 1}`}
-              layout='fill'
-              objectFit='cover'
+              layout="fill"
+              objectFit="cover"
             />
 
             <x.div
               onClick={() => onDeleteHandler(i)}
               data-testid={`delete-${i + 1}`}
-              position='absolute'
+              position="absolute"
               top={1}
               left={1}
               h={24}
               w={24}
-              borderRadius='full'
-              backgroundColor='layout-level3accent'
-              display='flex'
-              justifyContent='center'
-              alignItems='center'
+              borderRadius="full"
+              backgroundColor="layout-level3accent"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
             >
               <FiX height={16} width={16} />
             </x.div>
@@ -85,53 +85,53 @@ function ImageInput({
       {value.length >= max ? null : (
         <x.div
           w={value.length <= 0 ? '100%' : 'fit-content'}
-          h='100%'
-          display='flex'
-          alignItems='center'
-          justifyContent='center'
-          border='1px dashed'
-          borderColor='layout-divider'
+          h="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          border="1px dashed"
+          borderColor="layout-divider"
           borderRadius={2}
         >
           <x.input
             id={inputId}
-            type='file'
-            accept='.png, .jpg, .jpeg'
+            type="file"
+            accept=".png, .jpg, .jpeg"
             onChange={(e) => onChangeHandler(e)}
             multiple={multiple}
             w={0.1}
             h={0.1}
             opacity={0}
-            overflow='hidden'
-            position='absolute'
+            overflow="hidden"
+            position="absolute"
             zIndex={-1}
           />
 
           <x.label
             htmlFor={inputId}
             data-testid={inputId}
-            w='100%'
-            h='100%'
-            display='flex'
-            alignItems='center'
-            justifyContent='center'
+            w="100%"
+            h="100%"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
             p={3}
           >
-            <x.div display='flex' flexDirection='column' alignItems='center'>
-              <x.span fontSize='1.5rem'>
+            <x.div display="flex" flexDirection="column" alignItems="center">
+              <x.span fontSize="1.5rem">
                 <FiFileText />
               </x.span>
-              <x.div mt={2} display='flex' alignItems='center'>
+              <x.div mt={2} display="flex" alignItems="center">
                 <x.span
-                  color='content-subtle'
-                  textAlign='center'
-                  whiteSpace='nowrap'
+                  color="content-subtle"
+                  textAlign="center"
+                  whiteSpace="nowrap"
                 >
                   Drag your docs here, or{' '}
-                  <x.span color='brand-primary'>browse</x.span>
+                  <x.span color="brand-primary">browse</x.span>
                 </x.span>
               </x.div>
-              <x.span color='content-nonessential' whiteSpace='nowrap'>
+              <x.span color="content-nonessential" whiteSpace="nowrap">
                 Supports: JPG, JPEG, PNG
               </x.span>
             </x.div>

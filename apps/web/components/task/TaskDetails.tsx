@@ -6,7 +6,7 @@ import styled, { x } from '@xstyled/styled-components'
 import Zoom from 'react-medium-image-zoom'
 
 import 'react-medium-image-zoom/dist/styles.css'
-import { TaskWithProjectType } from '../../common/types/TaskType'
+import { TaskWithProjectType } from '@the-planner/types'
 import TextEditor from '../formElements/TextEditor'
 import ScrollableList from '../ScrollableList'
 import Tag from './Tag'
@@ -59,11 +59,11 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
     <>
       <x.section px={4} mt={4} spaceY={5} mb={5}>
         {/* project */}
-        <x.div display='flex' justifyContent='space-between'>
-          <x.div display='flex'>
+        <x.div display="flex" justifyContent="space-between">
+          <x.div display="flex">
             <x.div
               backgroundColor={project.color}
-              w='0.3rem'
+              w="0.3rem"
               mr={2}
               borderRadius={4}
             />
@@ -71,9 +71,9 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
               <Label>Project</Label>
 
               <x.h1
-                text='headline.three'
-                lineHeight='tight'
-                color='content-contrast'
+                text="headline.three"
+                lineHeight="tight"
+                color="content-contrast"
                 onClick={() => linkHandler(`/projects/${projectId}`)}
               >
                 {project.title}
@@ -82,14 +82,14 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
           </x.div>
           {onClose && (
             <Button
-              name='close'
-              variant='textOnly'
+              name="close"
+              variant="textOnly"
               onClick={onClose}
-              borderRadius='full'
-              flex='0 0 36px'
-              backgroundColor='layout-level0accent'
+              borderRadius="full"
+              flex="0 0 36px"
+              backgroundColor="layout-level0accent"
             >
-              <x.span fontSize='1rem' color='content-contrast'>
+              <x.span fontSize="1rem" color="content-contrast">
                 <FiX />
               </x.span>
             </Button>
@@ -101,17 +101,17 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
           <Label>Task</Label>
           <x.a onClick={() => linkHandler(`/tasks/${task.id}`)}>
             <x.h2
-              text='body.large'
-              color='content-contrast'
-              fontWeight='bold'
-              data-testid='taskDetails-title'
+              text="body.large"
+              color="content-contrast"
+              fontWeight="bold"
+              data-testid="taskDetails-title"
             >
               {title}
             </x.h2>
           </x.a>
 
           {description?.length > 0 && (
-            <x.div mt={2} maxHeight='200px' overflowY='scroll'>
+            <x.div mt={2} maxHeight="200px" overflowY="scroll">
               <TextEditor value={description} readOnly />
             </x.div>
           )}
@@ -123,14 +123,14 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
             <Label>Created On</Label>
 
             <x.div
-              display='flex'
-              justifyContent='space-between'
-              alignItems='center'
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              <x.div display='flex'>
-                <x.p color='content.subtle'>{formatDate(startDate)}</x.p>
+              <x.div display="flex">
+                <x.p color="content.subtle">{formatDate(startDate)}</x.p>
                 {startTime && (
-                  <x.p color='content.subtle' ml={2}>
+                  <x.p color="content.subtle" ml={2}>
                     {formatTime(startTime)}
                   </x.p>
                 )}
@@ -145,10 +145,10 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
             <x.div mt={2}>
               <Label>Due Date</Label>
 
-              <x.div display='flex'>
-                <x.p color='content.subtle'>{formatDate(endDate)}</x.p>
+              <x.div display="flex">
+                <x.p color="content.subtle">{formatDate(endDate)}</x.p>
                 {endTime && (
-                  <x.p color='content.subtle' ml={2}>
+                  <x.p color="content.subtle" ml={2}>
                     {formatTime(endTime)}
                   </x.p>
                 )}
@@ -168,7 +168,7 @@ const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
             {attachments.map((img) => (
               <ImageItem
                 key={img.id}
-                h='100%'
+                h="100%"
                 flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
               >
                 <Zoom>

@@ -1,9 +1,9 @@
-import { FC, useCallback, useMemo } from 'react'
+import { FC } from 'react'
 import styled, { x } from '@xstyled/styled-components'
 import format from 'date-fns/format'
 import { FiPaperclip, FiClock } from 'react-icons/fi'
 
-import { TaskWithProjectType, Status } from '../../common/types/TaskType'
+import { TaskWithProjectType, Status } from '@the-planner/types'
 import Checkbox from '../formElements/Checkbox'
 import TaskOptions from './TaskOptions'
 import { useModal } from '../../common/contexts/ModalCtx'
@@ -32,10 +32,10 @@ export const TaskTitle = ({
   isTaskCompleted: boolean
 }) => (
   <TaskTitleWrapper
-    text='body'
+    text="body"
     textDecoration={isTaskCompleted && 'line-through'}
     color={isTaskCompleted ? 'content-nonessential' : 'content-contrast'}
-    data-testid='taskItem-title'
+    data-testid="taskItem-title"
   >
     {children}
   </TaskTitleWrapper>
@@ -51,12 +51,12 @@ export const Details = ({
   children: string
   icon: JSX.Element
 }) => (
-  <x.span display='flex' alignItems='center' mt={2} {...props}>
+  <x.span display="flex" alignItems="center" mt={2} {...props}>
     <x.span
-      fontSize='sm'
-      lineHeight='none'
+      fontSize="sm"
+      lineHeight="none"
       color={isTaskCompleted ? 'content-nonessential' : 'content-subtle'}
-      display='flex'
+      display="flex"
     >
       {icon}
       <x.span ml={1}>{children}</x.span>
@@ -107,23 +107,23 @@ const TaskItem: FC<Props> = ({ task }) => {
 
   return (
     <x.div
-      data-testid='task-item'
-      display='flex'
-      justifyContent='space-between'
-      alignItems='center'
-      position='relative'
+      data-testid="task-item"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      position="relative"
       p={2}
-      backgroundColor='layout-level1'
+      backgroundColor="layout-level1"
       borderRadius={2}
     >
       <x.a
-        data-testid='taskItem-details'
+        data-testid="taskItem-details"
         onClick={onDetails}
-        display='flex'
-        flexDirection='column'
-        flex='0 0 calc(100% - 36px - 36px)'
+        display="flex"
+        flexDirection="column"
+        flex="0 0 calc(100% - 36px - 36px)"
         pr={1}
-        userSelect='none'
+        userSelect="none"
       >
         {/* Title text */}
         <TaskTitle isTaskCompleted={task.status === Status.COMPLETED}>
@@ -131,23 +131,25 @@ const TaskItem: FC<Props> = ({ task }) => {
         </TaskTitle>
 
         {/* time & attachments */}
-        <x.div display='flex' spaceX={3}>
+        <x.div display="flex" spaceX={3}>
           {time && (
             <Details
-              data-testid='taskItem-time'
+              data-testid="taskItem-time"
               isTaskCompleted={isTaskCompleted}
               icon={<FiClock />}
-              children={time}
-            />
+            >
+              {time}
+            </Details>
           )}
 
           {task.attachments.length > 0 && (
             <Details
-              data-testid='taskItem-attachment'
+              data-testid="taskItem-attachment"
               isTaskCompleted={isTaskCompleted}
               icon={<FiPaperclip />}
-              children={attachment}
-            />
+            >
+              {attachment}
+            </Details>
           )}
         </x.div>
       </x.a>

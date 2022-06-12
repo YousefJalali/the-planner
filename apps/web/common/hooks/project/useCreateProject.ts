@@ -12,7 +12,7 @@ import {
   ProjectType,
   ProjectWithTasksAndCount,
   ProjectWithTasksType,
-} from '../../types/ProjectType'
+} from '@the-planner/types'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 // const updateInfiniteProjects = (

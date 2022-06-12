@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '../../../../common/types/TaskType'
+import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 import { deleteImages } from '../../../../common/utils/cloudinary'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'

@@ -4,7 +4,7 @@ import { waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { ImageType } from '../../common/types/TaskType'
+import { ImageType } from '@the-planner/types'
 import { act } from 'react-dom/test-utils'
 
 function setup({

@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useModal } from '../common/contexts/ModalCtx'
 import useCreateTask from '../common/hooks/task/useCreateTask'
-import { TaskType } from '../common/types/TaskType'
+import { TaskType } from '@the-planner/types'
 import TaskForm from './task/TaskForm'
 
 const FloatingButton: FC = () => {
@@ -15,8 +15,8 @@ const FloatingButton: FC = () => {
       fullScreen: true,
       content: (
         <TaskForm
-          id='create'
-          title='New Task'
+          id="create"
+          title="New Task"
           defaultValues={defValues || defaultValues}
           onSubmit={onSubmit}
           serverErrors={serverErrors}
@@ -32,24 +32,24 @@ const FloatingButton: FC = () => {
 
   return (
     <x.button
-      aria-label='floating button'
-      name='create task button'
-      id='create-task-fb'
-      position='fixed'
-      bottom='24px'
-      right='24px'
+      aria-label="floating button"
+      name="create task button"
+      id="create-task-fb"
+      position="fixed"
+      bottom="24px"
+      right="24px"
       h={48}
       w={48}
-      borderRadius='full'
-      backgroundColor='brand-primary'
+      borderRadius="full"
+      backgroundColor="brand-primary"
       boxShadow={0}
       zIndex={800}
-      display='flex'
-      justifyContent='center'
-      alignItems='center'
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
       onClick={() => showForm()}
     >
-      <x.div color='layout-level0' fontSize='2rem'>
+      <x.div color="layout-level0" fontSize="2rem">
         <FiPlus />
       </x.div>
     </x.button>

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { ImageType } from '../types/TaskType'
+import { ImageType } from '@the-planner/types'
 
 const getPath = (file: File) =>
   new Promise<string>((resolve, reject) => {

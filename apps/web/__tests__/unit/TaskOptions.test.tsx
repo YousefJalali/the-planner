@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import { render, mockNextUseRouter } from '../../test-utils'
-import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '@the-planner/types'
 import TaskOptions from '../../components/task/TaskOptions'
 
 test('task options', () => {

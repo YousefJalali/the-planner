@@ -1,6 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { Status } from '../../common/types/TaskType'
+import { Status } from '@the-planner/types'
 import { statusAlias } from '../../common/utils/statusAlias'
 import RadioButton from '../formElements/RadioButton'
 
@@ -11,10 +11,10 @@ type Props = {
 
 const StatusList: FC<Props> = ({ status, onChange }) => {
   return (
-    <x.ul my={1} divideY divideColor='layout-level0accent'>
-      <x.li display='flex' alignItems='center'>
+    <x.ul my={1} divideY divideColor="layout-level0accent">
+      <x.li display="flex" alignItems="center">
         <RadioButton
-          name='status'
+          name="status"
           label={statusAlias(Status.PROPOSED)}
           value={Status.PROPOSED}
           id={Status.PROPOSED}
@@ -22,9 +22,9 @@ const StatusList: FC<Props> = ({ status, onChange }) => {
           onChange={() => onChange(Status.PROPOSED)}
         />
       </x.li>
-      <x.li display='flex' alignItems='center'>
+      <x.li display="flex" alignItems="center">
         <RadioButton
-          name='status'
+          name="status"
           label={statusAlias(Status.INPROGRESS)}
           value={Status.INPROGRESS}
           id={Status.INPROGRESS}
@@ -33,9 +33,9 @@ const StatusList: FC<Props> = ({ status, onChange }) => {
         />
       </x.li>
 
-      <x.li display='flex' alignItems='center'>
+      <x.li display="flex" alignItems="center">
         <RadioButton
-          name='status'
+          name="status"
           label={statusAlias(Status.COMPLETED)}
           value={Status.COMPLETED}
           id={Status.COMPLETED}

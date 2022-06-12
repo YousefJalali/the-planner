@@ -1,7 +1,7 @@
 import styled, { x, css } from '@xstyled/styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
-import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '@the-planner/types'
 import { statusAlias } from '../../common/utils/statusAlias'
 import Tag from './Tag'
 import TaskItem from './TaskItem'
@@ -87,13 +87,13 @@ const TasksLists: FC<Props> = ({
                     showDivider ? `tag-${status}-a10` : 'transparent'
                   }
                 >
-                  <Tag variant={status} count='0' textOnly={!showDivider} />
+                  <Tag variant={status} count="0" textOnly={!showDivider} />
 
                   <x.span
-                    display='block'
-                    textTransform='capitalize'
-                    color='content-subtle'
-                    text='body.small'
+                    display="block"
+                    textTransform="capitalize"
+                    color="content-subtle"
+                    text="body.small"
                   >
                     No {statusAlias(status)} tasks
                   </x.span>

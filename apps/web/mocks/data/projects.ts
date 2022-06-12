@@ -1,7 +1,7 @@
 import faker from '@faker-js/faker'
 import randomColor from 'randomcolor'
 import ObjectID from 'bson-objectid'
-import { ProjectType } from '../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 
 export const project: () => ProjectType = () => {
   return {

@@ -2,10 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
 import _ from 'lodash'
-import {
-  ProjectType,
-  ProjectWithTasksType,
-} from '../../../../common/types/ProjectType'
+import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
 import projectSchema from '../../../../common/utils/validations/projectSchema'
 
 const handler = async (

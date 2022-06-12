@@ -1,10 +1,6 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {
-  Status,
-  TaskType,
-  TaskWithProjectType,
-} from '../../../../common/types/TaskType'
+import { Status, TaskType, TaskWithProjectType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 

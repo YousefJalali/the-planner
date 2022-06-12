@@ -1,8 +1,5 @@
 import { FC } from 'react'
-import {
-  ProjectTasksCount,
-  ProjectWithTasksType,
-} from '../../common/types/ProjectType'
+import { ProjectTasksCount, ProjectWithTasksType } from '@the-planner/types'
 import { CircleProgress } from '../ProgressBar'
 import styled, { x } from '@xstyled/styled-components'
 import { Status } from '@prisma/client'
@@ -38,19 +35,19 @@ const ProjectCard: FC<Props> = ({ project, onClick }) => {
   return (
     <Card color={project.color} onClick={onClick}>
       <x.div
-        display='flex'
-        flexDirection='column'
-        justifyContent='space-between'
-        flex='0 0 calc(75% - 8px)'
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        flex="0 0 calc(75% - 8px)"
       >
-        <x.p color='content-contrast' fontSize='xl'>
+        <x.p color="content-contrast" fontSize="xl">
           {project.title}
         </x.p>
-        <x.p color='content-nonessential' fontSize='sm' mt={3}>
+        <x.p color="content-nonessential" fontSize="sm" mt={3}>
           {project._count.tasks} Tasks
         </x.p>
       </x.div>
-      <x.div flex='0 0 25%'>
+      <x.div flex="0 0 25%">
         <CircleProgress color={project.color} percentage={progress} />
       </x.div>
     </Card>

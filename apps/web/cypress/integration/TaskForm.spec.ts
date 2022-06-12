@@ -1,4 +1,4 @@
-import { Status } from '../../common/types/TaskType'
+import { Status } from '@the-planner/types'
 import { format } from 'date-fns'
 
 describe('Create task', () => {

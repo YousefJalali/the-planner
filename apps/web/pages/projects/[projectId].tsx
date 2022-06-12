@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 import Header from '../../components/layout/Header'
 import { LinearProgress } from '../../components/ProgressBar'
-import { Status, TaskWithProjectType } from '../../common/types/TaskType'
+import { Status, TaskWithProjectType } from '@the-planner/types'
 import useProject from '../../common/data/useProject'
 
 import ScrollableList from '../../components/ScrollableList'

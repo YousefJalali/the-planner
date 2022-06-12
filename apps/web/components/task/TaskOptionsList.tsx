@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiEdit3, FiPieChart, FiTrash2 } from 'react-icons/fi'
-import { Status } from '../../common/types/TaskType'
+import { Status } from '@the-planner/types'
 import Button from '../formElements/Button'
 import Tag from './Tag'
 
@@ -24,17 +24,17 @@ const Item = ({
   color?: string
 }) => (
   <x.li
-    display='flex'
-    alignItems='center'
+    display="flex"
+    alignItems="center"
     px={3}
     onClick={onClick}
     minHeight={56}
   >
-    <x.span color={color || 'content-contrast'} fontSize='1.25rem'>
+    <x.span color={color || 'content-contrast'} fontSize="1.25rem">
       {icon}
     </x.span>
     {typeof content === 'string' ? (
-      <x.span ml={2} lineHeight='tight' color={color || 'content-contrast'}>
+      <x.span ml={2} lineHeight="tight" color={color || 'content-contrast'}>
         {content}
       </x.span>
     ) : (
@@ -50,26 +50,26 @@ const TaskOptionsList: FC<Props> = ({
   status,
 }) => {
   return (
-    <x.ul my={1} divideY divideColor='layout-level0accent'>
+    <x.ul my={1} divideY divideColor="layout-level0accent">
       <Item
         icon={<FiPieChart />}
         content={
           <x.div
-            display='flex'
-            justifyContent='space-between'
-            alignItems='center'
-            w='100%'
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            w="100%"
           >
-            <x.div display='flex' alignItems='center'>
-              <x.span ml={2} mr={2} lineHeight='tight' color='content-contrast'>
+            <x.div display="flex" alignItems="center">
+              <x.span ml={2} mr={2} lineHeight="tight" color="content-contrast">
                 Status
               </x.span>
               <Tag variant={status} />
             </x.div>
 
             <Button
-              name='change task status'
-              variant='textOnly'
+              name="change task status"
+              variant="textOnly"
               ml={2}
               onClick={onStatusChange}
             >
@@ -79,13 +79,13 @@ const TaskOptionsList: FC<Props> = ({
         }
       />
 
-      <Item onClick={onEdit} icon={<FiEdit3 />} content='Edit task' />
+      <Item onClick={onEdit} icon={<FiEdit3 />} content="Edit task" />
 
       <Item
         onClick={onDelete}
         icon={<FiTrash2 />}
-        content='Delete task'
-        color='utility-critical'
+        content="Delete task"
+        color="utility-critical"
       />
     </x.ul>
   )

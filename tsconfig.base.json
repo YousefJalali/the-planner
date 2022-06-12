@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "@the-planner/ui-web": ["libs/ui-web/src/index.ts"]
+      "@the-planner/types": ["libs/types/src/index.ts"],
+      "@the-planner/ui-web": ["libs/ui-web/src/index.ts"],
+      "@the-planner/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

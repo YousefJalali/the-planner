@@ -1,8 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {
-  ProjectTasksCount,
-  ProjectType,
-} from '../../../common/types/ProjectType'
+import { ProjectTasksCount, ProjectType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'

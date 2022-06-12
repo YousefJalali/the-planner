@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '../../../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 
 const handler = async (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
-import { ProjectType } from '../../common/types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
 import _ from 'lodash'
 import { useModal } from '../../common/contexts/ModalCtx'

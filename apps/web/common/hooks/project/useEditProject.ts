@@ -5,7 +5,7 @@ import { UseFormSetError } from 'react-hook-form'
 import { editProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import useProject from '../../data/useProject'
-import { ProjectType } from '../../types/ProjectType'
+import { ProjectType } from '@the-planner/types'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 const useEditProject = (callback: (action?: any) => void) => {

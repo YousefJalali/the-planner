@@ -2,8 +2,8 @@ import {
   ProjectTasksCount,
   ProjectType,
   ProjectWithTasksType,
-} from '../../common/types/ProjectType'
-import { Status, TaskType } from '../../common/types/TaskType'
+} from '@the-planner/types'
+import { Status, TaskType } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
 import projectSchema from '../../common/utils/validations/projectSchema'
