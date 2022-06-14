@@ -1,7 +1,7 @@
 export * from './lib/scrollable-list/scrollable-list'
 export * from './lib/form/form'
 export * from './lib/form/form-header'
-export * from './lib/image-input/image-input'
+// export * from './lib/image-input/image-input'
 export * from './lib/date-picker/date-picker'
 export * from './lib/color-input/color-input'
 export * from './lib/fieldset/fieldset'
