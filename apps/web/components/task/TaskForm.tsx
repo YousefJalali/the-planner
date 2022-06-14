@@ -11,7 +11,7 @@ import {
   DateInput,
   TextEditor,
   ToggleButton,
-  // ImageInput,
+  ImageInput,
   Fieldset,
   Form,
 } from '@the-planner/ui-web'
@@ -404,7 +404,7 @@ function TaskForm({
           }}
         />
 
-        {/* <Controller
+        <Controller
           name="attachments"
           control={control}
           render={({ field: { value, onChange }, fieldState: { error } }) => {
@@ -427,7 +427,7 @@ function TaskForm({
               </Fieldset>
             )
           }}
-        /> */}
+        />
 
         <Button
           name="submit task"
