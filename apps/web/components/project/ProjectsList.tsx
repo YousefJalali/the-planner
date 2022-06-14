@@ -3,9 +3,8 @@ import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import useProjects from '../../common/data/useProjects'
 import { ProjectType } from '@the-planner/types'
-import Fieldset from '../formElements/Fieldset'
 import ProjectItem from '../project/ProjectItem'
-import { Spinner } from '@the-planner/ui-web'
+import { Spinner, Fieldset } from '@the-planner/ui-web'
 
 type Props = {
   onSelect: (project: ProjectType) => void

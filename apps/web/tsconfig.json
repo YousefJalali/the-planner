@@ -24,7 +24,8 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    "__tests__/cypress/tsconfig.json"
+    "__tests__/cypress/tsconfig.json",
+    "../../libs/ui-web/src/lib/button/button.tsx"
   ],
   "exclude": ["node_modules", "jest.config.ts"]
 }

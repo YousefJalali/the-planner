@@ -13,7 +13,7 @@ cloudinary.config({
   api_secret,
 })
 
-const uploadImage = async (path: string, folderName: string) =>
+export const uploadImage = async (path: string, folderName: string) =>
   new Promise<Image>((resolve, reject) => {
     console.log(folderName)
     cloudinary.uploader.upload(

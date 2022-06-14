@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import styled, { x } from '@xstyled/styled-components'
 import { PromptType } from '../../common/contexts/PromptCtx'
-import Button from '../formElements/Button'
+import { Button } from '@the-planner/ui-web'
 import { Backdrop } from './Modal'
 
 type Props = {
@@ -30,14 +30,14 @@ const Btn = ({
   color: 'critical' | 'information'
   onClick: () => void
 }) => (
-  <x.div flex={1} display='flex' alignItems='center' justifyContent='center'>
+  <x.div flex={1} display="flex" alignItems="center" justifyContent="center">
     <Button
       name={name}
-      variant='textOnly'
-      size='small'
+      variant="textOnly"
+      size="small"
       color={color}
       onClick={onClick}
-      w='100%'
+      w="100%"
     >
       {children}
     </Button>
@@ -59,61 +59,61 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
 
   return (
     <x.div
-      position='absolute'
+      position="absolute"
       top={0}
       left={0}
       zIndex={998}
-      h='100vh'
-      w='100vw'
+      h="100vh"
+      w="100vw"
     >
       <Backdrop id={prompt.id} />
 
       <Motion
         transition={{ type: 'spring', duration: 0.3 }}
-        initial='closed'
-        animate='open'
-        exit='closed'
+        initial="closed"
+        animate="open"
+        exit="closed"
         variants={variants}
         data-testid={prompt.id}
       >
         <x.div
-          backgroundColor='layout-level0'
+          backgroundColor="layout-level0"
           borderRadius={2}
-          boxShadow='#00000035 0px 5px 15px'
+          boxShadow="#00000035 0px 5px 15px"
         >
           <x.div
-            display='flex'
-            flexDirection='column'
-            justifyContent='center'
-            alignItems='center'
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
             p={3}
           >
             <x.span
               textTransform={{ firstLetter: 'uppercase' }}
-              color='content-contrast'
+              color="content-contrast"
               mb={2}
             >
               {prompt.title}
             </x.span>
             <x.span
-              text='body.small'
+              text="body.small"
               textTransform={{ firstLetter: 'uppercase' }}
-              color='content-subtle'
-              textAlign='center'
+              color="content-subtle"
+              textAlign="center"
             >
               {prompt.message}
             </x.span>
           </x.div>
 
-          <x.hr h='1px' w='100%' backgroundColor='layout-level2accent' />
+          <x.hr h="1px" w="100%" backgroundColor="layout-level2accent" />
 
-          <x.div display='flex' divideX divideColor='layout-level2accent'>
-            <Btn name='clear' color='information' onClick={clearPrompt}>
+          <x.div display="flex" divideX divideColor="layout-level2accent">
+            <Btn name="clear" color="information" onClick={clearPrompt}>
               Cancel
             </Btn>
             <Btn
-              name='action'
-              color='critical'
+              name="action"
+              color="critical"
               onClick={() => {
                 prompt.actionFn()
                 clearPrompt()

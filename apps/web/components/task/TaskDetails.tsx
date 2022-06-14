@@ -7,12 +7,9 @@ import Zoom from 'react-medium-image-zoom'
 
 import 'react-medium-image-zoom/dist/styles.css'
 import { TaskWithProjectType } from '@the-planner/types'
-import TextEditor from '../formElements/TextEditor'
-import ScrollableList from '../ScrollableList'
 import Tag from './Tag'
-import { Label } from '../formElements/Fieldset'
-import Button from '../formElements/Button'
-import { formatDate, formatTime } from '../../common/utils/dateHelpers'
+import { Button, TextEditor, Label, ScrollableList } from '@the-planner/ui-web'
+import { formatDate, formatTime } from '@the-planner/utils'
 
 type Props = {
   task: TaskWithProjectType

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { ProjectType } from '@the-planner/types'
 import _, { indexOf } from 'lodash'
 import taskSchema from '../../common/utils/validations/taskSchema'
-import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
+import { apiYupValidation } from '@the-planner/hooks'
 
 import { FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'
@@ -128,7 +128,7 @@ export const editTaskController = (
 
   let populatedUpdatedTask = null
 
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.id === updatedTask.id) {
       const index = indexOf(tasks, task)
       if (index > -1) {
@@ -172,10 +172,8 @@ export const changeTaskStatusController = (
     return res(ctx.json({ error: 'Invalid request' }))
   }
 
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.id === taskId) {
-      const oldStatus = task.status
-
       const index = indexOf(tasks, task)
       if (index > -1) {
         tasks[index].status = status
@@ -201,7 +199,7 @@ export const deleteTaskController = (
     return res(ctx.status(404), ctx.json({ error: 'no task found!' }))
   }
 
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.id === taskId) {
       const index = indexOf(tasks, task)
       if (index > -1) {

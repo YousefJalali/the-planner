@@ -6,16 +6,12 @@ import { prisma } from '../common/lib/prisma'
 import Header from '../components/layout/Header'
 import Emoji from '../components/Emoji'
 import ProjectsCardsList from '../components/project/ProjectsCardsList'
-import SwitchButton from '../components/formElements/SwitchButton'
+import { ToggleButton } from '@the-planner/ui-web'
 
 import FloatingButton from '../components/FloatingButton'
 import DateTasks from '../components/task/DateTasks'
 import Logo from '../styles/illustrations/Logo'
-import SearchInput from '../components/formElements/SearchInput'
-import { addCurrentTime, UTCDate } from '../common/utils/dateHelpers'
-import { useEffect } from 'react'
-
-import { Button } from '@the-planner/ui-web'
+import SearchInput from '../components/SearchInput'
 
 type Props = {
   // projects: ProjectType[]
@@ -25,18 +21,6 @@ type Props = {
 const Home: NextPage<Props> = (props) => {
   // console.log(props)
   const [colorMode, setColorMode] = useColorMode()
-
-  const fetchTest = async () => {
-    const res = await fetch('http://localhost:3333/test')
-    const data = await res.json()
-    console.log(data)
-
-    return data
-  }
-
-  useEffect(() => {
-    fetchTest()
-  }, [])
 
   console.log('%cindex rendered', 'color:green')
   // console.log(props.tasks)
@@ -54,7 +38,7 @@ const Home: NextPage<Props> = (props) => {
           spaceX={1}
           mr="calc(24px - 0.5rem)"
         >
-          <SwitchButton
+          <ToggleButton
             id="color-mode"
             height={24}
             checked={colorMode === 'dark'}
@@ -67,8 +51,6 @@ const Home: NextPage<Props> = (props) => {
           <SearchInput />
         </x.div>
       </Header>
-
-      <Button />
 
       <x.section px={4} mt={4}>
         <x.p text="headline.three" color="content-contrast" fontWeight="light">

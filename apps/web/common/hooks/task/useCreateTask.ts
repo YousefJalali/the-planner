@@ -7,7 +7,7 @@ import { URL_DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
-import getErrorMessage from '../../utils/getErrorMessage'
+import { getErrorMessage } from '@the-planner/utils'
 import ObjectID from 'bson-objectid'
 import _ from 'lodash'
 

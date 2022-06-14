@@ -52,7 +52,7 @@ export const tasks = multipleTasks(initialProjects)
 export const projects: ProjectType[] = [...initialProjects].map((project) => {
   const addTasks = []
 
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.projectId === project.id) {
       if (task.status === Status.COMPLETED) {
         addTasks.push(task.status)
@@ -81,7 +81,7 @@ export const populateTask = (task: TaskType) => {
 
 export const countTasksInProject = (project: ProjectType) => {
   let count = 0
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.projectId === project.id) {
       count++
     }

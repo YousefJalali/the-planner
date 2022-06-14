@@ -1,8 +1,7 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
 import { ProjectWithTasksType } from '@the-planner/types'
-import customFetch from '../utils/customFetch'
-import getErrorMessage from '../utils/getErrorMessage'
+import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { projectsKey } from './keys'
 
 type ProjectWithTasksCount = ProjectWithTasksType & {

@@ -1,12 +1,11 @@
 import _ from 'lodash'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { UseFormSetError } from 'react-hook-form'
 import { editProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import useProject from '../../data/useProject'
 import { ProjectType } from '@the-planner/types'
-import getErrorMessage from '../../utils/getErrorMessage'
+import { getErrorMessage } from '@the-planner/utils'
 
 const useEditProject = (callback: (action?: any) => void) => {
   const { setNotification } = useNotification()

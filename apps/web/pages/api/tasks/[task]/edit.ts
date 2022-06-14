@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
-import { apiYupValidation } from '../../../../common/hooks/useYupValidationResolver'
+import { apiYupValidation } from '@the-planner/hooks'
 import taskSchema from '../../../../common/utils/validations/taskSchema'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
-import { compareAttachments } from '../../../../common/utils/compareAttachments'
+import { compareAttachments } from '@the-planner/utils'
+
 import { deleteImages, uploadImages } from '../../../../common/utils/cloudinary'
 
 const handler = async (

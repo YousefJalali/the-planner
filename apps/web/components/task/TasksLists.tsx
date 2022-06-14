@@ -2,7 +2,7 @@ import styled, { x, css } from '@xstyled/styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FC } from 'react'
 import { Status, TaskWithProjectType } from '@the-planner/types'
-import { statusAlias } from '../../common/utils/statusAlias'
+import { statusAlias } from '@the-planner/utils'
 import Tag from './Tag'
 import TaskItem from './TaskItem'
 

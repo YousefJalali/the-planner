@@ -4,13 +4,12 @@ import { x } from '@xstyled/styled-components'
 import ProjectCard from './ProjectCard'
 
 import NewProjectCard from './NewProjectCard'
-import ScrollableList from '../ScrollableList'
 import ProjectCardSkeleton from '../skeletons/ProjectCardSkeleton'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
 import useRecentProjects from '../../common/data/useRecentProjects'
-import Button from '../formElements/Button'
+import { Button, ScrollableList } from '@the-planner/ui-web'
 
 type Props = {
   error: string | null
@@ -39,20 +38,20 @@ const ProjectsCardsList: FC = () => {
   return (
     <x.section mt={6}>
       <x.div
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
         pl={4}
-        pr='calc(24px - 0.5rem)'
+        pr="calc(24px - 0.5rem)"
       >
-        <x.h1 text='headline.two' mb={3}>
+        <x.h1 text="headline.two" mb={3}>
           Projects
         </x.h1>
         {projects && projects.length > 0 && (
           <Button
-            name='see all projects'
-            variant='textOnly'
-            color='information'
+            name="see all projects"
+            variant="textOnly"
+            color="information"
             onClick={() => router.push('/projects')}
             spaceX={2}
           >
@@ -79,7 +78,7 @@ const ProjectsCardsList: FC = () => {
       ) : (
         <ScrollableList spaceX={4}>
           {projects.map((project) => (
-            <x.li key={project.id} flex='0 0 calc(100% - 1.5rem)'>
+            <x.li key={project.id} flex="0 0 calc(100% - 1.5rem)">
               <div />
               <ProjectCard
                 project={project}

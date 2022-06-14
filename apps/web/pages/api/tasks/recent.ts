@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
-import { addCurrentTime, UTCDate } from '../../../common/utils/dateHelpers'
+import { addCurrentTime, UTCDate } from '@the-planner/utils'
 import sub from 'date-fns/sub'
 
 const handler = async (

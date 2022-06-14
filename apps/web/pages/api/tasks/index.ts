@@ -3,7 +3,7 @@ import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { isValid, parse } from 'date-fns'
 import { URL_DATE_FORMAT } from '../../../common/constants'
-import { addCurrentTime, UTCDate } from '../../../common/utils/dateHelpers'
+import { addCurrentTime, UTCDate } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,

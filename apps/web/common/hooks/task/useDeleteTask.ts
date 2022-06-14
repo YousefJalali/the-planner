@@ -7,7 +7,7 @@ import { usePrompt } from '../../contexts/PromptCtx'
 import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
 import useTask from '../../data/useTask'
-import getErrorMessage from '../../utils/getErrorMessage'
+import { getErrorMessage } from '@the-planner/utils'
 
 const useDeleteTask = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)

@@ -4,10 +4,8 @@ import { x } from '@xstyled/styled-components'
 import _ from 'lodash'
 import { format, parse, getDaysInMonth, setDate, isToday } from 'date-fns'
 
-import DatePicker from './formElements/DatePicker'
-import ScrollableList from './ScrollableList'
-import useWindowSize from '../common/hooks/useWindowSize'
-import Button from './formElements/Button'
+import { useWindowSize } from '@the-planner/hooks'
+import { Button, ScrollableList, DateInput } from '@the-planner/ui-web'
 import { URL_DATE_FORMAT } from '../common/constants'
 
 type Props = {
@@ -29,10 +27,10 @@ const DayItem = ({
   return (
     <x.li
       onClick={() => onClick(day)}
-      display='flex'
-      flexDirection='column'
-      alignItems='center'
-      minWidth='3rem'
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      minWidth="3rem"
       borderRadius={2}
       backgroundColor={
         active
@@ -41,21 +39,21 @@ const DayItem = ({
           ? 'brand-primary-a10'
           : 'transparent'
       }
-      border='1px solid'
-      borderColor='brand-primary-a10'
+      border="1px solid"
+      borderColor="brand-primary-a10"
       p={2}
-      cursor='pointer'
+      cursor="pointer"
       data-active={active ? true : null}
-      userSelect='none'
+      userSelect="none"
     >
       <x.span
-        fontWeight='bold'
+        fontWeight="bold"
         color={active ? 'layout-level0' : 'content-contrast'}
         mb={2}
       >
         {day}
       </x.span>
-      <x.span color={active ? 'layout-level0' : 'content-subtle'} fontSize='xs'>
+      <x.span color={active ? 'layout-level0' : 'content-subtle'} fontSize="xs">
         {format(setDate(new Date(date), day), 'EE')}
       </x.span>
     </x.li>
@@ -149,37 +147,37 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
         mx={4}
         mb={3}
         p={1}
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
         borderRadius={2}
-        border='1px solid'
-        borderColor='brand-primary-a10'
+        border="1px solid"
+        borderColor="brand-primary-a10"
       >
         <Button
-          name='previous month'
-          backgroundColor='brand-primary-a10'
+          name="previous month"
+          backgroundColor="brand-primary-a10"
           onClick={() => onMonthArrowClick('previous')}
         >
-          <x.span fontSize='1.5rem' color='content-subtle'>
+          <x.span fontSize="1.5rem" color="content-subtle">
             <FiChevronLeft />
           </x.span>
         </Button>
 
-        <DatePicker
+        <DateInput
           selected={parsedDate}
           onChange={onChangeMonthHandler}
-          dateFormat='MMMM - yyyy'
+          dateFormat="MMMM - yyyy"
           showMonthYearPicker
           showFourColumnMonthYearPicker
-          popperPlacement='bottom'
+          popperPlacement="bottom"
           customInput={
             <div>
-              <Button name='current month' variant='textOnly' w='100%'>
+              <Button name="current month" variant="textOnly" w="100%">
                 <x.span
-                  textAlign='center'
-                  color='content-contrast'
-                  fontWeight='bold'
+                  textAlign="center"
+                  color="content-contrast"
+                  fontWeight="bold"
                 >
                   {format(parsedDate, 'MMMM yyyy')}
                 </x.span>
@@ -188,11 +186,11 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
           }
         />
         <Button
-          name='next month'
-          backgroundColor='brand-primary-a10'
+          name="next month"
+          backgroundColor="brand-primary-a10"
           onClick={() => onMonthArrowClick('next')}
         >
-          <x.span fontSize='1.5rem' color='content-subtle'>
+          <x.span fontSize="1.5rem" color="content-subtle">
             <FiChevronRight />
           </x.span>
         </Button>
@@ -200,7 +198,7 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
 
       <ScrollableList
         ref={listRef}
-        aria-labelledby='days'
+        aria-labelledby="days"
         mt={2}
         spaceX={2}
         data-date={parsedDate.toDateString()}

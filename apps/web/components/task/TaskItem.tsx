@@ -4,7 +4,7 @@ import format from 'date-fns/format'
 import { FiPaperclip, FiClock } from 'react-icons/fi'
 
 import { TaskWithProjectType, Status } from '@the-planner/types'
-import Checkbox from '../formElements/Checkbox'
+import { Checkbox } from '@the-planner/ui-web'
 import TaskOptions from './TaskOptions'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'

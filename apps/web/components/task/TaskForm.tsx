@@ -5,26 +5,28 @@ import _ from 'lodash'
 import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
 
-import Input from '../formElements/Input'
-import DatePicker from '../formElements/DatePicker'
-import SelectProject from '../project/SelectProject'
-import TextEditor from '../formElements/TextEditor'
-import SwitchButton from '../formElements/SwitchButton'
-import ImageInput from '../formElements/ImageInput'
-import Fieldset from '../formElements/Fieldset'
-import Button from '../formElements/Button'
-import Form from '../form/Form'
+import {
+  Button,
+  Input,
+  DateInput,
+  TextEditor,
+  ToggleButton,
+  ImageInput,
+  Fieldset,
+  Form,
+} from '@the-planner/ui-web'
 
 import taskSchema from '../../common/utils/validations/taskSchema'
-import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
 
 import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
-import addServerErrors from '../../common/utils/addServerErrors'
+import { useYupValidationResolver } from '@the-planner/hooks'
 import {
   addCurrentTime,
   dateFormatPattern,
-} from '../../common/utils/dateHelpers'
+  addServerErrors,
+} from '@the-planner/utils'
 import { Task } from '@prisma/client'
+import SelectProject from '../project/SelectProject'
 
 type Props = {
   id: 'create' | 'edit'
@@ -213,7 +215,7 @@ function TaskForm({
                   control={control}
                   render={({ field: { value, onChange } }) => {
                     return (
-                      <SwitchButton
+                      <ToggleButton
                         id={`${formName}-openTask`}
                         height={24}
                         checked={value}
@@ -245,7 +247,7 @@ function TaskForm({
                         noErrorMessage
                         label="from"
                       >
-                        <DatePicker
+                        <DateInput
                           id={`${formName}-startDate`}
                           dataTestId="task-form-start-date"
                           selectsStart
@@ -279,7 +281,7 @@ function TaskForm({
                         noErrorMessage
                         disabled={watch('openTask')}
                       >
-                        <DatePicker
+                        <DateInput
                           id={`${formName}-startTime`}
                           dataTestId="task-form-start-time"
                           selected={value}
@@ -319,7 +321,7 @@ function TaskForm({
                         noErrorMessage
                         optionalField
                       >
-                        <DatePicker
+                        <DateInput
                           id={`${formName}-endDate`}
                           dataTestId="task-form-end-date"
                           selectsEnd
@@ -357,7 +359,7 @@ function TaskForm({
                         error={error}
                         noErrorMessage
                       >
-                        <DatePicker
+                        <DateInput
                           id={`${formName}-endTime`}
                           dataTestId="task-form-end-time"
                           selected={value}

@@ -5,7 +5,7 @@ import {
 } from '@the-planner/types'
 import { Status, TaskType } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
-import { apiYupValidation } from '../../common/hooks/useYupValidationResolver'
+import { apiYupValidation } from '@the-planner/hooks'
 import projectSchema from '../../common/utils/validations/projectSchema'
 import _, { indexOf } from 'lodash'
 import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
@@ -76,7 +76,7 @@ export const getProjectById = (
   }
 
   const tasksInProject = []
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.projectId === id) {
       tasksInProject.push(task)
     }
@@ -116,7 +116,7 @@ export const getProjectStats = (
   let inprogress = 0
   let completed = 0
 
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.projectId === id) {
       if (task.status === Status.PROPOSED) proposed++
       if (task.status === Status.INPROGRESS) inprogress++
@@ -185,7 +185,7 @@ export const editProjectController = async (
     return res(ctx.json({ validationErrors: validate.errors }))
   }
 
-  for (let project of projects) {
+  for (const project of projects) {
     if (project.id === updatedProject.id) {
       const index = indexOf(projects, project)
       if (index > -1) {
@@ -214,7 +214,7 @@ export const deleteProjectController = (
   }
 
   // delete all tasks related to project
-  for (let task of tasks) {
+  for (const task of tasks) {
     if (task.projectId === projectId) {
       console.log(task)
       const index = indexOf(tasks, task)
@@ -225,7 +225,7 @@ export const deleteProjectController = (
   }
 
   //delete project from projects
-  for (let project of projects) {
+  for (const project of projects) {
     if (project.id === projectId) {
       const index = indexOf(projects, project)
       if (index > -1) {

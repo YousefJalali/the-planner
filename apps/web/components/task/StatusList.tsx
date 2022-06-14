@@ -1,8 +1,8 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { Status } from '@the-planner/types'
-import { statusAlias } from '../../common/utils/statusAlias'
-import RadioButton from '../formElements/RadioButton'
+import { statusAlias } from '@the-planner/utils'
+import { RadioButton } from '@the-planner/ui-web'
 
 type Props = {
   status: Status

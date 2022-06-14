@@ -2,19 +2,22 @@ import { x } from '@xstyled/styled-components'
 import { useForm, Controller } from 'react-hook-form'
 import ObjectID from 'bson-objectid'
 
-import Input from '../formElements/Input'
-import TextEditor from '../formElements/TextEditor'
-import Fieldset from '../formElements/Fieldset'
-
-import useYupValidationResolver from '../../common/hooks/useYupValidationResolver'
-
 import { ProjectType } from '@the-planner/types'
-import ColorInput from '../formElements/ColorInput'
-import Button from '../formElements/Button'
-import Form from '../form/Form'
+
+import {
+  Form,
+  Button,
+  TextEditor,
+  ColorInput,
+  Input,
+  Fieldset,
+} from '@the-planner/ui-web'
+
 import projectSchema from '../../common/utils/validations/projectSchema'
 import { useEffect } from 'react'
-import addServerErrors from '../../common/utils/addServerErrors'
+
+import { addServerErrors } from '@the-planner/utils'
+import { useYupValidationResolver } from '@the-planner/hooks'
 
 type Props<T> = {
   id: 'edit' | 'create'

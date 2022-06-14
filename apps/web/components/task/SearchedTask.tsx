@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FiCalendar } from 'react-icons/fi'
 import { Status, TaskWithProjectType } from '@the-planner/types'
-import { formatDate } from '../../common/utils/dateHelpers'
+import { formatDate } from '@the-planner/utils'
 import Tag from './Tag'
 import { Details, TaskTitle } from './TaskItem'
 

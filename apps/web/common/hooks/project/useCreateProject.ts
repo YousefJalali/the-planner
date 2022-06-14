@@ -1,19 +1,13 @@
 import ObjectID from 'bson-objectid'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { UseFormSetError } from 'react-hook-form'
 
 import { createProject } from '../../actions/projectActions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import useInfiniteProjects, { LIMIT } from '../../data/useInfiniteProjects'
+import useInfiniteProjects from '../../data/useInfiniteProjects'
 import useProjects from '../../data/useProjects'
-import {
-  ProjectTasksCount,
-  ProjectType,
-  ProjectWithTasksAndCount,
-  ProjectWithTasksType,
-} from '@the-planner/types'
-import getErrorMessage from '../../utils/getErrorMessage'
+import { ProjectType, ProjectWithTasksAndCount } from '@the-planner/types'
+import { getErrorMessage } from '@the-planner/utils'
 
 // const updateInfiniteProjects = (
 //   newProject: ProjectType | ProjectWithTasksAndCount,

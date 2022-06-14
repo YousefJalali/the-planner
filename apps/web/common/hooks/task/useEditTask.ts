@@ -6,7 +6,7 @@ import useDateTasks from '../../data/useDateTasks'
 import useProject from '../../data/useProject'
 import useTask from '../../data/useTask'
 import { TaskType } from '@the-planner/types'
-import getErrorMessage from '../../utils/getErrorMessage'
+import { getErrorMessage } from '@the-planner/utils'
 
 const useEditTask = (
   showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,

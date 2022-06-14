@@ -1,6 +1,6 @@
 import { projectKey, projectsKey } from '../data/keys'
 import { ProjectType } from '@the-planner/types'
-import customFetch from '../utils/customFetch'
+import { customFetch } from '@the-planner/utils'
 
 export const createProject = async (project: ProjectType) =>
   await customFetch(`${projectsKey()}/create`, 'POST', project)

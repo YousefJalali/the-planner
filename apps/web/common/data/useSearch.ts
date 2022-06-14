@@ -1,8 +1,7 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
 import { TaskWithProjectType } from '@the-planner/types'
-import customFetch from '../utils/customFetch'
-import getErrorMessage from '../utils/getErrorMessage'
+import { customFetch, getErrorMessage } from '@the-planner/utils'
 
 const useSearch = (query: string | null) => {
   const res = useSWR(query ? `/api/search?q=${query}` : null, customFetch, {

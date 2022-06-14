@@ -1,6 +1,6 @@
 import { taskKey, tasksKey } from '../data/keys'
 import { Status, TaskType } from '@the-planner/types'
-import customFetch from '../utils/customFetch'
+import { customFetch } from '@the-planner/utils'
 
 export const createTask = async (task: TaskType) =>
   await customFetch(`${tasksKey()}/create`, 'POST', task)

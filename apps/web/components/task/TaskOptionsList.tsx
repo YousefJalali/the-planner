@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiEdit3, FiPieChart, FiTrash2 } from 'react-icons/fi'
 import { Status } from '@the-planner/types'
-import Button from '../formElements/Button'
+import { Button } from '@the-planner/ui-web'
 import Tag from './Tag'
 
 type Props = {

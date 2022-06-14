@@ -8,13 +8,15 @@ import { LinearProgress } from '../../components/ProgressBar'
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import useProject from '../../common/data/useProject'
 
-import ScrollableList from '../../components/ScrollableList'
 import TasksLists from '../../components/task/TasksLists'
 import FloatingButton from '../../components/FloatingButton'
-import TextEditor from '../../components/formElements/TextEditor'
 import { useModal } from '../../common/contexts/ModalCtx'
-import Button from '../../components/formElements/Button'
-import { Spinner } from '@the-planner/ui-web'
+import {
+  Spinner,
+  Button,
+  ScrollableList,
+  TextEditor,
+} from '@the-planner/ui-web'
 import ErrorMessage from '../../components/ErrorMessage'
 import useEditProject from '../../common/hooks/project/useEditProject'
 import useDeleteProject from '../../common/hooks/project/useDeleteProject'

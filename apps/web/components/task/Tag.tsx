@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { Status } from '@the-planner/types'
-import { statusAlias } from '../../common/utils/statusAlias'
+import { statusAlias } from '@the-planner/utils'
 
 type Props = {
   variant: Status

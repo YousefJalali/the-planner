@@ -1,9 +1,9 @@
 import { x } from '@xstyled/styled-components'
-import { useEffect, useState } from 'react'
-import useCopyToClipboard from '../common/hooks/useCopyToClipboard'
+import { FC, useEffect, useState } from 'react'
+import { useCopyToClipboard } from '@the-planner/hooks'
 import { projects, tasks } from '../mocks/handlers'
 
-const sample = () => {
+const Sample: FC = () => {
   const [value, copy] = useCopyToClipboard()
   const [loading, setLoading] = useState(false)
 
@@ -39,4 +39,4 @@ const sample = () => {
   )
 }
 
-export default sample
+export default Sample

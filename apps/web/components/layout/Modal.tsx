@@ -2,15 +2,13 @@ import { DragEventHandler, FC, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, Variants, PanInfo } from 'framer-motion'
 import { useModal } from '../../common/contexts/ModalCtx'
-import useWindowSize from '../../common/hooks/useWindowSize'
+import { useWindowSize } from '@the-planner/hooks'
 import styled, { x } from '@xstyled/styled-components'
 import {
   disableBodyScroll,
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from 'body-scroll-lock'
-
-type Props = {}
 
 const Motion = styled(motion(x.div))`
   overflow-x: hidden;
@@ -41,19 +39,19 @@ export const Backdrop = ({
   return (
     <motion.div
       transition={{ duration: 0.3 }}
-      initial='closed'
-      animate='open'
-      exit='closed'
+      initial="closed"
+      animate="open"
+      exit="closed"
       variants={backdropVariants}
     >
       <x.div
         id={`${id}-backdrop`}
-        position='absolute'
+        position="absolute"
         top={0}
         left={0}
-        h='100vh'
-        w='100vw'
-        backgroundColor='rgba(0, 0, 0, 0.5)'
+        h="100vh"
+        w="100vw"
+        backgroundColor="rgba(0, 0, 0, 0.5)"
         onClick={onClick}
       />
     </motion.div>
@@ -120,7 +118,7 @@ const ContentWrapper = ({
 
   return height ? (
     <x.div
-      position='absolute'
+      position="absolute"
       top={0}
       left={0}
       zIndex={998}
@@ -131,9 +129,9 @@ const ContentWrapper = ({
 
       <Motion
         transition={{ type: 'tween', duration: 0.3 }}
-        initial='closed'
-        animate='open'
-        exit='closed'
+        initial="closed"
+        animate="open"
+        exit="closed"
         variants={variants}
         // drag='y'
         // dragConstraints={{ bottom: 0, top: 0 }}
@@ -152,7 +150,7 @@ const ContentWrapper = ({
   ) : null
 }
 
-const Modal: FC<Props> = () => {
+const Modal: FC = () => {
   const { modals, clearModal } = useModal()
 
   if (typeof window === 'undefined') return null

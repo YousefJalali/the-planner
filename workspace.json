@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "hooks": "libs/hooks",
     "types": "libs/types",
     "ui-web": "libs/ui-web",
     "utils": "libs/utils",

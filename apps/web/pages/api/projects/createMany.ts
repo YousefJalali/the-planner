@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { ProjectType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
-import { apiYupValidation } from '../../../common/hooks/useYupValidationResolver'
+import { apiYupValidation } from '@the-planner/hooks'
 import projectSchema from '../../../common/utils/validations/projectSchema'
 import _ from 'lodash'
 
