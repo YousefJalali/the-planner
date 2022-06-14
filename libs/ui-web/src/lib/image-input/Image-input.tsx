@@ -14,13 +14,13 @@ type Props = {
   id?: string
 }
 
-export function ImageInput({
+export const ImageInput = ({
   value,
   onChange,
   max,
   multiple,
   id = _.uniqueId(),
-}: Props) {
+}: Props) => {
   const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
