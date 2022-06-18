@@ -3,7 +3,7 @@ import { x } from '@xstyled/styled-components'
 import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
 import { ImageType } from '@the-planner/types'
-// import { parseImage } from '@the-planner/utils'
+import { parseImage } from '@the-planner/utils'
 
 type Props = {
   value: ImageType[]
@@ -17,11 +17,11 @@ export const ImageInput = ({ value, onChange, max, multiple, id }: Props) => {
   const changeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
-    // const images = await parseImage(e.target.files)
+    const images = await parseImage(e.target.files)
 
-    // if (images) {
-    //   onChange([...value, ...images])
-    // }
+    if (images) {
+      onChange([...value, ...images])
+    }
   }
 
   const deleteHandler = (index: number) => {
