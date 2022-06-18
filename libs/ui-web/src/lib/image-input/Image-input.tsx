@@ -1,27 +1,20 @@
+import Image from 'next/image'
 import { x } from '@xstyled/styled-components'
-import * as _ from 'lodash'
 import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
 import { ImageType } from '@the-planner/types'
 import { parseImage } from '@the-planner/utils'
-// import Image from 'next/image'
 
 type Props = {
   value: ImageType[]
   onChange: (e: ChangeEvent<HTMLInputElement> | ImageType[]) => void
   max: number
+  id: string
   multiple?: boolean
-  id?: string
 }
 
-export const ImageInput = ({
-  value,
-  onChange,
-  max,
-  multiple,
-  id = _.uniqueId(),
-}: Props) => {
-  const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+export const ImageInput = ({ value, onChange, max, multiple, id }: Props) => {
+  const changeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
     const images = await parseImage(e.target.files)
@@ -31,8 +24,8 @@ export const ImageInput = ({
     }
   }
 
-  const onDeleteHandler = (index: number) => {
-    onChange(value.filter((img: ImageType, i: number) => i !== index))
+  const deleteHandler = (index: number) => {
+    onChange(value.filter((_, i: number) => i !== index))
   }
 
   const inputId = id
@@ -56,15 +49,15 @@ export const ImageInput = ({
             h="100%"
             flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
           >
-            <img
+            <Image
               src={img.path}
               alt={`preview-${i + 1}`}
-              // layout="fill"
-              // objectFit="cover"
+              layout="fill"
+              objectFit="cover"
             />
 
             <x.div
-              onClick={() => onDeleteHandler(i)}
+              onClick={() => deleteHandler(i)}
               data-testid={`delete-${i + 1}`}
               position="absolute"
               top={1}
@@ -97,7 +90,7 @@ export const ImageInput = ({
             id={inputId}
             type="file"
             accept=".png, .jpg, .jpeg"
-            onChange={(e) => onChangeHandler(e)}
+            onChange={(e) => changeHandler(e)}
             multiple={multiple}
             w={0.1}
             h={0.1}
