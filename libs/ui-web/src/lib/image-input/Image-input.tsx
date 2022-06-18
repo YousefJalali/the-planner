@@ -4,7 +4,7 @@ import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
 import { ImageType } from '@the-planner/types'
 import { parseImage } from '@the-planner/utils'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 type Props = {
   value: ImageType[]
@@ -56,11 +56,11 @@ export const ImageInput = ({
             h="100%"
             flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
           >
-            <Image
+            <img
               src={img.path}
               alt={`preview-${i + 1}`}
-              layout="fill"
-              objectFit="cover"
+              // layout="fill"
+              // objectFit="cover"
             />
 
             <x.div
