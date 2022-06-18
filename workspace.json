@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "hooks": "libs/hooks",
+    "test-utils": "libs/test-utils",
     "types": "libs/types",
     "ui-web": "libs/ui-web",
     "utils": "libs/utils",

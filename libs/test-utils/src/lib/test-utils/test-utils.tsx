@@ -1,9 +1,8 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
-import { ThemeProvider } from 'styled-components'
-import theme from './styles/theme'
-import { ColorModeProvider } from '@xstyled/styled-components'
-import { NotificationCtxProvider } from './common/contexts/NotificationCtx'
+// import { ThemeProvider } from 'styled-components'
+// import { ColorModeProvider } from '@xstyled/styled-components'
+// import { NotificationCtxProvider } from './common/contexts/NotificationCtx'
 
 // Mocks useRouter
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -32,13 +31,15 @@ const AllTheProviders = ({
 }: {
   children: JSX.Element | JSX.Element[]
 }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <ColorModeProvider>
-        <NotificationCtxProvider>{children}</NotificationCtxProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
-  )
+  return <div>{children}</div>
+  // (
+  // <ThemeProvider theme={theme}>
+  //   <ColorModeProvider>
+  //     <NotificationCtxProvider>{children}</NotificationCtxProvider>
+
+  //   </ColorModeProvider>
+  // </ThemeProvider>
+  // )
 }
 
 const customRender = (

@@ -1,5 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import ErrorIllustration from '../styles/illustrations/ErrorIllustration'
+import { ErrorSvg } from '@the-planner/ui-web'
 import { Button } from '@the-planner/ui-web'
 
 const ErrorMessage = ({ error }: { error: string }) => {
@@ -12,7 +12,7 @@ const ErrorMessage = ({ error }: { error: string }) => {
       alignItems="center"
     >
       <x.div w="50%" display="flex" alignItems="center" mb={3}>
-        <ErrorIllustration />
+        <ErrorSvg />
       </x.div>
 
       <x.p text="body.large">Oops! Something went wrong!</x.p>

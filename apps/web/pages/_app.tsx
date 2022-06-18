@@ -10,9 +10,8 @@ import 'nprogress/nprogress.css'
 import { SWRConfig } from 'swr'
 import { CookiesProvider } from 'react-cookie'
 
-import theme from '../styles/theme'
-import GlobalStyle from '../styles/GlobalStyle'
-import '../styles/fonts.css'
+import { theme, GlobalStyle } from '@the-planner/ui-web'
+import '../fonts.css'
 
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { NotificationCtxProvider } from '../common/contexts/NotificationCtx'

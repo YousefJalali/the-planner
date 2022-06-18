@@ -1,8 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FiPlus } from 'react-icons/fi'
 import { useModal } from '../../common/contexts/ModalCtx'
-import NoProject from '../../styles/illustrations/NoProject'
-import { Button } from '@the-planner/ui-web'
+import { Button, NoProjectSvg } from '@the-planner/ui-web'
 import CreateProject from './CreateProject'
 
 const NewProjectCard = () => {
@@ -73,7 +72,7 @@ const NewProjectCard = () => {
         w="120%"
         h="120%"
       >
-        <NoProject />
+        <NoProjectSvg />
       </x.div>
     </x.div>
   )

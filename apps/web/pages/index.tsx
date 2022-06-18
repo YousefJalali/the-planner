@@ -6,11 +6,10 @@ import { prisma } from '../common/lib/prisma'
 import Header from '../components/layout/Header'
 import Emoji from '../components/Emoji'
 import ProjectsCardsList from '../components/project/ProjectsCardsList'
-import { ToggleButton } from '@the-planner/ui-web'
+import { ToggleButton, Logo } from '@the-planner/ui-web'
 
 import FloatingButton from '../components/FloatingButton'
 import DateTasks from '../components/task/DateTasks'
-import Logo from '../styles/illustrations/Logo'
 import SearchInput from '../components/SearchInput'
 
 type Props = {

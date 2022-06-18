@@ -1,9 +1,6 @@
 import { createGlobalStyle } from '@xstyled/styled-components'
 
-// const theme = getTheme('light')
-// type ThemeType = typeof theme
-
-export default createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   html, body {
      min-height: 100vh;
      background-color: layout-level0;

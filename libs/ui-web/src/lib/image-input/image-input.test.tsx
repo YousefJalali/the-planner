@@ -1,11 +1,11 @@
-import { render } from '../../test-utils'
+import '@testing-library/jest-dom'
+import { render } from '@the-planner/test-utils'
 import ImageInput from './Image-input'
-import { waitFor } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
 import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { ImageType } from '@the-planner/types'
-import { act } from 'react-dom/test-utils'
+import { ColorModeProvider, ThemeProvider } from '@xstyled/styled-components'
+import { theme } from '@the-planner/ui-web'
 
 function setup({
   value = [],
@@ -22,13 +22,17 @@ function setup({
   const id = 'test-image-input'
 
   const utils = render(
-    <ImageInput
-      value={value}
-      onChange={onChange}
-      max={max}
-      multiple={multiple}
-      id={id}
-    />
+    <ThemeProvider theme={theme}>
+      <ColorModeProvider>
+        <ImageInput
+          value={value}
+          onChange={onChange}
+          max={max}
+          multiple={multiple}
+          id={id}
+        />
+      </ColorModeProvider>
+    </ThemeProvider>
   )
 
   const input = utils.getByTestId(id, {

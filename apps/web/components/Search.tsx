@@ -9,8 +9,12 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { useModal } from '../common/contexts/ModalCtx'
 import { useRecentTasks, useSearch } from '../common/data/query'
 import { TaskWithProjectType } from '@the-planner/types'
-import NoSearchData from '../styles/illustrations/NoSearchData'
-import { Spinner, FormHeader, Fieldset } from '@the-planner/ui-web'
+import {
+  Spinner,
+  FormHeader,
+  Fieldset,
+  NoSearchDataSvg,
+} from '@the-planner/ui-web'
 import SearchedTask from './task/SearchedTask'
 import TaskDetails from './task/TaskDetails'
 import TaskItemSkeleton from './skeletons/TaskItemSkeleton'
@@ -149,7 +153,7 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
           <>
             <x.div textAlign="center">
               <x.div w="30%" m="0 auto" mt={3} mb={2}>
-                <NoSearchData />
+                <NoSearchDataSvg />
               </x.div>
               <x.span text="body.small" color="content-subtle">
                 No data found
