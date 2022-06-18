@@ -1,13 +1,13 @@
 import { uniqueId } from 'lodash'
 import { useState } from 'react'
 import { useSWRConfig } from 'swr'
-import { deleteProject } from '../../actions/projectActions'
+import { deleteProject } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { usePrompt } from '../../contexts/PromptCtx'
 import { projectsKey } from '../../data/keys'
 import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
 
-const useDeleteProject = (callback?: (action?: any) => void) => {
+export const useDeleteProject = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)
 
   const { setNotification } = useNotification()

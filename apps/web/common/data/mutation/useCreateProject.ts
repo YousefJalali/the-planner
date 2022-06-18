@@ -2,10 +2,9 @@ import ObjectID from 'bson-objectid'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 
-import { createProject } from '../../actions/projectActions'
+import { createProject } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import useInfiniteProjects from '../../data/useInfiniteProjects'
-import useProjects from '../../data/useProjects'
+import { useInfiniteProjects, useProjects } from '../../data/query'
 import { ProjectType, ProjectWithTasksAndCount } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
@@ -27,7 +26,7 @@ import { getErrorMessage } from '@the-planner/utils'
 //   return [...splitProjects]
 // }
 
-const useCreateProject = (callback: (action?: any) => void) => {
+export const useCreateProject = (callback: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
   const router = useRouter()

@@ -1,17 +1,17 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { createTask as createTaskHandler } from '../../actions/taskActions'
+import { createTask as createTaskHandler } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import { URL_DATE_FORMAT } from '../../constants'
 import { parse } from 'date-fns'
-import useDateTasks from '../../data/useDateTasks'
-import useProject from '../../data/useProject'
+import useDateTasks from '../query/useDateTasks'
+import { useProject } from '../../data/query'
 import { getErrorMessage } from '@the-planner/utils'
 import ObjectID from 'bson-objectid'
 import _ from 'lodash'
 
-const useCreateTask = (
+export const useCreateTask = (
   showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
   callback: (action?: any) => void
 ) => {

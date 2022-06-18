@@ -1,10 +1,10 @@
 import useSWR from 'swr'
-import { requestLogger } from '../middlewares/requestLogger'
+import { requestLogger } from '../../middlewares/requestLogger'
 import { ProjectType } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectsKey } from './keys'
+import { projectsKey } from '../keys'
 
-const useProjects = (query?: string) => {
+export const useProjects = (query?: string) => {
   const key = `${projectsKey()}?q=${query}`
   const { data, error, mutate } = useSWR(key, customFetch, {
     use: [requestLogger],

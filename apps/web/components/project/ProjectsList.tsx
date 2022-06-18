@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { FC, useMemo, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import useProjects from '../../common/data/useProjects'
+import { useProjects } from '../../common/data/query'
 import { ProjectType } from '@the-planner/types'
 import ProjectItem from '../project/ProjectItem'
 import { Spinner, Fieldset } from '@the-planner/ui-web'

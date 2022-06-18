@@ -2,9 +2,11 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useModal } from '../../common/contexts/ModalCtx'
-import useDeleteTask from '../../common/hooks/task/useDeleteTask'
-import useEditTask from '../../common/hooks/task/useEditTask'
-import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
+import {
+  useDeleteTask,
+  useEditTask,
+  useUpdateTaskStatus,
+} from '../../common/data/mutation'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import { Button } from '@the-planner/ui-web'
 import StatusList from './StatusList'

@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { editProject } from '../../actions/projectActions'
+import { editProject } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
-import useProject from '../../data/useProject'
+import { useProject } from '../../data/query'
 import { ProjectType } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
-const useEditProject = (callback: (action?: any) => void) => {
+export const useEditProject = (callback: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
   const router = useRouter()

@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import useCreateProject from '../../common/hooks/project/useCreateProject'
+import { useCreateProject } from '../../common/data/mutation'
 import ProjectForm from './ProjectForm'
 import randomColor from 'randomcolor'
 
@@ -12,8 +12,8 @@ const CreateProject: FC<Props> = ({ onRequestClose }) => {
 
   return (
     <ProjectForm
-      id='create'
-      title='New Project'
+      id="create"
+      title="New Project"
       onSubmit={onSubmit}
       onRequestClose={onRequestClose}
       defaultValues={{ color: randomColor() }}

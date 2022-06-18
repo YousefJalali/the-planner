@@ -6,7 +6,7 @@ import _ from 'lodash'
 import Header from '../../components/layout/Header'
 import { LinearProgress } from '../../components/ProgressBar'
 import { Status, TaskWithProjectType } from '@the-planner/types'
-import useProject from '../../common/data/useProject'
+import { useProject } from '../../common/data/query'
 
 import TasksLists from '../../components/task/TasksLists'
 import FloatingButton from '../../components/FloatingButton'
@@ -18,8 +18,7 @@ import {
   TextEditor,
 } from '@the-planner/ui-web'
 import ErrorMessage from '../../components/ErrorMessage'
-import useEditProject from '../../common/hooks/project/useEditProject'
-import useDeleteProject from '../../common/hooks/project/useDeleteProject'
+import { useEditProject, useDeleteProject } from '../../common/data/mutation'
 import ProjectForm from '../../components/project/ProjectForm'
 import { useMemo } from 'react'
 

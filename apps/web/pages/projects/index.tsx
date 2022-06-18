@@ -12,7 +12,7 @@ import NewProjectCard from '../../components/project/NewProjectCard'
 import FilterProjects, {
   filterType,
 } from '../../components/project/FilterProjects'
-import useInfiniteProjects from '../../common/data/useInfiniteProjects'
+import { useInfiniteProjects } from '../../common/data/query'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import { useModal } from '../../common/contexts/ModalCtx'
 import CreateProject from '../../components/project/CreateProject'

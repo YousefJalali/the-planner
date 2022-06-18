@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useModal } from '../common/contexts/ModalCtx'
-import useCreateTask from '../common/hooks/task/useCreateTask'
+import { useCreateTask } from '../common/data/mutation/'
 import { TaskType } from '@the-planner/types'
 import TaskForm from './task/TaskForm'
 

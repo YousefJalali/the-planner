@@ -1,15 +1,14 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { deleteTask } from '../../actions/taskActions'
+import { deleteTask } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
 import { usePrompt } from '../../contexts/PromptCtx'
-import useDateTasks from '../../data/useDateTasks'
-import useProject from '../../data/useProject'
-import useTask from '../../data/useTask'
+import useDateTasks from '../../data/query/useDateTasks'
+import { useProject, useTask } from '../../data/query'
 import { getErrorMessage } from '@the-planner/utils'
 
-const useDeleteTask = (callback?: (action?: any) => void) => {
+export const useDeleteTask = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)
 
   const { setNotification } = useNotification()

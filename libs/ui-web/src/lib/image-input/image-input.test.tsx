@@ -1,5 +1,5 @@
 import { render } from '../../test-utils'
-import ImageInput from '../../components/formElements/ImageInput'
+import ImageInput from './Image-input'
 import { waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 import { ChangeEvent } from 'react'

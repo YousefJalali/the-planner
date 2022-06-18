@@ -1,14 +1,14 @@
 import { Status } from '@prisma/client'
 import _ from 'lodash'
 import useSWRInfinite from 'swr/infinite'
-import { requestLogger } from '../middlewares/requestLogger'
+import { requestLogger } from '../../middlewares/requestLogger'
 import {
   ProjectTasksCount,
   ProjectType,
   ProjectWithTasksType,
 } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectsKey } from './keys'
+import { projectsKey } from '../keys'
 
 type ProjectWithTasksCount = ProjectType & ProjectTasksCount
 
@@ -42,7 +42,9 @@ const getKey = (
   return `${baseURL}&cursor=${previousPageData?.nextCursor}`
 }
 
-const useInfiniteProjects = (filter?: Omit<Status, 'proposed'> | null) => {
+export const useInfiniteProjects = (
+  filter?: Omit<Status, 'proposed'> | null
+) => {
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<
     {
       data: (ProjectWithTasksType & ProjectTasksCount)[]

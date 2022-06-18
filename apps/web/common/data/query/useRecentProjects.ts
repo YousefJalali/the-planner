@@ -1,14 +1,14 @@
 import useSWR from 'swr'
-import { requestLogger } from '../middlewares/requestLogger'
+import { requestLogger } from '../../middlewares/requestLogger'
 import { ProjectWithTasksType } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectsKey } from './keys'
+import { projectsKey } from '../keys'
 
 type ProjectWithTasksCount = ProjectWithTasksType & {
   _count: { tasks: number }
 }
 
-const useRecentProjects = () => {
+export const useRecentProjects = () => {
   const key = `${projectsKey()}?limit=4`
 
   const { data, error, mutate } = useSWR(key, customFetch, {

@@ -1,10 +1,10 @@
 import useSWR from 'swr'
-import { requestLogger } from '../middlewares/requestLogger'
+import { requestLogger } from '../../middlewares/requestLogger'
 import { TaskWithProjectType } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { dateTasksKey } from './keys'
+import { dateTasksKey } from '../keys'
 
-const useDateTasks = (date: string | null) => {
+export const useDateTasks = (date: string | null) => {
   const res = useSWR(date ? dateTasksKey(date) : null, customFetch, {
     use: [requestLogger],
   })

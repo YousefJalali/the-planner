@@ -8,7 +8,7 @@ import ProjectCardSkeleton from '../skeletons/ProjectCardSkeleton'
 import { useNotification } from '../../common/contexts/NotificationCtx'
 import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
-import useRecentProjects from '../../common/data/useRecentProjects'
+import { useRecentProjects } from '../../common/data/query'
 import { Button, ScrollableList } from '@the-planner/ui-web'
 
 type Props = {

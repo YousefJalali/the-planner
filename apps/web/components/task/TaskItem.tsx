@@ -8,7 +8,7 @@ import { Checkbox } from '@the-planner/ui-web'
 import TaskOptions from './TaskOptions'
 import { useModal } from '../../common/contexts/ModalCtx'
 import TaskDetails from './TaskDetails'
-import useUpdateTaskStatus from '../../common/hooks/task/useUpdateTaskStatus'
+import { useUpdateTaskStatus } from '../../common/data/mutation'
 
 type Props = {
   task: TaskWithProjectType

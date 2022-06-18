@@ -1,15 +1,14 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { changeTaskStatus } from '../../actions/taskActions'
+import { changeTaskStatus } from '../../actions'
 import { useNotification } from '../../contexts/NotificationCtx'
 
-import useDateTasks from '../../data/useDateTasks'
-import useProject from '../../data/useProject'
-import useTask from '../../data/useTask'
+import useDateTasks from '../../data/query/useDateTasks'
+import { useProject, useTask } from '../../data/query'
 import { Status } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
-const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
+export const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
   const router = useRouter()

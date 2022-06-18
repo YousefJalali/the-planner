@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
-import useTask from '../../common/data/useTask'
+import { useTask } from '../../common/data/query'
 import Header from '../../components/layout/Header'
 import { Spinner, Button } from '@the-planner/ui-web'
 import TaskDetails from '../../components/task/TaskDetails'

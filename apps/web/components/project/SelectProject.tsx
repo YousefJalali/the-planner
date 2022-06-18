@@ -6,7 +6,7 @@ import _ from 'lodash'
 import { useModal } from '../../common/contexts/ModalCtx'
 import ProjectsList from './ProjectsList'
 import CreateProject from './CreateProject'
-import useProject from '../../common/data/useProject'
+import { useProject } from '../../common/data/query'
 import { Spinner } from '@the-planner/ui-web'
 
 type Props = {

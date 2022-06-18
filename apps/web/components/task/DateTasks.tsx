@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { URL_DATE_FORMAT } from '../../common/constants'
 import { useNotification } from '../../common/contexts/NotificationCtx'
-import useDateTasks from '../../common/data/useDateTasks'
+import useDateTasks from '../../common/data/query/useDateTasks'
 import DateSelector from '../DateSelector'
 import SkeletonList from '../skeletons/SkeletonList'
 import TagSkeleton from '../skeletons/TagSkeleton'
@@ -65,13 +65,13 @@ const DateTasks = () => {
 
   return (
     <x.section my={4} mt={6}>
-      <x.h1 text='headline.two' px={4} mb={3}>
+      <x.h1 text="headline.two" px={4} mb={3}>
         Tasks
       </x.h1>
 
       {dateSelect}
 
-      <x.div px={4} overflowX='hidden'>
+      <x.div px={4} overflowX="hidden">
         {error ? (
           <NoTasks />
         ) : isLoading ? (
