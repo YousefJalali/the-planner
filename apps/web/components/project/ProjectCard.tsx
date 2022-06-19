@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { ProjectTasksCount, ProjectWithTasksType } from '@the-planner/types'
-import { CircleProgress } from '../ProgressBar'
+import { CircleProgress } from '@the-planner/ui-web'
 import styled, { x } from '@xstyled/styled-components'
 import { Status } from '@prisma/client'
 

@@ -6,7 +6,7 @@ import {
 import { Status, TaskType } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '@the-planner/hooks'
-import projectSchema from '../../common/utils/validations/projectSchema'
+import { projectSchema } from '@the-planner/utils'
 import _, { indexOf } from 'lodash'
 import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
 

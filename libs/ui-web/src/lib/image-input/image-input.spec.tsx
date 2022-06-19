@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render } from '@the-planner/test-utils'
+import { render } from '@testing-library/react'
 import ImageInput from './Image-input'
 import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'

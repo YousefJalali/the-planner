@@ -1,8 +1,8 @@
 import { x } from '@xstyled/styled-components'
-import { ErrorSvg } from '@the-planner/ui-web'
-import { Button } from '@the-planner/ui-web'
+import { ErrorSvg } from '../illustration/'
+import { Button } from '../button/button'
 
-const ErrorMessage = ({ error }: { error: string }) => {
+export const ErrorMessage = ({ error }: { error: string }) => {
   return (
     <x.div
       w="100%"

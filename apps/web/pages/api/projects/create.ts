@@ -3,7 +3,7 @@ import { ProjectTasksCount, ProjectType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '@the-planner/hooks'
-import projectSchema from '../../../common/utils/validations/projectSchema'
+import { projectSchema } from '@the-planner/utils'
 import _ from 'lodash'
 
 const handler = async (

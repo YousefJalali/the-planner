@@ -6,7 +6,7 @@ import { format, parse, getDaysInMonth, setDate, isToday } from 'date-fns'
 
 import { useWindowSize } from '@the-planner/hooks'
 import { Button, ScrollableList, DateInput } from '@the-planner/ui-web'
-import { URL_DATE_FORMAT } from '../common/constants'
+import { URL_DATE_FORMAT } from '@the-planner/utils'
 
 type Props = {
   dateString: string

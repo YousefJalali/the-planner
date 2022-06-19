@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
-import taskSchema from '../../../common/utils/validations/taskSchema'
+import { taskSchema } from '@the-planner/utils'
 import _ from 'lodash'
 
 const handler = async (

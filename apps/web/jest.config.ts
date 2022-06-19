@@ -8,7 +8,7 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/apps/web',
-};
+}
 
 // const nextJest = require('next/jest')
 

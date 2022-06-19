@@ -1,21 +1,8 @@
 import { Image } from '@prisma/client'
 import { v2 as cloudinary } from 'cloudinary'
 
-const {
-  hostname: cloud_name,
-  username: api_key,
-  password: api_secret,
-} = new URL(process.env.CLOUDINARY_URL as string)
-
-cloudinary.config({
-  cloud_name,
-  api_key,
-  api_secret,
-})
-
 export const uploadImage = async (path: string, folderName: string) =>
   new Promise<Image>((resolve, reject) => {
-    console.log(folderName)
     cloudinary.uploader.upload(
       path,
       { folder: folderName },

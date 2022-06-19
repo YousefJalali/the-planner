@@ -1,5 +1,7 @@
 import { format, getHours, getMinutes, isSameYear, set } from 'date-fns'
 
+export const URL_DATE_FORMAT = 'dd-MM-yyyy'
+
 export const dateFormatPattern = (date: Date | string) =>
   isSameYear(new Date(), new Date(date)) ? 'E dd MMM ' : 'E dd MMM y'
 

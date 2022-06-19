@@ -12,9 +12,9 @@ const nextConfig = {
   },
 
   webpack(config, { isServer }) {
-    // if (!isServer) {
-    //   config.resolve.fallback.fs = false
-    // }
+    if (!isServer) {
+      config.resolve.fallback.fs = false
+    }
 
     config.module.rules.push({
       test: /\.svg$/i,

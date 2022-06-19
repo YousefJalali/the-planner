@@ -69,11 +69,9 @@ const TasksLists: FC<Props> = ({
                   >
                     <AnimatePresence>
                       {filteredTasks.map((task) => (
-                        // <motion.li {...animations} key={task.id}>
-
-                        // <Task key={task.id} task={task} />
-                        // </motion.li>
-                        <TaskItem key={task.id} task={task} />
+                        <motion.li {...animations} key={task.id}>
+                          <TaskItem key={task.id} task={task} />
+                        </motion.li>
                       ))}
                     </AnimatePresence>
                   </x.ul>

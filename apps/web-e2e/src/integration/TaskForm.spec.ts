@@ -14,7 +14,7 @@ describe('Create task', () => {
 
     //project
     cy.get('#task-form-project').click()
-    cy.get('#project-list-select>li').first().click()
+    cy.get('#project-list-select>li').eq(1).click()
 
     //open task
     cy.get('[data-testid=task-form-openTask]').click()
@@ -44,10 +44,11 @@ describe('Create task', () => {
     //submit
     cy.get('#create-task-form').submit()
 
-    cy.get(`#${Status.PROPOSED}-tasks-list > li`).last().contains('test title')
+    cy.get(`#${Status.PROPOSED}-tasks-list > li`).first().contains('test title')
   })
 
   it('shows error on empty submit', () => {
+    cy.visit('/')
     cy.get('#create-task-fb').click()
     cy.get('#create-task-form').submit()
   })

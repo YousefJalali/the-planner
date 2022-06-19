@@ -5,18 +5,17 @@ import _ from 'lodash'
 import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
 
+import SelectProject from '../project/SelectProject'
 import {
   Button,
   Input,
+  ImageInput,
   DateInput,
   TextEditor,
   ToggleButton,
-  ImageInput,
   Fieldset,
   Form,
 } from '@the-planner/ui-web'
-
-import taskSchema from '../../common/utils/validations/taskSchema'
 
 import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
 import { useYupValidationResolver } from '@the-planner/hooks'
@@ -24,9 +23,8 @@ import {
   addCurrentTime,
   dateFormatPattern,
   addServerErrors,
+  taskSchema,
 } from '@the-planner/utils'
-import { Task } from '@prisma/client'
-import SelectProject from '../project/SelectProject'
 
 type Props = {
   id: 'create' | 'edit'
@@ -108,7 +106,7 @@ function TaskForm({
     }
   }, [serverErrors])
 
-  const onSubmitHandler = async (data: Task | TaskWithProjectType) => {
+  const onSubmitHandler = async (data: TaskType | TaskWithProjectType) => {
     const startDate = addCurrentTime(data.startDate)
     const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 

@@ -1,6 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FiSearch } from 'react-icons/fi'
-import { useModal } from '../common/contexts/ModalCtx'
+import { useModal } from '../../common/contexts/ModalCtx'
 import Search from './Search'
 import { Button } from '@the-planner/ui-web'
 

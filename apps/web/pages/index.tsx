@@ -1,16 +1,15 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { x, useColorMode } from '@xstyled/styled-components'
-
+import { v2 as cloudinary } from 'cloudinary'
 import { prisma } from '../common/lib/prisma'
 
 import Header from '../components/layout/Header'
-import Emoji from '../components/Emoji'
 import ProjectsCardsList from '../components/project/ProjectsCardsList'
-import { ToggleButton, Logo } from '@the-planner/ui-web'
+import { ToggleButton, Logo, Emoji } from '@the-planner/ui-web'
 
 import FloatingButton from '../components/FloatingButton'
 import DateTasks from '../components/task/DateTasks'
-import SearchInput from '../components/SearchInput'
+import SearchInput from '../components/search/SearchInput'
 
 type Props = {
   // projects: ProjectType[]
@@ -91,6 +90,18 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // const tasks = JSON.parse(JSON.stringify(res))
 
   // console.log(tasks)
+
+  const {
+    hostname: cloud_name,
+    username: api_key,
+    password: api_secret,
+  } = new URL(process.env.CLOUDINARY_URL as string)
+
+  cloudinary.config({
+    cloud_name,
+    api_key,
+    api_secret,
+  })
 
   return {
     props: {},

@@ -2,7 +2,7 @@ import { array, boolean, date, mixed, object, SchemaOf, string } from 'yup'
 import { Status, TaskType } from '@the-planner/types'
 
 // const taskSchema: SchemaOf<Omit<TaskType, 'id' | 'status'>> = object({
-const taskSchema: SchemaOf<TaskType> = object({
+export const taskSchema: SchemaOf<TaskType> = object({
   id: string().defined(),
   title: string().defined().required('task must have a title'),
   description: string().defined(),

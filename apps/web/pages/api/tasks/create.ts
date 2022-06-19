@@ -7,9 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
-import taskSchema from '../../../common/utils/validations/taskSchema'
-import { UTCDate } from '@the-planner/utils'
-import { uploadImages } from '../../../common/utils/cloudinary'
+import { UTCDate, uploadImages, taskSchema } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,

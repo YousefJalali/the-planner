@@ -4,7 +4,6 @@ import { FiArrowLeft } from 'react-icons/fi'
 import _ from 'lodash'
 
 import Header from '../../components/layout/Header'
-import { LinearProgress } from '../../components/ProgressBar'
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import { useProject } from '../../common/data/query'
 
@@ -16,8 +15,9 @@ import {
   Button,
   ScrollableList,
   TextEditor,
+  LinearProgress,
+  ErrorMessage,
 } from '@the-planner/ui-web'
-import ErrorMessage from '../../components/ErrorMessage'
 import { useEditProject, useDeleteProject } from '../../common/data/mutation'
 import ProjectForm from '../../components/project/ProjectForm'
 import { useMemo } from 'react'

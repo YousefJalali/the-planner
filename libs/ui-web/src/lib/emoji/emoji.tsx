@@ -5,16 +5,16 @@ type Props = {
   symbol: string
   height: number
 }
-const Emoji: FC<Props> = ({ label, symbol, height }) => (
+export const Emoji: FC<Props> = ({ label, symbol, height }) => (
   // <x.span display='inline'>&#128054;</x.span>
   <x.span
     h={height}
     w={height}
-    className='emoji'
-    role='img'
+    className="emoji"
+    role="img"
     aria-label={label ? label : ''}
     aria-hidden={label ? 'false' : 'true'}
-    display='inline-block'
+    display="inline-block"
   >
     {symbol}
   </x.span>

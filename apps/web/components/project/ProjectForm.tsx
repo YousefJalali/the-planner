@@ -13,10 +13,9 @@ import {
   Fieldset,
 } from '@the-planner/ui-web'
 
-import projectSchema from '../../common/utils/validations/projectSchema'
 import { useEffect } from 'react'
 
-import { addServerErrors } from '@the-planner/utils'
+import { addServerErrors, projectSchema } from '@the-planner/utils'
 import { useYupValidationResolver } from '@the-planner/hooks'
 
 type Props<T> = {

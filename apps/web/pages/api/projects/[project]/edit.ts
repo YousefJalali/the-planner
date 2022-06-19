@@ -3,7 +3,7 @@ import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import _ from 'lodash'
 import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
-import projectSchema from '../../../../common/utils/validations/projectSchema'
+import { projectSchema } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,

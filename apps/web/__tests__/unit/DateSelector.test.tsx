@@ -1,8 +1,8 @@
 import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
-import DateSelector from '../../components/DateSelector'
+import DateSelector from '../../components/task/DateSelector'
 import { format } from 'date-fns'
-import { URL_DATE_FORMAT } from '../../common/constants'
+import { URL_DATE_FORMAT } from '@the-planner/utils'
 
 const getRandomArbitrary = (min: number, max: number) =>
   Math.ceil(Math.random() * (max - min) + min)
