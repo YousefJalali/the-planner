@@ -1,4 +1,4 @@
-// import Image from 'next/image'
+import Image from 'next/image'
 import { x } from '@xstyled/styled-components'
 import { FiX, FiFileText } from 'react-icons/fi'
 import { ChangeEvent } from 'react'
@@ -49,12 +49,12 @@ export const ImageInput = ({ value, onChange, max, multiple, id }: Props) => {
             h="100%"
             flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
           >
-            {/* <Image
+            <Image
               src={img.path}
               alt={`preview-${i + 1}`}
               layout="fill"
               objectFit="cover"
-            /> */}
+            />
 
             <x.div
               onClick={() => deleteHandler(i)}
