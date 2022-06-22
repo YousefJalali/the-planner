@@ -9,7 +9,7 @@ import SelectProject from '../project/SelectProject'
 import {
   Button,
   Input,
-  // ImageInput,
+  ImageInput,
   DateInput,
   TextEditor,
   ToggleButton,
@@ -415,14 +415,13 @@ function TaskForm({
                 noBorder
                 optionalField
               >
-                <input type="file" onChange={onChange} />
-                {/* <ImageInput
+                <ImageInput
                   id={`${formName}-attachments`}
                   value={value}
                   onChange={onChange}
                   max={10}
                   multiple
-                /> */}
+                />
               </Fieldset>
             )
           }}
