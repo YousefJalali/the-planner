@@ -4,9 +4,10 @@ import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import _ from 'lodash'
 import { FieldErrors } from 'react-hook-form'
+import { v2 as cloudinary } from 'cloudinary'
 
 import {
-  deleteImages,
+  // deleteImages,
   uploadImages,
   taskSchema,
   compareAttachments,
@@ -65,7 +66,7 @@ const handler = async (
 
     if (toBeRemoved.length > 0) {
       const ids = toBeRemoved.map((attachment) => attachment.id)
-      await deleteImages(ids)
+      // await deleteImages(ids)
     }
     if (toBeUploaded.length > 0) {
       const paths = toBeUploaded.map((attachment) => attachment.path)
@@ -73,7 +74,8 @@ const handler = async (
       const { images, error } = await uploadImages(
         paths,
         task.projectId,
-        task.id
+        task.id,
+        cloudinary.uploader.upload
       )
 
       if (error || !images) {

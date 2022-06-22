@@ -2,7 +2,7 @@ import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
-import { deleteImages } from '@the-planner/utils'
+// import { deleteImages } from '@the-planner/utils'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const handler = async (
@@ -24,7 +24,7 @@ const handler = async (
 
     if (deletedTask.attachments.length > 0) {
       const ids = deletedTask.attachments.map((attachment) => attachment.id)
-      await deleteImages(ids)
+      // await deleteImages(ids)
     }
 
     return res.status(200).json({ data: deletedTask })

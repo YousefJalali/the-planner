@@ -8,6 +8,7 @@ import { TaskType } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import { UTCDate, uploadImages, taskSchema } from '@the-planner/utils'
+import { v2 as cloudinary } from 'cloudinary'
 
 const handler = async (
   req: NextApiRequest,
@@ -63,7 +64,12 @@ const handler = async (
     }
 
     const paths = task.attachments.map((attachment: Image) => attachment.path)
-    const { images, error } = await uploadImages(paths, task.projectId, task.id)
+    const { images, error } = await uploadImages(
+      paths,
+      task.projectId,
+      task.id,
+      cloudinary.uploader.upload
+    )
 
     if (error) {
       return res.status(400).json({ error })
