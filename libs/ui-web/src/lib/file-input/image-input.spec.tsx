@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import { render } from '@testing-library/react'
-import ImageInput from './image-input'
+import { ImageInput } from './file-input'
 import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { ImageType } from '@the-planner/types'
