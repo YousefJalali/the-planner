@@ -1,4 +1,4 @@
-import { taskKey, tasksKey } from '../data/keys'
+import { taskKey, tasksKey } from '@the-planner/data'
 import { Status, TaskType } from '@the-planner/types'
 import { customFetch } from '@the-planner/utils'
 

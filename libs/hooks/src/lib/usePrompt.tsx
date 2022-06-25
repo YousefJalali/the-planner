@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  ReactNode,
-  useContext,
-} from 'react'
+import { createContext, useState, ReactNode, useContext } from 'react'
 
 export type PromptType = {
   id: string
@@ -41,14 +35,6 @@ export const PromptCtxProvider = ({
   const clearPromptHandler = () => {
     setPrompt(null)
   }
-
-  // useEffect(() => {
-  //   const clear = setTimeout(() => {
-  //     clearPromptHandler()
-  //   }, 3500)
-
-  //   return () => clearTimeout(clear)
-  // }, [prompt])
 
   const context = {
     prompt,

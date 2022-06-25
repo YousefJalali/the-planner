@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
-import { NotificationType } from '../../common/contexts/NotificationCtx'
+import { NotificationType } from '@the-planner/hooks'
 import styled, { x } from '@xstyled/styled-components'
 import {
   FiAlertTriangle,

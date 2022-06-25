@@ -1,6 +1,6 @@
 import { x } from '@xstyled/styled-components'
 import { FiPlus } from 'react-icons/fi'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import { Button, NoProjectSvg } from '@the-planner/ui-web'
 import CreateProject from './CreateProject'
 

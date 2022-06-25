@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
+      "@the-planner/data": ["libs/data/src/index.ts"],
       "@the-planner/hooks": ["libs/hooks/src/index.ts"],
       "@the-planner/test-utils": ["libs/test-utils/src/index.ts"],
       "@the-planner/types": ["libs/types/src/index.ts"],

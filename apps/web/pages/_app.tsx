@@ -14,10 +14,12 @@ import { theme, GlobalStyle } from '@the-planner/ui-web'
 import '../fonts.css'
 
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
-import { NotificationCtxProvider } from '../common/contexts/NotificationCtx'
 import Layout from '../components/layout/Layout'
-import { PromptCtxProvider } from '../common/contexts/PromptCtx'
-import { ModalCtxProvider } from '../common/contexts/ModalCtx'
+import {
+  PromptCtxProvider,
+  ModalCtxProvider,
+  NotificationCtxProvider,
+} from '@the-planner/hooks'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })

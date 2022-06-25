@@ -1,19 +1,22 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { createTask as createTaskHandler } from '../../actions'
-import { useNotification } from '../../contexts/NotificationCtx'
+import { createTask as createTaskHandler } from '../actions'
+import { useNotification } from '@the-planner/hooks'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import { parse } from 'date-fns'
 import useDateTasks from '../query/useDateTasks'
-import { useProject } from '../../data/query'
+import { useProject } from '../query'
 import { getErrorMessage, URL_DATE_FORMAT } from '@the-planner/utils'
 import ObjectID from 'bson-objectid'
-import _ from 'lodash'
+import * as _ from 'lodash'
+import { useState } from 'react'
 
 export const useCreateTask = (
   showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
   callback: (action?: any) => void
 ) => {
+  const [status, setStatus] = useState()
+
   const { setNotification } = useNotification()
 
   const router = useRouter()

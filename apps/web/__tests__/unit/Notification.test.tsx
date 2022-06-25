@@ -2,7 +2,7 @@ import {
   NotificationCtxProvider,
   NotificationType,
   useNotification,
-} from '../../common/contexts/NotificationCtx'
+} from '@the-planner/hooks'
 import { renderHook, act } from '@testing-library/react-hooks'
 
 const notification: NotificationType = {

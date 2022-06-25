@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { useCreateProject } from '../../common/data/mutation'
+import { useCreateProject } from '@the-planner/data'
 import ProjectForm from './ProjectForm'
 import randomColor from 'randomcolor'
 

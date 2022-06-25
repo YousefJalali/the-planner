@@ -12,9 +12,9 @@ import NewProjectCard from '../../components/project/NewProjectCard'
 import FilterProjects, {
   filterType,
 } from '../../components/project/FilterProjects'
-import { useInfiniteProjects } from '../../common/data/query'
+import { useInfiniteProjects } from '@the-planner/data'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import CreateProject from '../../components/project/CreateProject'
 import { Spinner, Button } from '@the-planner/ui-web'
 import { AnimatePresence, motion } from 'framer-motion'

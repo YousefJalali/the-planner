@@ -2,11 +2,12 @@ import ObjectID from 'bson-objectid'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 
-import { createProject } from '../../actions'
-import { useNotification } from '../../contexts/NotificationCtx'
-import { useInfiniteProjects, useProjects } from '../../data/query'
+import { useNotification } from '@the-planner/hooks'
 import { ProjectType, ProjectWithTasksAndCount } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
+
+import { createProject } from '../actions'
+import { useInfiniteProjects, useProjects } from '../query'
 
 // const updateInfiniteProjects = (
 //   newProject: ProjectType | ProjectWithTasksAndCount,

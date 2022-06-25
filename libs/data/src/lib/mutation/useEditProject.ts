@@ -1,9 +1,9 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { editProject } from '../../actions'
-import { useNotification } from '../../contexts/NotificationCtx'
-import { useProject } from '../../data/query'
+import { editProject } from '../actions'
+import { useNotification } from '@the-planner/hooks'
+import { useProject } from '../query'
 import { ProjectType } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 

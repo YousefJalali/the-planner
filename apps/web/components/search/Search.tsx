@@ -6,8 +6,8 @@ import { FiClock, FiX } from 'react-icons/fi'
 import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
-import { useModal } from '../../common/contexts/ModalCtx'
-import { useRecentTasks, useSearch } from '../../common/data/query'
+import { useModal } from '@the-planner/hooks'
+import { useRecentTasks, useSearch } from '@the-planner/data'
 import { TaskWithProjectType } from '@the-planner/types'
 import {
   Spinner,

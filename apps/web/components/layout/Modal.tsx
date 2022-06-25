@@ -1,8 +1,7 @@
 import { DragEventHandler, FC, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, Variants, PanInfo } from 'framer-motion'
-import { useModal } from '../../common/contexts/ModalCtx'
-import { useWindowSize } from '@the-planner/hooks'
+import { useWindowSize, useModal } from '@the-planner/hooks'
 import styled, { x } from '@xstyled/styled-components'
 import {
   disableBodyScroll,

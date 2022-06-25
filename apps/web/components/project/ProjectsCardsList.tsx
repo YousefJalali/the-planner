@@ -5,10 +5,10 @@ import ProjectCard from './ProjectCard'
 
 import NewProjectCard from './NewProjectCard'
 import ProjectCardSkeleton from '../skeletons/ProjectCardSkeleton'
-import { useNotification } from '../../common/contexts/NotificationCtx'
+import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
 import SkeletonList from '../skeletons/SkeletonList'
-import { useRecentProjects } from '../../common/data/query'
+import { useRecentProjects } from '@the-planner/data'
 import { Button, ScrollableList } from '@the-planner/ui-web'
 
 type Props = {

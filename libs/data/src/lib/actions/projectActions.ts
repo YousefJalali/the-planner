@@ -1,4 +1,4 @@
-import { projectKey, projectsKey } from '../data/keys'
+import { projectKey, projectsKey } from '@the-planner/data'
 import { ProjectType } from '@the-planner/types'
 import { customFetch } from '@the-planner/utils'
 

@@ -1,10 +1,10 @@
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
-import { changeTaskStatus } from '../../actions'
-import { useNotification } from '../../contexts/NotificationCtx'
+import { changeTaskStatus } from '../actions'
+import { useNotification } from '@the-planner/hooks'
 
-import useDateTasks from '../../data/query/useDateTasks'
-import { useProject, useTask } from '../../data/query'
+import useDateTasks from '../query/useDateTasks'
+import { useProject, useTask } from '../query'
 import { Status } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 

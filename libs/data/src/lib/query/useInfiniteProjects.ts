@@ -1,7 +1,7 @@
 import { Status } from '@prisma/client'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import useSWRInfinite from 'swr/infinite'
-import { requestLogger } from '../../middlewares/requestLogger'
+import { requestLogger } from '../middlewares/requestLogger'
 import {
   ProjectTasksCount,
   ProjectType,

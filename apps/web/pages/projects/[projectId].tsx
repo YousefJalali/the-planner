@@ -5,11 +5,11 @@ import _ from 'lodash'
 
 import Header from '../../components/layout/Header'
 import { Status, TaskWithProjectType } from '@the-planner/types'
-import { useProject } from '../../common/data/query'
+import { useProject } from '@the-planner/data'
 
 import TasksLists from '../../components/task/TasksLists'
 import FloatingButton from '../../components/FloatingButton'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import {
   Spinner,
   Button,
@@ -18,7 +18,7 @@ import {
   LinearProgress,
   ErrorMessage,
 } from '@the-planner/ui-web'
-import { useEditProject, useDeleteProject } from '../../common/data/mutation'
+import { useEditProject, useDeleteProject } from '@the-planner/data'
 import ProjectForm from '../../components/project/ProjectForm'
 import { useMemo } from 'react'
 

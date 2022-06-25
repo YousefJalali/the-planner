@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence } from 'framer-motion'
-import { useNotification } from '../../common/contexts/NotificationCtx'
+import { useNotification } from '@the-planner/hooks'
 import NotificationContent from './NotificationContent'
 
 const Notification: FC = () => {

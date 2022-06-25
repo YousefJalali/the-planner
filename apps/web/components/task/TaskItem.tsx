@@ -6,9 +6,9 @@ import { FiPaperclip, FiClock } from 'react-icons/fi'
 import { TaskWithProjectType, Status } from '@the-planner/types'
 import { Checkbox } from '@the-planner/ui-web'
 import TaskOptions from './TaskOptions'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import TaskDetails from './TaskDetails'
-import { useUpdateTaskStatus } from '../../common/data/mutation'
+import { useUpdateTaskStatus } from '@the-planner/data'
 
 type Props = {
   task: TaskWithProjectType

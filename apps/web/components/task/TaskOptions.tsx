@@ -1,12 +1,12 @@
 import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import {
   useDeleteTask,
   useEditTask,
   useUpdateTaskStatus,
-} from '../../common/data/mutation'
+} from '@the-planner/data'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import { Button } from '@the-planner/ui-web'
 import StatusList from './StatusList'

@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import styled, { x } from '@xstyled/styled-components'
-import { PromptType } from '../../common/contexts/PromptCtx'
+import { PromptType } from '@the-planner/hooks'
 import { Button } from '@the-planner/ui-web'
 import { Backdrop } from './Modal'
 

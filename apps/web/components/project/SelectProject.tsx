@@ -3,10 +3,10 @@ import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { ProjectType } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
 import _ from 'lodash'
-import { useModal } from '../../common/contexts/ModalCtx'
+import { useModal } from '@the-planner/hooks'
 import ProjectsList from './ProjectsList'
 import CreateProject from './CreateProject'
-import { useProject } from '../../common/data/query'
+import { useProject } from '@the-planner/data'
 import { Spinner } from '@the-planner/ui-web'
 
 type Props = {

@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
 import { ThemeProvider } from 'styled-components'
 import { ColorModeProvider } from '@xstyled/styled-components'
-import { NotificationCtxProvider } from './common/contexts/NotificationCtx'
+import { NotificationCtxProvider } from '@the-planner/hooks'
 import { theme } from '@the-planner/ui-web'
 
 // Mocks useRouter

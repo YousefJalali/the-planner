@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { requestLogger } from '../../middlewares/requestLogger'
+import { requestLogger } from '../middlewares/requestLogger'
 import { ProjectWithTasksAndCount } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { projectKey } from '../keys'

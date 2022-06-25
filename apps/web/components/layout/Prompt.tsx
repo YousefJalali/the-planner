@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence } from 'framer-motion'
-import { usePrompt } from '../../common/contexts/PromptCtx'
+import { usePrompt } from '@the-planner/hooks'
 import PromptContent from './PromptContent'
 
 const Notification: FC = () => {

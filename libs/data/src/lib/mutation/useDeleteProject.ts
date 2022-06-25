@@ -1,10 +1,10 @@
 import { uniqueId } from 'lodash'
 import { useState } from 'react'
 import { useSWRConfig } from 'swr'
-import { deleteProject } from '../../actions'
-import { useNotification } from '../../contexts/NotificationCtx'
-import { usePrompt } from '../../contexts/PromptCtx'
-import { projectsKey } from '../../data/keys'
+import { deleteProject } from '../actions'
+import { useNotification } from '@the-planner/hooks'
+import { usePrompt } from '@the-planner/hooks'
+import { projectsKey } from '../keys'
 import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
 
 export const useDeleteProject = (callback?: (action?: any) => void) => {
