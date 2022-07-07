@@ -23,6 +23,7 @@ export const GlobalStyle = createGlobalStyle`
     font-size: sm;
     line-height: normal;
     -webkit-appearance: none;
+    caret-color: brand-primary;
   }
 
   input {

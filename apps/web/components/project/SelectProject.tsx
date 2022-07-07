@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
-import { ProjectType } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
-import _ from 'lodash'
+
+import { ProjectType } from '@the-planner/types'
 import { useModal } from '@the-planner/hooks'
+import { Spinner } from '@the-planner/ui-web'
+import { useProject } from '@the-planner/data'
+
 import ProjectsList from './ProjectsList'
 import CreateProject from './CreateProject'
-import { useProject } from '@the-planner/data'
-import { Spinner } from '@the-planner/ui-web'
 
 type Props = {
+  id: string
   onChange: (v: string) => void
   value: string
   taskProject: (project: Pick<ProjectType, 'title' | 'color' | 'id'>) => void
   placeholder: string
-  inputId: string
 }
 
 function SelectProject({
+  id,
   value,
   onChange,
   placeholder,
-  inputId,
   taskProject,
 }: Props) {
   const [project, setProject] = useState<ProjectType>()
@@ -78,6 +79,7 @@ function SelectProject({
 
   return (
     <x.button
+      id={id}
       type="button"
       onClick={showProjectsList}
       display="flex"
@@ -86,7 +88,6 @@ function SelectProject({
       w="100%"
       backgroundColor="layout-level0"
       borderRadius={2}
-      id={inputId}
     >
       {project ? (
         <x.div display="flex" alignItems="center">

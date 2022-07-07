@@ -1,10 +1,11 @@
+import { usePrompt } from '@the-planner/hooks'
 import { x } from '@xstyled/styled-components'
 import Head from 'next/head'
-// import { usePrompt } from '../../common/contexts/PromptCtx'
+import { Children, cloneElement } from 'react'
 import FormHeader from './form-header'
 import LoadingOverlay from './loading-overlay'
 
-type Props = {
+type Props<T> = {
   id: string
   name: string
   title?: string
@@ -16,7 +17,7 @@ type Props = {
 }
 // const Header = dynamic(() => import('./FormHeader'))
 
-export function Form({
+export function Form<T>({
   id,
   name,
   title,
@@ -25,19 +26,19 @@ export function Form({
   onRequestClose,
   onSubmit,
   isDirty,
-}: Props) {
-  // const { setPrompt } = usePrompt()
+}: Props<T>) {
+  const { setPrompt } = usePrompt()
 
   const onCloseHandler = () => {
     if (onRequestClose) {
       if (isDirty) {
-        // setPrompt({
-        //   id: 'task-form',
-        //   title: 'are you sure?',
-        //   message: "you can't undo this",
-        //   action: 'discard',
-        //   actionFn: onRequestClose,
-        // })
+        setPrompt({
+          id: 'task-form',
+          title: 'are you sure?',
+          message: "you can't undo this",
+          action: 'discard',
+          actionFn: onRequestClose,
+        })
       } else {
         onRequestClose()
       }
@@ -68,7 +69,9 @@ export function Form({
             onRequestClose={isSubmitting ? undefined : onCloseHandler}
           />
         )}
-        {children}
+        {Children.map(children, (child) => {
+          return cloneElement(child, { formName: name })
+        })}
       </x.form>
     </>
   )

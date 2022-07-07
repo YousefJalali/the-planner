@@ -82,6 +82,12 @@ function TaskForm({
   const resolver = useYupValidationResolver<TaskType | TaskWithProjectType>(
     taskSchema
   )
+
+  const methods = useForm<TaskType | TaskWithProjectType>({
+    defaultValues: defValues,
+    resolver,
+  })
+
   const {
     handleSubmit,
     control,
@@ -92,10 +98,7 @@ function TaskForm({
     resetField,
     clearErrors,
     setValue,
-  } = useForm<TaskType | TaskWithProjectType>({
-    defaultValues: defValues,
-    resolver,
-  })
+  } = methods
 
   useEffect(() => {
     if (serverErrors) {
@@ -115,8 +118,8 @@ function TaskForm({
       startDate,
       endDate,
     }
-
-    onSubmit(formData)
+    console.log(formData)
+    // onSubmit(formData)
   }
 
   const dateErrors = useMemo(
@@ -124,13 +127,13 @@ function TaskForm({
     [errors]
   )
 
-  const onOpenTaskHandler = (checked: boolean) => {
-    if (checked) {
+  useEffect(() => {
+    if (getValues('openTask')) {
       resetField('endDate')
       resetField('startTime')
       resetField('endTime')
     }
-  }
+  }, [getValues('openTask')])
 
   return (
     <>
@@ -144,6 +147,9 @@ function TaskForm({
         isDirty={isDirty}
       >
         {/* Title */}
+        {/* <FormControl name="title" label="Task title">
+          <Input type="text" placeholder="i.e. speakers" />
+        </FormControl> */}
         <Controller
           name="title"
           control={control}
@@ -167,6 +173,7 @@ function TaskForm({
         />
 
         {/* Project */}
+
         <Controller
           name="projectId"
           control={control}
@@ -180,7 +187,7 @@ function TaskForm({
                 error={error}
               >
                 <SelectProject
-                  inputId={`${formName}-project`}
+                  id={`${formName}-project`}
                   value={value}
                   onChange={onChange}
                   taskProject={(project) => setValue('project', project)}
@@ -193,9 +200,12 @@ function TaskForm({
 
         {/* Date */}
         <Fieldset
-          noBorder
+          label="date"
+          hideLabel
+          id={`${formName}-date`}
           error={dateErrors}
           supportiveText="End date & end time are optional"
+          border="0px solid"
         >
           <>
             <x.div
@@ -219,7 +229,6 @@ function TaskForm({
                         checked={value}
                         onChange={(e) => {
                           onChange(e.target.checked)
-                          onOpenTaskHandler(e.target.checked)
                         }}
                       />
                     )
@@ -239,12 +248,7 @@ function TaskForm({
                     fieldState: { error },
                   }) => {
                     return (
-                      <Fieldset
-                        id={`${formName}-startDate`}
-                        error={error}
-                        noErrorMessage
-                        label="from"
-                      >
+                      <Fieldset id={`${formName}-startDate`} label="from">
                         <DateInput
                           id={`${formName}-startDate`}
                           dataTestId="task-form-start-date"
@@ -264,7 +268,7 @@ function TaskForm({
               </x.div>
 
               {/* Start Time */}
-              <x.div w={85} ml={2} mt="calc((0.889rem * 1.5) + 0.25rem)">
+              <x.div w={85} ml={2}>
                 <Controller
                   name="startTime"
                   control={control}
@@ -274,9 +278,9 @@ function TaskForm({
                   }) => {
                     return (
                       <Fieldset
+                        label="start time"
+                        hideLabel
                         id={`${formName}-startTime`}
-                        error={error}
-                        noErrorMessage
                         disabled={watch('openTask')}
                       >
                         <DateInput
@@ -315,8 +319,6 @@ function TaskForm({
                         id={`${formName}-endDate`}
                         label="To"
                         disabled={watch('openTask')}
-                        error={error}
-                        noErrorMessage
                         optionalField
                       >
                         <DateInput
@@ -342,7 +344,7 @@ function TaskForm({
               </x.div>
 
               {/* End Time */}
-              <x.div w={85} ml={2} mt="calc((0.889rem * 1.5) + 0.25rem)">
+              <x.div w={85} ml={2}>
                 <Controller
                   name="endTime"
                   control={control}
@@ -352,10 +354,10 @@ function TaskForm({
                   }) => {
                     return (
                       <Fieldset
+                        label="end time"
+                        hideLabel
                         id={`${formName}-endTime`}
                         disabled={watch('openTask')}
-                        error={error}
-                        noErrorMessage
                       >
                         <DateInput
                           id={`${formName}-endTime`}
@@ -412,8 +414,8 @@ function TaskForm({
                 id={`${formName}-attachments`}
                 error={error}
                 supportiveText={`Photos • ${value.length}/10 `}
-                noBorder
                 optionalField
+                border="1px dashed"
               >
                 <ImageInput
                   id={`${formName}-attachments`}

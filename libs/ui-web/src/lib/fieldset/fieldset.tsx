@@ -1,139 +1,52 @@
 import { FieldError } from 'react-hook-form'
-import styled, { css, x } from '@xstyled/styled-components'
+import { x, BorderProps } from '@xstyled/styled-components'
 import * as _ from 'lodash'
-
-export const Label = styled(x.label)`
-  display: block;
-  font-size: sm;
-  line-height: relaxed;
-  color: content-subtle;
-  &::first-letter {
-    text-transform: uppercase;
-  }
-`
-
-type WrapperProps = {
-  success?: boolean
-  error?: boolean
-  noBorder?: boolean
-  width?: string
-  size?: 'small' | 'large'
-}
-
-const Wrapper = styled.div<WrapperProps>`
-  width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
-  position: relative;
-
-  padding: 0;
-
-  border-radius: 2;
-  border: 1px solid;
-  border-color: layout-divider;
-  box-shadow: none;
-  transition: all 0.2s ease-out;
-
-  input,
-  textarea,
-  button {
-    border-radius: 2;
-    padding: 3 2;
-    background-color: layout-level0;
-    width: ${(props) => (props.width === 'fit' ? 'fit-content' : '100%')};
-
-    ${({ size }) =>
-      size === 'small' &&
-      css`
-        padding: 2;
-      `}
-  }
-
-  &:focus-within {
-    border-color: brand-primary;
-  }
-
-  ${({ success, error, theme: { colors } }) => css`
-    border-color: ${(success && 'utility.confirmation') ||
-    (error && 'utility-critical')};
-  `}
-
-  ${({ noBorder }) => css`
-    border: ${noBorder && 'none'};
-  `}
-`
-
-const StyledFieldset = styled.fieldset`
-  &:disabled {
-    ${Wrapper} {
-      input,
-      textarea,
-      button {
-        background-color: layout-level1accent;
-      }
-    }
-  }
-`
-
-const SupportiveText = styled.span`
-  font-size: xs;
-  line-height: tighter;
-  color: content-subtle;
-  display: block;
-  margin-top: 1;
-
-  &:first-letter {
-    text-transform: uppercase;
-  }
-`
-const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
-  color: utility-critical;
-`
+import { Label } from '@the-planner/ui-web'
+import { ErrorMessage, Field, SupportiveText, Wrapper } from './fieldset.style'
 
 type Props = {
-  children: JSX.Element
-  label?: string
-  showLabel?: boolean
+  id: string
+  children: JSX.Element | JSX.Element[]
+  label: string
+  hideLabel?: boolean
   supportiveText?: string
   disabled?: boolean
   error?: FieldError | FieldError[] | undefined
-  noErrorMessage?: boolean
-  noBorder?: boolean
   optionalField?: boolean
-  id?: string
-  width?: 'fit' | 'full'
-  size?: 'small' | 'large'
-}
+} & BorderProps
 
 export function Fieldset({
+  id,
+  children,
   label,
-  showLabel = true,
+  hideLabel = false,
+  supportiveText,
   disabled,
   error,
-  noErrorMessage = false,
-  children,
-  supportiveText,
-  noBorder = false,
   optionalField,
-  id,
-  width,
-  size,
+  ...props
 }: Props) {
   const isError = _.isObject(error) || _.isArray(error)
 
   return (
-    <StyledFieldset disabled={disabled}>
+    <Field disabled={disabled}>
       {label && (
         <Label
-          color={isError ? 'utility-critical' : 'content-subtle'}
           htmlFor={id}
-          visibility={showLabel ? 'visible' : 'hidden'}
+          error={isError}
+          hidden={hideLabel}
+          optional={optionalField}
         >
-          {label}{' '}
-          {optionalField && (
-            <x.span color="content-nonessential">(optional)</x.span>
-          )}
+          {label}
         </Label>
       )}
-      <Wrapper error={isError} noBorder={noBorder} width={width} size={size}>
+
+      <Wrapper
+        error={isError}
+        border="1px solid"
+        borderColor="layout-divider"
+        {...props}
+      >
         {children}
       </Wrapper>
 
@@ -141,7 +54,7 @@ export function Fieldset({
         <SupportiveText as="span">{supportiveText}</SupportiveText>
       )}
 
-      {!noErrorMessage && _.isArray(error) && (
+      {_.isArray(error) && (
         <x.ul>
           {error.map((err, i) => (
             <li key={i}>
@@ -151,10 +64,10 @@ export function Fieldset({
         </x.ul>
       )}
 
-      {!noErrorMessage && _.isObject(error) && !(error instanceof Array) && (
-        <ErrorMessage as="span">• {error.message}</ErrorMessage>
+      {_.isObject(error) && !(error instanceof Array) && (
+        <ErrorMessage as="span">{error.message}</ErrorMessage>
       )}
-    </StyledFieldset>
+    </Field>
   )
 }
 

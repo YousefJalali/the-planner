@@ -1,10 +1,15 @@
 import { x } from '@xstyled/styled-components'
 import { FC, useMemo, useState } from 'react'
-import { FiPlus } from 'react-icons/fi'
+import { FiPlus, FiSearch } from 'react-icons/fi'
+import { FixedSizeList as List } from 'react-window'
+import AutoSizer from 'react-virtualized-auto-sizer'
+
 import { useProjects } from '@the-planner/data'
 import { ProjectType } from '@the-planner/types'
-import ProjectItem from '../project/ProjectItem'
 import { Spinner, Fieldset } from '@the-planner/ui-web'
+import { useWindowSize } from '@the-planner/hooks'
+
+import ProjectItem from '../project/ProjectItem'
 
 type Props = {
   onSelect: (project: ProjectType) => void
@@ -13,6 +18,7 @@ type Props = {
 
 const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
   const [search, setSearch] = useState('')
+  const { height } = useWindowSize()
 
   const { projects, error, isLoading } = useProjects('list')
 
@@ -21,23 +27,53 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
     onSelect(project)
   }
 
-  const renderList = useMemo(
-    () =>
-      projects
-        ?.filter((p, i, arr) => p.title.includes(search))
-        .map((project, i, arr) => (
-          <x.li
-            key={project.id}
-            display="flex"
-            alignItems="center"
-            p={3}
-            onClick={() => onSelectHandler(project)}
-          >
-            <ProjectItem project={project} />
-          </x.li>
-        )),
-    [projects, search]
-  )
+  const renderList = useMemo(() => {
+    const data = projects.filter((p, i, arr) =>
+      p.title.toLowerCase().includes(search.toLowerCase())
+    )
+
+    if (data.length <= 0) {
+      return (
+        <x.div p={3} color="content-nonessential" textAlign="center">
+          No project found
+        </x.div>
+      )
+    }
+
+    return (
+      <AutoSizer>
+        {({ height, width }) => {
+          return (
+            <List
+              innerElementType="ul"
+              itemData={data}
+              itemCount={data.length}
+              itemSize={58}
+              height={height}
+              width={width}
+            >
+              {({ data, index, style }) => {
+                return (
+                  <x.li
+                    key={data[index].id}
+                    display="flex"
+                    alignItems="center"
+                    p={3}
+                    onClick={() => onSelectHandler(data[index])}
+                    style={style}
+                    borderBottom="1px solid"
+                    borderColor="layout-level0accent"
+                  >
+                    <ProjectItem project={data[index]} />
+                  </x.li>
+                )
+              }}
+            </List>
+          )
+        }}
+      </AutoSizer>
+    )
+  }, [projects, search])
 
   return error ? (
     <x.div p={3} display="flex" justifyContent="center">
@@ -48,16 +84,10 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
       <Spinner pathColor="brand-primary" trailColor="layout-level0accent" />
     </x.div>
   ) : (
-    <x.ul
-      position="relative"
-      my={1}
-      divideY
-      divideColor="layout-level0accent"
-      id="project-list-select"
-    >
+    <x.div position="relative" my={1} id="project-list-select">
       {projects?.length > 10 && (
-        <x.li p={3} position="sticky" top="0">
-          <Fieldset size="small">
+        <x.div p={3} position="sticky" top="0" zIndex="1000">
+          <Fieldset>
             <x.input
               type="search"
               placeholder="Search..."
@@ -67,18 +97,14 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
               boxShadow={2}
             />
           </Fieldset>
-        </x.li>
+        </x.div>
       )}
 
-      {renderList.length > 0 ? (
-        renderList
-      ) : (
-        <x.li p={3} color="content-nonessential">
-          No project found
-        </x.li>
-      )}
+      <x.div h="100%" minHeight={height ? height / 2 : 300} flex="1 1 auto">
+        {renderList}
+      </x.div>
 
-      <x.li
+      <x.div
         display="flex"
         alignItems="center"
         p={3}
@@ -86,6 +112,8 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
         bottom="0"
         backgroundColor="layout-level0"
         onClick={onCreate}
+        borderTop="1px solid"
+        borderColor="layout-level0accent"
       >
         <x.span
           text="body"
@@ -96,8 +124,8 @@ const ProjectsList: FC<Props> = ({ onSelect, onCreate }) => {
           <FiPlus />
           <x.span ml={1}>Create Project</x.span>
         </x.span>
-      </x.li>
-    </x.ul>
+      </x.div>
+    </x.div>
   )
 }
 

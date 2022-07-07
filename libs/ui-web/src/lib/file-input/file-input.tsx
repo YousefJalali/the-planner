@@ -82,8 +82,6 @@ export const ImageInput = ({ value, onChange, max, multiple, id }: Props) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          border="1px dashed"
-          borderColor="layout-divider"
           borderRadius={2}
         >
           <x.input
