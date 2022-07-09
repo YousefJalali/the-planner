@@ -3,11 +3,10 @@ import { x, useColorMode } from '@xstyled/styled-components'
 import { v2 as cloudinary } from 'cloudinary'
 import { prisma } from '../common/lib/prisma'
 
-import Header from '../components/layout/Header'
 import ProjectsCardsList from '../components/project/ProjectsCardsList'
-import { ToggleButton, Logo, Emoji } from '@the-planner/ui-web'
+import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 
-import FloatingButton from '../components/FloatingButton'
+import FloatingButton from '../components/task/CreateTaskButton'
 import DateTasks from '../components/task/DateTasks'
 import SearchInput from '../components/search/SearchInput'
 

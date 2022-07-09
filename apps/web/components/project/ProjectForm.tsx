@@ -57,7 +57,7 @@ function ProjectForm<T>({
     handleSubmit,
     control,
     setError,
-    formState: { isDirty, errors },
+    formState: { isDirty },
     clearErrors,
   } = useForm<ProjectType>({
     defaultValues: {
@@ -91,8 +91,8 @@ function ProjectForm<T>({
       isDirty={isDirty}
     >
       <Fieldset
-        noBorder
         supportiveText="select a color so it will be easy for you to organize your projects"
+        border="0px solid"
       >
         <x.div display="flex" spaceX={2}>
           {/* Title */}
@@ -127,9 +127,8 @@ function ProjectForm<T>({
                   <Fieldset
                     id={`${formName}-color`}
                     label="color"
-                    showLabel={false}
+                    hideLabel
                     error={error}
-                    width="fit"
                   >
                     <ColorInput value={value} onChange={onChange} />
                   </Fieldset>

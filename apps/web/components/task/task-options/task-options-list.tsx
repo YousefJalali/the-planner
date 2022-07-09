@@ -3,7 +3,8 @@ import { FC } from 'react'
 import { FiEdit3, FiPieChart, FiTrash2 } from 'react-icons/fi'
 import { Status } from '@the-planner/types'
 import { Button } from '@the-planner/ui-web'
-import Tag from './Tag'
+import Tag from '../Tag'
+import TaskOption from './task-option'
 
 type Props = {
   onStatusChange: () => void
@@ -11,37 +12,6 @@ type Props = {
   onDelete: () => void
   status: Status
 }
-
-const Item = ({
-  icon,
-  onClick,
-  content,
-  color,
-}: {
-  icon: JSX.Element
-  onClick?: () => void
-  content: JSX.Element | string
-  color?: string
-}) => (
-  <x.li
-    display="flex"
-    alignItems="center"
-    px={3}
-    onClick={onClick}
-    minHeight={56}
-  >
-    <x.span color={color || 'content-contrast'} fontSize="1.25rem">
-      {icon}
-    </x.span>
-    {typeof content === 'string' ? (
-      <x.span ml={2} lineHeight="tight" color={color || 'content-contrast'}>
-        {content}
-      </x.span>
-    ) : (
-      content
-    )}
-  </x.li>
-)
 
 const TaskOptionsList: FC<Props> = ({
   onStatusChange,
@@ -51,7 +21,7 @@ const TaskOptionsList: FC<Props> = ({
 }) => {
   return (
     <x.ul my={1} divideY divideColor="layout-level0accent">
-      <Item
+      <TaskOption
         icon={<FiPieChart />}
         content={
           <x.div
@@ -79,9 +49,9 @@ const TaskOptionsList: FC<Props> = ({
         }
       />
 
-      <Item onClick={onEdit} icon={<FiEdit3 />} content="Edit task" />
+      <TaskOption onClick={onEdit} icon={<FiEdit3 />} content="Edit task" />
 
-      <Item
+      <TaskOption
         onClick={onDelete}
         icon={<FiTrash2 />}
         content="Delete task"

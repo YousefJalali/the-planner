@@ -2,13 +2,13 @@ import { x } from '@xstyled/styled-components'
 import { FiCalendar } from 'react-icons/fi'
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import { formatDate } from '@the-planner/utils'
-import Tag from './Tag'
-import { Details, TaskTitle } from './TaskItem'
+import Tag from '../Tag'
+import { Details, Title } from './task-item-elements'
 
 const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
   return (
     <x.div
-      data-testid="task-search"
+      data-testid="task-item-search"
       position="relative"
       p={2}
       pl={4}
@@ -28,9 +28,9 @@ const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
 
       <x.span fontSize="xs">{task.project.title}</x.span>
 
-      <TaskTitle isTaskCompleted={task.status === Status.COMPLETED}>
+      <Title isTaskCompleted={task.status === Status.COMPLETED}>
         {task.title}
-      </TaskTitle>
+      </Title>
 
       <x.div
         display="flex"

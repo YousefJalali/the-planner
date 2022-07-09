@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event'
 import { render, mockNextUseRouter } from '../../test-utils'
 import { Status, TaskWithProjectType } from '@the-planner/types'
-import TaskOptions from '../../components/task/TaskOptions'
+import TaskOptions from '../../components/task/task-options/task-options-kebab'
 
 test('task options', () => {
   expect(true).toBe(true)

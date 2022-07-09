@@ -1,6 +1,6 @@
 import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
-import DateSelector from '../../components/task/DateSelector'
+import DateSelector from '../../components/date-selector'
 import { format } from 'date-fns'
 import { URL_DATE_FORMAT } from '@the-planner/utils'
 

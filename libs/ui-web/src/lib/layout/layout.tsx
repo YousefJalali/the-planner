@@ -2,14 +2,14 @@ import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 // import { isMobile } from 'react-device-detect'
 // import { Grid } from '@the-planner/ui-web'
-import Modal from './Modal'
-import Notification from './Notification'
-import Prompt from './Prompt'
+import Modal from '../modal/modal'
+import Notification from '../notification/notification'
+import Prompt from '../prompt/prompt'
 
 type Props = {
   children: JSX.Element | JSX.Element[]
 }
-const Layout: FC<Props> = ({ children }) => {
+export const Layout: FC<Props> = ({ children }) => {
   return (
     <x.main
       container

@@ -3,12 +3,11 @@ import styled, { x } from '@xstyled/styled-components'
 import { FiArrowLeft } from 'react-icons/fi'
 import _ from 'lodash'
 
-import Header from '../../components/layout/Header'
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import { useProject } from '@the-planner/data'
 
 import TasksLists from '../../components/task/TasksLists'
-import FloatingButton from '../../components/FloatingButton'
+import FloatingButton from '../../components/task/CreateTaskButton'
 import { useModal } from '@the-planner/hooks'
 import {
   Spinner,
@@ -17,6 +16,7 @@ import {
   TextEditor,
   LinearProgress,
   ErrorMessage,
+  Header,
 } from '@the-planner/ui-web'
 import { useEditProject, useDeleteProject } from '@the-planner/data'
 import ProjectForm from '../../components/project/ProjectForm'

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useNotification } from '@the-planner/hooks'
-import NotificationContent from './NotificationContent'
+import NotificationContent from './notification-content'
 
 const Notification: FC = () => {
   const { notification, clearNotification } = useNotification()

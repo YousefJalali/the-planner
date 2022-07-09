@@ -5,9 +5,9 @@ import { Label } from '@the-planner/ui-web'
 import { ErrorMessage, Field, SupportiveText, Wrapper } from './fieldset.style'
 
 type Props = {
-  id: string
+  id?: string
   children: JSX.Element | JSX.Element[]
-  label: string
+  label?: string
   hideLabel?: boolean
   supportiveText?: string
   disabled?: boolean

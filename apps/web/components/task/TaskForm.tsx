@@ -1,30 +1,21 @@
 import ObjectID from 'bson-objectid'
-import { x } from '@xstyled/styled-components'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import _ from 'lodash'
 import { parseISO } from 'date-fns'
 import { useEffect, useMemo } from 'react'
 
-import SelectProject from '../project/SelectProject'
-import {
-  Button,
-  Input,
-  ImageInput,
-  DateInput,
-  TextEditor,
-  ToggleButton,
-  Fieldset,
-  Form,
-} from '@the-planner/ui-web'
+import { Button, Form } from '@the-planner/ui-web'
 
 import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
 import { useYupValidationResolver } from '@the-planner/hooks'
+import { addCurrentTime, addServerErrors, taskSchema } from '@the-planner/utils'
 import {
-  addCurrentTime,
-  dateFormatPattern,
-  addServerErrors,
-  taskSchema,
-} from '@the-planner/utils'
+  Title,
+  Project,
+  Description,
+  Attachments,
+  DateAndTime,
+} from './task-form-inputs'
 
 type Props = {
   id: 'create' | 'edit'
@@ -146,288 +137,21 @@ function TaskForm({
         onSubmit={handleSubmit(onSubmitHandler)}
         isDirty={isDirty}
       >
-        {/* Title */}
-        {/* <FormControl name="title" label="Task title">
-          <Input type="text" placeholder="i.e. speakers" />
-        </FormControl> */}
-        <Controller
-          name="title"
+        <Title control={control} formName={formName} />
+
+        <Project control={control} formName={formName} setValue={setValue} />
+
+        <DateAndTime
           control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
-            return (
-              <Fieldset
-                id={`${formName}-title`}
-                label="Task title"
-                error={error}
-              >
-                <Input
-                  id={`${formName}-title`}
-                  type="text"
-                  placeholder="i.e. speakers"
-                  value={value}
-                  onChange={onChange}
-                />
-              </Fieldset>
-            )
-          }}
+          formName={formName}
+          watch={watch}
+          getValues={getValues}
+          errors={dateErrors}
         />
 
-        {/* Project */}
+        <Description control={control} formName={formName} />
 
-        <Controller
-          name="projectId"
-          control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
-            // const v = _.isObject(value) ? value.id : value
-
-            return (
-              <Fieldset
-                id={`${formName}-project`}
-                label="Project"
-                error={error}
-              >
-                <SelectProject
-                  id={`${formName}-project`}
-                  value={value}
-                  onChange={onChange}
-                  taskProject={(project) => setValue('project', project)}
-                  placeholder="Select a project"
-                />
-              </Fieldset>
-            )
-          }}
-        />
-
-        {/* Date */}
-        <Fieldset
-          label="date"
-          hideLabel
-          id={`${formName}-date`}
-          error={dateErrors}
-          supportiveText="End date & end time are optional"
-          border="0px solid"
-        >
-          <>
-            <x.div
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={1}
-            >
-              <x.span>Date & Time</x.span>
-              <x.div display="flex" alignItems="center">
-                <x.span mr={2}>Open task?</x.span>
-
-                <Controller
-                  name="openTask"
-                  control={control}
-                  render={({ field: { value, onChange } }) => {
-                    return (
-                      <ToggleButton
-                        id={`${formName}-openTask`}
-                        height={24}
-                        checked={value}
-                        onChange={(e) => {
-                          onChange(e.target.checked)
-                        }}
-                      />
-                    )
-                  }}
-                />
-              </x.div>
-            </x.div>
-
-            {/* Start Date */}
-            <x.div display="flex">
-              <x.div flex="0 0 calc(100% - 8px - 85px)">
-                <Controller
-                  name="startDate"
-                  control={control}
-                  render={({
-                    field: { value, onChange },
-                    fieldState: { error },
-                  }) => {
-                    return (
-                      <Fieldset id={`${formName}-startDate`} label="from">
-                        <DateInput
-                          id={`${formName}-startDate`}
-                          dataTestId="task-form-start-date"
-                          selectsStart
-                          selected={value}
-                          onChange={onChange}
-                          startDate={value}
-                          endDate={getValues('endDate')}
-                          popperPlacement="bottom-start"
-                          placeholderText="Click to select a date"
-                          dateFormat={dateFormatPattern(value)}
-                        />
-                      </Fieldset>
-                    )
-                  }}
-                />
-              </x.div>
-
-              {/* Start Time */}
-              <x.div w={85} ml={2}>
-                <Controller
-                  name="startTime"
-                  control={control}
-                  render={({
-                    field: { value, onChange },
-                    fieldState: { error },
-                  }) => {
-                    return (
-                      <Fieldset
-                        label="start time"
-                        hideLabel
-                        id={`${formName}-startTime`}
-                        disabled={watch('openTask')}
-                      >
-                        <DateInput
-                          id={`${formName}-startTime`}
-                          dataTestId="task-form-start-time"
-                          selected={value}
-                          onChange={onChange}
-                          disabled={watch('openTask')}
-                          popperPlacement="bottom-end"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeIntervals={30}
-                          timeCaption=""
-                          dateFormat="h:mm aa"
-                          placeholderText="hh:mm"
-                        />
-                      </Fieldset>
-                    )
-                  }}
-                />
-              </x.div>
-            </x.div>
-
-            {/* End Date */}
-            <x.div display="flex" mt={3}>
-              <x.div flex="0 0 calc(100% - 8px - 85px)">
-                <Controller
-                  name="endDate"
-                  control={control}
-                  render={({
-                    field: { value, onChange },
-                    fieldState: { error },
-                  }) => {
-                    return (
-                      <Fieldset
-                        id={`${formName}-endDate`}
-                        label="To"
-                        disabled={watch('openTask')}
-                        optionalField
-                      >
-                        <DateInput
-                          id={`${formName}-endDate`}
-                          dataTestId="task-form-end-date"
-                          selectsEnd
-                          selected={value}
-                          onChange={onChange}
-                          startDate={getValues('startDate')}
-                          endDate={value}
-                          minDate={getValues('startDate')}
-                          disabled={watch('openTask')}
-                          popperPlacement="bottom-start"
-                          placeholderText="Due date"
-                          dateFormat={
-                            value ? dateFormatPattern(value) : undefined
-                          }
-                        />
-                      </Fieldset>
-                    )
-                  }}
-                />
-              </x.div>
-
-              {/* End Time */}
-              <x.div w={85} ml={2}>
-                <Controller
-                  name="endTime"
-                  control={control}
-                  render={({
-                    field: { value, onChange },
-                    fieldState: { error },
-                  }) => {
-                    return (
-                      <Fieldset
-                        label="end time"
-                        hideLabel
-                        id={`${formName}-endTime`}
-                        disabled={watch('openTask')}
-                      >
-                        <DateInput
-                          id={`${formName}-endTime`}
-                          dataTestId="task-form-end-time"
-                          selected={value}
-                          onChange={onChange}
-                          disabled={watch('openTask')}
-                          popperPlacement="bottom-end"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeIntervals={30}
-                          timeCaption=""
-                          dateFormat="h:mm aa"
-                          placeholderText="hh:mm"
-                        />
-                      </Fieldset>
-                    )
-                  }}
-                />
-              </x.div>
-            </x.div>
-          </>
-        </Fieldset>
-
-        <Controller
-          name="description"
-          control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
-            return (
-              <Fieldset
-                id={`${formName}-description`}
-                label="description"
-                error={error}
-                optionalField
-              >
-                <TextEditor
-                  id={`${formName}-description`}
-                  value={value}
-                  onChange={onChange}
-                  placeholder="A brief about the task..."
-                />
-              </Fieldset>
-            )
-          }}
-        />
-
-        <Controller
-          name="attachments"
-          control={control}
-          render={({ field: { value, onChange }, fieldState: { error } }) => {
-            return (
-              <Fieldset
-                label="attachments"
-                id={`${formName}-attachments`}
-                error={error}
-                supportiveText={`Photos • ${value.length}/10 `}
-                optionalField
-                border="1px dashed"
-              >
-                <ImageInput
-                  id={`${formName}-attachments`}
-                  value={value}
-                  onChange={onChange}
-                  max={10}
-                  multiple
-                />
-              </Fieldset>
-            )
-          }}
-        />
+        <Attachments control={control} formName={formName} />
 
         <Button
           name="submit task"

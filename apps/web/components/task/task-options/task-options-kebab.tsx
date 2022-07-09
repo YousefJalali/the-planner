@@ -9,16 +9,16 @@ import {
 } from '@the-planner/data'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
 import { Button } from '@the-planner/ui-web'
-import StatusList from './StatusList'
-import TaskForm from './TaskForm'
-import TaskOptionsList from './TaskOptionsList'
+import StatusList from '../StatusList'
+import TaskForm from '../TaskForm'
+import TaskOptionsList from './task-options-list'
 
 type Props = {
   task: TaskWithProjectType
   inHeader?: boolean
 }
 
-const TaskOptions: FC<Props> = ({ task, inHeader }) => {
+const TaskOptionsKebab: FC<Props> = ({ task, inHeader }) => {
   const { setModal, clearModal } = useModal()
 
   const showTaskForm = (
@@ -110,4 +110,4 @@ const TaskOptions: FC<Props> = ({ task, inHeader }) => {
   )
 }
 
-export default TaskOptions
+export default TaskOptionsKebab

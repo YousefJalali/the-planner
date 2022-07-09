@@ -15,7 +15,7 @@ import {
   Fieldset,
   NoSearchDataSvg,
 } from '@the-planner/ui-web'
-import SearchedTask from '../task/SearchedTask'
+import SearchedTask from '../task/task-item/task-item-search'
 import TaskDetails from '../task/TaskDetails'
 import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'
 

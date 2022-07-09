@@ -3,9 +3,9 @@ import { LabelHTMLAttributes } from 'react'
 
 type LabelProps = {
   children: string
-  optional: boolean
-  error: boolean
-  hidden: boolean
+  optional?: boolean
+  error?: boolean
+  hidden?: boolean
 } & LabelHTMLAttributes<HTMLLabelElement>
 
 export const Label = ({

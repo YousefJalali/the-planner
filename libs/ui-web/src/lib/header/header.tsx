@@ -6,17 +6,17 @@ type Props = {
   children: JSX.Element | JSX.Element[]
   pageTitle: string
 }
-const Header: FC<Props> = ({ children, pageTitle = '' }) => {
+export const Header: FC<Props> = ({ children, pageTitle = '' }) => {
   return (
     <>
       <Head>
         <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title>
-        <meta charSet='utf-8' />
+        <meta charSet="utf-8" />
       </Head>
       <x.header
-        display='flex'
-        justifyContent='space-between'
-        alignItems='center'
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
         pt={2}
         mb={4}
       >

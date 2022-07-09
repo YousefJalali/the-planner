@@ -2,10 +2,9 @@ import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import { useTask } from '@the-planner/data'
-import Header from '../../components/layout/Header'
-import { Spinner, Button } from '@the-planner/ui-web'
+import { Spinner, Button, Header } from '@the-planner/ui-web'
 import TaskDetails from '../../components/task/TaskDetails'
-import TaskOptions from '../../components/task/TaskOptions'
+import TaskOptions from '../../components/task/task-options/task-options-kebab'
 
 const TaskDetailsPage = () => {
   const router = useRouter()

@@ -8,7 +8,7 @@ import { useNotification } from '@the-planner/hooks'
 import { useDateTasks } from '@the-planner/data'
 import { URL_DATE_FORMAT } from '@the-planner/utils'
 
-import DateSelector from './DateSelector'
+import DateSelector from '../date-selector'
 import SkeletonList from '../skeletons/SkeletonList'
 import TagSkeleton from '../skeletons/TagSkeleton'
 import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'

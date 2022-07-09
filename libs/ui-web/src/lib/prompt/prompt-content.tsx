@@ -2,8 +2,7 @@ import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import styled, { x } from '@xstyled/styled-components'
 import { PromptType } from '@the-planner/hooks'
-import { Button } from '@the-planner/ui-web'
-import { Backdrop } from './Modal'
+import { Button, Backdrop } from '@the-planner/ui-web'
 
 type Props = {
   prompt: PromptType

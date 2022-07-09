@@ -4,22 +4,21 @@ import _ from 'lodash'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { x } from '@xstyled/styled-components'
+import { AnimatePresence, motion } from 'framer-motion'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { Spinner, Button, Header } from '@the-planner/ui-web'
+import { Status } from '@the-planner/types'
+import { useInfiniteProjects } from '@the-planner/data'
+import { useModal } from '@the-planner/hooks'
 
-import Header from '../../components/layout/Header'
 import ProjectCard from '../../components/project/ProjectCard'
 import NewProjectCard from '../../components/project/NewProjectCard'
 
 import FilterProjects, {
   filterType,
 } from '../../components/project/FilterProjects'
-import { useInfiniteProjects } from '@the-planner/data'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
-import { useModal } from '@the-planner/hooks'
 import CreateProject from '../../components/project/CreateProject'
-import { Spinner, Button } from '@the-planner/ui-web'
-import { AnimatePresence, motion } from 'framer-motion'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Status } from '@the-planner/types'
 
 const Index: NextPage = () => {
   const [filter, setFilter] = useState<filterType>(null)

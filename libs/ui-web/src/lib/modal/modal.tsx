@@ -149,7 +149,7 @@ const ContentWrapper = ({
   ) : null
 }
 
-const Modal: FC = () => {
+export const Modal: FC = () => {
   const { modals, clearModal } = useModal()
 
   if (typeof window === 'undefined') return null

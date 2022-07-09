@@ -10,11 +10,11 @@ import 'nprogress/nprogress.css'
 import { SWRConfig } from 'swr'
 import { CookiesProvider } from 'react-cookie'
 
-import { theme, GlobalStyle } from '@the-planner/ui-web'
+import { theme, GlobalStyle, Layout } from '@the-planner/ui-web'
 import '../fonts.css'
 
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
-import Layout from '../components/layout/Layout'
+
 import {
   PromptCtxProvider,
   ModalCtxProvider,

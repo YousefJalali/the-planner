@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import { statusAlias } from '@the-planner/utils'
 import Tag from './Tag'
-import TaskItem from './TaskItem'
+import TaskItem from './task-item/task-item'
 
 const animations = {
   initial: { opacity: 0 },

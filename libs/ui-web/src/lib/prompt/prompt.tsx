@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence } from 'framer-motion'
 import { usePrompt } from '@the-planner/hooks'
-import PromptContent from './PromptContent'
+import PromptContent from './prompt-content'
 
-const Notification: FC = () => {
+export const Prompt: FC = () => {
   const { prompt, clearPrompt } = usePrompt()
 
   if (typeof window === 'undefined') return null
@@ -23,4 +23,4 @@ const Notification: FC = () => {
   )
 }
 
-export default Notification
+export default Prompt
