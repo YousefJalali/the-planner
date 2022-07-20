@@ -1,48 +1,41 @@
-import { Fieldset, Label } from '@the-planner/ui-web'
-import { Children, cloneElement } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import {
+  Controller,
+  ControllerFieldState,
+  ControllerRenderProps,
+  useFormContext,
+  UseFormReturn,
+} from 'react-hook-form'
+import { MethodsWithFormName } from './form'
 
-type Props = {
-  formName?: string
-  name: string
-  children: JSX.Element
-  label: string
-  disabled?: boolean
-  hideLabel?: boolean
+export type ChildrenProps = {
+  id: string
+  field: ControllerRenderProps
+  fieldState: ControllerFieldState
+  methods: UseFormReturn
 }
 
-export const FormControl = ({
-  formName,
-  name,
-  label,
-  children,
-  disabled,
-  hideLabel,
-}: Props) => {
-  const { control } = useFormContext()
+type Props = {
+  name: string
+  children: ({ id, field, fieldState, methods }: ChildrenProps) => JSX.Element
+}
+
+export function FormControl({ name, children }: Props) {
+  const methods = useFormContext()
 
   return (
     <Controller
       name={name}
-      control={control}
-      render={({ field: { value, onChange }, fieldState: { error } }) => {
+      control={methods.control}
+      render={({ field, fieldState }) => {
         return (
-          <Fieldset
-            id={`${formName}-${name}`}
-            label={label}
-            error={error}
-            disabled={disabled}
-            hideLabel={hideLabel}
-          >
-            {Children.map(children, (child) => {
-              return cloneElement(child, {
-                value: value as string,
-                onChange,
-                error,
-                id: `${formName}-${name}`,
-              })
+          <>
+            {children({
+              id: `${(methods as MethodsWithFormName).formName}-${name}`,
+              field,
+              fieldState,
+              methods,
             })}
-          </Fieldset>
+          </>
         )
       }}
     />

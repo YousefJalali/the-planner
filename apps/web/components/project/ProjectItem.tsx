@@ -8,7 +8,7 @@ type Props = {
   onClick?: () => void
 }
 
-const ProjectItemComp: FC<Props> = ({ project, onClick }) => {
+const ProjectItem: FC<Props> = ({ project, onClick }) => {
   return (
     <x.div display="flex" alignItems="center" onClick={onClick}>
       <FiCircle fill={project.color} strokeWidth={0} />
@@ -19,4 +19,4 @@ const ProjectItemComp: FC<Props> = ({ project, onClick }) => {
   )
 }
 
-export default ProjectItemComp
+export default ProjectItem

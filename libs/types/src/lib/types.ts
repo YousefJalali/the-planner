@@ -1,3 +1,4 @@
-export function types(): string {
-  return 'types'
+export type FilterType = {
+  alias: string
+  value: string
 }

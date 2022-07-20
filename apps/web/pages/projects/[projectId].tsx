@@ -1,12 +1,11 @@
 import { useRouter } from 'next/router'
 import styled, { x } from '@xstyled/styled-components'
 import { FiArrowLeft } from 'react-icons/fi'
-import _ from 'lodash'
 
 import { Status, TaskWithProjectType } from '@the-planner/types'
 import { useProject } from '@the-planner/data'
 
-import TasksLists from '../../components/task/TasksLists'
+import TasksLists from '../../components/task/tasks-list'
 import FloatingButton from '../../components/task/CreateTaskButton'
 import { useModal } from '@the-planner/hooks'
 import {
@@ -19,7 +18,7 @@ import {
   Header,
 } from '@the-planner/ui-web'
 import { useEditProject, useDeleteProject } from '@the-planner/data'
-import ProjectForm from '../../components/project/ProjectForm'
+import ProjectForm from '../../components/project/project-form'
 import { useMemo } from 'react'
 
 const Lists = styled(ScrollableList)`
@@ -138,8 +137,8 @@ const Project = () => {
               <Lists as="section" spaceX={3} mb={4}>
                 <TasksLists
                   tasks={project.tasks as TaskWithProjectType[]}
-                  showEmptyState
-                  showDivider
+                  showEmptyList
+                  withDivider
                 />
               </Lists>
             </>

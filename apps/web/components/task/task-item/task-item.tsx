@@ -5,7 +5,7 @@ import { TaskWithProjectType, Status } from '@the-planner/types'
 import { Checkbox } from '@the-planner/ui-web'
 import TaskOptionsKebab from '../task-options/task-options-kebab'
 import { useModal } from '@the-planner/hooks'
-import TaskDetails from '../TaskDetails'
+import { TaskDetails } from '../task-details'
 import { useUpdateTaskStatus } from '@the-planner/data'
 import { Title, Time, Attachments, Link } from './task-item-elements'
 
@@ -13,7 +13,7 @@ type Props = {
   task: TaskWithProjectType
 }
 
-const TaskItem: FC<Props> = ({ task }) => {
+export const TaskItem: FC<Props> = ({ task }) => {
   const {
     id,
     title,

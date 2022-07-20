@@ -57,6 +57,7 @@ export const LinearProgress: FC<Props> = ({ color, percentage }) => {
           .map((ele, i) =>
             i === 4 || i === 0 ? null : (
               <x.div
+                key={i}
                 position="absolute"
                 top={0}
                 left={`${(100 * i) / 4}%`}

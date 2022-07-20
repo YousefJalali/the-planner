@@ -1,48 +1,86 @@
-import { usePrompt } from '@the-planner/hooks'
+import { useYupValidationResolver } from '@the-planner/hooks'
+import { addServerErrors } from '@the-planner/utils'
 import { x } from '@xstyled/styled-components'
 import Head from 'next/head'
-import { Children, cloneElement } from 'react'
-import FormHeader from './form-header'
+import { useEffect } from 'react'
+import {
+  DeepPartial,
+  FormProvider,
+  SubmitHandler,
+  UnpackNestedValue,
+  useForm,
+  UseFormReturn,
+} from 'react-hook-form'
+import { AnyObjectSchema } from 'yup'
 import LoadingOverlay from './loading-overlay'
 
 type Props<T> = {
   id: string
   name: string
-  title?: string
-  children: any
-  onRequestClose?: () => void
-  onSubmit: () => void
+  children: JSX.Element[]
+  submitHandler: SubmitHandler<T>
+  schema: AnyObjectSchema
+  defaultValues: UnpackNestedValue<DeepPartial<T>>
+  serverErrors?: object
   isSubmitting?: boolean
-  isDirty?: boolean
 }
-// const Header = dynamic(() => import('./FormHeader'))
+
+export type MethodsWithFormName = UseFormReturn & { formName: string }
 
 export function Form<T>({
   id,
   name,
-  title,
   children,
-  isSubmitting = false,
-  onRequestClose,
-  onSubmit,
-  isDirty,
+  submitHandler,
+  schema,
+  defaultValues,
+  serverErrors,
+  isSubmitting,
 }: Props<T>) {
-  const { setPrompt } = usePrompt()
+  // const { setPrompt } = usePrompt()
 
-  const onCloseHandler = () => {
-    if (onRequestClose) {
-      if (isDirty) {
-        setPrompt({
-          id: 'task-form',
-          title: 'are you sure?',
-          message: "you can't undo this",
-          action: 'discard',
-          actionFn: onRequestClose,
-        })
-      } else {
-        onRequestClose()
-      }
+  // const onCloseHandler = () => {
+  //   if (onRequestClose) {
+  //     if (isDirty) {
+  //       setPrompt({
+  //         id: name,
+  //         title: 'are you sure?',
+  //         message: "you can't undo this",
+  //         action: 'discard',
+  //         actionFn: onRequestClose,
+  //       })
+  //     } else {
+  //       onRequestClose()
+  //     }
+  //   }
+  // }
+
+  const resolver = useYupValidationResolver<T>(schema)
+
+  const methods = useForm<T>({
+    defaultValues,
+    resolver,
+  })
+
+  const {
+    handleSubmit,
+    setError,
+    formState: { isDirty },
+    clearErrors,
+  } = methods
+
+  useEffect(() => {
+    if (serverErrors) {
+      addServerErrors(serverErrors, setError)
     }
+    return () => {
+      clearErrors()
+    }
+  }, [serverErrors])
+
+  const methodsWithFormName: MethodsWithFormName = {
+    ...(methods as UseFormReturn),
+    formName: name,
   }
 
   return (
@@ -54,25 +92,19 @@ export function Form<T>({
         ></meta>
       </Head>
 
-      <LoadingOverlay isSubmitting={isSubmitting} />
+      <FormProvider {...methodsWithFormName}>
+        <x.form
+          id={`${id}-${name}`}
+          name={name}
+          spaceY={5}
+          p={3}
+          onSubmit={handleSubmit(submitHandler)}
+        >
+          {children}
+        </x.form>
+      </FormProvider>
 
-      <x.form
-        id={`${id}-${name}`}
-        name={name}
-        spaceY={5}
-        p={3}
-        onSubmit={onSubmit}
-      >
-        {title && (
-          <FormHeader
-            title={title}
-            onRequestClose={isSubmitting ? undefined : onCloseHandler}
-          />
-        )}
-        {Children.map(children, (child) => {
-          return cloneElement(child, { formName: name })
-        })}
-      </x.form>
+      <LoadingOverlay isSubmitting={isSubmitting} />
     </>
   )
 }

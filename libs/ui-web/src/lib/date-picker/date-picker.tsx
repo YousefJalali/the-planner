@@ -1,12 +1,11 @@
 import { forwardRef } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import DatePickerWrapper from './DatePickerStyle'
-import { Input } from '../input/input'
+import DatePickerWrapper from './date-picker.style'
+import { Input } from '@the-planner/ui-web'
 
-type Props = {
+export type DateInputProps = {
   dataTestId?: string
-  customInput?: JSX.Element
 } & ReactDatePickerProps
 
 const DefaultCustomInput = forwardRef<HTMLInputElement>((props, ref) => (
@@ -14,7 +13,7 @@ const DefaultCustomInput = forwardRef<HTMLInputElement>((props, ref) => (
 ))
 DefaultCustomInput.displayName = 'DefaultCustomInput'
 
-export function DateInput(props: Props) {
+export function DateInput(props: DateInputProps) {
   return (
     <DatePickerWrapper>
       <DatePicker

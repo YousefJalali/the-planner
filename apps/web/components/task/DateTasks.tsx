@@ -12,8 +12,16 @@ import DateSelector from '../date-selector'
 import SkeletonList from '../skeletons/SkeletonList'
 import TagSkeleton from '../skeletons/TagSkeleton'
 import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'
-import NoTasks from './NoTasks'
-import TasksLists from './TasksLists'
+import TasksLists from './tasks-list'
+import { NoTasksSvg, EmptyState } from '@the-planner/ui-web'
+
+const Empty = () => (
+  <EmptyState
+    illustration={<NoTasksSvg />}
+    title="No pending tasks today"
+    description=" Write down some tasks "
+  />
+)
 
 const DateTasks = () => {
   const router = useRouter()
@@ -75,7 +83,7 @@ const DateTasks = () => {
 
       <x.div px={4} overflowX="hidden">
         {error ? (
-          <NoTasks />
+          <Empty />
         ) : isLoading ? (
           <>
             <TagSkeleton />
@@ -85,7 +93,7 @@ const DateTasks = () => {
             </x.ul>
           </>
         ) : dateTasks && dateTasks.length <= 0 ? (
-          <NoTasks />
+          <Empty />
         ) : (
           <TasksLists tasks={dateTasks} />
         )}

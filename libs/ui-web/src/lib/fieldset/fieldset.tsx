@@ -1,19 +1,34 @@
-import { FieldError } from 'react-hook-form'
-import { x, BorderProps } from '@xstyled/styled-components'
+import { ControllerFieldState } from 'react-hook-form'
+import {
+  BorderProps,
+  FlexProps,
+  DisplayProps,
+  SpaceProps,
+  WidthProps,
+} from '@xstyled/styled-components'
 import * as _ from 'lodash'
 import { Label } from '@the-planner/ui-web'
-import { ErrorMessage, Field, SupportiveText, Wrapper } from './fieldset.style'
+import { Field, LeftIcon, StatusIcon } from './fieldset.style'
+import { FieldError, SupportiveText } from '.'
+import { FiAlertTriangle, FiCheck } from 'react-icons/fi'
 
-type Props = {
+type StyleProps = {} & BorderProps &
+  FlexProps &
+  DisplayProps &
+  SpaceProps &
+  WidthProps
+
+export type FieldsetProps = {
   id?: string
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element
   label?: string
   hideLabel?: boolean
-  supportiveText?: string
   disabled?: boolean
-  error?: FieldError | FieldError[] | undefined
+  supportiveText?: string
   optionalField?: boolean
-} & BorderProps
+  fieldState?: ControllerFieldState
+  leftIcon?: JSX.Element
+} & StyleProps
 
 export function Fieldset({
   id,
@@ -22,53 +37,54 @@ export function Fieldset({
   hideLabel = false,
   supportiveText,
   disabled,
-  error,
   optionalField,
+  fieldState,
+  leftIcon,
   ...props
-}: Props) {
+}: FieldsetProps) {
+  const { error, isDirty } = { ...fieldState }
+
   const isError = _.isObject(error) || _.isArray(error)
 
   return (
-    <Field disabled={disabled}>
+    <Field
+      w="100%"
+      disabled={disabled}
+      error={isError}
+      success={!isError && isDirty}
+      hideLabel={hideLabel}
+      leftIcon={leftIcon !== undefined}
+      {...props}
+    >
       {label && (
-        <Label
-          htmlFor={id}
-          error={isError}
-          hidden={hideLabel}
-          optional={optionalField}
-        >
+        <Label htmlFor={id} optional={optionalField}>
           {label}
         </Label>
       )}
 
-      <Wrapper
-        error={isError}
-        border="1px solid"
-        borderColor="layout-divider"
-        {...props}
-      >
-        {children}
-      </Wrapper>
+      <>{children}</>
 
-      {supportiveText && (
-        <SupportiveText as="span">{supportiveText}</SupportiveText>
+      {leftIcon && <LeftIcon>{leftIcon}</LeftIcon>}
+
+      {isError && (
+        <StatusIcon color="utility-critical">
+          <FiAlertTriangle />
+        </StatusIcon>
       )}
 
-      {_.isArray(error) && (
-        <x.ul>
-          {error.map((err, i) => (
-            <li key={i}>
-              <ErrorMessage as="span">• {err.message}</ErrorMessage>
-            </li>
-          ))}
-        </x.ul>
+      {!isError && isDirty && (
+        <StatusIcon color="utility-confirmation">
+          <FiCheck />
+        </StatusIcon>
       )}
 
-      {_.isObject(error) && !(error instanceof Array) && (
-        <ErrorMessage as="span">{error.message}</ErrorMessage>
-      )}
+      {supportiveText && <SupportiveText>{supportiveText}</SupportiveText>}
+
+      <FieldError error={error} />
     </Field>
   )
 }
+
+Fieldset.SupportiveText = SupportiveText
 
 export default Fieldset

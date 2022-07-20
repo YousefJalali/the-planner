@@ -1,38 +1,38 @@
 import { NextPage } from 'next'
 import { FiArrowLeft, FiPlus } from 'react-icons/fi'
-import _ from 'lodash'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { x } from '@xstyled/styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Spinner, Button, Header } from '@the-planner/ui-web'
-import { Status } from '@the-planner/types'
+import { Button, Header, Filter, DynamicFlatList } from '@the-planner/ui-web'
+import { FilterType, Status } from '@the-planner/types'
 import { useInfiniteProjects } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
 
-import ProjectCard from '../../components/project/ProjectCard'
-import NewProjectCard from '../../components/project/NewProjectCard'
+import ProjectCard from '../../components/project/project-card/project-card'
+import NewProjectCard from '../../components/project/project-card/new-project-card'
 
-import FilterProjects, {
-  filterType,
-} from '../../components/project/FilterProjects'
 import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
 import CreateProject from '../../components/project/CreateProject'
+import { statusAlias } from '@the-planner/utils'
+
+const FILTERS: FilterType[] = [
+  { alias: 'all', value: '' },
+  { alias: statusAlias(Status.COMPLETED), value: Status.COMPLETED },
+  { alias: statusAlias(Status.INPROGRESS), value: Status.INPROGRESS },
+]
 
 const Index: NextPage = () => {
-  const [filter, setFilter] = useState<filterType>(null)
+  const [filter, setFilter] = useState<FilterType>(FILTERS[0])
 
   const { projects, error, isLoading, size, setSize, hasReachedEnd } =
-    useInfiniteProjects(filter)
-
-  // console.log(projects)
+    useInfiniteProjects(filter.value)
 
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()
 
-  const filterHandler = (filter: filterType) => {
+  const filterHandler = (filter: FilterType) => {
     setFilter(filter)
 
     router.push(
@@ -40,7 +40,7 @@ const Index: NextPage = () => {
         query: filter
           ? {
               ...router.query,
-              q: filter.toLowerCase(),
+              q: filter.value.toLowerCase(),
             }
           : null,
       },
@@ -65,14 +65,6 @@ const Index: NextPage = () => {
   }
 
   const renderProjects = useMemo(() => {
-    // const filteredProjects = projects?.filter((p) =>
-    //   filter === 'completed'
-    //     ? p.progressPercentage === 100
-    //     : filter === 'ongoing'
-    //     ? p.progressPercentage !== 100
-    //     : p
-    // )
-
     return projects.length > 0 ? (
       projects.map((project, i) => {
         return (
@@ -86,7 +78,7 @@ const Index: NextPage = () => {
       })
     ) : (
       <x.li text="body.small" textAlign="center" color="content-subtle">
-        {filter === 'completed'
+        {filter.value === Status.COMPLETED
           ? 'No completed projects'
           : 'No projects in progress'}
       </x.li>
@@ -103,7 +95,7 @@ const Index: NextPage = () => {
         textAlign="center"
         color="content-subtle"
       >
-        {filter === Status.INPROGRESS
+        {filter.value === Status.INPROGRESS
           ? 'No projects in progress'
           : 'No completed projects'}
       </x.span>
@@ -147,7 +139,7 @@ const Index: NextPage = () => {
         </x.h1>
 
         <x.div mb={3}>
-          <FilterProjects active={filter} setActive={filterHandler} />
+          <Filter active={filter} setActive={filterHandler} items={FILTERS} />
         </x.div>
 
         {isLoading ? (
@@ -164,40 +156,13 @@ const Index: NextPage = () => {
           <EmptyState />
         ) : (
           <AnimatePresence>
-            <InfiniteScroll
+            <DynamicFlatList
               dataLength={projects.length}
               next={() => setSize(size + 1)}
               hasMore={!hasReachedEnd}
-              loader={
-                <x.div display="flex" justifyContent="center" py={3}>
-                  <Spinner
-                    pathColor="brand-primary"
-                    trailColor="layout-level0accent"
-                  />
-                </x.div>
-              }
-              // endMessage={
-              //   <p style={{ textAlign: 'center' }}>
-              //     <b>Yay! You have seen it all</b>
-              //   </p>
-              // }
-              // below props only if you need pull down functionality
-              // refreshFunction={this.refresh}
-              // pullDownToRefresh
-              // pullDownToRefreshThreshold={50}
-              // pullDownToRefreshContent={
-              //   <h3 style={{ textAlign: 'center' }}>
-              //     &#8595; Pull down to refresh
-              //   </h3>
-              // }
-              // releaseToRefreshContent={
-              //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-              // }
             >
-              <x.ul pb={3} spaceY={4}>
-                {renderProjects}
-              </x.ul>
-            </InfiniteScroll>
+              {renderProjects}
+            </DynamicFlatList>
           </AnimatePresence>
         )}
       </x.section>

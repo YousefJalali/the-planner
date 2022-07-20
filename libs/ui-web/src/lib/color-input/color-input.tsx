@@ -5,11 +5,12 @@ import { useOnClickOutside, useToggle } from '@the-planner/hooks'
 import { ColorResult, ChromePicker } from 'react-color'
 
 type Props = {
+  id: string
   value: string
   onChange: (color: string) => void
 }
 
-export const ColorInput: FC<Props> = ({ value, onChange }) => {
+export const ColorInput: FC<Props> = ({ id, value, onChange }) => {
   const [visible, setVisibility] = useToggle(false)
 
   const referenceRef = useRef(null)
@@ -49,11 +50,12 @@ export const ColorInput: FC<Props> = ({ value, onChange }) => {
   return (
     <>
       <x.button
+        id={id}
+        type="button"
         display="flex"
         alignItems="center"
         onClick={showColorPalette}
         ref={referenceRef}
-        type="button"
       >
         <x.div
           h={21}

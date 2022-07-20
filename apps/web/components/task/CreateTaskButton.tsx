@@ -2,8 +2,8 @@ import { FC } from 'react'
 import { useModal } from '@the-planner/hooks'
 import { useCreateTask } from '@the-planner/data'
 import { TaskType } from '@the-planner/types'
-import { FloatingButton } from '@the-planner/ui-web'
-import TaskForm from './TaskForm'
+import { FloatingButton, ModalHeader } from '@the-planner/ui-web'
+import { TaskForm } from './task-form'
 
 const CreateTaskBtn: FC = () => {
   const { setModal, clearModal } = useModal()
@@ -13,14 +13,17 @@ const CreateTaskBtn: FC = () => {
       id: 'task-create',
       fullScreen: true,
       content: (
-        <TaskForm
-          id="create"
-          title="New Task"
-          defaultValues={defValues || defaultValues}
-          onSubmit={onSubmit}
-          serverErrors={serverErrors}
-          onRequestClose={() => clearModal('task-create')}
-        />
+        <>
+          <ModalHeader onRequestClose={() => clearModal('task-create')} p={3}>
+            New Task
+          </ModalHeader>
+          <TaskForm
+            id="create"
+            defaultValues={defValues || defaultValues}
+            onSubmit={onSubmit}
+            serverErrors={serverErrors}
+          />
+        </>
       ),
     })
   }
@@ -32,7 +35,7 @@ const CreateTaskBtn: FC = () => {
   return (
     <FloatingButton
       name="create task button"
-      id="create-task-fb"
+      id="create-task-button"
       onClick={() => showForm()}
     />
   )

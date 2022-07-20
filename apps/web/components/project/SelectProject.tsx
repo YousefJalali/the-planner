@@ -7,8 +7,7 @@ import { useModal } from '@the-planner/hooks'
 import { Spinner } from '@the-planner/ui-web'
 import { useProject } from '@the-planner/data'
 
-import ProjectsList from './ProjectsList'
-import CreateProject from './CreateProject'
+import { ProjectsList, CreateProjectButton } from './projects-list/'
 
 type Props = {
   id: string
@@ -37,29 +36,13 @@ function SelectProject({
     }
   }, [value, fetchedProject])
 
-  const showCreateProjectModal = () => {
-    clearModal('project-list')
-
-    setModal({
-      id: 'project-create',
-      content: (
-        <CreateProject
-          onRequestClose={() => {
-            clearModal('project-create')
-            showProjectsList()
-          }}
-        />
-      ),
-    })
-  }
-
   const showProjectsList = () => {
     setModal({
       id: 'project-list',
       content: (
         <ProjectsList
           onSelect={selectHandler}
-          onCreate={showCreateProjectModal}
+          actionItem={<CreateProjectButton callback={showProjectsList} />}
         />
       ),
     })

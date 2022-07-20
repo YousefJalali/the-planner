@@ -5,7 +5,7 @@ import { Status, TaskType } from '@the-planner/types'
 export const taskSchema: SchemaOf<TaskType> = object({
   id: string().defined(),
   title: string().defined().required('task must have a title'),
-  description: string().defined(),
+  description: string().defined().required('must').length(10),
   projectId: string().required(
     'task must be under a project, select or create a project'
   ),
@@ -24,19 +24,20 @@ export const taskSchema: SchemaOf<TaskType> = object({
     .defined()
     .nullable(),
   startTime: date().defined().nullable(),
-  endTime: date()
-    .when('title', (startTime, schema) => {
-      console.log('schema', startTime)
-      const d = new Date(startTime)
-      const minTime = new Date(d.setMinutes(d.getMinutes() + 29))
+  endTime: date().defined().nullable(),
+  // endTime: date()
+  //   .when('title', (startTime, schema) => {
+  //     console.log('schema', startTime)
+  //     const d = new Date(startTime)
+  //     const minTime = new Date(d.setMinutes(d.getMinutes() + 29))
 
-      return schema.nullable()
-      // return startTime
-      //   ? schema.min(minTime, "end time can't be before start time")
-      //   : schema.nullable()
-    })
-    .defined()
-    .nullable(),
+  //     return schema.nullable()
+  //     // return startTime
+  //     //   ? schema.min(minTime, "end time can't be before start time")
+  //     //   : schema.nullable()
+  //   })
+  //   .defined()
+  //   .nullable(),
   attachments: array(),
   status: mixed<Status>().oneOf(Object.values(Status)).defined(),
   createdAt: date().defined(),

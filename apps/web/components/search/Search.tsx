@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import Head from 'next/head'
 import { KeyboardEvent, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import { FiClock, FiX } from 'react-icons/fi'
+import { FiClock, FiSearch, FiX } from 'react-icons/fi'
 import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
@@ -11,13 +11,14 @@ import { useRecentTasks, useSearch } from '@the-planner/data'
 import { TaskWithProjectType } from '@the-planner/types'
 import {
   Spinner,
-  FormHeader,
   Fieldset,
   NoSearchDataSvg,
+  ModalHeader,
+  Input,
 } from '@the-planner/ui-web'
 import SearchedTask from '../task/task-item/task-item-search'
-import TaskDetails from '../task/TaskDetails'
 import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'
+import { TaskDetails } from '../task/task-details'
 
 //helper function
 const replaceAt = (array: string[], index: number, value: string) => {
@@ -91,7 +92,7 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
 
       <x.div h="100vh" py={4}>
         <x.section px={4}>
-          <FormHeader title="Search" onRequestClose={onRequestClose} />
+          <ModalHeader onRequestClose={onRequestClose}>Search</ModalHeader>
           <x.span
             text="body.large"
             display="block"
@@ -101,9 +102,14 @@ const Search = ({ onRequestClose }: { onRequestClose: () => void }) => {
             What task or project are you looking for?
           </x.span>
 
-          <x.form mt={3}>
-            <Fieldset supportiveText="type a word from task or project title">
-              <x.input
+          <x.form>
+            <Fieldset
+              label="search"
+              hideLabel
+              supportiveText="type a word from task or project title"
+              leftIcon={<FiSearch />}
+            >
+              <Input
                 type="search"
                 name="keyword"
                 placeholder="Search..."

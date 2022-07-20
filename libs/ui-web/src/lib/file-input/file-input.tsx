@@ -107,6 +107,9 @@ export const ImageInput = ({ value, onChange, max, multiple, id }: Props) => {
             alignItems="center"
             justifyContent="center"
             p={3}
+            border="1px dashed"
+            borderColor="layout-divider"
+            borderRadius={2}
           >
             <x.div display="flex" flexDirection="column" alignItems="center">
               <x.span fontSize="1.5rem">

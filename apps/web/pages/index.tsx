@@ -1,9 +1,8 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { x, useColorMode } from '@xstyled/styled-components'
 import { v2 as cloudinary } from 'cloudinary'
-import { prisma } from '../common/lib/prisma'
 
-import ProjectsCardsList from '../components/project/ProjectsCardsList'
+import ProjectsCardsList from '../components/project/project-card/project-cards-list'
 import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 
 import FloatingButton from '../components/task/CreateTaskButton'

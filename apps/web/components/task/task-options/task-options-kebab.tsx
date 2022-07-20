@@ -8,9 +8,9 @@ import {
   useUpdateTaskStatus,
 } from '@the-planner/data'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
-import { Button } from '@the-planner/ui-web'
+import { Button, ModalHeader } from '@the-planner/ui-web'
 import StatusList from '../StatusList'
-import TaskForm from '../TaskForm'
+import { TaskForm } from '../task-form'
 import TaskOptionsList from './task-options-list'
 
 type Props = {
@@ -29,17 +29,23 @@ const TaskOptionsKebab: FC<Props> = ({ task, inHeader }) => {
       id: 'task-edit',
       fullScreen: true,
       content: (
-        <TaskForm
-          id="edit"
-          title="Edit Task"
-          defaultValues={defValues || task}
-          onSubmit={onSubmit}
-          serverErrors={serverErrors}
-          onRequestClose={() => {
-            clearModal('task-edit')
-            clearModal('task-options')
-          }}
-        />
+        <>
+          <ModalHeader
+            onRequestClose={() => {
+              clearModal('task-edit')
+              clearModal('task-options')
+            }}
+            p={3}
+          >
+            Edit Task
+          </ModalHeader>
+          <TaskForm
+            id="edit"
+            defaultValues={defValues || task}
+            onSubmit={onSubmit}
+            serverErrors={serverErrors}
+          />
+        </>
       ),
     })
   }

@@ -1,4 +1,11 @@
-import { format, getHours, getMinutes, isSameYear, set } from 'date-fns'
+import {
+  format,
+  getHours,
+  getMinutes,
+  isSameYear,
+  parseISO,
+  set,
+} from 'date-fns'
 
 export const URL_DATE_FORMAT = 'dd-MM-yyyy'
 
@@ -24,3 +31,6 @@ export const addCurrentTime = (date: Date | string) =>
         hours: getHours(new Date()),
         minutes: getMinutes(new Date()),
       })
+
+export const stringToDate: (date: string | Date) => Date = (date) =>
+  typeof date === 'string' ? parseISO(date) : date

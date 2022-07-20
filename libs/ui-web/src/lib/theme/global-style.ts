@@ -14,7 +14,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   input, fieldset, textarea {
-    width: 100%;
     border: none;
     background-color: transparent;
     padding: 0;

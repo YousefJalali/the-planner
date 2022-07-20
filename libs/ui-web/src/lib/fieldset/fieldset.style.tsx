@@ -1,62 +1,95 @@
 import styled, { css, x } from '@xstyled/styled-components'
 
-type WrapperProps = {
+type Props = {
   success?: boolean
   error?: boolean
+  hideLabel?: boolean
+  leftIcon?: boolean
 }
 
-export const Wrapper = styled(x.div)<WrapperProps>`
-  width: 100%;
+export const StatusIcon = styled(x.span)`
+  display: block;
+  width: fit-content;
+  position: absolute;
+  right: 2;
+  top: 50%;
+  transform: translateY(-50%);
+
+  > svg {
+    height: 1.2rem;
+    width: 1.2rem;
+    color: content-nonessential;
+  }
+`
+
+export const LeftIcon = styled(StatusIcon)`
+  right: none;
+  left: 2;
+`
+
+export const Field = styled(x.fieldset)<Props>`
   position: relative;
 
-  padding: 0;
-
-  border-radius: 2;
-  box-shadow: none;
-  transition: all 0.2s ease-out;
-
-  input,
-  textarea,
-  button {
+  > input,
+  > textarea,
+  > button,
+  > :nth-child(2) {
+    border: 1px solid;
+    border-color: layout-divider;
     border-radius: 2;
     padding: 3 2;
     width: 100%;
     background-color: layout-level0;
-  }
 
-  &:focus-within {
-    border-color: brand-primary;
-  }
-
-  ${({ success, error }) => css`
-    border-color: ${(success && 'utility.confirmation') ||
-    (error && 'utility-critical')};
-  `}
-`
-
-export const Field = styled.fieldset`
-  &:disabled {
-    ${Wrapper} {
-      input,
-      textarea,
-      button {
-        background-color: layout-level1accent;
-      }
+    &:focus-within {
+      border-color: brand-primary;
+      transition: all 0.2s ease-out;
     }
   }
-`
 
-export const SupportiveText = styled.span`
-  font-size: xs;
-  line-height: tighter;
-  color: content-subtle;
-  display: block;
-  margin-top: 1;
+  ${({ leftIcon }) => css`
+    > input,
+    > textarea,
+    > button,
+    > :nth-child(2) {
+      padding-left: ${leftIcon && 5};
+    }
+  `}
 
-  &:first-letter {
-    text-transform: uppercase;
+  ${({ success, error }) => css`
+    label {
+      color: ${(success && 'utility.confirmation') ||
+      (error && 'utility-critical')};
+
+      border-color: ${(success && 'utility.confirmation') ||
+      (error && 'utility-critical')};
+    }
+
+    > input,
+    > textarea,
+    > button,
+    > :nth-child(2) {
+      border-color: ${(success && 'utility-confirmation') ||
+      (error && 'utility-critical')};
+
+      padding-right: ${(success || error) && 5};
+    }
+  `}
+
+  ${({ hideLabel }) =>
+    hideLabel &&
+    css`
+      label {
+        visibility: hidden;
+      }
+    `}
+
+  &:disabled {
+    > input,
+    > textarea,
+    > button,
+    > :nth-child(2) {
+      background-color: layout-level1accent;
+    }
   }
-`
-export const ErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
-  color: utility-critical;
 `
