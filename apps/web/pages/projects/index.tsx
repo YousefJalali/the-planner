@@ -12,7 +12,7 @@ import { useModal } from '@the-planner/hooks'
 import ProjectCard from '../../components/project/project-card/project-card'
 import NewProjectCard from '../../components/project/project-card/new-project-card'
 
-import ProjectCardSkeleton from '../../components/skeletons/ProjectCardSkeleton'
+import { ProjectCardSkeleton, SkeletonList } from '../../components/skeletons/'
 import CreateProject from '../../components/project/CreateProject'
 import { statusAlias } from '@the-planner/utils'
 
@@ -143,13 +143,7 @@ const Index: NextPage = () => {
         </x.div>
 
         {isLoading ? (
-          <x.ul spaceY={4}>
-            {new Array(5).fill(0).map((e, i) => (
-              <x.li key={i}>
-                <ProjectCardSkeleton />
-              </x.li>
-            ))}
-          </x.ul>
+          <SkeletonList component={<ProjectCardSkeleton />} />
         ) : error ? (
           <x.div>{error}</x.div>
         ) : projects && projects.length <= 0 ? (

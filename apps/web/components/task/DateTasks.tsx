@@ -9,9 +9,8 @@ import { useDateTasks } from '@the-planner/data'
 import { URL_DATE_FORMAT } from '@the-planner/utils'
 
 import DateSelector from '../date-selector'
-import SkeletonList from '../skeletons/SkeletonList'
-import TagSkeleton from '../skeletons/TagSkeleton'
-import TaskItemSkeleton from '../skeletons/TaskItemSkeleton'
+import { SkeletonList, TagSkeleton } from '../skeletons/'
+import TaskItemSkeleton from '../skeletons/task-item-skeleton'
 import TasksLists from './tasks-list'
 import { NoTasksSvg, EmptyState } from '@the-planner/ui-web'
 
@@ -85,13 +84,10 @@ const DateTasks = () => {
         {error ? (
           <Empty />
         ) : isLoading ? (
-          <>
+          <x.div spaceY={2}>
             <TagSkeleton />
-
-            <x.ul spaceY={4} mt={2}>
-              <SkeletonList component={<TaskItemSkeleton />} length={5} />
-            </x.ul>
-          </>
+            <SkeletonList component={<TaskItemSkeleton />} />
+          </x.div>
         ) : dateTasks && dateTasks.length <= 0 ? (
           <Empty />
         ) : (

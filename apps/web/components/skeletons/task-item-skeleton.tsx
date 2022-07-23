@@ -2,7 +2,7 @@ import { x, useColor } from '@xstyled/styled-components'
 import ContentLoader from 'react-content-loader'
 import { useWindowSize } from '@the-planner/hooks'
 
-const TaskItemSkeleton = ({ ...props }) => {
+export const TaskItemSkeleton = ({ ...props }) => {
   const { width } = useWindowSize()
   const bgColor = useColor('layout-level3accent')
 

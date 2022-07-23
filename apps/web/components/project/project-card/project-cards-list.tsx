@@ -4,10 +4,9 @@ import { x } from '@xstyled/styled-components'
 import ProjectCard from './project-card'
 
 import NewProjectCard from './new-project-card'
-import ProjectCardSkeleton from '../../skeletons/ProjectCardSkeleton'
+import { ProjectCardSkeleton, SkeletonList } from '../../skeletons/'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
-import SkeletonList from '../../skeletons/SkeletonList'
 import { useRecentProjects } from '@the-planner/data'
 import { Button, ScrollableList } from '@the-planner/ui-web'
 
@@ -56,12 +55,10 @@ const ProjectsCardsList: FC = () => {
       </x.div>
 
       {isLoading ? (
-        <ScrollableList spaceX={4}>
-          <SkeletonList
-            component={<ProjectCardSkeleton adj={24} />}
-            length={5}
-          />
-        </ScrollableList>
+        <SkeletonList
+          component={<ProjectCardSkeleton adj={24} />}
+          direction="horizontal"
+        />
       ) : error ? (
         <x.div px={4}>
           <NewProjectCard />

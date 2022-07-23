@@ -1,7 +1,7 @@
 import { x, useColor } from '@xstyled/styled-components'
 import ContentLoader from 'react-content-loader'
 
-const TagSkeleton = ({ ...props }) => {
+export const TagSkeleton = ({ ...props }) => {
   const bgColor = useColor('layout-level3accent')
 
   const w = 64
@@ -13,12 +13,12 @@ const TagSkeleton = ({ ...props }) => {
         width={w}
         height={height}
         viewBox={`0 0 ${w} ${height}`}
-        role='skeleton'
+        role="skeleton"
         {...props}
         backgroundColor={bgColor as string}
-        uniqueKey='tag-skeleton'
+        uniqueKey="tag-skeleton"
       >
-        <rect x='0' y='0' rx='4' ry='4' width={w} height={height} />
+        <rect x="0" y="0" rx="4" ry="4" width={w} height={height} />
       </ContentLoader>
     </x.div>
   )

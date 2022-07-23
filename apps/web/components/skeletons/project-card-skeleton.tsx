@@ -2,7 +2,7 @@ import { x, useColor } from '@xstyled/styled-components'
 import ContentLoader from 'react-content-loader'
 import { useWindowSize } from '@the-planner/hooks'
 
-const ProjectCardSkeleton = ({ ...props }) => {
+export const ProjectCardSkeleton = ({ ...props }) => {
   const { width } = useWindowSize()
   const primary = useColor('layout-level3accent')
 
