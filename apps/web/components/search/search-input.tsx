@@ -43,6 +43,7 @@ const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>) => {
       >
         <Input
           {...props}
+          autoFocus
           type="search"
           name="keyword"
           placeholder="Search..."
