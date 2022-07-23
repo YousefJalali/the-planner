@@ -5,7 +5,7 @@ import { formatDate, statusAlias } from '@the-planner/utils'
 import { Details, Title } from './task-item-elements'
 import { Badge } from '@the-planner/ui-web'
 
-const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
+export const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
   return (
     <x.div
       data-testid="task-item-search"

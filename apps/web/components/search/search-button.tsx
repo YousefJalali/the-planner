@@ -1,17 +1,24 @@
 import { x } from '@xstyled/styled-components'
 import { FiSearch } from 'react-icons/fi'
 import { useModal } from '@the-planner/hooks'
-import Search from './Search'
-import { Button } from '@the-planner/ui-web'
+import { SearchPage } from './'
+import { Button, ModalHeader } from '@the-planner/ui-web'
 
-const SearchInput = () => {
+export const SearchButton = () => {
   const { setModal, clearModal } = useModal()
 
   const clickHandler = () => {
     setModal({
       id: 'search-modal',
       fullScreen: true,
-      content: <Search onRequestClose={() => clearModal('search-modal')} />,
+      content: (
+        <>
+          <ModalHeader onRequestClose={() => clearModal('search-modal')} p={4}>
+            Search
+          </ModalHeader>
+          <SearchPage />
+        </>
+      ),
     })
   }
 
@@ -24,4 +31,4 @@ const SearchInput = () => {
   )
 }
 
-export default SearchInput
+export default SearchButton

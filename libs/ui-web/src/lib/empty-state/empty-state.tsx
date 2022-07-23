@@ -4,8 +4,9 @@ import { x } from '@xstyled/styled-components'
 type Props = {
   illustration: JSX.Element
   title: string
-  description: string
+  description?: string
   action?: () => void
+  size?: string
 }
 
 export const EmptyState = ({
@@ -13,6 +14,7 @@ export const EmptyState = ({
   title,
   description,
   action,
+  size = '50%',
 }: Props) => {
   return (
     <x.div
@@ -22,7 +24,7 @@ export const EmptyState = ({
       alignItems="center"
       my={5}
     >
-      <x.div w="50%">{illustration}</x.div>
+      <x.div w={size}>{illustration}</x.div>
       <x.p text="body" mt={3} color="content-contrast">
         {title}
       </x.p>

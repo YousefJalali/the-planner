@@ -7,7 +7,7 @@ import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 
 import FloatingButton from '../components/task/CreateTaskButton'
 import DateTasks from '../components/task/DateTasks'
-import SearchInput from '../components/search/SearchInput'
+import { SearchButton } from '../components/search/'
 
 type Props = {
   // projects: ProjectType[]
@@ -44,7 +44,7 @@ const Home: NextPage<Props> = (props) => {
             darkMode
           />
 
-          <SearchInput />
+          <SearchButton />
         </x.div>
       </Header>
 

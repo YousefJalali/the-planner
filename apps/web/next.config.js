@@ -7,6 +7,11 @@ const withNx = require('@nrwl/next/plugins/with-nx')
  **/
 const nextConfig = {
   reactStrictMode: true,
+
+  compiler: {
+    styledComponents: true,
+  },
+
   images: {
     domains: ['res.cloudinary.com', 'placeimg.com', 'cdn.fakercloud.com'],
   },
@@ -24,6 +29,7 @@ const nextConfig = {
 
     return config
   },
+
   nx: {
     // Set this to true if you would like to to use SVGR
     // See: https://github.com/gregberge/svgr
