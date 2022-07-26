@@ -11,7 +11,8 @@ import {
   useForm,
   UseFormReturn,
 } from 'react-hook-form'
-import { AnyObjectSchema } from 'yup'
+import { InferType, ObjectSchema } from 'yup'
+import { TypedSchema } from 'yup/lib/util/types'
 import LoadingOverlay from './loading-overlay'
 
 type Props<T> = {
@@ -19,7 +20,8 @@ type Props<T> = {
   name: string
   children: JSX.Element[]
   submitHandler: SubmitHandler<T>
-  schema: AnyObjectSchema
+  schema: ObjectSchema<T & InferType<T & TypedSchema>>
+  // resolver: Resolver<T>
   defaultValues: UnpackNestedValue<DeepPartial<T>>
   serverErrors?: object
   isSubmitting?: boolean
@@ -33,6 +35,7 @@ export function Form<T>({
   children,
   submitHandler,
   schema,
+  // resolver,
   defaultValues,
   serverErrors,
   isSubmitting,
@@ -62,12 +65,7 @@ export function Form<T>({
     resolver,
   })
 
-  const {
-    handleSubmit,
-    setError,
-    formState: { isDirty },
-    clearErrors,
-  } = methods
+  const { handleSubmit, setError, clearErrors } = methods
 
   useEffect(() => {
     if (serverErrors) {

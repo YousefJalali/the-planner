@@ -11,8 +11,14 @@ import {
   SupportiveText,
   TextEditor,
 } from '@the-planner/ui-web'
+// import { useYupValidationResolver } from '@the-planner/hooks'
 
-import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
+import {
+  TaskType,
+  Status,
+  TaskWithProjectType,
+  ImageType,
+} from '@the-planner/types'
 
 import { addCurrentTime, stringToDate, taskSchema } from '@the-planner/utils'
 import SelectProject from '../../project/SelectProject'
@@ -68,6 +74,7 @@ export function TaskForm({
   // )
 
   const submitHandler = async (data: TaskType | TaskWithProjectType) => {
+    console.log('here')
     const startDate = addCurrentTime(data.startDate)
     const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 
@@ -81,37 +88,40 @@ export function TaskForm({
   }
 
   return (
-    <Form
+    <Form<TaskType | TaskWithProjectType>
       id={id}
       name="task-form"
       isSubmitting={isSubmitting}
       submitHandler={submitHandler}
       schema={taskSchema}
+      // resolver={resolver}
       defaultValues={defValues}
       serverErrors={serverErrors}
     >
-      <FormControl name="title">
-        {({ id, field: { value, onChange }, fieldState }) => (
-          <Fieldset id={id} label="title" fieldState={fieldState}>
-            <Input
-              id={id}
-              value={value}
-              onChange={onChange}
-              type="text"
-              placeholder="i.e. speakers"
-            />
-          </Fieldset>
-        )}
+      <FormControl<TaskType, string> name="title">
+        {({ id, field: { value, onChange }, fieldStatus }) => {
+          return (
+            <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
+              <Input
+                id={id}
+                value={value}
+                onChange={onChange}
+                type="text"
+                placeholder="i.e. speakers"
+              />
+            </Fieldset>
+          )
+        }}
       </FormControl>
 
-      <FormControl name="projectId">
+      <FormControl<TaskWithProjectType, string> name="projectId">
         {({
           id,
           field: { value, onChange },
-          fieldState,
+          fieldStatus,
           methods: { setValue },
         }) => (
-          <Fieldset id={id} label="project" fieldState={fieldState}>
+          <Fieldset id={id} label="project" fieldStatus={fieldStatus}>
             <SelectProject
               id={id}
               value={value}
@@ -125,12 +135,12 @@ export function TaskForm({
 
       <DateTimeInput />
 
-      <FormControl name="description">
-        {({ id, field: { value, onChange }, fieldState }) => (
+      <FormControl<TaskType, string> name="description">
+        {({ id, field: { value, onChange }, fieldStatus }) => (
           <Fieldset
             id={id}
             label="description"
-            fieldState={fieldState}
+            fieldStatus={fieldStatus}
             optionalField
           >
             <TextEditor
@@ -143,8 +153,8 @@ export function TaskForm({
         )}
       </FormControl>
 
-      <FormControl name="attachments">
-        {({ id, field: { value, onChange }, fieldState }) => (
+      <FormControl<TaskType, ImageType[]> name="attachments">
+        {({ id, field: { value, onChange }, fieldStatus }) => (
           <fieldset>
             <Label optional>attachments</Label>
             <ImageInput
@@ -160,7 +170,7 @@ export function TaskForm({
       </FormControl>
 
       <Button
-        name="submit task"
+        name="task-form"
         type="submit"
         position="sticky"
         zIndex={3}

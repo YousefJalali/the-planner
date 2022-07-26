@@ -10,8 +10,8 @@ type Props = {
 
 export const Search = ({ value, onChange }: Props) => {
   return (
-    <x.div p={3} position="sticky" top="0" zIndex="1000">
-      <Fieldset leftIcon={<FiSearch />}>
+    <x.div px={3} pb={3} position="sticky" top="0" zIndex="1000">
+      <Fieldset label="search" hideLabel leftIcon={<FiSearch />}>
         <Input
           type="search"
           placeholder="Search..."

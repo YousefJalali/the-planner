@@ -15,6 +15,7 @@ export const Link = ({ onClick, children }: Props) => {
       flex="0 0 calc(100% - 36px - 36px)"
       pr={1}
       userSelect="none"
+      cursor="pointer"
     >
       {children}
     </x.a>

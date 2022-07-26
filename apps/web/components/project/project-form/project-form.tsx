@@ -36,7 +36,7 @@ const initialDefaultValues: ProjectType = {
   createdAt: new Date(),
 }
 
-function ProjectForm({
+export function ProjectForm({
   id,
   title,
   defaultValues = initialDefaultValues,
@@ -71,9 +71,9 @@ function ProjectForm({
         <x.div>
           <x.div display="flex" spaceX={2}>
             {/* Title */}
-            <FormControl name="title">
-              {({ id, field: { value, onChange }, fieldState }) => (
-                <Fieldset id={id} label="title" fieldState={fieldState}>
+            <FormControl<ProjectType, string> name="title">
+              {({ id, field: { value, onChange }, fieldStatus }) => (
+                <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
                   <Input
                     id={id}
                     value={value}
@@ -86,13 +86,13 @@ function ProjectForm({
             </FormControl>
 
             {/* Color */}
-            <FormControl name="color">
-              {({ id, field: { value, onChange }, fieldState }) => (
+            <FormControl<ProjectType, string> name="color">
+              {({ id, field: { value, onChange }, fieldStatus }) => (
                 <Fieldset
                   id={id}
                   label="color"
                   hideLabel
-                  fieldState={fieldState}
+                  fieldStatus={fieldStatus}
                   w="fit-content"
                 >
                   <ColorInput id={id} value={value} onChange={onChange} />
@@ -105,9 +105,9 @@ function ProjectForm({
           </SupportiveText>
         </x.div>
 
-        <FormControl name="description">
-          {({ id, field: { value, onChange }, fieldState }) => (
-            <Fieldset id={id} label="description" fieldState={fieldState}>
+        <FormControl<ProjectType, string> name="description">
+          {({ id, field: { value, onChange }, fieldStatus }) => (
+            <Fieldset id={id} label="description" fieldStatus={fieldStatus}>
               <TextEditor
                 id={id}
                 value={value}

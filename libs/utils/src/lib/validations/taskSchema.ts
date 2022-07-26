@@ -5,7 +5,7 @@ import { Status, TaskType } from '@the-planner/types'
 export const taskSchema: SchemaOf<TaskType> = object({
   id: string().defined(),
   title: string().defined().required('task must have a title'),
-  description: string().defined().required('must').length(10),
+  description: string().defined(),
   projectId: string().required(
     'task must be under a project, select or create a project'
   ),

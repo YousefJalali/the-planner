@@ -10,7 +10,7 @@ export const FieldErrorMessage = styled(SupportiveText)<{ error?: boolean }>`
 export const FieldError = ({
   error,
 }: {
-  error: FieldErrorProps | undefined
+  error: FieldErrorProps | FieldErrorProps[] | undefined
 }) => {
   return (
     <>

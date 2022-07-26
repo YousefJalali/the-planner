@@ -26,6 +26,7 @@ export const Checkbox: FC<Props> = ({ checked, onChange, color, id }) => {
       justifyContent="center"
       alignItems="center"
       borderRadius="full"
+      cursor="pointer"
     >
       <x.span
         display="block"

@@ -18,7 +18,7 @@ import {
   Header,
 } from '@the-planner/ui-web'
 import { useEditProject, useDeleteProject } from '@the-planner/data'
-import ProjectForm from '../../components/project/project-form'
+import { ProjectForm } from '../../components/project/project-form'
 import { useMemo } from 'react'
 
 const Lists = styled(ScrollableList)`

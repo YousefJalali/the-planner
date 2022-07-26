@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useCreateProject } from '@the-planner/data'
-import ProjectForm from './project-form'
+import { ProjectForm } from './project-form/'
 import randomColor from 'randomcolor'
 import { ModalHeader } from '@the-planner/ui-web'
 

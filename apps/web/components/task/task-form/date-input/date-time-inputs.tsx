@@ -1,3 +1,4 @@
+import { TaskType } from '@the-planner/types'
 import {
   FieldError,
   FormControl,
@@ -39,7 +40,7 @@ export const DateTimeInput = () => {
         <x.fieldset display="flex" alignItems="center">
           <x.span mr={2}>Open task?</x.span>
 
-          <FormControl name="openTask">
+          <FormControl<TaskType, boolean> name="openTask">
             {({ id, field: { value, onChange } }) => (
               <ToggleButton
                 id={id}
@@ -62,7 +63,7 @@ export const DateTimeInput = () => {
 
       <SupportiveText>End date & end time are optional</SupportiveText>
 
-      {/* <FieldError error={dateErrors} /> */}
+      <FieldError error={dateErrors} />
     </x.div>
   )
 }

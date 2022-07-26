@@ -1,11 +1,12 @@
+import { TaskType } from '@the-planner/types'
 import { Fieldset, FormControl, TimeInput } from '@the-planner/ui-web'
 
 export const StartTime = () => (
-  <FormControl name="startTime">
-    {({ id, field: { value, onChange }, fieldState, methods: { watch } }) => (
+  <FormControl<TaskType, Date> name="startTime">
+    {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
         id={id}
-        fieldState={fieldState}
+        fieldStatus={fieldStatus}
         label="start time"
         hideLabel
         disabled={watch('openTask')}
@@ -23,11 +24,11 @@ export const StartTime = () => (
 )
 
 export const EndTime = () => (
-  <FormControl name="endTime">
-    {({ id, field: { value, onChange }, fieldState, methods: { watch } }) => (
+  <FormControl<TaskType, Date> name="endTime">
+    {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
         id={id}
-        fieldState={fieldState}
+        fieldStatus={fieldStatus}
         label="end time"
         hideLabel
         disabled={watch('openTask')}

@@ -1,16 +1,17 @@
+import { TaskType } from '@the-planner/types'
 import { DateInput, Fieldset, FormControl } from '@the-planner/ui-web'
 import { dateFormatPattern } from '@the-planner/utils'
 import { GridColumnProps } from '@xstyled/styled-components'
 
 export const StartDate = ({ ...props }: GridColumnProps) => (
-  <FormControl name="startDate">
+  <FormControl<TaskType, Date> name="startDate">
     {({
       id,
       field: { value, onChange },
-      fieldState,
+      fieldStatus,
       methods: { getValues },
     }) => (
-      <Fieldset id={id} label="from" fieldState={fieldState} {...props}>
+      <Fieldset id={id} label="from" fieldStatus={fieldStatus} {...props}>
         <DateInput
           id={id}
           dataTestId="task-form-start-date"
@@ -29,11 +30,11 @@ export const StartDate = ({ ...props }: GridColumnProps) => (
 )
 
 export const EndDate = ({ ...props }: GridColumnProps) => (
-  <FormControl name="endDate">
+  <FormControl<TaskType, Date> name="endDate">
     {({
       id,
       field: { value, onChange },
-      fieldState,
+      fieldStatus,
       methods: { getValues, watch },
     }) => (
       <Fieldset
@@ -41,7 +42,7 @@ export const EndDate = ({ ...props }: GridColumnProps) => (
         label="To"
         disabled={watch('openTask')}
         optionalField
-        fieldState={fieldState}
+        fieldStatus={fieldStatus}
         {...props}
       >
         <DateInput

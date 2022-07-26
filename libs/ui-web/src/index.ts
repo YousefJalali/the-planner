@@ -1,3 +1,4 @@
+export * from './lib/select/'
 export * from './lib/empty-state/empty-state'
 export * from './lib/badge/badge'
 export * from './lib/flat-list/flat-list'

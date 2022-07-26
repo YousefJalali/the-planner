@@ -1,38 +1,61 @@
+import { FieldStatus } from '@the-planner/ui-web'
 import {
   Controller,
   ControllerFieldState,
   ControllerRenderProps,
+  Path,
   useFormContext,
   UseFormReturn,
+  UseFormStateReturn,
 } from 'react-hook-form'
 import { MethodsWithFormName } from './form'
 
-export type ChildrenProps = {
+type ChildrenProps<T> = {
   id: string
-  field: ControllerRenderProps
+  methods: UseFormReturn<T>
+  fieldStatus: FieldStatus
+}
+
+type ControllerProps<T, U> = {
+  field: {
+    value: U
+  } & ControllerRenderProps<T, Path<T>>
   fieldState: ControllerFieldState
-  methods: UseFormReturn
+  formState: UseFormStateReturn<T>
 }
 
-type Props = {
-  name: string
-  children: ({ id, field, fieldState, methods }: ChildrenProps) => JSX.Element
+type Props<T, U> = {
+  name: Path<T>
+  children: ({
+    id,
+    methods,
+    field,
+    fieldStatus,
+  }: ChildrenProps<T> & Pick<ControllerProps<T, U>, 'field'>) => JSX.Element
 }
 
-export function FormControl({ name, children }: Props) {
-  const methods = useFormContext()
+export function FormControl<T, U>({ name, children }: Props<T, U>) {
+  const methods = useFormContext<T>()
 
   return (
     <Controller
       name={name}
       control={methods.control}
-      render={({ field, fieldState }) => {
+      render={({
+        field,
+        fieldState: { error, isDirty },
+      }: ControllerProps<T, U>) => {
         return (
           <>
             {children({
-              id: `${(methods as MethodsWithFormName).formName}-${name}`,
+              id: `${(methods as MethodsWithFormName).formName}-${String(
+                name
+              )}`,
               field,
-              fieldState,
+              fieldStatus: {
+                error: error,
+                isSuccess: !error && isDirty,
+              },
               methods,
             })}
           </>
