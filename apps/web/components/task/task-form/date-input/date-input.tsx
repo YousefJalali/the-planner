@@ -11,7 +11,12 @@ export const StartDate = ({ ...props }: GridColumnProps) => (
       fieldStatus,
       methods: { getValues },
     }) => (
-      <Fieldset id={id} label="from" fieldStatus={fieldStatus} {...props}>
+      <Fieldset
+        data-testid={id}
+        label="from"
+        fieldStatus={fieldStatus}
+        {...props}
+      >
         <DateInput
           id={id}
           dataTestId="task-form-start-date"
@@ -38,7 +43,7 @@ export const EndDate = ({ ...props }: GridColumnProps) => (
       methods: { getValues, watch },
     }) => (
       <Fieldset
-        id={id}
+        data-testid={id}
         label="To"
         disabled={watch('openTask')}
         optionalField

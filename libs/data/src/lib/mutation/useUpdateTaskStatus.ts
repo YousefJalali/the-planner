@@ -8,13 +8,20 @@ import { useProject, useTask } from '../query'
 import { Status } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
-export const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
+type Props = {
+  date?: string
+  callback?: (action?: any) => void
+}
+
+export const useUpdateTaskStatus = ({ callback, date }: Props) => {
   const { setNotification } = useNotification()
 
   const router = useRouter()
-  const { d: date, projectId, taskId } = router.query
+  const { d: urlDate, projectId, taskId } = router.query
 
-  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
+  const { mutate: mutateDateTasks, dateTasks } = useDateTasks(
+    (urlDate as string) && date ? date : null
+  )
   const { mutate: mutateProject, project } = useProject(projectId as string)
   const { mutate: mutateTask, task } = useTask(taskId as string)
 
@@ -25,6 +32,8 @@ export const useUpdateTaskStatus = (callback?: (action?: any) => void) => {
     taskId: string
     newStatus: Status
   }) => {
+    console.log(date)
+
     const request = async () => {
       console.log('request')
       try {

@@ -26,7 +26,8 @@
     "next-env.d.ts",
     "__tests__/cypress/tsconfig.json",
     "../../libs/ui-web/src/lib/button/button.tsx",
-    "../web-e2e/src/integration/TaskForm.spec.ts"
+    "../web-e2e/src/integration/TaskForm.spec.ts",
+    "../../babel.config.js"
   ],
   "exclude": ["node_modules", "jest.config.ts"]
 }

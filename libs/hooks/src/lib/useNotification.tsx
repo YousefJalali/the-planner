@@ -7,7 +7,7 @@ import {
 } from 'react'
 
 export type NotificationType = {
-  id: string
+  id?: string
   message: string
   variant: 'action' | 'information' | 'warning' | 'critical' | 'confirmation'
   action?: 'view' | 'try again'

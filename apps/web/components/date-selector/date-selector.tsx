@@ -3,7 +3,11 @@ import { x } from '@xstyled/styled-components'
 import { format, parse, getDaysInMonth } from 'date-fns'
 
 import { useWindowSize } from '@the-planner/hooks'
-import { URL_DATE_FORMAT } from '@the-planner/utils'
+import {
+  formatToUrlDate,
+  parseUrlDate,
+  URL_DATE_FORMAT,
+} from '@the-planner/utils'
 import DaysList from './days-list'
 import DayItem from './day-item'
 import MonthInput from './month-input'
@@ -13,14 +17,15 @@ type Props = {
   setUrlDate: (date: string) => void
 }
 
-const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
+export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   const { width } = useWindowSize()
 
   const listRef = useRef<HTMLUListElement>(null)
 
   const [active, setActive] = useState(1)
 
-  const parsedDate = parse(dateString, URL_DATE_FORMAT, new Date())
+  const parsedDate = parseUrlDate(dateString)
+  // const parsedDate = parse(dateString, URL_DATE_FORMAT, new Date())
 
   useEffect(() => {
     setActive(parsedDate.getDate())
@@ -38,15 +43,17 @@ const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
 
   const onSelectDateHandler = (day: number) => {
     setActive(day)
-    const formattedDate = format(
-      new Date(parsedDate.setDate(day)),
-      URL_DATE_FORMAT
-    )
+    const formattedDate = formatToUrlDate(parsedDate.setDate(day))
+    // format(
+    //   new Date(parsedDate.setDate(day)),
+    //   URL_DATE_FORMAT
+    // )
     setUrlDate(formattedDate)
   }
 
   const onChangeMonthHandler = (date: Date) => {
-    const formattedDate = format(date, URL_DATE_FORMAT)
+    const formattedDate = formatToUrlDate(date)
+    // const formattedDate = format(date, URL_DATE_FORMAT)
     setUrlDate(formattedDate)
   }
 

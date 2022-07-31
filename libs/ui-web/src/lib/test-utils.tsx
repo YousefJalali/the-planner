@@ -4,29 +4,28 @@ import { ThemeProvider } from 'styled-components'
 import { ColorModeProvider } from '@xstyled/styled-components'
 import { NotificationCtxProvider } from '@the-planner/hooks'
 import { theme } from '@the-planner/ui-web'
-import '@testing-library/jest-dom'
 
 // Mocks useRouter
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+// const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 /**
  * mockNextUseRouter
  * Mocks the useRouter React hook from Next.js on a test-case by test-case basis
  */
-export function mockNextUseRouter(props: {
-  route: string
-  pathname: string
-  query: string
-  asPath: string
-}) {
-  useRouter.mockImplementationOnce(() => ({
-    route: props.route,
-    pathname: props.pathname,
-    query: props.query,
-    asPath: props.asPath,
-  }))
-}
+// export function mockNextUseRouter(props: {
+//   route: string
+//   pathname: string
+//   query: string
+//   asPath: string
+// }) {
+//   useRouter.mockImplementationOnce(() => ({
+//     route: props.route,
+//     pathname: props.pathname,
+//     query: props.query,
+//     asPath: props.asPath,
+//   }))
+// }
 
 const AllTheProviders = ({
   children,

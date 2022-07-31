@@ -5,8 +5,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import ProjectsCardsList from '../components/project/project-card/project-cards-list'
 import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 
-import FloatingButton from '../components/task/CreateTaskButton'
-import DateTasks from '../components/task/DateTasks'
+import DateTasks from '../components/task/date-tasks'
 import { SearchButton } from '../components/search/'
 
 type Props = {
@@ -51,25 +50,27 @@ const Home: NextPage<Props> = (props) => {
       <x.section px={4} mt={4}>
         <x.p text="headline.three" color="content-contrast" fontWeight="light">
           Hello mate,{' '}
-          <x.span text="headline.three" fontWeight="medium">
+          <x.span
+            display="inline-block"
+            text="headline.three"
+            fontWeight="medium"
+          >
             still in doubt?
           </x.span>
         </x.p>
 
-        <x.p text="body.large" mt={2}>
-          <x.span display="inline" color="content-subtle">
+        <x.div text="body.large" mt={2}>
+          <x.span display="inline-block" color="content-subtle">
             Check this out{' '}
           </x.span>
 
           <Emoji label="backhand index pointing down" symbol="👇" height={24} />
-        </x.p>
+        </x.div>
       </x.section>
 
       <ProjectsCardsList />
 
       <DateTasks />
-
-      <FloatingButton />
     </>
   )
 }

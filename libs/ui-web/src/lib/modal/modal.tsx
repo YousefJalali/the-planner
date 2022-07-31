@@ -1,5 +1,6 @@
 import { DragEventHandler, FC, useEffect, useMemo, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { v4 as uuid } from 'uuid'
 import { AnimatePresence, motion, Variants, PanInfo } from 'framer-motion'
 import { useWindowSize, useModal } from '@the-planner/hooks'
 import styled, { x } from '@xstyled/styled-components'
@@ -8,6 +9,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from 'body-scroll-lock'
+import { Backdrop } from '@the-planner/ui-web'
 
 const Motion = styled(motion(x.div))`
   overflow-x: hidden;
@@ -18,44 +20,6 @@ const Motion = styled(motion(x.div))`
   bottom: 0;
   width: 100%;
 `
-
-export const Backdrop = ({
-  id,
-  onClick,
-}: {
-  id: string
-  onClick?: () => void
-}) => {
-  const backdropVariants = {
-    open: {
-      opacity: 1,
-    },
-    closed: {
-      opacity: 0,
-    },
-  }
-
-  return (
-    <motion.div
-      transition={{ duration: 0.3 }}
-      initial="closed"
-      animate="open"
-      exit="closed"
-      variants={backdropVariants}
-    >
-      <x.div
-        id={`${id}-backdrop`}
-        position="absolute"
-        top={0}
-        left={0}
-        h="100vh"
-        w="100vw"
-        backgroundColor="rgba(0, 0, 0, 0.5)"
-        onClick={onClick}
-      />
-    </motion.div>
-  )
-}
 
 const ContentWrapper = ({
   id,
@@ -115,6 +79,8 @@ const ContentWrapper = ({
     }
   }
 
+  const generatedId = uuid()
+
   return height ? (
     <x.div
       position="absolute"
@@ -124,7 +90,7 @@ const ContentWrapper = ({
       h={height}
       w={width}
     >
-      <Backdrop id={id} onClick={clearModal} />
+      <Backdrop id={`${id}-backdrop-${generatedId}`} onClick={clearModal} />
 
       <Motion
         transition={{ type: 'tween', duration: 0.3 }}
@@ -138,8 +104,8 @@ const ContentWrapper = ({
         // // @ts-ignore
         // onDragEnd={onDragHandler}
         ref={targetRef}
-        id={id}
-        data-testid={id}
+        id={`${id}-modal-${generatedId}`}
+        data-testid={`${id}-modal-${generatedId}`}
         maxHeight={fullScreen ? '100%' : 'calc(100% - 48px)'}
         borderRadius={fullScreen ? 0 : '3 3 0 0'}
       >

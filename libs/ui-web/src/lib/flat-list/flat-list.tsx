@@ -12,7 +12,6 @@ export function FlatList<T extends { id: string }>({
   data,
   itemHeight,
   children,
-  ...props
 }: Props<T>) {
   return (
     <AutoSizer>
@@ -25,7 +24,6 @@ export function FlatList<T extends { id: string }>({
             itemSize={itemHeight}
             height={data.length * itemHeight + itemHeight}
             width={width}
-            {...props}
           >
             {({ data, index, style }) => {
               return (

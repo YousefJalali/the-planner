@@ -6,7 +6,7 @@ import { Status, TaskWithProjectType } from '@the-planner/types'
 import { useProject } from '@the-planner/data'
 
 import TasksLists from '../../components/task/tasks-list'
-import FloatingButton from '../../components/task/CreateTaskButton'
+import CreateTaskButton from '../../components/task/create-task-button'
 import { useModal } from '@the-planner/hooks'
 import {
   Spinner,
@@ -145,7 +145,7 @@ const Project = () => {
           )
         )}
 
-        {project && <FloatingButton />}
+        {project && <CreateTaskButton />}
       </x.main>
     </>
   )

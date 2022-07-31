@@ -19,13 +19,17 @@ export const FieldError = ({
           <x.ul>
             {error.map((err, i) => (
               <li key={i}>
-                <FieldErrorMessage>• {err.message}</FieldErrorMessage>
+                <FieldErrorMessage data-testid="field-error">
+                  • {err.message}
+                </FieldErrorMessage>
               </li>
             ))}
           </x.ul>
         )
       ) : _.isObject(error) && !(error instanceof Array) ? (
-        <FieldErrorMessage>{error.message}</FieldErrorMessage>
+        <FieldErrorMessage data-testid="field-error">
+          {error.message}
+        </FieldErrorMessage>
       ) : null}
     </>
   )

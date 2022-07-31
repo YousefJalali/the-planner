@@ -5,6 +5,7 @@ const TaskOption = ({
   onClick,
   content,
   color,
+  ...props
 }: {
   icon: JSX.Element
   onClick?: () => void
@@ -17,6 +18,7 @@ const TaskOption = ({
     px={3}
     onClick={onClick}
     minHeight={56}
+    {...props}
   >
     <x.span color={color || 'content-contrast'} fontSize="1.25rem">
       {icon}

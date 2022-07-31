@@ -11,7 +11,6 @@ import {
   SupportiveText,
   TextEditor,
 } from '@the-planner/ui-web'
-// import { useYupValidationResolver } from '@the-planner/hooks'
 
 import {
   TaskType,
@@ -69,12 +68,7 @@ export function TaskForm({
     endTime: defValues.endTime && stringToDate(defValues.endTime),
   }
 
-  // const resolver = useYupValidationResolver<TaskType | TaskWithProjectType>(
-  //   taskSchema
-  // )
-
   const submitHandler = async (data: TaskType | TaskWithProjectType) => {
-    console.log('here')
     const startDate = addCurrentTime(data.startDate)
     const endDate = data.endDate ? addCurrentTime(data.endDate) : null
 
@@ -84,7 +78,7 @@ export function TaskForm({
       endDate,
     }
     console.log(formData)
-    // onSubmit(formData)
+    onSubmit(formData)
   }
 
   return (
@@ -94,14 +88,13 @@ export function TaskForm({
       isSubmitting={isSubmitting}
       submitHandler={submitHandler}
       schema={taskSchema}
-      // resolver={resolver}
       defaultValues={defValues}
       serverErrors={serverErrors}
     >
       <FormControl<TaskType, string> name="title">
         {({ id, field: { value, onChange }, fieldStatus }) => {
           return (
-            <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
+            <Fieldset data-testid={id} label="title" fieldStatus={fieldStatus}>
               <Input
                 id={id}
                 value={value}
@@ -121,7 +114,7 @@ export function TaskForm({
           fieldStatus,
           methods: { setValue },
         }) => (
-          <Fieldset id={id} label="project" fieldStatus={fieldStatus}>
+          <Fieldset data-testid={id} label="project" fieldStatus={fieldStatus}>
             <SelectProject
               id={id}
               value={value}
@@ -138,7 +131,7 @@ export function TaskForm({
       <FormControl<TaskType, string> name="description">
         {({ id, field: { value, onChange }, fieldStatus }) => (
           <Fieldset
-            id={id}
+            data-testid={id}
             label="description"
             fieldStatus={fieldStatus}
             optionalField
@@ -155,7 +148,7 @@ export function TaskForm({
 
       <FormControl<TaskType, ImageType[]> name="attachments">
         {({ id, field: { value, onChange }, fieldStatus }) => (
-          <fieldset>
+          <fieldset data-testid={id}>
             <Label optional>attachments</Label>
             <ImageInput
               id={id}

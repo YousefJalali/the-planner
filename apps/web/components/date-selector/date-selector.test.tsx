@@ -1,6 +1,6 @@
 import { render, cleanup } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
-import DateSelector from '../../components/date-selector'
+import { DateSelector } from './date-selector'
 import { format } from 'date-fns'
 import { URL_DATE_FORMAT } from '@the-planner/utils'
 
@@ -14,6 +14,7 @@ const randomDate = (start: Date, end: Date) =>
   new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
 
 function setup({ date }: { date: string }) {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   window.HTMLElement.prototype.scrollTo = function () {}
 
   const stringDate = format(new Date(date), URL_DATE_FORMAT)
@@ -23,8 +24,8 @@ function setup({ date }: { date: string }) {
     <DateSelector dateString={stringDate} setUrlDate={setDate} />
   )
 
-  const list = utils.getByRole('list')
-  const days = () => utils.getAllByRole('listitem')
+  const list = utils.getByRole('list') as HTMLUListElement
+  const days = () => utils.getAllByRole('listitem') as HTMLLIElement[]
 
   const { rerender } = utils
 
@@ -81,7 +82,7 @@ describe('Date selector', () => {
 
   test('active date is changing when date changes', async () => {
     let date = new Date()
-    let utils = setup({ date: date.toDateString() })
+    const utils = setup({ date: date.toDateString() })
 
     expect(utils.list).toHaveAttribute('data-date', date.toDateString())
     expect(utils.days()[date.getDate() - 1]).toHaveAttribute(

@@ -5,7 +5,7 @@ export const StartTime = () => (
   <FormControl<TaskType, Date> name="startTime">
     {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
-        id={id}
+        data-testid={id}
         fieldStatus={fieldStatus}
         label="start time"
         hideLabel
@@ -27,7 +27,7 @@ export const EndTime = () => (
   <FormControl<TaskType, Date> name="endTime">
     {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
-        id={id}
+        data-testid={id}
         fieldStatus={fieldStatus}
         label="end time"
         hideLabel

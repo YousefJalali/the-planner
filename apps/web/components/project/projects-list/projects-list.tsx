@@ -41,9 +41,14 @@ export const ProjectsList: FC<Props> = ({ onSelect, actionItem }) => {
     return (
       <FlatList<ProjectType> data={data} itemHeight={58}>
         {(item) => (
-          <x.div p={3} onClick={() => onSelectHandler(item)}>
+          <x.a
+            display="block"
+            p={3}
+            onClick={() => onSelectHandler(item)}
+            data-testid="projects-list-item"
+          >
             <ProjectItem project={item} />
-          </x.div>
+          </x.a>
         )}
       </FlatList>
     )

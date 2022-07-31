@@ -2,10 +2,10 @@ import { Status } from '@the-planner/types'
 import { format } from 'date-fns'
 
 describe('Create task', () => {
-  it('normal flow', () => {
+  it.only('normal flow', () => {
     cy.visit('/')
 
-    cy.get('#create-task-fb').click()
+    cy.get('#create-task-button').click()
 
     //title
     cy.get('#task-form-title')
@@ -13,8 +13,8 @@ describe('Create task', () => {
       .should('have.value', 'test title')
 
     //project
-    cy.get('#task-form-project').click()
-    cy.get('#project-list-select>li').eq(1).click()
+    cy.get('#task-form-projectId').click()
+    cy.get('[data-testid=projects-list-item]').eq(1).click()
 
     //open task
     cy.get('[data-testid=task-form-openTask]').click()
@@ -44,13 +44,19 @@ describe('Create task', () => {
     //submit
     cy.get('#create-task-form').submit()
 
-    cy.get(`#${Status.PROPOSED}-tasks-list > li`).first().contains('test title')
+    // cy.get(`[data-testid=taskItem-title]`).first().contains('test title')
+    cy.get(`#${Status.PROPOSED}-tasks-list`)
+      // .first()
+      .contains('test title')
   })
 
   it('shows error on empty submit', () => {
     cy.visit('/')
-    cy.get('#create-task-fb').click()
+    cy.get('#create-task-button').click()
     cy.get('#create-task-form').submit()
+    cy.get(
+      '[data-testid=task-form-title] > [data-testid=field-error]'
+    ).contains(/Task must have a title/i)
   })
 })
 

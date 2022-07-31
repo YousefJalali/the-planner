@@ -4,8 +4,14 @@ import { useCreateTask } from '@the-planner/data'
 import { TaskType } from '@the-planner/types'
 import { FloatingButton, ModalHeader } from '@the-planner/ui-web'
 import { TaskForm } from './task-form'
+import { parse } from 'date-fns'
+import { URL_DATE_FORMAT } from '@the-planner/utils'
 
-const CreateTaskBtn: FC = () => {
+type Props = {
+  date?: string
+}
+
+const CreateTaskButton: FC<Props> = ({ date }) => {
   const { setModal, clearModal } = useModal()
 
   const showForm = (defValues?: Partial<TaskType>, serverErrors?: object) => {
@@ -19,7 +25,14 @@ const CreateTaskBtn: FC = () => {
           </ModalHeader>
           <TaskForm
             id="create"
-            defaultValues={defValues || defaultValues}
+            defaultValues={
+              defValues || {
+                ...(date && {
+                  startDate: parse(date as string, URL_DATE_FORMAT, new Date()),
+                }),
+                ...defaultValues,
+              }
+            }
             onSubmit={onSubmit}
             serverErrors={serverErrors}
           />
@@ -28,8 +41,10 @@ const CreateTaskBtn: FC = () => {
     })
   }
 
-  const { onSubmit, defaultValues } = useCreateTask(showForm, () =>
-    clearModal('task-create')
+  const { onSubmit, defaultValues } = useCreateTask(
+    date || new Date().toDateString(),
+    showForm,
+    () => clearModal('task-create')
   )
 
   return (
@@ -41,4 +56,4 @@ const CreateTaskBtn: FC = () => {
   )
 }
 
-export default CreateTaskBtn
+export default CreateTaskButton

@@ -3,11 +3,13 @@ import { x } from '@xstyled/styled-components'
 
 import { TaskWithProjectType, Status } from '@the-planner/types'
 import { Checkbox } from '@the-planner/ui-web'
-import TaskOptionsKebab from '../task-options/task-options-kebab'
+import { TaskOptions } from '../task-options/'
 import { useModal } from '@the-planner/hooks'
 import { TaskDetails } from '../task-details'
 import { useUpdateTaskStatus } from '@the-planner/data'
 import { Title, Time, Attachments, Link } from './task-item-elements'
+import format from 'date-fns/format'
+import { formatToUrlDate, URL_DATE_FORMAT } from '@the-planner/utils'
 
 type Props = {
   task: TaskWithProjectType
@@ -19,6 +21,7 @@ export const TaskItem: FC<Props> = ({ task }) => {
     title,
     project,
     openTask,
+    startDate,
     startTime,
     endTime,
     attachments,
@@ -27,7 +30,9 @@ export const TaskItem: FC<Props> = ({ task }) => {
 
   const { setModal, clearModal } = useModal()
 
-  const { taskStatusHandler } = useUpdateTaskStatus()
+  const { taskStatusHandler } = useUpdateTaskStatus({
+    date: formatToUrlDate(startDate),
+  })
 
   const onDetails = () => {
     setModal({
@@ -80,7 +85,7 @@ export const TaskItem: FC<Props> = ({ task }) => {
         color={project.color}
       />
 
-      <TaskOptionsKebab task={task} />
+      <TaskOptions task={task} />
     </x.div>
   )
 }

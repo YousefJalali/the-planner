@@ -1,7 +1,9 @@
 import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
-import { NotificationType } from '@the-planner/hooks'
 import styled, { x } from '@xstyled/styled-components'
+import { v4 as uuid } from 'uuid'
+
+import { NotificationType } from '@the-planner/hooks'
 import {
   FiAlertTriangle,
   FiCheck,
@@ -34,6 +36,8 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
     }
   }, [])
 
+  const id = notification.id || uuid()
+
   return (
     <Motion
       transition={{ type: 'spring', duration: 0.3 }}
@@ -41,7 +45,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
       animate="open"
       exit="closed"
       variants={variants}
-      data-testid={notification.id}
+      data-testid={id}
     >
       <x.div
         backgroundColor="layout-level2accent"
@@ -97,7 +101,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
             ml={2}
           >
             {notification.loading ? (
-              <x.div data-testid={`${notification.id}-loading`}>
+              <x.div data-testid={`${id}-loading`}>
                 <Spinner
                   pathColor="content-subtle"
                   trailColor="layout-level0accent"
@@ -109,7 +113,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
                   onClick={notification.actionFn}
                   text="body.small"
                   textDecoration="underline"
-                  data-testid={`${notification.id}-action`}
+                  data-testid={`${id}-action`}
                   mx={2}
                   whiteSpace="nowrap"
                 >

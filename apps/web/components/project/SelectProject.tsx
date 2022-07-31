@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
 

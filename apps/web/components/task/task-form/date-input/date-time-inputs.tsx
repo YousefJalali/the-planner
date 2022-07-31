@@ -37,20 +37,22 @@ export const DateTimeInput = () => {
     <x.div>
       <x.div display="flex" justifyContent="space-between">
         <Label>Date & Time</Label>
-        <x.fieldset display="flex" alignItems="center">
+        <x.div display="flex" alignItems="center">
           <x.span mr={2}>Open task?</x.span>
 
           <FormControl<TaskType, boolean> name="openTask">
             {({ id, field: { value, onChange } }) => (
-              <ToggleButton
-                id={id}
-                checked={value}
-                onChange={onChange}
-                height={24}
-              />
+              <x.fieldset display="flex">
+                <ToggleButton
+                  id={id}
+                  checked={value}
+                  onChange={onChange}
+                  height={24}
+                />
+              </x.fieldset>
             )}
           </FormControl>
-        </x.fieldset>
+        </x.div>
       </x.div>
 
       <x.div display="grid" gridTemplateColumns={3} gap={2}>

@@ -1,17 +1,19 @@
-import { uniqueId } from 'lodash'
+import { useState } from 'react'
+import { omit } from 'lodash'
 import { useRouter } from 'next/router'
-import { createTask as createTaskHandler } from '../actions'
+import ObjectID from 'bson-objectid'
+import { parse } from 'date-fns'
+
 import { useNotification } from '@the-planner/hooks'
 import { TaskType, TaskWithProjectType } from '@the-planner/types'
-import { parse } from 'date-fns'
+import { getErrorMessage, URL_DATE_FORMAT } from '@the-planner/utils'
+
 import useDateTasks from '../query/useDateTasks'
 import { useProject } from '../query'
-import { getErrorMessage, URL_DATE_FORMAT } from '@the-planner/utils'
-import ObjectID from 'bson-objectid'
-import * as _ from 'lodash'
-import { useState } from 'react'
+import { createTask as createTaskHandler } from '../actions'
 
 export const useCreateTask = (
+  date: string,
   showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
   callback: (action?: any) => void
 ) => {
@@ -20,7 +22,7 @@ export const useCreateTask = (
   const { setNotification } = useNotification()
 
   const router = useRouter()
-  const { d: date, projectId } = router.query
+  const { projectId } = router.query
 
   const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
   const { mutate: mutateProject, project } = useProject(projectId as string)
@@ -35,12 +37,12 @@ export const useCreateTask = (
       projectId: projectId as string,
     }
   }
-  if (date) {
-    defaultValues = {
-      ...defaultValues,
-      startDate: parse(date as string, URL_DATE_FORMAT, new Date()),
-    }
-  }
+  // if (date) {
+  //   defaultValues = {
+  //     ...defaultValues,
+  //     startDate: parse(date as string, URL_DATE_FORMAT, new Date()),
+  //   }
+  // }
 
   const onSubmit = async (formData: TaskType | TaskWithProjectType) => {
     const request = async () => {
@@ -49,7 +51,7 @@ export const useCreateTask = (
           data: createdTask,
           error,
           validationErrors,
-        } = await createTaskHandler(_.omit(formData, 'project'))
+        } = await createTaskHandler(omit(formData, 'project'))
 
         if (validationErrors) {
           showForm(formData, validationErrors)
@@ -61,7 +63,6 @@ export const useCreateTask = (
         }
 
         setNotification({
-          id: uniqueId(),
           message: 'task created!',
           variant: 'confirmation',
         })
@@ -69,7 +70,6 @@ export const useCreateTask = (
         return createdTask
       } catch (error) {
         setNotification({
-          id: uniqueId(),
           message: getErrorMessage(error),
           variant: 'critical',
           action: 'try again',
