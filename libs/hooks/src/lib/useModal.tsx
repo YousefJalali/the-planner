@@ -11,6 +11,7 @@ export type ModalType = {
   id: string
   content: JSX.Element | JSX.Element[]
   fullScreen?: boolean
+  title?: string | JSX.Element
 }
 
 type ModalContext = {
@@ -40,13 +41,19 @@ export const ModalCtxProvider = ({
   //   setModal((modals) => [...modals, newModal])
   // }
 
-  const clearModalHandler = useCallback((id: string) => {
-    setModal((modals) => modals.filter((n) => n.id !== id))
-  }, [])
+  const clearModalHandler = useCallback(
+    (id: string) => {
+      setModal((modals) => modals.filter((modal) => modal.id !== id))
+    },
+    [modals]
+  )
 
-  const setModalHandler = useCallback((newModal: ModalType) => {
-    setModal((modals) => [...modals, newModal])
-  }, [])
+  const setModalHandler = useCallback(
+    (newModal: ModalType) => {
+      setModal((modals) => [...modals, newModal])
+    },
+    [modals]
+  )
 
   const context = {
     modals,

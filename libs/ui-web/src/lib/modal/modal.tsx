@@ -9,7 +9,7 @@ import {
   enableBodyScroll,
   clearAllBodyScrollLocks,
 } from 'body-scroll-lock'
-import { Backdrop } from '@the-planner/ui-web'
+import { Backdrop, ModalHeader } from '@the-planner/ui-web'
 
 const Motion = styled(motion(x.div))`
   overflow-x: hidden;
@@ -26,11 +26,13 @@ const ContentWrapper = ({
   clearModal,
   children,
   fullScreen = false,
+  title,
 }: {
   id: string
   clearModal: () => void
   children: JSX.Element | JSX.Element[]
   fullScreen?: boolean
+  title?: string | JSX.Element
 }) => {
   const { height, width } = useWindowSize()
 
@@ -109,6 +111,14 @@ const ContentWrapper = ({
         maxHeight={fullScreen ? '100%' : 'calc(100% - 48px)'}
         borderRadius={fullScreen ? 0 : '3 3 0 0'}
       >
+        {!title ? null : typeof title === 'string' ? (
+          <ModalHeader onRequestClose={clearModal} p={3}>
+            {title}
+          </ModalHeader>
+        ) : (
+          title
+        )}
+
         {children}
       </Motion>
     </x.div>
@@ -131,6 +141,7 @@ export const Modal: FC = () => {
                 id={modal.id}
                 clearModal={() => clearModal(modal.id)}
                 fullScreen={modal.fullScreen}
+                title={modal.title}
               >
                 {modal.content}
               </ContentWrapper>,

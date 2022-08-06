@@ -1,21 +1,16 @@
 import { x } from '@xstyled/styled-components'
-import { format, parse } from 'date-fns'
 import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
 import { useNotification } from '@the-planner/hooks'
 import { useDateTasks } from '@the-planner/data'
-import {
-  formatToUrlDate,
-  parseUrlDate,
-  URL_DATE_FORMAT,
-} from '@the-planner/utils'
+import { formatToUrlDate, parseUrlDate } from '@the-planner/utils'
 import { NoTasksSvg, EmptyState } from '@the-planner/ui-web'
 
 import { DateSelector } from '../date-selector'
 import { SkeletonList, TagSkeleton, TaskItemSkeleton } from '../skeletons'
-import TasksLists from './tasks-list'
+import { TasksLists } from './tasks-list'
 import CreateTaskButton from './create-task-button'
 
 const Empty = () => (
@@ -30,7 +25,6 @@ const DateTasks = () => {
   const router = useRouter()
 
   const [urlDate, setUrlDate] = useState(formatToUrlDate(new Date()))
-  // const [urlDate, setUrlDate] = useState(format(new Date(), URL_DATE_FORMAT))
 
   const { dateTasks, isLoading, error } = useDateTasks(urlDate)
 
@@ -40,15 +34,9 @@ const DateTasks = () => {
   useEffect(() => {
     if (router.query.d) {
       const parsedDate = parseUrlDate(router.query.d as string)
-      // const parsedDate = parse(
-      //   router.query.d as string,
-      //   URL_DATE_FORMAT,
-      //   new Date()
-      // )
 
       if (parsedDate instanceof Date && !isNaN(parsedDate.valueOf())) {
         setUrlDate(formatToUrlDate(parsedDate))
-        // setUrlDate(format(parsedDate, URL_DATE_FORMAT))
       }
     }
   }, [router.isReady])
@@ -80,6 +68,7 @@ const DateTasks = () => {
     () => <DateSelector dateString={urlDate} setUrlDate={changeHandler} />,
     [urlDate]
   )
+  const list = useMemo(() => <TasksLists tasks={dateTasks} />, [dateTasks])
 
   return (
     <>
@@ -101,7 +90,7 @@ const DateTasks = () => {
           ) : dateTasks && dateTasks.length <= 0 ? (
             <Empty />
           ) : (
-            <TasksLists tasks={dateTasks} />
+            list
           )}
         </x.div>
       </x.section>

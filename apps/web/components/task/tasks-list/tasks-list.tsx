@@ -11,7 +11,8 @@ type Props = {
   showEmptyList?: boolean
   withDivider?: boolean
 }
-const TasksLists: FC<Props> = ({
+
+export const TasksLists: FC<Props> = ({
   tasks,
   showEmptyList = false,
   withDivider = false,

@@ -1,6 +1,6 @@
 import styled, { x } from '@xstyled/styled-components'
 import { FC } from 'react'
-import { FiCheck } from 'react-icons/fi'
+import Wrapper from './checkbox-wrapper'
 
 const Container = styled(x.label)`
   svg {
@@ -28,38 +28,7 @@ export const Checkbox: FC<Props> = ({ checked, onChange, color, id }) => {
       borderRadius="full"
       cursor="pointer"
     >
-      <x.span
-        display="block"
-        position="relative"
-        w="50%"
-        h="50%"
-        minHeight={24}
-        minWidth={24}
-        backgroundColor={color}
-        borderRadius="full"
-      >
-        <x.span
-          display="flex"
-          position="absolute"
-          top="50%"
-          left="50%"
-          w="80%"
-          h="80%"
-          transform
-          translateX="-50%"
-          translateY="-50%"
-          backgroundColor={checked ? color : 'layout-level0'}
-          borderRadius="full"
-          border="2px solid"
-          borderColor="layout-level0"
-          color="layout-level0"
-          fontSize="60%"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <FiCheck />
-        </x.span>
-      </x.span>
+      <Wrapper color={color} checked={checked} />
 
       <x.input
         id={id}

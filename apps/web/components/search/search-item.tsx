@@ -1,5 +1,6 @@
 import { useModal } from '@the-planner/hooks'
 import { TaskWithProjectType } from '@the-planner/types'
+import { useMemo } from 'react'
 import { TaskDetails } from '../task/task-details'
 import { SearchedTask } from '../task/task-item'
 
@@ -25,7 +26,12 @@ const SearchItem = ({ item }: Props) => {
 
   return (
     <a onClick={() => onDetails(item)}>
-      <SearchedTask task={item} />
+      {useMemo(
+        () => (
+          <SearchedTask task={item} />
+        ),
+        [item]
+      )}
     </a>
   )
 }

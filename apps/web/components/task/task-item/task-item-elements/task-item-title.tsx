@@ -1,4 +1,5 @@
 import styled, { x } from '@xstyled/styled-components'
+import { memo } from 'react'
 
 export const TaskTitleWrapper = styled(x.p)`
   display: -webkit-box;

@@ -1,0 +1,6 @@
+export * from './project-details-edit'
+export * from './project-details-header'
+export * from './project-details-progress'
+export * from './project-details-tasks'
+export * from './project-details-description'
+export * from './project-details-title'

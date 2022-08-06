@@ -1,24 +1,35 @@
+import { useModal } from '@the-planner/hooks'
+import { TaskWithProjectType } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
+import { TaskDetails } from '../../task-details'
 
 type Props = {
-  onClick: () => void
-  children: JSX.Element[]
+  task: TaskWithProjectType
 }
 
-export const Link = ({ onClick, children }: Props) => {
+export const Link = ({ task }: Props) => {
+  const { setModal, clearModal } = useModal()
+
+  const onClick = () => {
+    setModal({
+      id: 'task-details',
+      content: (
+        <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+      ),
+    })
+  }
+
   return (
     <x.a
-      data-testid="taskItem-details"
+      position="absolute"
+      top={0}
+      left={0}
+      w="100%"
+      h="100%"
       onClick={onClick}
-      display="flex"
-      flexDirection="column"
-      flex="0 0 calc(100% - 36px - 36px)"
-      pr={1}
       userSelect="none"
       cursor="pointer"
-    >
-      {children}
-    </x.a>
+    />
   )
 }
 

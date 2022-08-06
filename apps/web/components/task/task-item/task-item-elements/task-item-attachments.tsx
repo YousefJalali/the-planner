@@ -1,4 +1,5 @@
 import { ImageType, Status } from '@the-planner/types'
+import { memo } from 'react'
 import { FiPaperclip } from 'react-icons/fi'
 import Details from './task-item-details'
 

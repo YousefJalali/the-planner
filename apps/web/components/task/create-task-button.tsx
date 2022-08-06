@@ -2,10 +2,9 @@ import { FC } from 'react'
 import { useModal } from '@the-planner/hooks'
 import { useCreateTask } from '@the-planner/data'
 import { TaskType } from '@the-planner/types'
-import { FloatingButton, ModalHeader } from '@the-planner/ui-web'
+import { FloatingButton } from '@the-planner/ui-web'
 import { TaskForm } from './task-form'
-import { parse } from 'date-fns'
-import { URL_DATE_FORMAT } from '@the-planner/utils'
+import { parseUrlDate } from '@the-planner/utils'
 
 type Props = {
   date?: string
@@ -18,25 +17,21 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
     setModal({
       id: 'task-create',
       fullScreen: true,
+      title: 'New Task',
       content: (
-        <>
-          <ModalHeader onRequestClose={() => clearModal('task-create')} p={3}>
-            New Task
-          </ModalHeader>
-          <TaskForm
-            id="create"
-            defaultValues={
-              defValues || {
-                ...(date && {
-                  startDate: parse(date as string, URL_DATE_FORMAT, new Date()),
-                }),
-                ...defaultValues,
-              }
+        <TaskForm
+          id="create"
+          defaultValues={
+            defValues || {
+              ...(date && {
+                startDate: parseUrlDate(date as string),
+              }),
+              ...defaultValues,
             }
-            onSubmit={onSubmit}
-            serverErrors={serverErrors}
-          />
-        </>
+          }
+          onSubmit={onSubmit}
+          serverErrors={serverErrors}
+        />
       ),
     })
   }
