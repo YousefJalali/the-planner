@@ -27,7 +27,7 @@ import { useInfiniteProjects, useProjects } from '../query'
 //   return [...splitProjects]
 // }
 
-export const useCreateProject = (callback: (action?: any) => void) => {
+export const useCreateProject = (callback?: (action?: any) => void) => {
   const { setNotification } = useNotification()
 
   const router = useRouter()
@@ -101,7 +101,9 @@ export const useCreateProject = (callback: (action?: any) => void) => {
       )
     }
 
-    callback()
+    if (callback) {
+      callback()
+    }
   }
 
   return { onSubmit }

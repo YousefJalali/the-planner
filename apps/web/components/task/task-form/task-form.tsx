@@ -20,7 +20,7 @@ import {
 } from '@the-planner/types'
 
 import { addCurrentTime, stringToDate, taskSchema } from '@the-planner/utils'
-import SelectProject from '../../project/SelectProject'
+import { SelectProject } from '../../project/select-project/'
 
 import { DateTimeInput } from './date-input'
 

@@ -1,4 +1,4 @@
-import { render, cleanup } from '../../test-utils'
+import { render, cleanup } from '../../../test-utils'
 import userEvent from '@testing-library/user-event'
 import { DateSelector } from './date-selector'
 import { format } from 'date-fns'

@@ -1,29 +1,28 @@
-import { useModal } from '@the-planner/hooks'
+import { useEditProject } from '@the-planner/data'
+import { ProjectType } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
+import { memo } from 'react'
 import { FiPlus } from 'react-icons/fi'
-import CreateProject from '../CreateProject'
+import { useProjectCreateModal, useProjectsListModal } from '../../modals'
 
 type Props = {
-  callback: () => void
+  onSelectProject: (project: ProjectType) => void
 }
 
-export const CreateProjectButton = ({ callback }: Props) => {
-  const { setModal, clearModal } = useModal()
+export const CreateProjectButton = memo(({ onSelectProject }: Props) => {
+  const { showModal: showProjectsListModal } =
+    useProjectsListModal(onSelectProject)
+
+  const { onSubmit } = useEditProject(() => {
+    clearModal('project-create')
+    showProjectsListModal()
+  })
+
+  const { showModal, clearModal } = useProjectCreateModal({ onSubmit })
 
   const clickHandler = () => {
     clearModal('project-list')
-
-    setModal({
-      id: 'project-create',
-      content: (
-        <CreateProject
-          onRequestClose={() => {
-            clearModal('project-create')
-            callback()
-          }}
-        />
-      ),
-    })
+    showModal()
   }
 
   return (
@@ -50,6 +49,6 @@ export const CreateProjectButton = ({ callback }: Props) => {
       </x.span>
     </x.div>
   )
-}
+})
 
 export default CreateProjectButton

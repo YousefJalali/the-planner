@@ -3,11 +3,10 @@ import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
 
 import { ProjectType } from '@the-planner/types'
-import { useModal } from '@the-planner/hooks'
 import { Spinner } from '@the-planner/ui-web'
 import { useProject } from '@the-planner/data'
 
-import { ProjectsList, CreateProjectButton } from './projects-list/'
+import SelectButton from './select-project-button'
 
 type Props = {
   id: string
@@ -17,7 +16,7 @@ type Props = {
   placeholder: string
 }
 
-function SelectProject({
+export function SelectProject({
   id,
   value,
   onChange,
@@ -25,8 +24,6 @@ function SelectProject({
   taskProject,
 }: Props) {
   const [project, setProject] = useState<ProjectType>()
-
-  const { setModal, clearModal } = useModal()
 
   const { project: fetchedProject, isLoading } = useProject(value)
 
@@ -36,18 +33,6 @@ function SelectProject({
     }
   }, [value, fetchedProject])
 
-  const showProjectsList = () => {
-    setModal({
-      id: 'project-list',
-      content: (
-        <ProjectsList
-          onSelect={selectHandler}
-          actionItem={<CreateProjectButton callback={showProjectsList} />}
-        />
-      ),
-    })
-  }
-
   const selectHandler = (project: ProjectType) => {
     onChange(project.id)
 
@@ -56,22 +41,18 @@ function SelectProject({
       title: project.title,
       color: project.color,
     })
-
-    clearModal('project-list')
   }
 
   return (
-    <x.button
-      id={id}
-      type="button"
-      onClick={showProjectsList}
+    <x.div
+      position="relative"
       display="flex"
       justifyContent="space-between"
       alignItems="center"
       w="100%"
-      backgroundColor="layout-level0"
       borderRadius={2}
     >
+      <SelectButton id={id} onSelectProject={selectHandler} />
       {project ? (
         <x.div display="flex" alignItems="center">
           {project.color.length > 0 && (
@@ -116,7 +97,7 @@ function SelectProject({
           <FiChevronDown />
         </x.span>
       </x.div>
-    </x.button>
+    </x.div>
   )
 }
 

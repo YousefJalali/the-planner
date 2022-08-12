@@ -7,7 +7,7 @@ import { statusAlias } from '@the-planner/utils'
 import { Status } from '@the-planner/types'
 
 import TaskOption from '../task-option-item'
-import StatusList from './status-list'
+import { useTaskStatusModal } from 'apps/web/components/modals'
 
 type Props = {
   taskId: string
@@ -15,15 +15,14 @@ type Props = {
 }
 
 export const ChangeStatusOption = ({ taskId, status }: Props) => {
-  const { setModal, clearModal } = useModal()
+  const { showModal } = useTaskStatusModal(taskId, status)
+
+  const { clearModal } = useModal()
 
   const statusListModal = () => {
     clearModal('task-options')
 
-    setModal({
-      id: 'task-status',
-      content: <StatusList taskId={taskId} status={status} />,
-    })
+    showModal()
   }
 
   return (

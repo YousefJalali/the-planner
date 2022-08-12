@@ -5,8 +5,9 @@ import { v2 as cloudinary } from 'cloudinary'
 import ProjectsCardsList from '../components/project/project-card/project-cards-list'
 import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 
-import DateTasks from '../components/task/date-tasks'
+import DateTasks from '../components/task/date-tasks/date-tasks'
 import { SearchButton } from '../components/search/'
+import CreateTaskButton from '../components/task/create-task-button'
 
 type Props = {
   // projects: ProjectType[]
@@ -71,6 +72,8 @@ const Home: NextPage<Props> = (props) => {
       <ProjectsCardsList />
 
       <DateTasks />
+
+      <CreateTaskButton />
     </>
   )
 }

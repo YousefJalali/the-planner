@@ -17,11 +17,9 @@ import { projectSchema } from '@the-planner/utils'
 
 type Props = {
   id: 'edit' | 'create'
-  title?: string
   defaultValues?: Partial<ProjectType>
   onSubmit: (data: ProjectType) => void
   isSubmitting?: boolean
-  onRequestClose?: () => void
   onDelete?: () => void
   serverErrors?: object
 }
@@ -38,11 +36,9 @@ const initialDefaultValues: ProjectType = {
 
 export function ProjectForm({
   id,
-  title,
   defaultValues = initialDefaultValues,
   onSubmit,
   isSubmitting,
-  onRequestClose,
   onDelete,
   serverErrors,
 }: Props) {
@@ -58,94 +54,92 @@ export function ProjectForm({
   }
 
   return (
-    <>
-      <Form
-        id={id}
-        name={formName}
-        submitHandler={submitHandler}
-        isSubmitting={isSubmitting}
-        schema={projectSchema}
-        defaultValues={deftValues}
-        serverErrors={serverErrors}
-      >
-        <x.div>
-          <x.div display="flex" spaceX={2}>
-            {/* Title */}
-            <FormControl<ProjectType, string> name="title">
-              {({ id, field: { value, onChange }, fieldStatus }) => (
-                <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
-                  <Input
-                    id={id}
-                    value={value}
-                    onChange={onChange}
-                    type="text"
-                    placeholder="i.e. speakers"
-                  />
-                </Fieldset>
-              )}
-            </FormControl>
-
-            {/* Color */}
-            <FormControl<ProjectType, string> name="color">
-              {({ id, field: { value, onChange }, fieldStatus }) => (
-                <Fieldset
+    <Form
+      id={id}
+      name={formName}
+      submitHandler={submitHandler}
+      isSubmitting={isSubmitting}
+      schema={projectSchema}
+      defaultValues={deftValues}
+      serverErrors={serverErrors}
+    >
+      <x.div>
+        <x.div display="flex" spaceX={2}>
+          {/* Title */}
+          <FormControl<ProjectType, string> name="title">
+            {({ id, field: { value, onChange }, fieldStatus }) => (
+              <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
+                <Input
                   id={id}
-                  label="color"
-                  hideLabel
-                  fieldStatus={fieldStatus}
-                  w="fit-content"
-                >
-                  <ColorInput id={id} value={value} onChange={onChange} />
-                </Fieldset>
-              )}
-            </FormControl>
-          </x.div>
-          <SupportiveText>
-            select a color so it will be easy for you to organize your projects
-          </SupportiveText>
-        </x.div>
+                  value={value}
+                  onChange={onChange}
+                  type="text"
+                  placeholder="i.e. speakers"
+                />
+              </Fieldset>
+            )}
+          </FormControl>
 
-        <FormControl<ProjectType, string> name="description">
-          {({ id, field: { value, onChange }, fieldStatus }) => (
-            <Fieldset id={id} label="description" fieldStatus={fieldStatus}>
-              <TextEditor
+          {/* Color */}
+          <FormControl<ProjectType, string> name="color">
+            {({ id, field: { value, onChange }, fieldStatus }) => (
+              <Fieldset
                 id={id}
-                value={value}
-                onChange={onChange}
-                placeholder="A brief about the project..."
-              />
-            </Fieldset>
-          )}
-        </FormControl>
+                label="color"
+                hideLabel
+                fieldStatus={fieldStatus}
+                w="fit-content"
+              >
+                <ColorInput id={id} value={value} onChange={onChange} />
+              </Fieldset>
+            )}
+          </FormControl>
+        </x.div>
+        <SupportiveText>
+          select a color so it will be easy for you to organize your projects
+        </SupportiveText>
+      </x.div>
 
-        <x.div display="flex" spaceX={3}>
-          {onDelete && (
-            <Button
-              name="delete project"
-              type="button"
-              variant="outline"
-              color="critical"
-              size="large"
-              justifyContent="center"
-              w="30%"
-              onClick={onDelete}
-            >
-              Delete
-            </Button>
-          )}
+      <FormControl<ProjectType, string> name="description">
+        {({ id, field: { value, onChange }, fieldStatus }) => (
+          <Fieldset id={id} label="description" fieldStatus={fieldStatus}>
+            <TextEditor
+              id={id}
+              value={value}
+              onChange={onChange}
+              placeholder="A brief about the project..."
+            />
+          </Fieldset>
+        )}
+      </FormControl>
+
+      <x.div display="flex" spaceX={3}>
+        {onDelete && (
           <Button
-            name="submit project"
-            type="submit"
-            isLoading={isSubmitting}
+            name="delete project"
+            type="button"
+            variant="outline"
+            color="critical"
             size="large"
             justifyContent="center"
-            w="100%"
+            w="30%"
+            onClick={onDelete}
           >
-            {id === 'edit' ? 'Update' : 'Create'}
+            Delete
           </Button>
-        </x.div>
-      </Form>
-    </>
+        )}
+        <Button
+          name="submit project"
+          type="submit"
+          isLoading={isSubmitting}
+          size="large"
+          justifyContent="center"
+          w="100%"
+        >
+          {id === 'edit' ? 'Update' : 'Create'}
+        </Button>
+      </x.div>
+    </Form>
   )
 }
 

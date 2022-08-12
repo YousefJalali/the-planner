@@ -5,12 +5,20 @@ import { TaskType } from '@the-planner/types'
 import { FloatingButton } from '@the-planner/ui-web'
 import { TaskForm } from './task-form'
 import { parseUrlDate } from '@the-planner/utils'
+import { useRouter } from 'next/router'
 
 type Props = {
   date?: string
 }
 
 const CreateTaskButton: FC<Props> = ({ date }) => {
+  const router = useRouter()
+
+  const urlDate =
+    typeof router.query.d === 'string' ? String(router.query.d) : null
+
+  const currentDate = urlDate || date
+
   const { setModal, clearModal } = useModal()
 
   const showForm = (defValues?: Partial<TaskType>, serverErrors?: object) => {
@@ -23,8 +31,8 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
           id="create"
           defaultValues={
             defValues || {
-              ...(date && {
-                startDate: parseUrlDate(date as string),
+              ...(currentDate && {
+                startDate: parseUrlDate(currentDate as string),
               }),
               ...defaultValues,
             }
@@ -37,7 +45,7 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
   }
 
   const { onSubmit, defaultValues } = useCreateTask(
-    date || new Date().toDateString(),
+    currentDate || new Date().toDateString(),
     showForm,
     () => clearModal('task-create')
   )

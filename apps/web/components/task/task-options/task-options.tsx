@@ -1,8 +1,7 @@
-import { FC } from 'react'
-import { useModal } from '@the-planner/hooks'
+import { FC, useMemo } from 'react'
 import { TaskWithProjectType } from '@the-planner/types'
-import { TaskOptionsList } from './task-options-list'
 import TaskOptionsButton from './task-option-button'
+import { useTaskOptionsModal } from '../../modals'
 
 type Props = {
   task: TaskWithProjectType
@@ -10,16 +9,12 @@ type Props = {
 }
 
 export const TaskOptions: FC<Props> = ({ task, inHeader }) => {
-  const { setModal } = useModal()
+  const { showModal } = useTaskOptionsModal(task)
 
-  const onOptions = () => {
-    setModal({
-      id: 'task-options',
-      content: <TaskOptionsList task={task} />,
-    })
-  }
-
-  return <TaskOptionsButton onClick={onOptions} inHeader={inHeader} />
+  return useMemo(
+    () => <TaskOptionsButton onClick={showModal} inHeader={inHeader} />,
+    [showModal, inHeader]
+  )
 }
 
 export default TaskOptions

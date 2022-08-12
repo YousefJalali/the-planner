@@ -3,14 +3,14 @@ import { useRouter } from 'next/router'
 import { x } from '@xstyled/styled-components'
 import ProjectCard from './project-card'
 
-import NewProjectCard from './new-project-card'
+import NewProjectCard from './new-project-card/new-project-card'
 import { ProjectCardSkeleton, SkeletonList } from '../../skeletons/'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
 import { useRecentProjects } from '@the-planner/data'
 import { Button, ScrollableList } from '@the-planner/ui-web'
 
-const ProjectsCardsList: FC = () => {
+export const ProjectsCardsList: FC = () => {
   // console.log('ProjectsCardsList rendered')
 
   const router = useRouter()

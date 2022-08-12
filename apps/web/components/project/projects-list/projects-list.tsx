@@ -1,5 +1,5 @@
 import { x } from '@xstyled/styled-components'
-import { ChangeEvent, FC, useMemo, useState } from 'react'
+import { ChangeEvent, FC, useMemo, useState, useCallback } from 'react'
 
 import { useProjects } from '@the-planner/data'
 import { ProjectType } from '@the-planner/types'
@@ -8,22 +8,27 @@ import { useWindowSize } from '@the-planner/hooks'
 
 import ProjectItem from '../ProjectItem'
 import Search from './projects-list-search'
+import CreateProjectButton from './projects-list-create'
 
 type Props = {
-  onSelect: (project: ProjectType) => void
-  actionItem: JSX.Element
+  onSelectProject: (project: ProjectType) => void
 }
 
-export const ProjectsList: FC<Props> = ({ onSelect, actionItem }) => {
+export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
   const [search, setSearch] = useState('')
   const { height } = useWindowSize()
 
   const { projects, error, isLoading } = useProjects('list')
 
-  const onSelectHandler = (project: ProjectType) => {
+  const selectHandler = (project: ProjectType) => {
     setSearch('')
-    onSelect(project)
+    onSelectProject(project)
   }
+
+  const searchHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value),
+    [projects]
+  )
 
   const renderList = useMemo(() => {
     const data = projects.filter((p, i, arr) =>
@@ -44,7 +49,7 @@ export const ProjectsList: FC<Props> = ({ onSelect, actionItem }) => {
           <x.a
             display="block"
             p={3}
-            onClick={() => onSelectHandler(item)}
+            onClick={() => selectHandler(item)}
             data-testid="projects-list-item"
           >
             <ProjectItem project={item} />
@@ -65,12 +70,7 @@ export const ProjectsList: FC<Props> = ({ onSelect, actionItem }) => {
   ) : (
     <x.div position="relative" my={1} id="project-list-select">
       {projects?.length > 10 && (
-        <Search
-          value={search}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
-        />
+        <Search value={search} onChange={searchHandler} />
       )}
 
       <x.div
@@ -81,7 +81,7 @@ export const ProjectsList: FC<Props> = ({ onSelect, actionItem }) => {
         {renderList}
       </x.div>
 
-      {actionItem}
+      <CreateProjectButton onSelectProject={onSelectProject} />
     </x.div>
   )
 }

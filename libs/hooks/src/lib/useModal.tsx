@@ -45,21 +45,23 @@ export const ModalCtxProvider = ({
     (id: string) => {
       setModal((modals) => modals.filter((modal) => modal.id !== id))
     },
-    [modals]
+    [setModal]
   )
 
   const setModalHandler = useCallback(
     (newModal: ModalType) => {
       setModal((modals) => [...modals, newModal])
     },
-    [modals]
+    [setModal]
   )
 
-  const context = {
+  const value = {
     modals,
     setModal: setModalHandler,
     clearModal: clearModalHandler,
   }
+
+  const context = useMemo(() => ({ ...value }), [value])
 
   return <ModalCtx.Provider value={context}>{children}</ModalCtx.Provider>
 }

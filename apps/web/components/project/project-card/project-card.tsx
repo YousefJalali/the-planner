@@ -10,7 +10,7 @@ type Props = {
   onClick: () => void
 }
 
-const ProjectCard: FC<Props> = ({ project, onClick }) => {
+export const ProjectCard: FC<Props> = ({ project, onClick }) => {
   // console.log('Project Card render', project)
 
   const progress =

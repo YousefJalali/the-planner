@@ -1,21 +1,8 @@
 import { x } from '@xstyled/styled-components'
-import { FiPlus } from 'react-icons/fi'
-import { useModal } from '@the-planner/hooks'
-import { Button, NoProjectSvg } from '@the-planner/ui-web'
-import CreateProject from '../CreateProject'
+import { NoProjectSvg } from '@the-planner/ui-web'
+import NewProject from './create-button'
 
-const NewProjectCard = () => {
-  const { setModal, clearModal } = useModal()
-
-  const showCreateProjectModal = () => {
-    setModal({
-      id: 'project-create',
-      content: (
-        <CreateProject onRequestClose={() => clearModal('project-create')} />
-      ),
-    })
-  }
-
+export const NewProjectCard = () => {
   return (
     <x.div
       position="relative"
@@ -46,20 +33,7 @@ const NewProjectCard = () => {
           </x.span>
         </x.div>
 
-        <Button
-          name="new project"
-          variant="outline"
-          size="small"
-          w="fit-content"
-          onClick={showCreateProjectModal}
-        >
-          <>
-            <x.span text="body.large" mr={1}>
-              <FiPlus />
-            </x.span>
-            <x.span text="body.small">New Project</x.span>
-          </>
-        </Button>
+        <NewProject />
       </x.div>
 
       <x.div

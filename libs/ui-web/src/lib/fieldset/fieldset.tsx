@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { FieldError as FieldErrorProps } from 'react-hook-form'
 import {
   BorderProps,
@@ -8,9 +9,10 @@ import {
 } from '@xstyled/styled-components'
 import * as _ from 'lodash'
 import { Label } from '@the-planner/ui-web'
-import { Field, InputWrapper, LeftIcon, StatusIcon } from './fieldset.style'
+import { Field, InputWrapper, LeftIcon } from './fieldset.style'
 import { FieldError, SupportiveText } from '.'
-import { FiAlertTriangle, FiCheck } from 'react-icons/fi'
+import FieldStatusIcon from './field-status-icon'
+import FieldIcon from './field-icon'
 
 type StyleProps = {} & BorderProps &
   FlexProps &
@@ -36,63 +38,55 @@ export type FieldsetProps = {
   leftIcon?: JSX.Element
 } & StyleProps
 
-export function Fieldset({
-  id,
-  children,
-  label,
-  hideLabel = false,
-  supportiveText,
-  disabled,
-  optionalField,
-  fieldStatus,
-  leftIcon,
-  ...props
-}: FieldsetProps) {
-  const { error, isSuccess } = { ...fieldStatus }
+export const Fieldset = memo(
+  ({
+    id,
+    children,
+    label,
+    hideLabel = false,
+    supportiveText,
+    disabled,
+    optionalField,
+    fieldStatus,
+    leftIcon,
+    ...props
+  }: FieldsetProps) => {
+    const { error, isSuccess } = { ...fieldStatus }
 
-  const isError = _.isObject(error) || _.isArray(error)
+    const isError = _.isObject(error) || _.isArray(error)
 
-  return (
-    <Field
-      w="100%"
-      disabled={disabled}
-      error={isError}
-      success={isSuccess}
-      hideLabel={hideLabel}
-      leftIcon={leftIcon !== undefined}
-      {...props}
-    >
-      {label && (
-        <Label htmlFor={id} optional={optionalField}>
-          {label}
-        </Label>
-      )}
-
-      <InputWrapper>
-        <LeftIcon>{leftIcon}</LeftIcon>
-
-        {children}
-
-        {isError && (
-          <StatusIcon color="utility-critical">
-            <FiAlertTriangle />
-          </StatusIcon>
+    return (
+      <Field
+        w="100%"
+        disabled={disabled}
+        error={isError}
+        success={isSuccess}
+        hideLabel={hideLabel}
+        leftIcon={leftIcon !== undefined}
+        {...props}
+      >
+        {label && (
+          <Label htmlFor={id} optional={optionalField}>
+            {label}
+          </Label>
         )}
 
-        {isSuccess && (
-          <StatusIcon color="utility-confirmation">
-            <FiCheck />
-          </StatusIcon>
-        )}
-      </InputWrapper>
+        <InputWrapper>
+          {leftIcon && <FieldIcon>{leftIcon}</FieldIcon>}
 
-      {supportiveText && <SupportiveText>{supportiveText}</SupportiveText>}
+          {children}
 
-      <FieldError error={error} />
-    </Field>
-  )
-}
+          <FieldStatusIcon isError={isError} isSuccess={isSuccess} />
+        </InputWrapper>
 
-Fieldset.SupportiveText = SupportiveText
+        {supportiveText && <SupportiveText>{supportiveText}</SupportiveText>}
+
+        <FieldError error={error} />
+      </Field>
+    )
+  }
+)
+
+// Fieldset.SupportiveText = SupportiveText
 
 export default Fieldset

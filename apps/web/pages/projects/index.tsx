@@ -1,20 +1,19 @@
 import { NextPage } from 'next'
-import { FiArrowLeft, FiPlus } from 'react-icons/fi'
 import { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { x } from '@xstyled/styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Button, Header, Filter, DynamicFlatList } from '@the-planner/ui-web'
+import { Filter, DynamicFlatList } from '@the-planner/ui-web'
 import { FilterType, Status } from '@the-planner/types'
 import { useInfiniteProjects } from '@the-planner/data'
-import { useModal } from '@the-planner/hooks'
 
 import ProjectCard from '../../components/project/project-card/project-card'
-import NewProjectCard from '../../components/project/project-card/new-project-card'
+import { NewProjectCard } from '../../components/project/project-card/'
 
 import { ProjectCardSkeleton, SkeletonList } from '../../components/skeletons/'
-import CreateProject from '../../components/project/CreateProject'
+
 import { statusAlias } from '@the-planner/utils'
+import { PageHeader } from '../../components/project/projects-page/'
 
 const FILTERS: FilterType[] = [
   { alias: 'all', value: '' },
@@ -29,8 +28,6 @@ const Index: NextPage = () => {
     useInfiniteProjects(filter.value)
 
   const router = useRouter()
-
-  const { setModal, clearModal } = useModal()
 
   const filterHandler = (filter: FilterType) => {
     setFilter(filter)
@@ -47,15 +44,6 @@ const Index: NextPage = () => {
       undefined,
       { shallow: true }
     )
-  }
-
-  const createProjectHandler = () => {
-    setModal({
-      id: 'project-create',
-      content: (
-        <CreateProject onRequestClose={() => clearModal('project-create')} />
-      ),
-    })
   }
 
   const animations = {
@@ -103,35 +91,7 @@ const Index: NextPage = () => {
 
   return (
     <>
-      <Header pageTitle="Projects">
-        <Button
-          name="back"
-          variant="outline"
-          onClick={() => router.push('/')}
-          ml={4}
-          borderColor="layout-level0accent"
-          borderRadius="full"
-          p={1}
-        >
-          <x.span fontSize="1.5rem" color="content-contrast">
-            <FiArrowLeft />
-          </x.span>
-        </Button>
-
-        <Button
-          name="create project"
-          variant="outline"
-          onClick={createProjectHandler}
-          mr={4}
-          borderColor="layout-level0accent"
-          borderRadius="full"
-          p={1}
-        >
-          <x.span fontSize="1.5rem" color="content-contrast">
-            <FiPlus />
-          </x.span>
-        </Button>
-      </Header>
+      <PageHeader />
 
       <x.section overflow="hidden" px={4}>
         <x.h1 text="headline.two" mb={4}>

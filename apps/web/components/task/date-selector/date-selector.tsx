@@ -1,13 +1,9 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
 import { x } from '@xstyled/styled-components'
-import { format, parse, getDaysInMonth } from 'date-fns'
+import { getDaysInMonth, getMonth } from 'date-fns'
 
 import { useWindowSize } from '@the-planner/hooks'
-import {
-  formatToUrlDate,
-  parseUrlDate,
-  URL_DATE_FORMAT,
-} from '@the-planner/utils'
+import { formatToUrlDate, parseUrlDate } from '@the-planner/utils'
 import DaysList from './days-list'
 import DayItem from './day-item'
 import MonthInput from './month-input'
@@ -25,7 +21,6 @@ export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   const [active, setActive] = useState(1)
 
   const parsedDate = parseUrlDate(dateString)
-  // const parsedDate = parse(dateString, URL_DATE_FORMAT, new Date())
 
   useEffect(() => {
     setActive(parsedDate.getDate())
@@ -44,16 +39,13 @@ export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   const onSelectDateHandler = (day: number) => {
     setActive(day)
     const formattedDate = formatToUrlDate(parsedDate.setDate(day))
-    // format(
-    //   new Date(parsedDate.setDate(day)),
-    //   URL_DATE_FORMAT
-    // )
+
     setUrlDate(formattedDate)
   }
 
   const onChangeMonthHandler = (date: Date) => {
     const formattedDate = formatToUrlDate(date)
-    // const formattedDate = format(date, URL_DATE_FORMAT)
+
     setUrlDate(formattedDate)
   }
 
@@ -73,9 +65,14 @@ export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
     [parsedDate, active]
   )
 
+  const month = useMemo(
+    () => <MonthInput date={parsedDate} onChange={onChangeMonthHandler} />,
+    [getMonth(parsedDate)]
+  )
+
   return (
     <x.div mb={4}>
-      <MonthInput date={parsedDate} onChange={onChangeMonthHandler} />
+      {month}
 
       <DaysList ref={listRef} date={parsedDate.toDateString()}>
         {renderDays}

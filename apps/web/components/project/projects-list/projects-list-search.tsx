@@ -1,6 +1,6 @@
 import { Fieldset, Input } from '@the-planner/ui-web'
 import { x } from '@xstyled/styled-components'
-import { ChangeEventHandler } from 'react'
+import { ChangeEventHandler, memo } from 'react'
 import { FiSearch } from 'react-icons/fi'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   onChange: ChangeEventHandler
 }
 
-export const Search = ({ value, onChange }: Props) => {
+export const Search = memo(({ value, onChange }: Props) => {
   return (
     <x.div px={3} pb={3} position="sticky" top="0" zIndex="1000">
       <Fieldset label="search" hideLabel leftIcon={<FiSearch />}>
@@ -21,6 +21,6 @@ export const Search = ({ value, onChange }: Props) => {
       </Fieldset>
     </x.div>
   )
-}
+})
 
 export default Search
