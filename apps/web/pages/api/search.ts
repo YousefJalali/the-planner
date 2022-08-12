@@ -13,6 +13,7 @@ const handler = async (
       where: {
         title: {
           contains: q as string,
+          mode: 'insensitive',
         },
       },
       orderBy: { createdAt: 'desc' },

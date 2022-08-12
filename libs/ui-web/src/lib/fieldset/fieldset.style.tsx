@@ -22,7 +22,7 @@ export const InputWrapper = styled(x.div)`
   > input,
   > textarea,
   > button,
-  > :nth-child(2) {
+  > :not(span) {
     border-radius: 2;
     padding: 3 2;
     width: 100%;

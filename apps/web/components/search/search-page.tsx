@@ -11,10 +11,13 @@ import SearchList from './search-list'
 import SearchLoading from './search-loading'
 import RecentTasks from './recent-tasks-list'
 import SearchInput from './search-input'
+import { useSearchHistory } from '@the-planner/hooks'
 
 export const SearchPage = () => {
   const [val, setVal] = useState('')
   const { searchedTasks, isLoading } = useSearch(val)
+
+  const { handler } = useSearchHistory()
 
   return (
     <>
@@ -36,7 +39,12 @@ export const SearchPage = () => {
             What task or project are you looking for?
           </x.span>
 
-          <SearchInput value={val} onChange={(e) => setVal(e.target.value)} />
+          <SearchInput
+            value={val}
+            onChange={(e) => setVal(e.target.value)}
+            autoFocus
+            onKeyDown={(e) => handler(e)}
+          />
         </x.section>
 
         {val.length <= 0 ? (

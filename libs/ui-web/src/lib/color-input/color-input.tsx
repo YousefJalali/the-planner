@@ -48,14 +48,15 @@ export const ColorInput: FC<Props> = ({ id, value, onChange }) => {
   useOnClickOutside(popperRef, () => setVisibility(false))
 
   return (
-    <>
+    <x.div>
       <x.button
         id={id}
         type="button"
+        ref={referenceRef}
+        onClick={showColorPalette}
         display="flex"
         alignItems="center"
-        onClick={showColorPalette}
-        ref={referenceRef}
+        backgroundColor="transparent"
       >
         <x.div
           h={21}
@@ -76,7 +77,7 @@ export const ColorInput: FC<Props> = ({ id, value, onChange }) => {
           <ChromePicker color={value} onChange={changeHandler} />
         </x.div>
       </div>
-    </>
+    </x.div>
   )
 }
 

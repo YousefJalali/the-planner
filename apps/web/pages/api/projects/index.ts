@@ -39,15 +39,15 @@ const handler = async (
       //     },
       //   }),
 
-      // ...(q &&
-      //   q !== 'undefined' &&
-      //   q === Status.INPROGRESS.toLowerCase() && {
-      //     where: {
-      //       progressPercentage: {
-      //         lt: 100,
-      //       },
-      //     },
-      //   }),
+      ...(q &&
+        q !== 'undefined' && {
+          where: {
+            title: {
+              contains: q as string,
+              mode: 'insensitive',
+            },
+          },
+        }),
 
       ...(limit &&
         limit !== 'undefined' && {

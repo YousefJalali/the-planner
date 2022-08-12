@@ -87,7 +87,7 @@ export function ProjectForm({
                 id={id}
                 label="color"
                 hideLabel
-                fieldStatus={fieldStatus}
+                // fieldStatus={fieldStatus}
                 w="fit-content"
               >
                 <ColorInput id={id} value={value} onChange={onChange} />
