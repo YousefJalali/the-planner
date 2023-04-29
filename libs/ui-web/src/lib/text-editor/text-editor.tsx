@@ -3,7 +3,6 @@ import { Wrapper } from './text-editor.style'
 
 const ReactQuill =
   typeof window === 'object' ? require('react-quill') : () => false
-import 'react-quill/dist/quill.bubble.css'
 
 type Props = InputHTMLAttributes<HTMLInputElement>
 

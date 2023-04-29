@@ -79,7 +79,7 @@ const handler = async (
     })
 
     const nextCursor =
-      projects[+limit - 1]?.id || projects[projects.length - 1]?.id
+      projects[+(limit || 1) - 1]?.id || projects[projects.length - 1]?.id
 
     return res
       .status(200)

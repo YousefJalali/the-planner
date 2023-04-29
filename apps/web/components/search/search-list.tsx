@@ -18,8 +18,8 @@ const SearchList = ({ data }: Props) => {
             itemData={data}
             itemCount={data.length}
             itemSize={85 + 8}
-            height={height}
-            width={width}
+            height={height || 0}
+            width={width || 0}
           >
             {({ data, index, style }) => {
               return (

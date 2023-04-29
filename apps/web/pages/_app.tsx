@@ -7,8 +7,12 @@ import {
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import 'react-circular-progressbar/dist/styles.css'
+import 'react-datepicker/dist/react-datepicker.css'
+import 'react-quill/dist/quill.bubble.css'
 import { SWRConfig } from 'swr'
 import { CookiesProvider } from 'react-cookie'
+import '../styles.css'
 
 import { theme, GlobalStyle, Layout } from '@the-planner/ui-web'
 import '../fonts.css'

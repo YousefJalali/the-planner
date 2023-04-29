@@ -1,7 +1,6 @@
 import styled, { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
-import 'react-circular-progressbar/dist/styles.css'
 
 type Props = {
   percentage: number

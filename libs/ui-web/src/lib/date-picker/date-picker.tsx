@@ -1,6 +1,5 @@
 import { forwardRef } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import DatePickerWrapper from './date-picker.style'
 import { Input } from '@the-planner/ui-web'
 

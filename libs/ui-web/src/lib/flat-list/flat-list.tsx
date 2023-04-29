@@ -23,7 +23,7 @@ export function FlatList<T extends { id: string }>({
             itemCount={data.length}
             itemSize={itemHeight}
             height={data.length * itemHeight + itemHeight}
-            width={width}
+            width={width || 0}
           >
             {({ data, index, style }) => {
               return (
