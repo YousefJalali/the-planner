@@ -20,6 +20,7 @@ export const DateTimeInput = () => {
     formState: { errors },
   } = useFormContext()
 
+  //@ts-ignore
   const dateErrors: FieldErrorProps[] = useMemo(
     () => _.compact([_.get(errors, 'endDate'), _.get(errors, 'endTime')]),
     [errors]

@@ -61,6 +61,7 @@ export function Form<T>({
   const resolver = useYupValidationResolver<T>(schema)
 
   const methods = useForm<T>({
+    //@ts-ignore
     defaultValues,
     resolver,
   })

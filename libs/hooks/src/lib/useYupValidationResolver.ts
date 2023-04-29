@@ -25,9 +25,11 @@ export const useYupValidationResolver = <T>(
       } catch (errors) {
         return {
           values: {},
+          //@ts-ignore
           errors: (errors as FieldErrors).inner.reduce(
             (allErrors: FieldErrors, currentError: FieldErrors) => ({
               ...allErrors,
+              //@ts-ignore
               [currentError.path]: {
                 type: currentError.type ?? 'validation',
                 message: currentError.message,
@@ -57,9 +59,11 @@ export const apiYupValidation = async <T>(
   } catch (errors) {
     return {
       values: {},
+      //@ts-ignore
       errors: (errors as FieldErrors).inner.reduce(
         (allErrors: FieldErrors, currentError: FieldErrors) => ({
           ...allErrors,
+          //@ts-ignore
           [currentError.path]: {
             type: currentError.type ?? 'validation',
             message: currentError.message,

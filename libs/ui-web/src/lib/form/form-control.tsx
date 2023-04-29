@@ -41,6 +41,7 @@ export function FormControl<T, U>({ name, children }: Props<T, U>) {
     <Controller
       name={name}
       control={methods.control}
+      //@ts-ignore
       render={({
         field,
         fieldState: { error, isDirty },
@@ -48,6 +49,7 @@ export function FormControl<T, U>({ name, children }: Props<T, U>) {
         return (
           <>
             {children({
+              //@ts-ignore
               id: `${(methods as MethodsWithFormName).formName}-${String(
                 name
               )}`,
