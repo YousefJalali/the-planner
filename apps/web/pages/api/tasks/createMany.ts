@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Task } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
-import { taskSchema } from '@the-planner/utils'
+import { taskFormValidation } from '@the-planner/utils'
 import _ from 'lodash'
 
 const handler = async (
@@ -23,14 +23,14 @@ const handler = async (
   }
 
   try {
-    tasks.forEach(async (task: Task) => {
-      //validate form
-      const validate = await apiYupValidation<Task>(taskSchema, task)
+    // tasks.forEach(async (task: Task) => {
+    //   //validate form
+    //   const validate = await apiYupValidation<Task>(taskFormValidation, task)
 
-      if (!_.isEmpty(validate.errors)) {
-        return res.json({ validationErrors: validate.errors })
-      }
-    })
+    //   if (!_.isEmpty(validate.errors)) {
+    //     return res.json({ validationErrors: validate.errors })
+    //   }
+    // })
 
     // const taskss = tasks.map(async (task: Task) => {
     //   const paths = task.attachments.map((attachment: Image) => attachment.path)

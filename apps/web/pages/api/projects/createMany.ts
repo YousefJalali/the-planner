@@ -23,14 +23,14 @@ const handler = async (
   }
 
   try {
-    projects.forEach(async (project: Project) => {
-      //validate form
-      const validate = await apiYupValidation<Project>(projectSchema, project)
+    // projects.forEach(async (project: Project) => {
+    //   //validate form
+    //   const validate = await apiYupValidation<Project>(projectSchema, project)
 
-      if (!_.isEmpty(validate.errors)) {
-        return res.json({ validationErrors: validate.errors })
-      }
-    })
+    //   if (!_.isEmpty(validate.errors)) {
+    //     return res.json({ validationErrors: validate.errors })
+    //   }
+    // })
 
     const createdProjects = await prisma.project.createMany({
       data: projects,

@@ -7,7 +7,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Task } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
-import { UTCDate, uploadImages, taskSchema } from '@the-planner/utils'
+import { UTCDate, uploadImages, taskFormValidation } from '@the-planner/utils'
 import { v2 as cloudinary } from 'cloudinary'
 
 const handler = async (
@@ -39,11 +39,11 @@ const handler = async (
 
   try {
     //validate form
-    const validate = await apiYupValidation<Task>(taskSchema, task)
+    // const validate = await apiYupValidation<Task>(taskFormValidation, task)
 
-    if (!_.isEmpty(validate.errors)) {
-      return res.json({ validationErrors: validate.errors })
-    }
+    // if (!_.isEmpty(validate.errors)) {
+    //   return res.json({ validationErrors: validate.errors })
+    // }
 
     //check if project exist in DB
     const project = await prisma.project.findUnique({

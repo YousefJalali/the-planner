@@ -12,7 +12,6 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 import { InferType, ObjectSchema } from 'yup'
-import { TypedSchema } from 'yup/lib/util/types'
 import LoadingOverlay from './loading-overlay'
 
 type Props<T> = {
@@ -20,7 +19,7 @@ type Props<T> = {
   name: string
   children: JSX.Element[]
   submitHandler: SubmitHandler<T>
-  schema: ObjectSchema<T & InferType<T & TypedSchema>>
+  schema?: ObjectSchema<T>
   // resolver: Resolver<T>
   defaultValues: UnpackNestedValue<DeepPartial<T>>
   serverErrors?: object
@@ -58,12 +57,12 @@ export function Form<T>({
   //   }
   // }
 
-  const resolver = useYupValidationResolver<T>(schema)
+  // const resolver = useYupValidationResolver<T>(schema)
 
   const methods = useForm<T>({
     //@ts-ignore
     defaultValues,
-    resolver,
+    // resolver,
   })
 
   const { handleSubmit, setError, clearErrors } = methods

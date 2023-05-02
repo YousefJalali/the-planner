@@ -32,10 +32,10 @@ const handler = async (
     }
 
     //validate form
-    const validate = await apiYupValidation<Project>(projectSchema, project)
-    if (!_.isEmpty(validate.errors)) {
-      return res.json({ validationErrors: validate.errors })
-    }
+    // const validate = await apiYupValidation<Project>(projectSchema, project)
+    // if (!_.isEmpty(validate.errors)) {
+    //   return res.json({ validationErrors: validate.errors })
+    // }
 
     //push updated task
     const updatedProject = await prisma.project.update({

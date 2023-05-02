@@ -2,7 +2,7 @@ import { Status, Task, TaskWithProject } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Project } from '@the-planner/types'
 import _, { indexOf } from 'lodash'
-import { taskSchema } from '@the-planner/utils'
+import { taskFormValidation } from '@the-planner/utils'
 import { apiYupValidation } from '@the-planner/hooks'
 
 import { FieldErrors } from 'react-hook-form'
@@ -75,11 +75,11 @@ export const createTaskController = async (
   } as Task
 
   //validate form
-  const validate = await apiYupValidation<Task>(taskSchema, createdTask)
+  // const validate = await yupResolver(taskFormValidation, createdTask)
 
-  if (!_.isEmpty(validate.errors)) {
-    return res(ctx.json({ validationErrors: validate.errors }))
-  }
+  // if (!_.isEmpty(validate.errors)) {
+  //   return res(ctx.json({ validationErrors: validate.errors }))
+  // }
 
   //check if project exist in DB
   const project = projects.find((p) => p.id === createdTask.projectId)

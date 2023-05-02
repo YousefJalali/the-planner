@@ -24,11 +24,11 @@ const handler = async (
 
   try {
     //validate form
-    const validate = await apiYupValidation<Project>(projectSchema, project)
+    // const validate = await apiYupValidation<Project>(projectSchema, project)
 
-    if (!_.isEmpty(validate.errors)) {
-      return res.json({ validationErrors: validate.errors })
-    }
+    // if (!_.isEmpty(validate.errors)) {
+    //   return res.json({ validationErrors: validate.errors })
+    // }
 
     let id = project.id
     if (!ObjectID.isValid(id)) {

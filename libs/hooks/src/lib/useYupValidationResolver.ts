@@ -6,10 +6,9 @@ import {
   ResolverError,
   ResolverSuccess,
 } from 'react-hook-form'
-import { TypedSchema } from 'yup/lib/util/types'
 
 export const useYupValidationResolver = <T>(
-  validationSchema: ObjectSchema<T & InferType<T & TypedSchema>>
+  validationSchema: ObjectSchema<T>
 ) =>
   useCallback<Resolver<T>>(
     async (data) => {
@@ -44,7 +43,7 @@ export const useYupValidationResolver = <T>(
   )
 
 export const apiYupValidation = async <T>(
-  validationSchema: ObjectSchema<T & InferType<T & TypedSchema>>,
+  validationSchema: ObjectSchema<T>,
   data: T
 ) => {
   try {

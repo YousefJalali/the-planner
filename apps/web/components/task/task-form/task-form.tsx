@@ -381,7 +381,7 @@ export function TaskForm({
         name="task-form"
         isSubmitting={isSubmitting}
         submitHandler={submitHandler}
-        schema={taskSchema}
+        schema={taskFormValidation}
         defaultValues={defValues}
         serverErrors={serverErrors}
       >

@@ -1,7 +1,8 @@
 import { array, boolean, date, mixed, object, Schema, string } from 'yup'
 import { Attachment, Status, Task } from '@the-planner/types'
 
-// const taskSchema: SchemaOf<Omit<Task, 'id' | 'status'>> = object({
+// const taskFormValidation: SchemaOf<Omit<Task, 'id' | 'status'>> = object({
+//@ts-ignore
 export const taskFormValidation: Schema<Task> = object({
   id: string().defined(),
   title: string().defined().required('task must have a title'),

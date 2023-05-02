@@ -59,7 +59,7 @@ export function ProjectForm({
       name={formName}
       submitHandler={submitHandler}
       isSubmitting={isSubmitting}
-      schema={projectSchema}
+      // schema={projectSchema}
       defaultValues={deftValues}
       serverErrors={serverErrors}
     >

@@ -1,7 +1,8 @@
-import { boolean, date, number, object, SchemaOf, string } from 'yup'
+import { boolean, date, number, object, Schema, string } from 'yup'
 import { Project } from '@the-planner/types'
 
-export const projectSchema: SchemaOf<Project> = object({
+//@ts-ignore
+export const projectSchema: Schema<Project> = object({
   id: string().defined(),
   title: string().defined().required('project must have a title'),
   description: string().defined(),

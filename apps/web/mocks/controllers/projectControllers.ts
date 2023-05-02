@@ -152,14 +152,14 @@ export const createProjectController = async (
   } as Project
 
   //validate form
-  const validate = await apiYupValidation<Project>(
-    projectSchema,
-    createdProject
-  )
+  // const validate = await apiYupValidation<Project>(
+  //   projectSchema,
+  //   createdProject
+  // )
 
-  if (!_.isEmpty(validate.errors)) {
-    return res(ctx.json({ validationErrors: validate.errors }))
-  }
+  // if (!_.isEmpty(validate.errors)) {
+  //   return res(ctx.json({ validationErrors: validate.errors }))
+  // }
 
   projects.unshift({ ...createdProject })
 
@@ -177,13 +177,13 @@ export const editProjectController = async (
   }
 
   //validate form
-  const validate = await apiYupValidation<Project>(
-    projectSchema,
-    updatedProject
-  )
-  if (!_.isEmpty(validate.errors)) {
-    return res(ctx.json({ validationErrors: validate.errors }))
-  }
+  // const validate = await apiYupValidation<Project>(
+  //   projectSchema,
+  //   updatedProject
+  // )
+  // if (!_.isEmpty(validate.errors)) {
+  //   return res(ctx.json({ validationErrors: validate.errors }))
+  // }
 
   for (const project of projects) {
     if (project.id === updatedProject.id) {

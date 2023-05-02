@@ -9,7 +9,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import {
   // deleteImages,
   uploadImages,
-  taskSchema,
+  taskFormValidation,
   compareAttachments,
 } from '@the-planner/utils'
 
@@ -37,10 +37,10 @@ const handler = async (
     let task = _.omit(taskForm, 'project') as Task
 
     //validate form
-    const validate = await apiYupValidation<Task>(taskSchema, task)
-    if (!_.isEmpty(validate.errors)) {
-      return res.json({ validationErrors: validate.errors })
-    }
+    // const validate = await apiYupValidation<Task>(taskFormValidation, task)
+    // if (!_.isEmpty(validate.errors)) {
+    //   return res.json({ validationErrors: validate.errors })
+    // }
 
     //check if project exist in DB
     const project = await prisma.project.findUnique({
