@@ -3,7 +3,7 @@ import { render } from '../test-utils'
 import { ImageInput } from './file-input'
 import { ChangeEvent } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { ImageType } from '@the-planner/types'
+import { Attachment } from '@the-planner/types'
 import { ColorModeProvider, ThemeProvider } from '@xstyled/styled-components'
 import { theme } from '@the-planner/ui-web'
 
@@ -12,11 +12,11 @@ function setup({
   max = 10,
   multiple = false,
 }: {
-  value?: ImageType[]
+  value?: Attachment[]
   max?: number
   multiple?: boolean
 }) {
-  const onChange: (e: ChangeEvent<HTMLInputElement> | ImageType[]) => void =
+  const onChange: (e: ChangeEvent<HTMLInputElement> | Attachment[]) => void =
     jest.fn()
 
   const id = 'test-image-input'
@@ -64,7 +64,7 @@ function setup({
 //test upload a single file
 describe('Image input', () => {
   test('preview image', () => {
-    const img: ImageType = {
+    const img: Attachment = {
       id: 'test',
       name: 'test-image',
       path: 'https://picsum.photos/200/300',

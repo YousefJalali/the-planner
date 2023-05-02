@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router'
-import { x } from '@xstyled/styled-components'
 
 import { useProject } from '@the-planner/data'
 
 import CreateTaskButton from '../../components/task/create-task-button'
-import { Spinner, TextEditor, ErrorMessage } from '@the-planner/ui-web'
+import { Spinner, ErrorMessage } from '@the-planner/ui-web'
 import {
   ProjectDetailsHeader,
   ProjectTitle,
@@ -12,7 +11,7 @@ import {
   ProjectProgress,
   ProjectTasks,
 } from '../../components/project/project-details-page'
-import { Status, TaskWithProjectType } from '@the-planner/types'
+import { Status, TaskWithProject } from '@the-planner/types'
 import { useMemo } from 'react'
 
 const Project = () => {
@@ -35,21 +34,21 @@ const Project = () => {
   }, [project])
 
   return (
-    <x.main minHeight="100vh">
+    <main className="min-h-screen">
       <ProjectDetailsHeader project={project} />
 
       {isLoading ? (
-        <x.div px={4} display="flex" justifyContent="center">
+        <div className="px-6 flex justify-center">
           <Spinner pathColor="brand-primary" />
-        </x.div>
+        </div>
       ) : error ? (
-        <x.div px={4} display="flex" justifyContent="center">
+        <div className="px-6 flex justify-center">
           <ErrorMessage error={error} />
-        </x.div>
+        </div>
       ) : (
         project && (
           <>
-            <x.section overflow="hidden" px={4}>
+            <section className="overflow-hidden px-6">
               <ProjectTitle title={project.title} />
 
               <ProjectDescription description={project.description} />
@@ -58,15 +57,15 @@ const Project = () => {
                 projectColor={project.color}
                 progress={progress}
               />
-            </x.section>
+            </section>
 
-            <ProjectTasks tasks={project.tasks as TaskWithProjectType[]} />
+            <ProjectTasks tasks={project.tasks as TaskWithProject[]} />
           </>
         )
       )}
 
       {project && <CreateTaskButton />}
-    </x.main>
+    </main>
   )
 }
 

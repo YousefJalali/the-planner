@@ -30,28 +30,22 @@ export const ChangeStatusOption = ({ taskId, status }: Props) => {
       data-testid="change-status-option"
       icon={<FiPieChart />}
       content={
-        <x.div
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          w="100%"
-        >
-          <x.div display="flex" alignItems="center">
-            <x.span ml={2} mr={2} lineHeight="tight" color="content-contrast">
-              Status
-            </x.span>
-            <Badge color={`tag-${status}`}>{statusAlias(status)}</Badge>
-          </x.div>
+        <div className="flex justify-between items-center w-full">
+          <div className="flex items-center gap-2">
+            <span className="leading-tight">Status</span>
+            <Badge status={status} className="mb-0">
+              {statusAlias(status)}
+            </Badge>
+          </div>
 
-          <Button
+          <button
             name="change task status"
-            variant="textOnly"
-            ml={2}
+            className="ml-2 btn btn-ghost btn-sm text-primary"
             onClick={statusListModal}
           >
             Change
-          </Button>
-        </x.div>
+          </button>
+        </div>
       }
     />
   )

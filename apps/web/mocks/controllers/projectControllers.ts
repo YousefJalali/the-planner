@@ -1,9 +1,9 @@
 import {
   ProjectTasksCount,
-  ProjectType,
-  ProjectWithTasksType,
+  Project,
+  ProjectWithTasks,
 } from '@the-planner/types'
-import { Status, TaskType } from '@the-planner/types'
+import { Status, Task } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
 import { apiYupValidation } from '@the-planner/hooks'
 import { projectSchema } from '@the-planner/utils'
@@ -12,7 +12,7 @@ import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
 
 export const getInfiniteProjects = (
   { req, res, ctx }: GET,
-  projects: ProjectType[]
+  projects: Project[]
 ) => {
   // return res(
   //   ctx.status(400),
@@ -61,12 +61,12 @@ export const getInfiniteProjects = (
 
 export const getProjectById = (
   { req, res, ctx }: GET,
-  projects: ProjectType[],
-  tasks: TaskType[]
+  projects: Project[],
+  tasks: Task[]
 ) => {
   const id = req.params.projectId
 
-  const project = projects.find((project) => project.id === id) as ProjectType
+  const project = projects.find((project) => project.id === id) as Project
 
   if (!project) {
     return res(
@@ -82,7 +82,7 @@ export const getProjectById = (
     }
   }
 
-  const populatedProject: ProjectWithTasksType & ProjectTasksCount = {
+  const populatedProject: ProjectWithTasks & ProjectTasksCount = {
     ...project,
     tasks: tasksInProject.map((task) => populateTask(task)),
     _count: { tasks: countTasksInProject(project) },
@@ -98,12 +98,12 @@ export const getProjectById = (
 
 export const getProjectStats = (
   { req, res, ctx }: GET,
-  projects: ProjectType[],
-  tasks: TaskType[]
+  projects: Project[],
+  tasks: Task[]
 ) => {
   const id = req.params.projectId
 
-  const project = projects.find((project) => project.id === id) as ProjectType
+  const project = projects.find((project) => project.id === id) as Project
 
   if (!project) {
     return res(
@@ -137,8 +137,8 @@ export const getProjectStats = (
 }
 
 export const createProjectController = async (
-  { req, res, ctx }: POST<ProjectType>,
-  projects: ProjectType[]
+  { req, res, ctx }: POST<Project>,
+  projects: Project[]
 ) => {
   const project = req.body
 
@@ -149,10 +149,10 @@ export const createProjectController = async (
   const createdProject = {
     ...project,
     id: uuidv4(),
-  } as ProjectType
+  } as Project
 
   //validate form
-  const validate = await apiYupValidation<ProjectType>(
+  const validate = await apiYupValidation<Project>(
     projectSchema,
     createdProject
   )
@@ -167,8 +167,8 @@ export const createProjectController = async (
 }
 
 export const editProjectController = async (
-  { req, res, ctx }: PUT<ProjectType>,
-  projects: ProjectType[]
+  { req, res, ctx }: PUT<Project>,
+  projects: Project[]
 ) => {
   const updatedProject = req.body
 
@@ -177,7 +177,7 @@ export const editProjectController = async (
   }
 
   //validate form
-  const validate = await apiYupValidation<ProjectType>(
+  const validate = await apiYupValidation<Project>(
     projectSchema,
     updatedProject
   )
@@ -200,8 +200,8 @@ export const editProjectController = async (
 //-----------------delete project-----------------
 export const deleteProjectController = (
   { req, res, ctx }: GET,
-  projects: ProjectType[],
-  tasks: TaskType[]
+  projects: Project[],
+  tasks: Task[]
 ) => {
   const projectId = req.params.id
 

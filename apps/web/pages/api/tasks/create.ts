@@ -4,7 +4,7 @@ import { FieldErrors } from 'react-hook-form'
 import _ from 'lodash'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import { UTCDate, uploadImages, taskSchema } from '@the-planner/utils'
@@ -13,12 +13,12 @@ import { v2 as cloudinary } from 'cloudinary'
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: TaskType
+    data?: Task
     error?: Error | unknown
     validationErrors?: any
   }>
 ) => {
-  const task: TaskType = req.body
+  const task: Task = req.body
 
   // return res.status(400).json({ error: 'something wrong happened' })
 
@@ -27,7 +27,7 @@ const handler = async (
   //     projectId: {
   //       type: 'required',
   //       message: 'Cannot find the selected project',
-  //     } as FieldErrors<TaskType>,
+  //     } as FieldErrors<Task>,
   //   },
   // })
 
@@ -39,7 +39,7 @@ const handler = async (
 
   try {
     //validate form
-    const validate = await apiYupValidation<TaskType>(taskSchema, task)
+    const validate = await apiYupValidation<Task>(taskSchema, task)
 
     if (!_.isEmpty(validate.errors)) {
       return res.json({ validationErrors: validate.errors })
@@ -58,7 +58,7 @@ const handler = async (
           projectId: {
             type: 'required',
             message: 'Cannot find the selected project',
-          } as FieldErrors<TaskType>,
+          } as FieldErrors<Task>,
         },
       })
     }

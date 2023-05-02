@@ -2,10 +2,10 @@ import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import SearchItem from './search-item'
 import { x } from '@xstyled/styled-components'
-import { TaskWithProjectType } from '@the-planner/types'
+import { TaskWithProject } from '@the-planner/types'
 
 type Props = {
-  data: TaskWithProjectType[]
+  data: TaskWithProject[]
 }
 
 const SearchList = ({ data }: Props) => {

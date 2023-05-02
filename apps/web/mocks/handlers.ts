@@ -1,8 +1,8 @@
 import { rest } from 'msw'
 import { multipleTasks } from './data/tasks'
 import { multipleProjects } from './data/projects'
-import { TaskType, Status, TaskWithProjectType } from '@the-planner/types'
-import { ProjectType } from '@the-planner/types'
+import { Task, Status, TaskWithProject } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import {
   createTaskController,
   deleteTaskController,
@@ -49,7 +49,7 @@ const initialProjects = multipleProjects()
 export const tasks = multipleTasks(initialProjects)
 
 //add tasks ids to projects
-export const projects: ProjectType[] = [...initialProjects].map((project) => {
+export const projects: Project[] = [...initialProjects].map((project) => {
   const addTasks = []
 
   for (const task of tasks) {
@@ -66,7 +66,7 @@ export const projects: ProjectType[] = [...initialProjects].map((project) => {
   }
 })
 
-export const populateTask = (task: TaskType) => {
+export const populateTask = (task: Task) => {
   const project = projects.find((project) => task.projectId === project.id)
   if (!project) return task
 
@@ -76,10 +76,10 @@ export const populateTask = (task: TaskType) => {
       title: project.title,
       color: project.color,
     },
-  } as TaskWithProjectType
+  } as TaskWithProject
 }
 
-export const countTasksInProject = (project: ProjectType) => {
+export const countTasksInProject = (project: Project) => {
   let count = 0
   for (const task of tasks) {
     if (task.projectId === project.id) {
@@ -97,22 +97,22 @@ export const handlers = [
   ),
 
   //get task by id
-  rest.get<TaskType>('/tasks/:id', (req, res, ctx) =>
+  rest.get<Task>('/tasks/:id', (req, res, ctx) =>
     getTaskByIdController({ req, res, ctx }, tasks)
   ),
 
   //create a task
-  rest.post<TaskType>('/tasks/create', (req, res, ctx) =>
+  rest.post<Task>('/tasks/create', (req, res, ctx) =>
     createTaskController({ req, res, ctx }, tasks, projects)
   ),
 
   //edit A TASK
-  rest.put<TaskType>('/tasks/:id/edit', (req, res, ctx) =>
+  rest.put<Task>('/tasks/:id/edit', (req, res, ctx) =>
     editTaskController({ req, res, ctx }, tasks, projects)
   ),
 
   //change task status
-  rest.put<TaskType>('/tasks/:id', (req, res, ctx) =>
+  rest.put<Task>('/tasks/:id', (req, res, ctx) =>
     changeTaskStatusController({ req, res, ctx }, tasks, projects)
   ),
 
@@ -144,17 +144,17 @@ export const handlers = [
   ),
 
   //create project
-  rest.post<ProjectType>('/projects/create', (req, res, ctx) =>
+  rest.post<Project>('/projects/create', (req, res, ctx) =>
     createProjectController({ req, res, ctx }, projects)
   ),
 
   //edit project
-  rest.put<ProjectType>('/projects/:id/edit', (req, res, ctx) =>
+  rest.put<Project>('/projects/:id/edit', (req, res, ctx) =>
     editProjectController({ req, res, ctx }, projects)
   ),
 
   //delete project
-  rest.delete<ProjectType>('/projects/:id/delete', (req, res, ctx) =>
+  rest.delete<Project>('/projects/:id/delete', (req, res, ctx) =>
     deleteProjectController({ req, res, ctx }, projects, tasks)
   ),
 ]

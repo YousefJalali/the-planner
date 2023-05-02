@@ -1,4 +1,4 @@
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import {
   FieldError,
   FormControl,
@@ -41,7 +41,7 @@ export const DateTimeInput = () => {
         <x.div display="flex" alignItems="center">
           <x.span mr={2}>Open task?</x.span>
 
-          <FormControl<TaskType, boolean> name="openTask">
+          <FormControl<Task, boolean> name="openTask">
             {({ id, field: { value, onChange } }) => (
               <x.fieldset display="flex">
                 <ToggleButton

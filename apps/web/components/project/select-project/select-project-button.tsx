@@ -1,10 +1,9 @@
-import { ProjectType } from '@the-planner/types'
-import { x } from '@xstyled/styled-components'
+import { Project } from '@the-planner/types'
 import { useProjectsListModal } from '../../modals'
 
 type Props = {
   id: string
-  onSelectProject: (project: ProjectType) => void
+  onSelectProject: (project: Project) => void
 }
 
 const SelectButton = ({ id, onSelectProject }: Props) => {
@@ -14,16 +13,11 @@ const SelectButton = ({ id, onSelectProject }: Props) => {
   })
 
   return (
-    <x.button
+    <button
       id={id}
       type="button"
       onClick={showModal}
-      position="absolute"
-      top={0}
-      left={0}
-      w="100%"
-      h="100%"
-      backgroundColor="transparent"
+      className="absolute top-0 left-0 w-full h-full"
     />
   )
 }

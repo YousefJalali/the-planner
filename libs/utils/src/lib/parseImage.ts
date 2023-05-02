@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-import { ImageType } from '@the-planner/types'
+import { Attachment } from '@the-planner/types'
 
 const getPath = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -46,7 +46,7 @@ const constructImage = async (files: File[]) =>
         path,
         height: size.height,
         width: size.width,
-      } as ImageType
+      } as Attachment
     })
   )
 

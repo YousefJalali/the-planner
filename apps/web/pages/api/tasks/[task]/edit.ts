@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import _ from 'lodash'
@@ -16,7 +16,7 @@ import {
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: TaskType
+    data?: Task
     error?: Error | unknown
     validationErrors?: any
   }>
@@ -34,10 +34,10 @@ const handler = async (
     }
 
     //remove project key from task object
-    let task = _.omit(taskForm, 'project') as TaskType
+    let task = _.omit(taskForm, 'project') as Task
 
     //validate form
-    const validate = await apiYupValidation<TaskType>(taskSchema, task)
+    const validate = await apiYupValidation<Task>(taskSchema, task)
     if (!_.isEmpty(validate.errors)) {
       return res.json({ validationErrors: validate.errors })
     }
@@ -54,7 +54,7 @@ const handler = async (
           projectId: {
             type: 'required',
             message: 'Cannot find the selected project',
-          } as FieldErrors<TaskType>,
+          } as FieldErrors<Task>,
         },
       })
     }

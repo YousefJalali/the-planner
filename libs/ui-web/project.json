@@ -2,7 +2,7 @@
   "name": "ui-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui-web/src",
-  "projectType": "library",
+  "Project": "library",
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",

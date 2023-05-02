@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '@the-planner/hooks'
@@ -23,12 +23,9 @@ const handler = async (
   }
 
   try {
-    projects.forEach(async (project: ProjectType) => {
+    projects.forEach(async (project: Project) => {
       //validate form
-      const validate = await apiYupValidation<ProjectType>(
-        projectSchema,
-        project
-      )
+      const validate = await apiYupValidation<Project>(projectSchema, project)
 
       if (!_.isEmpty(validate.errors)) {
         return res.json({ validationErrors: validate.errors })

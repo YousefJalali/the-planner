@@ -1,10 +1,10 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { ProjectWithTasksType } from '@the-planner/types'
+import { ProjectWithTasks } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { projectsKey } from '../keys'
 
-type ProjectWithTasksCount = ProjectWithTasksType & {
+type ProjectWithTasksCount = ProjectWithTasks & {
   _count: { tasks: number }
 }
 

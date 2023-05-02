@@ -4,11 +4,11 @@ import { editTask } from '../actions'
 import { useNotification } from '@the-planner/hooks'
 import useDateTasks from '../query/useDateTasks'
 import { useProject, useTask } from '../query'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
 export const useEditTask = (
-  showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
+  showForm: (defValues?: Partial<Task>, serverErrors?: object) => void,
   callback: (action?: any) => void
 ) => {
   const { setNotification } = useNotification()
@@ -20,7 +20,7 @@ export const useEditTask = (
   const { mutate: mutateProject, project } = useProject(projectId as string)
   const { mutate: mutateTask, task } = useTask(taskId as string)
 
-  const onSubmit = async (formData: TaskType) => {
+  const onSubmit = async (formData: Task) => {
     const request = async () => {
       try {
         const {
@@ -60,7 +60,7 @@ export const useEditTask = (
     if (date) {
       const updateTasks = (updatedTask = formData) => {
         return {
-          data: dateTasks.reduce((updatedTasks: TaskType[], task) => {
+          data: dateTasks.reduce((updatedTasks: Task[], task) => {
             if (task.id === updatedTask.id) {
               if (
                 new Date(task.startDate).getTime() ===

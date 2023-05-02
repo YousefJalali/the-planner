@@ -1,6 +1,4 @@
 import { useCreateProject } from '@the-planner/data'
-import { Button } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
 import { useProjectCreateModal } from 'apps/web/components/modals'
 import { useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
@@ -11,20 +9,14 @@ const NewProject = () => {
 
   return useMemo(
     () => (
-      <Button
+      <button
         name="new project"
-        variant="outline"
-        size="small"
-        w="fit-content"
         onClick={showModal}
+        className="btn btn-primary gap-2"
       >
-        <>
-          <x.span text="body.large" mr={1}>
-            <FiPlus />
-          </x.span>
-          <x.span text="body.small">New Project</x.span>
-        </>
-      </Button>
+        New Project
+        <FiPlus size={18} />
+      </button>
     ),
     [showModal]
   )

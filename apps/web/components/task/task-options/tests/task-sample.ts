@@ -1,4 +1,4 @@
-import { Status, TaskWithProjectType } from '@the-planner/types'
+import { Status, TaskWithProject } from '@the-planner/types'
 
 export const taskSample = {
   id: 'task-id',
@@ -19,4 +19,4 @@ export const taskSample = {
   },
   createdAt: new Date(),
   updatedAt: new Date(),
-} as TaskWithProjectType
+} as TaskWithProject

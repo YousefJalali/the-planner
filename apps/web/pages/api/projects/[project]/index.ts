@@ -1,12 +1,12 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType
+    data?: Project
     error?: Error | unknown
     nextCursor?: string
   }>

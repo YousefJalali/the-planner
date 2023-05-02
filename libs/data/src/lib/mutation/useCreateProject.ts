@@ -3,15 +3,15 @@ import { uniqueId } from 'lodash'
 import { useRouter } from 'next/router'
 
 import { useNotification } from '@the-planner/hooks'
-import { ProjectType, ProjectWithTasksAndCount } from '@the-planner/types'
+import { Project, ProjectWithTasksAndCount } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
 import { createProject } from '../actions'
 import { useInfiniteProjects, useProjects } from '../query'
 
 // const updateInfiniteProjects = (
-//   newProject: ProjectType | ProjectWithTasksAndCount,
-//   projects: (ProjectWithTasksType & ProjectTasksCount)[]
+//   newProject: Project | ProjectWithTasksAndCount,
+//   projects: (ProjectWithTasks & ProjectTasksCount)[]
 // ) => {
 //   const updatedProjects = [{ ...newProject }, ...projects]
 
@@ -37,7 +37,7 @@ export const useCreateProject = (callback?: (action?: any) => void) => {
     useInfiniteProjects()
   const { mutate: mutateProjects, projects } = useProjects()
 
-  const onSubmit = async (formData: ProjectType) => {
+  const onSubmit = async (formData: Project) => {
     const projectFormData = {
       ...formData,
       id: ObjectID().toHexString(),

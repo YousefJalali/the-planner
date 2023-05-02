@@ -1,29 +1,19 @@
-import { x } from '@xstyled/styled-components'
 import { ErrorSvg } from '../illustration/'
-import { Button } from '../button/button'
 
 export const ErrorMessage = ({ error }: { error: string }) => {
   return (
-    <x.div
-      w="100%"
-      px={3}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-    >
-      <x.div w="50%" display="flex" alignItems="center" mb={3}>
+    <div className="w-full px-3 flex flex-col items-center">
+      <div className="w-1/2 flex items-center mb-6">
         <ErrorSvg />
-      </x.div>
+      </div>
 
-      <x.p text="body.large">Oops! Something went wrong!</x.p>
-      <x.p text="body.small" color="content-subtle">
-        {error}
-      </x.p>
+      <p className="text-xl">Oops! Something went wrong!</p>
+      <p className="opacity-60">{error}</p>
 
-      <Button name="go back" mt={2}>
+      <button className="btn btn-primary mt-6" name="go back">
         go back
-      </Button>
-    </x.div>
+      </button>
+    </div>
   )
 }
 

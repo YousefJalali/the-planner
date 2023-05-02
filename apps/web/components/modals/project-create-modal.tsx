@@ -2,10 +2,10 @@ import randomColor from 'randomcolor'
 import { useModal } from '@the-planner/hooks'
 import { useCallback } from 'react'
 import { ProjectForm } from '../project/project-form'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 
 type Props = {
-  onSubmit: (data: ProjectType) => void
+  onSubmit: (data: Project) => void
 }
 
 export const useProjectCreateModal = ({ onSubmit }: Props) => {

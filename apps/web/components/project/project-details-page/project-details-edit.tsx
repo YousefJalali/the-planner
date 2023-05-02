@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
-import { ProjectType } from '@the-planner/types'
-import { Button } from '@the-planner/ui-web'
+import { Project } from '@the-planner/types'
 import { FC } from 'react'
 import { useProjectEditModal } from '../../modals'
 
 type Props = {
-  project: ProjectType
+  project: Project
 }
 
 export const EditProject: FC<Props> = ({ project }) => {
@@ -13,15 +12,13 @@ export const EditProject: FC<Props> = ({ project }) => {
 
   return useMemo(
     () => (
-      <Button
+      <button
         name="edit project"
-        variant="textOnly"
-        color="information"
         onClick={showModal}
-        mr="calc(24px - 0.5rem)"
+        className="btn btn-ghost -mr-4"
       >
         Edit
-      </Button>
+      </button>
     ),
     [showModal]
   )

@@ -1,5 +1,4 @@
-import { Button, DateInput } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { DateInput } from '@the-planner/ui-web'
 import format from 'date-fns/format'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
@@ -9,11 +8,13 @@ type ChevronTypes = {
   children: JSX.Element
 }
 const Chevron = ({ name, onClick, children }: ChevronTypes) => (
-  <Button name={name} onClick={onClick} backgroundColor="brand-primary-a10">
-    <x.span fontSize="1.5rem" color="content-subtle">
-      {children}
-    </x.span>
-  </Button>
+  <button
+    className="btn btn-square btn-ghost bg-secondary text-secondary-content"
+    name={name}
+    onClick={onClick}
+  >
+    {children}
+  </button>
 )
 
 type Props = {
@@ -51,22 +52,12 @@ const MonthInput = ({ date, onChange }: Props) => {
   }
 
   return (
-    <x.div
-      mx={4}
-      mb={3}
-      p={1}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      borderRadius={2}
-      border="1px solid"
-      borderColor="brand-primary-a10"
-    >
+    <div className="space-x-2 mx-6 mb-4 p-1 flex justify-between items-center rounded-xl border border-base-300">
       <Chevron
         name="previous month"
         onClick={() => onMonthArrowClick('previous')}
       >
-        <FiChevronLeft />
+        <FiChevronLeft size={24} />
       </Chevron>
 
       <DateInput
@@ -78,23 +69,17 @@ const MonthInput = ({ date, onChange }: Props) => {
         popperPlacement="bottom"
         customInput={
           <div>
-            <Button name="current month" variant="textOnly" w="100%">
-              <x.span
-                textAlign="center"
-                color="content-contrast"
-                fontWeight="bold"
-              >
-                {format(date, 'MMMM yyyy')}
-              </x.span>
-            </Button>
+            <button name="current month" className="w-full btn btn-ghost">
+              {format(date, 'MMMM yyyy')}
+            </button>
           </div>
         }
       />
 
       <Chevron name="next month" onClick={() => onMonthArrowClick('next')}>
-        <FiChevronRight />
+        <FiChevronRight size={24} />
       </Chevron>
-    </x.div>
+    </div>
   )
 }
 

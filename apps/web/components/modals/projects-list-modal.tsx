@@ -1,11 +1,9 @@
 import { useModal } from '@the-planner/hooks'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { useCallback } from 'react'
 import { ProjectsList } from '../project/projects-list'
 
-export const useProjectsListModal = (
-  onSelect: (project: ProjectType) => void
-) => {
+export const useProjectsListModal = (onSelect: (project: Project) => void) => {
   const { setModal, clearModal } = useModal()
 
   const showModal = useCallback(

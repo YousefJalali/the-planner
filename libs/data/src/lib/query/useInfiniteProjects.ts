@@ -4,20 +4,20 @@ import useSWRInfinite from 'swr/infinite'
 import { requestLogger } from '../middlewares/requestLogger'
 import {
   ProjectTasksCount,
-  ProjectType,
-  ProjectWithTasksType,
+  Project,
+  ProjectWithTasks,
 } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { projectsKey } from '../keys'
 
-type ProjectWithTasksCount = ProjectType & ProjectTasksCount
+type ProjectWithTasksCount = Project & ProjectTasksCount
 
 export const LIMIT = 6
 
 const getKey = (
   pageIndex: number,
   previousPageData: {
-    data: (ProjectWithTasksType & ProjectTasksCount)[]
+    data: (ProjectWithTasks & ProjectTasksCount)[]
     nextCursor: string
   },
   filter?: Omit<Status, 'proposed'> | null
@@ -47,7 +47,7 @@ export const useInfiniteProjects = (
 ) => {
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<
     {
-      data: (ProjectWithTasksType & ProjectTasksCount)[]
+      data: (ProjectWithTasks & ProjectTasksCount)[]
       nextCursor?: string
     },
     { error: Error }

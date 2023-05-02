@@ -1,21 +1,6 @@
 import { Status } from '@the-planner/types'
 import { Badge } from '@the-planner/ui-web'
 import { statusAlias } from '@the-planner/utils'
-import styled, { css, x } from '@xstyled/styled-components'
-
-const Wrapper = styled(x.div)<{
-  withDivider?: boolean
-}>`
-  padding-bottom: 4;
-
-  ${(props) =>
-    props.withDivider &&
-    css`
-      border-radius: 2;
-      padding: 2;
-      height: fit-content;
-    `}
-`
 
 type Props = {
   children: JSX.Element | JSX.Element[]
@@ -30,18 +15,24 @@ const ListWrapper = ({
   status,
   count,
 }: Props) => {
+  const color =
+    status === Status.PROPOSED
+      ? '#935aea'
+      : status === Status.INPROGRESS
+      ? '#ae9900'
+      : '#008f20'
+
   return (
-    <Wrapper
-      pb={4}
-      spaceY={2}
-      withDivider={withDivider}
-      backgroundColor={withDivider ? `tag-${status}-a10` : 'transparent'}
+    <div
+      className={`${withDivider ? `rounded-lg p-2 h-fit` : 'pb-6'}`}
+      style={{ backgroundColor: withDivider ? `${color}20` : undefined }}
     >
-      <Badge color={`tag-${status}`} count={count} textOnly={!withDivider}>
+      <Badge status={status} count={count}>
         {statusAlias(status)}
       </Badge>
+
       {children}
-    </Wrapper>
+    </div>
   )
 }
 

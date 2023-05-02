@@ -1,5 +1,4 @@
-import { Label, TextEditor } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { TextEditor } from '@the-planner/ui-web'
 
 type Props = {
   title: string
@@ -9,25 +8,20 @@ type Props = {
 
 const TaskContent = ({ title, description, onClick }: Props) => {
   return (
-    <x.div>
-      <Label>Task</Label>
-      <x.a onClick={onClick}>
-        <x.h2
-          text="body.large"
-          color="content-contrast"
-          fontWeight="bold"
-          data-testid="taskDetails-title"
-        >
+    <div>
+      <span className="label-text">Task</span>
+      <a onClick={onClick}>
+        <h2 data-testid="taskDetails-title" className="text-xl font-semibold">
           {title}
-        </x.h2>
-      </x.a>
+        </h2>
+      </a>
 
       {description?.length > 0 && (
-        <x.div mt={2} maxHeight="200px" overflowY="scroll">
+        <div className="mt-2 max-h-[200px] overflow-y-scroll opacity-60">
           <TextEditor value={description} readOnly />
-        </x.div>
+        </div>
       )}
-    </x.div>
+    </div>
   )
 }
 

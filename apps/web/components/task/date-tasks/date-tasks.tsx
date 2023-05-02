@@ -1,4 +1,3 @@
-import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -44,15 +43,13 @@ export const DateTasks = () => {
 
   return (
     <>
-      <x.section my={4} mt={6}>
-        <x.h1 text="headline.two" px={4} mb={3}>
-          Tasks
-        </x.h1>
+      <section className="mt-12">
+        <h1 className="text-2xl font-bold px-6 mb-2">Tasks</h1>
 
         {dateSelect}
 
         <DateTasksList date={urlDate} />
-      </x.section>
+      </section>
 
       {/* <CreateTaskButton date={urlDate} /> */}
     </>

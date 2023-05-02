@@ -1,6 +1,3 @@
-import { Button } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
-import { useMemo } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
 
 type Props = {
@@ -9,33 +6,17 @@ type Props = {
 }
 
 const TaskOptionsButton = ({ onClick, inHeader = false }: Props) => {
-  const content = useMemo(
-    () => (
-      <>
-        <x.span
-          fontSize={inHeader ? '1.5rem' : '1.125rem'}
-          color={inHeader ? 'content-contrast' : 'content-default'}
-        >
-          <FiMoreVertical />
-        </x.span>
-      </>
-    ),
-    [inHeader]
-  )
-
   return (
-    <Button
+    <button
       data-testid="taskItem-kebab"
       name="task options"
       onClick={onClick}
-      variant="outline"
-      borderRadius="full"
-      mr={inHeader ? 4 : 0}
-      borderColor={inHeader ? 'layout-level0accent' : 'transparent'}
-      p={inHeader ? 1 : 0}
+      className={`btn btn-circle btn-sm btn-ghost ${
+        inHeader ? 'mr-6 border-base-200 p-1' : ''
+      }`}
     >
-      {content}
-    </Button>
+      <FiMoreVertical size={18} />
+    </button>
   )
 }
 

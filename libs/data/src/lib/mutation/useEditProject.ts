@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { editProject } from '../actions'
 import { useNotification } from '@the-planner/hooks'
 import { useProject } from '../query'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
 export const useEditProject = (callback: (action?: any) => void) => {
@@ -14,7 +14,7 @@ export const useEditProject = (callback: (action?: any) => void) => {
   const { projectId } = router.query
   const { mutate: mutateProject, project } = useProject(projectId as string)
 
-  const onSubmit = async (formData: ProjectType) => {
+  const onSubmit = async (formData: Project) => {
     const request = async () => {
       try {
         const {

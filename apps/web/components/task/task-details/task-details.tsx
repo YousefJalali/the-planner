@@ -1,15 +1,14 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
-import { x } from '@xstyled/styled-components'
 
-import { TaskWithProjectType } from '@the-planner/types'
+import { TaskWithProject } from '@the-planner/types'
 import TaskContent from './task-content'
 import TaskDate from './task-date'
 import TaskProject from './task-project'
 import TaskAttachments from './task-attachments'
 
 type Props = {
-  task: TaskWithProjectType
+  task: TaskWithProject
   onClose?: () => void
   onRoute?: (action?: any) => void
 }
@@ -43,7 +42,7 @@ export const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
 
   return (
     <>
-      <x.section px={4} mt={4} spaceY={5} mb={5}>
+      <section className="px-6 my-6 space-y-5">
         {/* project */}
         <TaskProject
           project={project}
@@ -66,7 +65,7 @@ export const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
           startTime={startTime}
           endTime={endTime}
         />
-      </x.section>
+      </section>
 
       {/* attachments */}
       <TaskAttachments title={title} attachments={attachments} />

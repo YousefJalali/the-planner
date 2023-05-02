@@ -1,39 +1,27 @@
-import { ImageType } from '@the-planner/types'
-import { Label, ScrollableList } from '@the-planner/ui-web'
-import styled, { x } from '@xstyled/styled-components'
+import { Attachment } from '@the-planner/types'
 import Image from 'next/image'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
 type Props = {
   title: string
-  attachments: ImageType[]
+  attachments: Attachment[]
 }
-
-const ImageItem = styled(x.div)`
-  *:focus {
-    outline: none;
-  }
-
-  img {
-    border-radius: 2;
-  }
-`
 
 const TaskAttachments = ({ title, attachments }: Props) => {
   return (
     <>
       {attachments.length > 0 && (
-        <x.section my={3}>
-          <x.div ml={4}>
-            <Label>Attachments</Label>
-          </x.div>
-          <ScrollableList spaceX={3}>
+        <section className="my-4">
+          <div className="ml-6 mb-1">
+            <span className="label-text">Attachments</span>
+          </div>
+          <div className="space-x-3 flex overflow-x-scroll w-full px-6">
             {attachments.map((img) => (
-              <ImageItem
+              <div
                 key={img.id}
-                h="100%"
-                flex={`0 0 ${`${(img.width * 156) / img.height}px`}`}
+                className="rounded-xl overflow-hidden h-[156px]"
+                style={{ flex: `0 0 ${`${(img.width * 156) / img.height}px`}` }}
               >
                 <Zoom>
                   <Image
@@ -43,10 +31,10 @@ const TaskAttachments = ({ title, attachments }: Props) => {
                     width={img.width}
                   />
                 </Zoom>
-              </ImageItem>
+              </div>
             ))}
-          </ScrollableList>
-        </x.section>
+          </div>
+        </section>
       )}
     </>
   )

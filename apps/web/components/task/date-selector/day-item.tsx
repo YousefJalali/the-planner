@@ -1,4 +1,3 @@
-import { x } from '@xstyled/styled-components'
 import format from 'date-fns/format'
 import isToday from 'date-fns/isToday'
 import setDate from 'date-fns/setDate'
@@ -15,38 +14,30 @@ const DayItem = ({
   date: Date
 }) => {
   return (
-    <x.li
+    <li
       onClick={() => onClick(day)}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      minWidth="3rem"
-      borderRadius={2}
-      backgroundColor={
+      className={`flex flex-col items-center min-w-[3rem] rounded-lg border border-base-300 p-2 cursor-pointer select-none ${
         active
-          ? 'brand-primary'
+          ? 'bg-primary'
           : isToday(setDate(new Date(date), day))
-          ? 'brand-primary-a10'
+          ? 'bg-base-200'
           : 'transparent'
-      }
-      border="1px solid"
-      borderColor="brand-primary-a10"
-      p={2}
-      cursor="pointer"
+      }`}
       data-active={active ? true : null}
-      userSelect="none"
     >
-      <x.span
-        fontWeight="bold"
-        color={active ? 'layout-level0' : 'content-contrast'}
-        mb={2}
+      <span
+        className={`font-bold ${
+          active ? 'text-primary-content' : 'text-neutral'
+        } mb-2`}
       >
         {day}
-      </x.span>
-      <x.span color={active ? 'layout-level0' : 'content-subtle'} fontSize="xs">
+      </span>
+      <span
+        className={`text-xs ${active ? 'text-primary-content' : 'opacity-60'}`}
+      >
         {format(setDate(new Date(date), day), 'EE')}
-      </x.span>
-    </x.li>
+      </span>
+    </li>
   )
 }
 

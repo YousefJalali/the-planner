@@ -1,8 +1,6 @@
-import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 import { Status } from '@the-planner/types'
 import { statusAlias } from '@the-planner/utils'
-import { RadioButton } from '@the-planner/ui-web'
 import { useUpdateTaskStatus } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
 
@@ -25,20 +23,26 @@ const StatusList: FC<Props> = ({ status, taskId }) => {
     taskStatusHandler({ taskId, newStatus })
 
   return (
-    <x.ul my={1} divideY divideColor="layout-level0accent">
+    <ul className="my-1 divide-y divide-base-200">
       {Object.values(Status).map((val) => (
-        <x.li key={Status[val]} display="flex" alignItems="center">
-          <RadioButton
-            name="status"
-            label={statusAlias(Status[val])}
-            value={Status[val]}
-            id={Status[val]}
-            checked={status === Status[val]}
-            onChange={() => changeHandler(Status[val])}
-          />
-        </x.li>
+        <li key={Status[val]} className="flex items-center">
+          <div className="form-control w-full">
+            <label className="label cursor-pointer flex-row-reverse justify-end gap-2 p-4 hover:bg-base-200 transition-all">
+              <span className="">{statusAlias(Status[val])}</span>
+              <input
+                type="radio"
+                className="radio radio-primary"
+                name="status"
+                value={Status[val]}
+                id={Status[val]}
+                checked={status === Status[val]}
+                onChange={() => changeHandler(Status[val])}
+              />
+            </label>
+          </div>
+        </li>
       ))}
-    </x.ul>
+    </ul>
   )
 }
 

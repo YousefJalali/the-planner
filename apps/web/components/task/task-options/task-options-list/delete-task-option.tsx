@@ -17,7 +17,7 @@ const DeleteTaskOption = ({ taskId }: Props) => {
       onClick={() => deleteTaskHandler(taskId)}
       icon={<FiTrash2 />}
       content="Delete task"
-      color="utility-critical"
+      color="text-error"
     />
   )
 }

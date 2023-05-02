@@ -1,74 +1,74 @@
 import { createGlobalStyle } from '@xstyled/styled-components'
 
 export const GlobalStyle = createGlobalStyle`
-  html, body {
-     min-height: 100vh;
-     background-color: layout-level0;
-  }
+  // html, body {
+  //    min-height: 100vh;
+  //    background-color: layout-level0;
+  // }
 
-  body {
-    width: 100%;
-    color: content-default;
-    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  }
+  // body {
+  //   width: 100%;
+  //   color: content-default;
+  //   font-family: "DM Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  //     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  // }
 
-  input, fieldset, textarea {
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-    font-family: "DM Sans";
-    font-size: sm;
-    line-height: normal;
-    -webkit-appearance: none;
-    caret-color: brand-primary;
-  }
+  // input, fieldset, textarea {
+  //   border: none;
+  //   background-color: transparent;
+  //   padding: 0;
+  //   margin: 0;
+  //   font-family: "DM Sans";
+  //   font-size: sm;
+  //   line-height: normal;
+  //   -webkit-appearance: none;
+  //   caret-color: brand-primary;
+  // }
 
-  input {
-    &[type="text"],
-    &[type="button"],
-    &[type="submit"],
-    &[type="search"] {
-      -webkit-appearance: none;
-      border-radius: 2;
-    }
+  // input {
+  //   &[type="text"],
+  //   &[type="button"],
+  //   &[type="submit"],
+  //   &[type="search"] {
+  //     -webkit-appearance: none;
+  //     border-radius: 2;
+  //   }
 
-    &[type='radio'] {
-      padding: 0;
-    }
+  //   &[type='radio'] {
+  //     padding: 0;
+  //   }
 
-    &[type='button'] {
-      text-align: left;
-    }
+  //   &[type='button'] {
+  //     text-align: left;
+  //   }
 
-    &[type=number] {
-      -moz-appearance: textfield;
-    }
+  //   &[type=number] {
+  //     -moz-appearance: textfield;
+  //   }
 
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+  //   &::-webkit-outer-spin-button,
+  //   &::-webkit-inner-spin-button {
+  //     -webkit-appearance: none;
+  //     margin: 0;
+  //   }
 
-    &::-webkit-search-decoration {
-      -webkit-appearance: none;
-    }
-  }
+  //   &::-webkit-search-decoration {
+  //     -webkit-appearance: none;
+  //   }
+  // }
 
-  input, textarea {
-    color: content-contrast;
+  // input, textarea {
+  //   color: content-contrast;
     
-    &::placeholder {
-      color: content-nonessential;
-      font-family: "DM Sans";
-    }
+  //   &::placeholder {
+  //     color: content-nonessential;
+  //     font-family: "DM Sans";
+  //   }
 
-    &:focus, &:active {
-      outline: none;
-    }
-  }
+  //   &:focus, &:active {
+  //     outline: none;
+  //   }
+  // }
   
 
 

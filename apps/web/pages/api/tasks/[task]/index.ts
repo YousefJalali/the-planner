@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Status, TaskType, TaskWithProjectType } from '@the-planner/types'
+import { Status, Task, TaskWithProject } from '@the-planner/types'
 import { prisma } from '../../../../common/lib/prisma'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: TaskWithProjectType[] | TaskType
+    data?: TaskWithProject[] | Task
     error?: Error | unknown
   }>
 ) => {

@@ -1,39 +1,31 @@
-import { ProjectType } from '@the-planner/types'
-import { Label, ModalHeader } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { Project } from '@the-planner/types'
+import { ModalHeader } from '@the-planner/ui-web'
 
 type Props = {
-  project: Partial<ProjectType>
+  project: Partial<Project>
   onClick: () => void
   onClose?: () => void
 }
 
 const TaskProject = ({ project, onClick, onClose }: Props) => {
   return (
-    <x.section display="flex" justifyContent="space-between">
+    <section className="flex justify-between">
       <ModalHeader onRequestClose={onClose}>
-        <x.div display="flex">
-          <x.div
-            backgroundColor={project.color}
-            w="0.3rem"
-            mr={2}
-            borderRadius={4}
+        <div className="flex">
+          <div
+            className="w-1 mr-2 rounded-xl"
+            style={{ backgroundColor: project.color }}
           />
-          <x.div>
-            <Label>Project</Label>
+          <div>
+            <span className="label-text">Project</span>
 
-            <x.h1
-              text="headline.three"
-              lineHeight="tight"
-              color="content-contrast"
-              onClick={onClick}
-            >
+            <h1 className="text-2xl leading-tight font-bold" onClick={onClick}>
               {project.title}
-            </x.h1>
-          </x.div>
-        </x.div>
+            </h1>
+          </div>
+        </div>
       </ModalHeader>
-    </x.section>
+    </section>
   )
 }
 

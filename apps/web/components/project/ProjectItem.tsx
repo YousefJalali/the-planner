@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { FiCircle } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
 
 type Props = {
-  project: ProjectType
+  project: Project
   onClick?: () => void
 }
 

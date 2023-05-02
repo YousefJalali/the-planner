@@ -1,12 +1,12 @@
-import { TaskType } from './TaskType'
-import { Project } from '@prisma/client'
+import { Task } from './TaskType'
+import { Project as ProjectType } from '@prisma/client'
 
-export type ProjectType = Project
-export type ProjectWithTasksType = Project & {
-  tasks: TaskType[]
+export type Project = ProjectType
+export type ProjectWithTasks = Project & {
+  tasks: Task[]
 }
-export type ProjectTasksCount = ProjectType & {
+export type ProjectTasksCount = Project & {
   _count: { tasks: number }
 }
 
-export type ProjectWithTasksAndCount = ProjectWithTasksType & ProjectTasksCount
+export type ProjectWithTasksAndCount = ProjectWithTasks & ProjectTasksCount

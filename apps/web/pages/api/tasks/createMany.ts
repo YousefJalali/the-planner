@@ -1,6 +1,6 @@
 import ObjectID from 'bson-objectid'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import { taskSchema } from '@the-planner/utils'
@@ -23,16 +23,16 @@ const handler = async (
   }
 
   try {
-    tasks.forEach(async (task: TaskType) => {
+    tasks.forEach(async (task: Task) => {
       //validate form
-      const validate = await apiYupValidation<TaskType>(taskSchema, task)
+      const validate = await apiYupValidation<Task>(taskSchema, task)
 
       if (!_.isEmpty(validate.errors)) {
         return res.json({ validationErrors: validate.errors })
       }
     })
 
-    // const taskss = tasks.map(async (task: TaskType) => {
+    // const taskss = tasks.map(async (task: Task) => {
     //   const paths = task.attachments.map((attachment: Image) => attachment.path)
     //   const { images, error } = await uploadImages(paths, task.id)
 

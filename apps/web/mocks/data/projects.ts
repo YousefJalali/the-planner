@@ -1,9 +1,9 @@
 import faker from '@faker-js/faker'
 import randomColor from 'randomcolor'
 import ObjectID from 'bson-objectid'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 
-export const project: () => ProjectType = () => {
+export const project: () => Project = () => {
   return {
     id: ObjectID().toHexString(),
     title: faker.company.companyName(),
@@ -15,7 +15,7 @@ export const project: () => ProjectType = () => {
   }
 }
 
-export const multipleProjects: () => ProjectType[] = () => {
+export const multipleProjects: () => Project[] = () => {
   const projects = Array.from({ length: 20 }, project)
   return projects
 }

@@ -2,7 +2,7 @@ import { x } from '@xstyled/styled-components'
 import { ChangeEvent, FC, useMemo, useState, useCallback } from 'react'
 
 import { useProjects } from '@the-planner/data'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { Spinner, FlatList } from '@the-planner/ui-web'
 import { useWindowSize } from '@the-planner/hooks'
 
@@ -11,7 +11,7 @@ import Search from './projects-list-search'
 import CreateProjectButton from './projects-list-create'
 
 type Props = {
-  onSelectProject: (project: ProjectType) => void
+  onSelectProject: (project: Project) => void
 }
 
 export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
@@ -20,7 +20,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
 
   const { projects, error, isLoading } = useProjects('list')
 
-  const selectHandler = (project: ProjectType) => {
+  const selectHandler = (project: Project) => {
     setSearch('')
     onSelectProject(project)
   }
@@ -44,7 +44,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
     }
 
     return (
-      <FlatList<ProjectType> data={data} itemHeight={58}>
+      <FlatList<Project> data={data} itemHeight={58}>
         {(item) => (
           <x.a
             display="block"

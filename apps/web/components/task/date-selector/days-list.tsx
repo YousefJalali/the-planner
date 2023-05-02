@@ -1,4 +1,3 @@
-import { ScrollableList } from '@the-planner/ui-web'
 import { forwardRef } from 'react'
 
 type Props = {
@@ -8,15 +7,14 @@ type Props = {
 
 const DaysList = forwardRef<HTMLUListElement, Props>(
   ({ date, children }, ref) => (
-    <ScrollableList
+    <ul
       ref={ref}
       aria-labelledby="days"
-      mt={2}
-      spaceX={2}
+      className="mt-4 space-x-2 flex overflow-x-scroll px-6"
       data-date={date}
     >
       {children}
-    </ScrollableList>
+    </ul>
   )
 )
 

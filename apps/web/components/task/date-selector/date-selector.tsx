@@ -1,5 +1,4 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import { x } from '@xstyled/styled-components'
 import { getDaysInMonth, getMonth } from 'date-fns'
 
 import { useWindowSize } from '@the-planner/hooks'
@@ -71,13 +70,13 @@ export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   )
 
   return (
-    <x.div mb={4}>
+    <div className="mb-6">
       {month}
 
       <DaysList ref={listRef} date={parsedDate.toDateString()}>
         {renderDays}
       </DaysList>
-    </x.div>
+    </div>
   )
 }
 

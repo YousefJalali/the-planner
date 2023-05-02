@@ -5,7 +5,7 @@ import { deleteProject } from '../actions'
 import { useNotification } from '@the-planner/hooks'
 import { usePrompt } from '@the-planner/hooks'
 import { projectsKey } from '../keys'
-import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
+import { Project, ProjectWithTasks } from '@the-planner/types'
 
 export const useDeleteProject = (callback?: (action?: any) => void) => {
   const [isReSubmitting, setReSubmit] = useState(false)
@@ -16,9 +16,7 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
 
   const { mutate } = useSWRConfig()
 
-  const confirmBeforeDeleteHandler = (
-    project: ProjectWithTasksType | ProjectType
-  ) => {
+  const confirmBeforeDeleteHandler = (project: ProjectWithTasks | Project) => {
     setPrompt({
       id: 'delete-project',
       title: 'are you sure?',
@@ -29,11 +27,11 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
     })
   }
 
-  const deleteHandler = async (project: ProjectWithTasksType | ProjectType) => {
+  const deleteHandler = async (project: ProjectWithTasks | Project) => {
     // mutate tasks locally
     // mutate(
     //   dateTaskKey(new Date(task.startDate).toDateString()),
-    //   (data: { data: TaskWithProjectType[] }) =>
+    //   (data: { data: TaskWithProject[] }) =>
     //     data && removeTaskFromLocalTasksData(data.data, task.id),
     //   false
     // )
@@ -41,7 +39,7 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
     //mutate project locally
     // mutate(
     //   projectKey(task.projectId),
-    //   (data: { data: ProjectWithTasksType }) =>
+    //   (data: { data: ProjectWithTasks }) =>
     //     data && removeTaskFromLocalProjectData(data.data, task.id),
     //   false
     // )

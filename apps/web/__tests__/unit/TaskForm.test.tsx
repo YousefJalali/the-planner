@@ -1,7 +1,7 @@
 import { render } from '../../test-utils'
 import userEvent from '@testing-library/user-event'
 import { TaskForm } from '../../components/task/task-form'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import format from 'date-fns/format'
 import { UseFormSetError } from 'react-hook-form'
 import { cleanup } from '@testing-library/react'
@@ -13,8 +13,8 @@ test('task form render properly', () => {
 
 // function setup() {
 //   const onSubmit: (
-//     data: TaskType,
-//     setError: UseFormSetError<TaskType>
+//     data: Task,
+//     setError: UseFormSetError<Task>
 //   ) => void = jest.fn()
 
 //   const utils = render(<TaskForm id='test-form' onSubmit={onSubmit} />)

@@ -1,5 +1,4 @@
 import type { GetStaticProps, NextPage } from 'next'
-import { x, useColorMode } from '@xstyled/styled-components'
 import { v2 as cloudinary } from 'cloudinary'
 
 import ProjectsCardsList from '../components/project/project-card/project-cards-list'
@@ -10,31 +9,26 @@ import { SearchButton } from '../components/search/'
 import CreateTaskButton from '../components/task/create-task-button'
 
 type Props = {
-  // projects: ProjectType[]
+  // projects: Project[]
   // initialDate: string
 }
 
 const Home: NextPage<Props> = (props) => {
   // console.log(props)
-  const [colorMode, setColorMode] = useColorMode()
+  // const [colorMode, setColorMode] = useColorMode()
 
   console.log('%cindex rendered', 'color:green')
   // console.log(props.tasks)
 
   return (
     <>
-      <Header pageTitle="">
-        <x.div ml={4} h={48}>
+      <Header pageTitle="" className="pt-2">
+        <div className="h-12">
           <Logo />
-        </x.div>
+        </div>
 
-        <x.div
-          display="flex"
-          alignItems="center"
-          spaceX={1}
-          mr="calc(24px - 0.5rem)"
-        >
-          <ToggleButton
+        <div className="flex items-center space-x-1 -mr-3">
+          {/* <ToggleButton
             id="color-mode"
             height={24}
             checked={colorMode === 'dark'}
@@ -42,32 +36,23 @@ const Home: NextPage<Props> = (props) => {
               setColorMode(colorMode === 'light' ? 'dark' : 'light')
             }
             darkMode
-          />
+          /> */}
 
           <SearchButton />
-        </x.div>
+        </div>
       </Header>
 
-      <x.section px={4} mt={4}>
-        <x.p text="headline.three" color="content-contrast" fontWeight="light">
-          Hello mate,{' '}
-          <x.span
-            display="inline-block"
-            text="headline.three"
-            fontWeight="medium"
-          >
-            still in doubt?
-          </x.span>
-        </x.p>
+      <section className="px-6 mt-6">
+        <span className="text-2xl">
+          <span className="font-light opacity-60">Hello mate, </span>
+          <span className="font-semibold">still in doubt?</span>
+        </span>
 
-        <x.div text="body.large" mt={2}>
-          <x.span display="inline-block" color="content-subtle">
-            Check this out{' '}
-          </x.span>
-
+        <span className="block text-xl mt-1">
+          <span className="font-light opacity-80">Check this out </span>
           <Emoji label="backhand index pointing down" symbol="👇" height={24} />
-        </x.div>
-      </x.section>
+        </span>
+      </section>
 
       <ProjectsCardsList />
 

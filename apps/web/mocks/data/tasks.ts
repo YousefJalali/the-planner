@@ -1,5 +1,5 @@
-import { TaskType, Status, ImageType } from '@the-planner/types'
-import { ProjectType } from '@the-planner/types'
+import { Task, Status, Attachment } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import faker from '@faker-js/faker'
 import _ from 'lodash'
 import ObjectID from 'bson-objectid'
@@ -10,7 +10,7 @@ function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-export const task: (projects: ProjectType[], initialDate: Date) => TaskType = (
+export const task: (projects: Project[], initialDate: Date) => Task = (
   projects,
   initialDate
 ) => {
@@ -57,7 +57,7 @@ export const task: (projects: ProjectType[], initialDate: Date) => TaskType = (
           width: 375,
           height: 812,
           path: faker.image.imageUrl(375, 812, 'business'),
-        } as ImageType)
+        } as Attachment)
     ),
     status: _.sample(Object.values(Status)) as Status,
     createdAt: new Date(),
@@ -65,9 +65,7 @@ export const task: (projects: ProjectType[], initialDate: Date) => TaskType = (
   }
 }
 
-export const multipleTasks: (projects: ProjectType[]) => TaskType[] = (
-  projects
-) => {
+export const multipleTasks: (projects: Project[]) => Task[] = (projects) => {
   const initialDate = setHours(new Date(), 12)
   initialDate.setDate(initialDate.getDate() - 15)
 

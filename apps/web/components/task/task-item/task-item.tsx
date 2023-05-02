@@ -1,47 +1,36 @@
 import { FC, memo } from 'react'
-import { x } from '@xstyled/styled-components'
 
-import { TaskWithProjectType, Status } from '@the-planner/types'
+import { TaskWithProject, Status } from '@the-planner/types'
 import { TaskOptions } from '../task-options/'
-import {
-  Title,
-  Time,
-  Attachments,
-  Link,
-  TaskCheckbox,
-} from './task-item-elements'
+import { Time, Attachments, Link, TaskCheckbox } from './task-item-elements'
 
 type Props = {
-  task: TaskWithProjectType
+  task: TaskWithProject
 }
 
 export const TaskItem: FC<Props> = memo(({ task }) => {
   const { title, openTask, startTime, endTime, attachments, status } = task
 
   return (
-    <x.div
+    <div
       data-testid="task-item"
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      position="relative"
-      p={2}
-      backgroundColor="layout-level1"
-      borderRadius={2}
+      className="flex justify-between items-center relative bg-base-200 rounded-lg"
     >
-      <x.div
+      <div
         data-testid="taskItem-details"
-        position="relative"
-        display="flex"
-        flexDirection="column"
-        flex="0 0 calc(100% - 36px - 36px)"
-        pr={1}
+        className="group relative flex flex-col pr-1 flex-1 p-2"
       >
         <Link task={task} />
 
-        <Title isTaskCompleted={status === Status.COMPLETED}>{title}</Title>
+        <h3
+          className={`group-hover:underline line-clamp-1 leading-relaxed ${
+            status === Status.COMPLETED ? 'line-through opacity-60' : ''
+          }`}
+        >
+          {title}
+        </h3>
 
-        <x.div display="flex" spaceX={3}>
+        <div className="flex space-y-3">
           <Time
             openTask={openTask}
             startTime={startTime}
@@ -50,13 +39,15 @@ export const TaskItem: FC<Props> = memo(({ task }) => {
           />
 
           <Attachments attachments={attachments} status={status} />
-        </x.div>
-      </x.div>
+        </div>
+      </div>
 
-      <TaskCheckbox task={task} />
+      <div className="flex gap-1 items-center p-2">
+        <TaskCheckbox task={task} />
 
-      <TaskOptions task={task} />
-    </x.div>
+        <TaskOptions task={task} />
+      </div>
+    </div>
   )
 })
 

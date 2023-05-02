@@ -1,11 +1,11 @@
 import { useDeleteProject, useEditProject } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { ProjectForm } from '../project/project-form'
 
-export const useProjectEditModal = (project: ProjectType) => {
+export const useProjectEditModal = (project: Project) => {
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()

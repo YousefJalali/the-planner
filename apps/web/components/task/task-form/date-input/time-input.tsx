@@ -1,8 +1,8 @@
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { Fieldset, FormControl, TimeInput } from '@the-planner/ui-web'
 
 export const StartTime = () => (
-  <FormControl<TaskType, Date> name="startTime">
+  <FormControl<Task, Date> name="startTime">
     {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
         data-testid={id}
@@ -24,7 +24,7 @@ export const StartTime = () => (
 )
 
 export const EndTime = () => (
-  <FormControl<TaskType, Date> name="endTime">
+  <FormControl<Task, Date> name="endTime">
     {({ id, field: { value, onChange }, fieldStatus, methods: { watch } }) => (
       <Fieldset
         data-testid={id}

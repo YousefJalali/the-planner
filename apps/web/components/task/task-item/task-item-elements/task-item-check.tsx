@@ -1,10 +1,9 @@
 import { useUpdateTaskStatus } from '@the-planner/data'
-import { Status, TaskWithProjectType } from '@the-planner/types'
-import { Checkbox } from '@the-planner/ui-web'
+import { Status, TaskWithProject } from '@the-planner/types'
 import { formatToUrlDate } from '@the-planner/utils'
 import { useCallback, useMemo } from 'react'
 
-export const TaskCheckbox = ({ task }: { task: TaskWithProjectType }) => {
+export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
   const {
     id,
     status,
@@ -27,12 +26,23 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProjectType }) => {
 
   return useMemo(
     () => (
-      <Checkbox
+      <input
         id={id}
+        type="checkbox"
+        className="checkbox checkbox-secondary rounded-full"
         checked={status === Status.COMPLETED}
         onChange={checkHandler}
-        color={color}
+        style={{
+          borderColor: color,
+          borderWidth: 2,
+        }}
       />
+      // <Checkbox
+      //   id={id}
+      // checked={status === Status.COMPLETED}
+      // onChange={checkHandler}
+      //   color={color}
+      // />
     ),
     [id, status, checkHandler, color]
   )

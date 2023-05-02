@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
 
   render(): ReactElement {
     return (
-      <Html lang="en">
+      <Html lang="en" data-theme="winter">
         <Head>
           <meta name="description" content="Bija's task manager"></meta>
           {/* <link

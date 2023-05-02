@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { TaskWithProjectType } from '@the-planner/types'
+import { TaskWithProject } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { dateTasksKey } from '../keys'
 
@@ -11,7 +11,7 @@ export const useDateTasks = (date: string | null) => {
 
   const { data, error, mutate } = res
 
-  const dateTasks: TaskWithProjectType[] = data?.data || []
+  const dateTasks: TaskWithProject[] = data?.data || []
   const isLoading = !data && !error
   const errorMessage = getErrorMessage(error)
 

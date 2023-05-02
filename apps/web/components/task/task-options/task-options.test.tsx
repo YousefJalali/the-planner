@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import { render, mockNextUseRouter } from '../../../test-utils'
-import { Status, TaskWithProjectType } from '@the-planner/types'
+import { Status, TaskWithProject } from '@the-planner/types'
 import TaskOptions from './task-options'
 
 test('task options', () => {
@@ -26,7 +26,7 @@ test('task options', () => {
 //   },
 //   createdAt: new Date(),
 //   updatedAt: new Date(),
-// } as TaskWithProjectType
+// } as TaskWithProject
 
 // mockNextUseRouter({
 //   route: '/pricing',
@@ -37,8 +37,8 @@ test('task options', () => {
 //   )}`,
 // })
 
-// function setup(task: TaskWithProjectType = defaultTask) {
-//   const onCheck: (task: TaskWithProjectType) => void = jest.fn()
+// function setup(task: TaskWithProject = defaultTask) {
+//   const onCheck: (task: TaskWithProject) => void = jest.fn()
 //   const onDetails: () => void = jest.fn()
 //   const onOptions: () => void = jest.fn()
 

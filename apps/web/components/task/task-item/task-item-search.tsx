@@ -1,11 +1,11 @@
 import { x } from '@xstyled/styled-components'
 import { FiCalendar } from 'react-icons/fi'
-import { Status, TaskWithProjectType } from '@the-planner/types'
+import { Status, TaskWithProject } from '@the-planner/types'
 import { formatDate, statusAlias } from '@the-planner/utils'
 import { Details, Title } from './task-item-elements'
 import { Badge } from '@the-planner/ui-web'
 
-export const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
+export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
   return (
     <x.div
       data-testid="task-item-search"
@@ -44,7 +44,7 @@ export const SearchedTask = ({ task }: { task: TaskWithProjectType }) => {
         >
           {formatDate(task.startDate)}
         </Details>
-        <Badge color={`tag-${task.status}`}>{statusAlias(task.status)}</Badge>
+        <Badge status={task.status}>{statusAlias(task.status)}</Badge>
       </x.div>
     </x.div>
   )

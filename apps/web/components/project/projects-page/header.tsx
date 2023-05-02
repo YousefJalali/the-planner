@@ -1,5 +1,4 @@
-import { Button, Header } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { Header } from '@the-planner/ui-web'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import NewProject from './new-project'
@@ -8,20 +7,13 @@ export const PageHeader = () => {
   const router = useRouter()
 
   return (
-    <Header pageTitle="Projects">
-      <Button
-        name="back"
-        variant="outline"
+    <Header pageTitle="Projects" className="py-3">
+      <a
         onClick={() => router.push('/')}
-        ml={4}
-        borderColor="layout-level0accent"
-        borderRadius="full"
-        p={1}
+        className="btn btn-ghost btn-circle -ml-4"
       >
-        <x.span fontSize="1.5rem" color="content-contrast">
-          <FiArrowLeft />
-        </x.span>
-      </Button>
+        <FiArrowLeft size={24} />
+      </a>
 
       <NewProject />
     </Header>

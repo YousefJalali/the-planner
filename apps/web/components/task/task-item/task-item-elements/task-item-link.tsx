@@ -1,10 +1,9 @@
-import { TaskWithProjectType } from '@the-planner/types'
-import { x } from '@xstyled/styled-components'
+import { TaskWithProject } from '@the-planner/types'
 import { useTaskDetailsModal } from 'apps/web/components/modals'
-import { memo, useMemo } from 'react'
+import { useMemo } from 'react'
 
 type Props = {
-  task: TaskWithProjectType
+  task: TaskWithProject
 }
 
 export const Link = ({ task }: Props) => {
@@ -12,15 +11,9 @@ export const Link = ({ task }: Props) => {
 
   return useMemo(
     () => (
-      <x.a
-        position="absolute"
-        top={0}
-        left={0}
-        w="100%"
-        h="100%"
+      <button
+        className="absolute z-10 top-0 left-0 w-full h-full select-none cursor-pointer focus:outline-none"
         onClick={showModal}
-        userSelect="none"
-        cursor="pointer"
       />
     ),
     [showModal]

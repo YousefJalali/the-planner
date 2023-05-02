@@ -1,7 +1,6 @@
 import { useInfiniteProjects } from '@the-planner/data'
 import { FilterType, Status } from '@the-planner/types'
 import { DynamicFlatList } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
@@ -38,11 +37,11 @@ export const ProjectCardsList = () => {
         )
       })
     ) : (
-      <x.li text="body.small" textAlign="center" color="content-subtle">
+      <li className="text-sm center opacity-60">
         {filter.value === Status.COMPLETED
           ? 'No completed projects'
           : 'No projects in progress'}
-      </x.li>
+      </li>
     )
   }, [projects])
 
@@ -50,16 +49,11 @@ export const ProjectCardsList = () => {
     !filter ? (
       <NewProjectCard />
     ) : (
-      <x.span
-        display="block"
-        text="body.small"
-        textAlign="center"
-        color="content-subtle"
-      >
+      <span className="block text-sm center opacity-60">
         {filter.value === Status.INPROGRESS
           ? 'No projects in progress'
           : 'No completed projects'}
-      </x.span>
+      </span>
     )
 
   return (
@@ -68,17 +62,17 @@ export const ProjectCardsList = () => {
         <ProjectsFilter filter={filter} setFilter={setFilter} />
       </x.div> */}
 
-      <x.div mb={3}>
+      <div className="mb-6">
         <SearchInput
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-      </x.div>
+      </div>
 
       {isLoading ? (
         <SkeletonList component={<ProjectCardSkeleton />} />
       ) : error ? (
-        <x.div>{error}</x.div>
+        <div>{error}</div>
       ) : projects && projects.length <= 0 ? (
         <EmptyState />
       ) : (

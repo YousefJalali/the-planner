@@ -1,6 +1,6 @@
-import { Status, TaskType, TaskWithProjectType } from '@the-planner/types'
+import { Status, Task, TaskWithProject } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import _, { indexOf } from 'lodash'
 import { taskSchema } from '@the-planner/utils'
 import { apiYupValidation } from '@the-planner/hooks'
@@ -12,7 +12,7 @@ import isValid from 'date-fns/isValid'
 //-----------------get date tasks-----------------
 export const getDateTasksController = (
   { req, res, ctx }: GET,
-  tasks: TaskType[]
+  tasks: Task[]
 ) => {
   const date = req.url.searchParams.get('d')
 
@@ -40,7 +40,7 @@ export const getDateTasksController = (
 //-----------------get date tasks-----------------
 export const getTaskByIdController = (
   { req, res, ctx }: GET,
-  tasks: TaskType[]
+  tasks: Task[]
 ) => {
   const { id } = req.params
 
@@ -55,9 +55,9 @@ export const getTaskByIdController = (
 
 //-----------------create tasks-----------------
 export const createTaskController = async (
-  { req, res, ctx }: POST<TaskType>,
-  tasks: TaskType[],
-  projects: ProjectType[]
+  { req, res, ctx }: POST<Task>,
+  tasks: Task[],
+  projects: Project[]
 ) => {
   const task = req.body
 
@@ -72,10 +72,10 @@ export const createTaskController = async (
     ...task,
     id: uuidv4(),
     status: Status.PROPOSED,
-  } as TaskType
+  } as Task
 
   //validate form
-  const validate = await apiYupValidation<TaskType>(taskSchema, createdTask)
+  const validate = await apiYupValidation<Task>(taskSchema, createdTask)
 
   if (!_.isEmpty(validate.errors)) {
     return res(ctx.json({ validationErrors: validate.errors }))
@@ -91,7 +91,7 @@ export const createTaskController = async (
           project: {
             type: 'required',
             message: 'Cannot find the selected project',
-          } as FieldErrors<TaskType>,
+          } as FieldErrors<Task>,
         },
       })
     )
@@ -106,16 +106,16 @@ export const createTaskController = async (
       title: project.title,
       color: project.color,
     },
-  } as TaskWithProjectType
+  } as TaskWithProject
 
   return res(ctx.status(201), ctx.json({ data: populatedCreatedTask }))
 }
 
 // -----------------edit task-----------------
 export const editTaskController = (
-  { req, res, ctx }: PUT<TaskType>,
-  tasks: TaskType[],
-  projects: ProjectType[]
+  { req, res, ctx }: PUT<Task>,
+  tasks: Task[],
+  projects: Project[]
 ) => {
   const updatedTask = req.body
 
@@ -143,7 +143,7 @@ export const editTaskController = (
               title: project.title,
               color: project.color,
             },
-          } as TaskWithProjectType
+          } as TaskWithProject
         }
       }
     }
@@ -161,9 +161,9 @@ export const editTaskController = (
 
 // -----------------change task status-----------------
 export const changeTaskStatusController = (
-  { req, res, ctx }: PUT<TaskType>,
-  tasks: TaskType[],
-  projects: ProjectType[]
+  { req, res, ctx }: PUT<Task>,
+  tasks: Task[],
+  projects: Project[]
 ) => {
   const taskId = req.params.id
   const status = req.url.searchParams.get('status') as Status
@@ -185,10 +185,7 @@ export const changeTaskStatusController = (
 }
 
 //-----------------delete task-----------------
-export const deleteTaskController = (
-  { req, res, ctx }: GET,
-  tasks: TaskType[]
-) => {
+export const deleteTaskController = ({ req, res, ctx }: GET, tasks: Task[]) => {
   const taskId = req.params.id
 
   if (!taskId) return

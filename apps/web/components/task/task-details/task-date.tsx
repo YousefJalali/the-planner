@@ -1,7 +1,6 @@
 import { Status } from '@the-planner/types'
-import { Badge, Label } from '@the-planner/ui-web'
+import { Badge } from '@the-planner/ui-web'
 import { formatDate, formatTime } from '@the-planner/utils'
-import { x } from '@xstyled/styled-components'
 
 type Props = {
   status: Status
@@ -19,44 +18,32 @@ const TaskDate = ({
   endTime,
 }: Props) => {
   return (
-    <x.section spaceY={2}>
-      <x.div>
-        <Label>Created On</Label>
+    <section className="space-y-2">
+      <div>
+        <span className="label-text">Created On</span>
 
-        <x.div
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <x.div display="flex">
-            <x.p color="content.subtle">{formatDate(startDate)}</x.p>
-            {startTime && (
-              <x.p color="content.subtle" ml={2}>
-                {formatTime(startTime)}
-              </x.p>
-            )}
-          </x.div>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-3">
+            <span>{formatDate(startDate)}</span>
+            {startTime && <span>{formatTime(startTime)}</span>}
+          </div>
 
-          <Badge color={`tag-${status}`}>{status}</Badge>
-        </x.div>
-      </x.div>
+          <Badge status={status}>{status}</Badge>
+        </div>
+      </div>
 
       {/* Due Date */}
       {endDate && (
-        <x.div>
-          <Label>Due Date</Label>
+        <div>
+          <span className="label-text">Due Date</span>
 
-          <x.div display="flex">
-            <x.p color="content.subtle">{formatDate(endDate)}</x.p>
-            {endTime && (
-              <x.p color="content.subtle" ml={2}>
-                {formatTime(endTime)}
-              </x.p>
-            )}
-          </x.div>
-        </x.div>
+          <div className="flex gap-3">
+            <span>{formatDate(endDate)}</span>
+            {endTime && <span>{formatTime(endTime)}</span>}
+          </div>
+        </div>
       )}
-    </x.section>
+    </section>
   )
 }
 

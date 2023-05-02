@@ -1,44 +1,45 @@
-import { FC } from 'react'
-import { ProjectTasksCount, ProjectWithTasksType } from '@the-planner/types'
-import { CircleProgress } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { FC, useMemo } from 'react'
+import { ProjectTasksCount, ProjectWithTasks } from '@the-planner/types'
 import { Status } from '@prisma/client'
-import { Card } from './card'
 
 type Props = {
-  project: ProjectWithTasksType & ProjectTasksCount
+  project: ProjectWithTasks & ProjectTasksCount
   onClick: () => void
 }
 
 export const ProjectCard: FC<Props> = ({ project, onClick }) => {
-  // console.log('Project Card render', project)
-
-  const progress =
-    +(
-      (project.tasks.filter((task) => task.status === Status.COMPLETED).length *
-        100) /
-      project._count.tasks
-    ).toFixed(0) || 0
+  const progress = useMemo(
+    () =>
+      +(
+        (project.tasks.filter((task) => task.status === Status.COMPLETED)
+          .length *
+          100) /
+        project._count.tasks
+      ).toFixed(0) || 0,
+    [project]
+  )
 
   return (
-    <Card color={project.color} onClick={onClick}>
-      <x.div
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        flex="0 0 calc(75% - 8px)"
+    <div
+      className="w-full h-[150px] p-4 flex justify-between rounded-xl cursor-pointer"
+      style={{
+        background: `linear-gradient(135deg, ${project.color}0D 0%, ${project.color}4D 100%)`,
+      }}
+      onClick={onClick}
+    >
+      <div className="flex flex-col justify-between">
+        <h1 className="text-2xl font-semibold">{project.title}</h1>
+        <p className="mt-4 text-sm opacity-60">{project._count.tasks} Tasks</p>
+      </div>
+
+      <div
+        className="radial-progress"
+        //@ts-ignore
+        style={{ '--value': 70, color: project.color }}
       >
-        <x.p color="content-contrast" fontSize="xl">
-          {project.title}
-        </x.p>
-        <x.p color="content-nonessential" fontSize="sm" mt={3}>
-          {project._count.tasks} Tasks
-        </x.p>
-      </x.div>
-      <x.div flex="0 0 25%">
-        <CircleProgress color={project.color} percentage={progress} />
-      </x.div>
-    </Card>
+        {progress}%
+      </div>
+    </div>
   )
 }
 

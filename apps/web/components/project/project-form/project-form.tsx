@@ -1,7 +1,7 @@
 import { x } from '@xstyled/styled-components'
 import ObjectID from 'bson-objectid'
 
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 
 import {
   Form,
@@ -17,14 +17,14 @@ import { projectSchema } from '@the-planner/utils'
 
 type Props = {
   id: 'edit' | 'create'
-  defaultValues?: Partial<ProjectType>
-  onSubmit: (data: ProjectType) => void
+  defaultValues?: Partial<Project>
+  onSubmit: (data: Project) => void
   isSubmitting?: boolean
   onDelete?: () => void
   serverErrors?: object
 }
 
-const initialDefaultValues: ProjectType = {
+const initialDefaultValues: Project = {
   id: ObjectID().toHexString(),
   title: '',
   description: '',
@@ -49,7 +49,7 @@ export function ProjectForm({
     ...defaultValues,
   }
 
-  const submitHandler = async (data: ProjectType) => {
+  const submitHandler = async (data: Project) => {
     onSubmit(data)
   }
 
@@ -66,7 +66,7 @@ export function ProjectForm({
       <x.div>
         <x.div display="flex" spaceX={2}>
           {/* Title */}
-          <FormControl<ProjectType, string> name="title">
+          <FormControl<Project, string> name="title">
             {({ id, field: { value, onChange }, fieldStatus }) => (
               <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
                 <Input
@@ -81,7 +81,7 @@ export function ProjectForm({
           </FormControl>
 
           {/* Color */}
-          <FormControl<ProjectType, string> name="color">
+          <FormControl<Project, string> name="color">
             {({ id, field: { value, onChange }, fieldStatus }) => (
               <Fieldset
                 id={id}
@@ -100,7 +100,7 @@ export function ProjectForm({
         </SupportiveText>
       </x.div>
 
-      <FormControl<ProjectType, string> name="description">
+      <FormControl<Project, string> name="description">
         {({ id, field: { value, onChange }, fieldStatus }) => (
           <Fieldset id={id} label="description" fieldStatus={fieldStatus}>
             <TextEditor

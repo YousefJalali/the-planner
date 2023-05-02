@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectTasksCount, ProjectType } from '@the-planner/types'
+import { ProjectTasksCount, Project } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '@the-planner/hooks'
@@ -9,7 +9,7 @@ import _ from 'lodash'
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType & ProjectTasksCount
+    data?: Project & ProjectTasksCount
     error?: Error | unknown
     validationErrors?: any
   }>
@@ -24,7 +24,7 @@ const handler = async (
 
   try {
     //validate form
-    const validate = await apiYupValidation<ProjectType>(projectSchema, project)
+    const validate = await apiYupValidation<Project>(projectSchema, project)
 
     if (!_.isEmpty(validate.errors)) {
       return res.json({ validationErrors: validate.errors })

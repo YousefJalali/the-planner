@@ -6,7 +6,7 @@ test('task options', () => {
 })
 
 // import TaskItem from '../../components/task/task-item/task-item'
-// import { Status, TaskWithProjectType } from '@the-planner/types'
+// import { Status, TaskWithProject } from '@the-planner/types'
 // import TaskOptions from '../../components/task/task-options/task-options-kebab'
 
 // const defaultTask = {
@@ -28,10 +28,10 @@ test('task options', () => {
 //   },
 //   createdAt: new Date(),
 //   updatedAt: new Date(),
-// } as TaskWithProjectType
+// } as TaskWithProject
 
-// function setup(task: TaskWithProjectType = defaultTask) {
-//   const onCheck: (task: TaskWithProjectType) => void = jest.fn()
+// function setup(task: TaskWithProject = defaultTask) {
+//   const onCheck: (task: TaskWithProject) => void = jest.fn()
 //   const onDetails: () => void = jest.fn()
 
 //   const utils = render(
@@ -72,7 +72,7 @@ test('task options', () => {
 //   })
 
 //   test('render with time and without attachments', async () => {
-//     const task: TaskWithProjectType = {
+//     const task: TaskWithProject = {
 //       ...defaultTask,
 //       startTime: new Date(),
 //       endTime: new Date(),
@@ -85,7 +85,7 @@ test('task options', () => {
 //   })
 
 //   test('render without time and with attachments', async () => {
-//     const task: TaskWithProjectType = {
+//     const task: TaskWithProject = {
 //       ...defaultTask,
 //       attachments: [
 //         {

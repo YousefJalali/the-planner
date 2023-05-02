@@ -1,35 +1,27 @@
-import { ProjectType } from '@the-planner/types'
-import { Button, Header } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
+import { Project } from '@the-planner/types'
+import { Header } from '@the-planner/ui-web'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import EditProject from './project-details-edit'
 
-export const ProjectDetailsHeader = ({ project }: { project: ProjectType }) => {
+export const ProjectDetailsHeader = ({ project }: { project: Project }) => {
   const router = useRouter()
 
   const backButton = useMemo(
     () => (
-      <Button
-        name="back"
-        variant="outline"
+      <a
         onClick={() => router.back()}
-        ml={4}
-        borderColor="layout-level0accent"
-        borderRadius="full"
-        p={1}
+        className="btn btn-ghost btn-circle -ml-4"
       >
-        <x.span fontSize="1.5rem" color="content-contrast">
-          <FiArrowLeft />
-        </x.span>
-      </Button>
+        <FiArrowLeft size={18} />
+      </a>
     ),
     []
   )
 
   return (
-    <Header pageTitle={project ? project.title : ''}>
+    <Header pageTitle={project ? project.title : ''} className="py-3">
       {backButton}
 
       {project ? <EditProject project={project} /> : <div />}

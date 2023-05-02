@@ -1,22 +1,19 @@
 import { useEditTask } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
-import { TaskType } from '@the-planner/types'
+import { Task } from '@the-planner/types'
 import { ModalHeader } from '@the-planner/ui-web'
 import { FiEdit3 } from 'react-icons/fi'
 import { TaskForm } from '../../task-form'
 import TaskOption from './task-option-item'
 
 type Props = {
-  task: TaskType
+  task: Task
 }
 
 const EditTaskOption = ({ task }: Props) => {
   const { setModal, clearModal } = useModal()
 
-  const showTaskForm = (
-    defValues?: Partial<TaskType>,
-    serverErrors?: object
-  ) => {
+  const showTaskForm = (defValues?: Partial<Task>, serverErrors?: object) => {
     setModal({
       id: 'task-edit',
       fullScreen: true,

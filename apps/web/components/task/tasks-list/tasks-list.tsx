@@ -1,5 +1,4 @@
-import { x } from '@xstyled/styled-components'
-import { Status, TaskWithProjectType } from '@the-planner/types'
+import { Status, TaskWithProject } from '@the-planner/types'
 import { statusAlias } from '@the-planner/utils'
 import TaskItem from '../task-item/task-item'
 import AnimatedItem from './animated-item'
@@ -7,7 +6,7 @@ import ListWrapper from './list-wrapper'
 import { FC } from 'react'
 
 type Props = {
-  tasks: TaskWithProjectType[]
+  tasks: TaskWithProject[]
   showEmptyList?: boolean
   withDivider?: boolean
 }
@@ -35,24 +34,19 @@ export const TasksLists: FC<Props> = ({
             count={filteredTasks.length}
           >
             {filteredTasks.length <= 0 && showEmptyList ? (
-              <x.span
-                display="block"
-                textTransform="capitalize"
-                color="content-subtle"
-                text="body.small"
-              >
+              <span className="block capitalize opacity-60 text-sm  text-center">
                 No {statusAlias(status)} tasks
-              </x.span>
+              </span>
             ) : (
-              <x.ul
-                spaceY={3}
+              <ul
+                className="space-y-3"
                 id={`${status}-tasks-list`}
                 data-testid={`${status}-tasks-list`}
               >
-                <AnimatedItem<TaskWithProjectType> items={filteredTasks}>
+                <AnimatedItem<TaskWithProject> items={filteredTasks}>
                   {(id, item) => <TaskItem key={id} task={item} />}
                 </AnimatedItem>
-              </x.ul>
+              </ul>
             )}
           </ListWrapper>
         )

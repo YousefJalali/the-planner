@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import { Status } from '@the-planner/types'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType[] | Partial<ProjectType>[]
+    data?: Project[] | Partial<Project>[]
     error?: Error | unknown
     nextCursor?: string
   }>
@@ -16,7 +16,7 @@ const handler = async (
 
   try {
     if (q === 'list') {
-      const projects: Partial<ProjectType>[] = await prisma.project.findMany({
+      const projects: Partial<Project>[] = await prisma.project.findMany({
         select: {
           id: true,
           color: true,

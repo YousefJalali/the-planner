@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 import { projectsKey } from '../keys'
 
@@ -12,7 +12,7 @@ export const useProjects = (query?: string) => {
 
   // console.log(data)
 
-  const projects: ProjectType[] = data?.data || []
+  const projects: Project[] = data?.data || []
   const isLoading = !error && !data
 
   return { projects, mutate, error: getErrorMessage(error), isLoading }

@@ -1,9 +1,9 @@
 import { useModal } from '@the-planner/hooks'
-import { TaskWithProjectType } from '@the-planner/types'
+import { TaskWithProject } from '@the-planner/types'
 import { useCallback } from 'react'
 import { TaskOptionsList } from '../task/task-options/task-options-list'
 
-export const useTaskOptionsModal = (task: TaskWithProjectType) => {
+export const useTaskOptionsModal = (task: TaskWithProject) => {
   const { setModal } = useModal()
 
   const showModal = useCallback(

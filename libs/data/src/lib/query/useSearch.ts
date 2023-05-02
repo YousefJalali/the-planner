@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import { requestLogger } from '../middlewares/requestLogger'
-import { TaskWithProjectType } from '@the-planner/types'
+import { TaskWithProject } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 
 export const useSearch = (query: string | null) => {
@@ -10,7 +10,7 @@ export const useSearch = (query: string | null) => {
 
   const { data, error, mutate } = res
 
-  const searchedTasks: TaskWithProjectType[] = data?.data || []
+  const searchedTasks: TaskWithProject[] = data?.data || []
   const isLoading = !data && !error
   const errorMessage = getErrorMessage(error)
 

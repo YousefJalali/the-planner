@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../../common/lib/prisma'
 import _ from 'lodash'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 // import { deleteImages, deleteWholeProject } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectType
+    data?: Project
     error?: Error | unknown
     validationErrors?: any
   }>

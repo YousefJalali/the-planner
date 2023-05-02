@@ -2,13 +2,13 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import _ from 'lodash'
-import { ProjectType, ProjectWithTasksType } from '@the-planner/types'
+import { Project, ProjectWithTasks } from '@the-planner/types'
 import { projectSchema } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<{
-    data?: ProjectWithTasksType
+    data?: ProjectWithTasks
     error?: Error | unknown
     validationErrors?: any
   }>
@@ -28,11 +28,11 @@ const handler = async (
     let project = projectForm
     //remove project key from task object
     if (projectForm.tasks) {
-      project = _.omit(projectForm, 'tasks') as ProjectType
+      project = _.omit(projectForm, 'tasks') as Project
     }
 
     //validate form
-    const validate = await apiYupValidation<ProjectType>(projectSchema, project)
+    const validate = await apiYupValidation<Project>(projectSchema, project)
     if (!_.isEmpty(validate.errors)) {
       return res.json({ validationErrors: validate.errors })
     }

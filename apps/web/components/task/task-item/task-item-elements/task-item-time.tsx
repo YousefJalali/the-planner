@@ -1,6 +1,5 @@
 import { Status } from '@the-planner/types'
 import format from 'date-fns/format'
-import { memo } from 'react'
 import { FiClock } from 'react-icons/fi'
 import Details from './task-item-details'
 

@@ -1,23 +1,13 @@
-import styled, { x } from '@xstyled/styled-components'
-import { TaskWithProjectType } from '@the-planner/types'
-import { ScrollableList } from '@the-planner/ui-web'
+import { TaskWithProject } from '@the-planner/types'
 import { TasksLists } from '../../task/tasks-list'
 
-const Lists = styled(ScrollableList)`
-  > div {
-    flex: 0 0 calc(100% - 24px);
-  }
-`
-
-export const ProjectTasks = ({ tasks }: { tasks: TaskWithProjectType[] }) => {
+export const ProjectTasks = ({ tasks }: { tasks: TaskWithProject[] }) => {
   return (
     <>
-      <x.h1 text="headline.three" px={4} mt={5} mb={2}>
-        Tasks
-      </x.h1>
-      <Lists as="section" spaceX={3} mb={4}>
+      <h1 className="text-2xl px-6 mt-12 mb-2 font-bold">Tasks</h1>
+      <section className="flex overflow-x-scroll space-x-3 mb-6 scroll-pl-9 px-6 snap-x [&>div]:snap-start [&>div]:flex-[0_0_calc(100%-1.5rem)]">
         <TasksLists tasks={tasks} showEmptyList withDivider />
-      </Lists>
+      </section>
     </>
   )
 }

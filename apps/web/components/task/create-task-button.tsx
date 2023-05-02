@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { useModal } from '@the-planner/hooks'
 import { useCreateTask } from '@the-planner/data'
-import { TaskType } from '@the-planner/types'
-import { FloatingButton } from '@the-planner/ui-web'
+import { Task } from '@the-planner/types'
 import { TaskForm } from './task-form'
 import { parseUrlDate } from '@the-planner/utils'
 import { useRouter } from 'next/router'
+import { FiPlus } from 'react-icons/fi'
 
 type Props = {
   date?: string
@@ -21,7 +21,7 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
 
   const { setModal, clearModal } = useModal()
 
-  const showForm = (defValues?: Partial<TaskType>, serverErrors?: object) => {
+  const showForm = (defValues?: Partial<Task>, serverErrors?: object) => {
     setModal({
       id: 'task-create',
       fullScreen: true,
@@ -51,11 +51,14 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
   )
 
   return (
-    <FloatingButton
+    <button
       name="create task button"
       id="create-task-button"
       onClick={() => showForm()}
-    />
+      className="fixed bottom-6 right-6 btn btn-circle btn-primary shadow-xl"
+    >
+      <FiPlus size={24} />
+    </button>
   )
 }
 

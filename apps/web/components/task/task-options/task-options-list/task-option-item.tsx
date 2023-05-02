@@ -1,5 +1,3 @@
-import { x } from '@xstyled/styled-components'
-
 const TaskOption = ({
   icon,
   onClick,
@@ -12,25 +10,24 @@ const TaskOption = ({
   content: JSX.Element | string
   color?: string
 }) => (
-  <x.li
-    display="flex"
-    alignItems="center"
-    px={3}
-    onClick={onClick}
-    minHeight={56}
+  <li
+    className="relative flex items-center px-4 min-h-[56px] gap-3 hover:bg-base-200"
     {...props}
   >
-    <x.span color={color || 'content-contrast'} fontSize="1.25rem">
-      {icon}
-    </x.span>
+    {onClick && (
+      <button
+        className="absolute top-0 left-0 w-full h-full"
+        onClick={onClick}
+      ></button>
+    )}
+
+    <span className={`text-xl ${color}`}>{icon}</span>
     {typeof content === 'string' ? (
-      <x.span ml={2} lineHeight="tight" color={color || 'content-contrast'}>
-        {content}
-      </x.span>
+      <span className={`leading-tight ${color}`}>{content}</span>
     ) : (
       content
     )}
-  </x.li>
+  </li>
 )
 
 export default TaskOption

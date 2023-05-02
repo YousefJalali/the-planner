@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
 import { x } from '@xstyled/styled-components'
 
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { Spinner } from '@the-planner/ui-web'
 import { useProject } from '@the-planner/data'
 
@@ -12,7 +12,7 @@ type Props = {
   id: string
   onChange: (v: string) => void
   value: string
-  taskProject: (project: Pick<ProjectType, 'title' | 'color' | 'id'>) => void
+  taskProject: (project: Pick<Project, 'title' | 'color' | 'id'>) => void
   placeholder: string
 }
 
@@ -23,7 +23,7 @@ export function SelectProject({
   placeholder,
   taskProject,
 }: Props) {
-  const [project, setProject] = useState<ProjectType>()
+  const [project, setProject] = useState<Project>()
 
   const { project: fetchedProject, isLoading } = useProject(value)
 
@@ -33,7 +33,7 @@ export function SelectProject({
     }
   }, [value, fetchedProject])
 
-  const selectHandler = (project: ProjectType) => {
+  const selectHandler = (project: Project) => {
     onChange(project.id)
 
     taskProject({

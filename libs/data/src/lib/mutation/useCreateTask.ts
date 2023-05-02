@@ -5,7 +5,7 @@ import ObjectID from 'bson-objectid'
 import { parse } from 'date-fns'
 
 import { useNotification } from '@the-planner/hooks'
-import { TaskType, TaskWithProjectType } from '@the-planner/types'
+import { Task, TaskWithProject } from '@the-planner/types'
 import { getErrorMessage, URL_DATE_FORMAT } from '@the-planner/utils'
 
 import useDateTasks from '../query/useDateTasks'
@@ -14,7 +14,7 @@ import { createTask as createTaskHandler } from '../actions'
 
 export const useCreateTask = (
   date: string,
-  showForm: (defValues?: Partial<TaskType>, serverErrors?: object) => void,
+  showForm: (defValues?: Partial<Task>, serverErrors?: object) => void,
   callback: (action?: any) => void
 ) => {
   const [status, setStatus] = useState()
@@ -27,7 +27,7 @@ export const useCreateTask = (
   const { mutate: mutateDateTasks, dateTasks } = useDateTasks(date as string)
   const { mutate: mutateProject, project } = useProject(projectId as string)
 
-  let defaultValues: Partial<TaskType> = {
+  let defaultValues: Partial<Task> = {
     id: ObjectID().toHexString(),
   }
 
@@ -44,7 +44,7 @@ export const useCreateTask = (
   //   }
   // }
 
-  const onSubmit = async (formData: TaskType | TaskWithProjectType) => {
+  const onSubmit = async (formData: Task | TaskWithProject) => {
     const request = async () => {
       try {
         const {

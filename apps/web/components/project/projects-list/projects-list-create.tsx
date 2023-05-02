@@ -1,12 +1,12 @@
 import { useEditProject } from '@the-planner/data'
-import { ProjectType } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { x } from '@xstyled/styled-components'
 import { memo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useProjectCreateModal, useProjectsListModal } from '../../modals'
 
 type Props = {
-  onSelectProject: (project: ProjectType) => void
+  onSelectProject: (project: Project) => void
 }
 
 export const CreateProjectButton = memo(({ onSelectProject }: Props) => {

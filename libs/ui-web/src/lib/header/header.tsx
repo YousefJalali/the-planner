@@ -1,27 +1,21 @@
 import Head from 'next/head'
 import { FC } from 'react'
-import { x } from '@xstyled/styled-components'
 
 type Props = {
   children: JSX.Element | JSX.Element[]
   pageTitle: string
+  className?: string
 }
-export const Header: FC<Props> = ({ children, pageTitle = '' }) => {
+export const Header: FC<Props> = ({ children, pageTitle = '', className }) => {
   return (
     <>
       <Head>
         <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title>
         <meta charSet="utf-8" />
       </Head>
-      <x.header
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        pt={2}
-        mb={4}
-      >
+      <header className={`flex justify-between items-center px-6 ${className}`}>
         {children}
-      </x.header>
+      </header>
     </>
   )
 }

@@ -1,10 +1,10 @@
-import { ProjectType } from './ProjectType'
-import { Task, Status, Image } from '@prisma/client'
+import { Project } from './ProjectType'
+import { Task as TaskType, Status, Image } from '@prisma/client'
 
 export { Status }
-export type ImageType = Image
+export type Attachment = Image
 
-export type TaskType = Task
-export type TaskWithProjectType = Task & {
-  project: Pick<ProjectType, 'title' | 'color' | 'id'>
+export type Task = TaskType
+export type TaskWithProject = Task & {
+  project: Pick<Project, 'title' | 'color' | 'id'>
 }

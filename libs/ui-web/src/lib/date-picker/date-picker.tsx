@@ -8,13 +8,14 @@ export type DateInputProps = {
 } & ReactDatePickerProps
 
 const DefaultCustomInput = forwardRef<HTMLInputElement>((props, ref) => (
-  <Input {...props} />
+  // <Input {...props} />
+  <input className="input-bordered input" {...props} />
 ))
 DefaultCustomInput.displayName = 'DefaultCustomInput'
 
 export function DateInput(props: DateInputProps) {
   return (
-    <DatePickerWrapper>
+    <div className="date-picker">
       <DatePicker
         {...props}
         autoComplete="off"
@@ -29,7 +30,7 @@ export function DateInput(props: DateInputProps) {
           )
         }
       />
-    </DatePickerWrapper>
+    </div>
   )
 }
 

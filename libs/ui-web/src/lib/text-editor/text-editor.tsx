@@ -11,9 +11,9 @@ export const TextEditor = (props: Props) => {
     toolbar: true,
   }
   return (
-    <Wrapper readonly={props.readOnly}>
+    <>
       <ReactQuill theme="bubble" {...props} />
-    </Wrapper>
+    </>
   )
 }
 
