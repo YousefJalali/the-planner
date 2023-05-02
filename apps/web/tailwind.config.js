@@ -11,13 +11,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // colors: {
-      //   PROPOSED: '#935aea',
-      //   INPROGRESS: '#ae9900',
-      //   COMPLETED: '#008f20',
-      // },
+      fontFamily: {
+        sans: ['var(--font-montserrat)'],
+      },
     },
   },
+
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
     themes: [

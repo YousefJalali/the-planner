@@ -1,6 +1,5 @@
 import { useEditProject } from '@the-planner/data'
 import { Project } from '@the-planner/types'
-import { x } from '@xstyled/styled-components'
 import { memo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { useProjectCreateModal, useProjectsListModal } from '../../modals'
@@ -26,28 +25,15 @@ export const CreateProjectButton = memo(({ onSelectProject }: Props) => {
   }
 
   return (
-    <x.div
-      display="flex"
-      alignItems="center"
-      w="100%"
-      p={3}
-      position="fixed"
-      bottom="0"
-      backgroundColor="layout-level0"
-      onClick={clickHandler}
-      borderTop="1px solid"
-      borderColor="layout-level0accent"
-    >
-      <x.span
-        text="body"
-        color="brand-primary"
-        display="flex"
-        alignItems="center"
+    <div className="fixed bottom-0 bg-base-100 border-t w-[calc(100%-1.5rem)]">
+      <button
+        className="btn btn-ghost text-primary gap-2 w-full p-0"
+        onClick={clickHandler}
       >
-        <FiPlus />
-        <x.span ml={1}>Create Project</x.span>
-      </x.span>
-    </x.div>
+        <FiPlus size={20} />
+        Create Project
+      </button>
+    </div>
   )
 })
 

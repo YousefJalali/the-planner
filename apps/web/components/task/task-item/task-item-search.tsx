@@ -1,43 +1,32 @@
-import { x } from '@xstyled/styled-components'
 import { FiCalendar } from 'react-icons/fi'
 import { Status, TaskWithProject } from '@the-planner/types'
 import { formatDate, statusAlias } from '@the-planner/utils'
-import { Details, Title } from './task-item-elements'
+import { Details } from './task-item-elements'
 import { Badge } from '@the-planner/ui-web'
 
 export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
   return (
-    <x.div
+    <div
       data-testid="task-item-search"
-      position="relative"
-      p={2}
-      pl={4}
-      backgroundColor="layout-level1"
-      borderRadius={2}
-      h="fit-content"
+      className="relative flex flex-col justify-between pl-6 py-2 bg-base-200 rounded-lg h-[96px] overflow-hidden"
     >
-      <x.div
-        position="absolute"
-        top={2}
-        left={2}
-        w={4}
-        h="calc(100% - 16px)"
-        borderRadius={2}
-        backgroundColor={task.project.color}
+      <div
+        className="absolute top-2 left-2 w-1 h-[calc(100%-1rem)] rounded-lg"
+        style={{ backgroundColor: task.project.color }}
       />
 
-      <x.span fontSize="xs">{task.project.title}</x.span>
+      <div>
+        <span>{task.project.title}</span>
+        <h3
+          className={`line-clamp-1 leading-relaxed font-semibold ${
+            task.status === Status.COMPLETED ? 'line-through opacity-60' : ''
+          }`}
+        >
+          {task.title}
+        </h3>
+      </div>
 
-      <Title isTaskCompleted={task.status === Status.COMPLETED}>
-        {task.title}
-      </Title>
-
-      <x.div
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mt={1}
-      >
+      <div className="flex justify-between items-center w-[calc(100%-1rem)]">
         <Details
           icon={<FiCalendar />}
           isTaskCompleted={task.status === Status.COMPLETED}
@@ -45,8 +34,8 @@ export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
           {formatDate(task.startDate)}
         </Details>
         <Badge status={task.status}>{statusAlias(task.status)}</Badge>
-      </x.div>
-    </x.div>
+      </div>
+    </div>
   )
 }
 

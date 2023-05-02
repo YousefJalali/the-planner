@@ -20,16 +20,11 @@ export const SearchPage = () => {
   const { handler } = useSearchHistory()
 
   return (
-    <x.main h="100vh" pb={4}>
-      <x.section px={4}>
-        <x.span
-          text="body.large"
-          display="block"
-          w="calc(100% - 48px)"
-          lineHeight="normal"
-        >
+    <main className="h-screen py-6">
+      <section className="px-6 prose">
+        <h3 className="w-[calc(100%-2rem)]">
           What task or project are you looking for?
-        </x.span>
+        </h3>
 
         <SearchInput
           value={val}
@@ -37,7 +32,7 @@ export const SearchPage = () => {
           autoFocus
           onKeyDown={(e) => handler(e)}
         />
-      </x.section>
+      </section>
 
       {val.length <= 0 ? (
         <>
@@ -45,13 +40,13 @@ export const SearchPage = () => {
           <RecentTasks />
         </>
       ) : isLoading ? (
-        <x.div m="0 auto" w="fit-content" my={3}>
+        <div className="mx-auto w-fit my-3">
           <SearchLoading />
-        </x.div>
+        </div>
       ) : searchedTasks?.length > 0 ? (
-        <x.section p={3} h="100%" flex="1 1 auto">
+        <section className="p-6 h-full">
           <SearchList data={searchedTasks} />
-        </x.section>
+        </section>
       ) : (
         <EmptyState
           illustration={<NoSearchDataSvg />}
@@ -60,7 +55,7 @@ export const SearchPage = () => {
           size="20%"
         />
       )}
-    </x.main>
+    </main>
   )
 }
 

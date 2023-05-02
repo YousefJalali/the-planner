@@ -44,29 +44,12 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en" data-theme="winter">
         <Head>
-          <meta name="description" content="Bija's task manager"></meta>
-          {/* <link
-            rel='preload'
-            href='/fonts/montserrat-v23-latin-100'
-            as='font'
-            type='font/eot'
-            crossOrigin='anonymous'
-          />
-          <link
-            rel='preload'
-            href='fonts/carter-one-v15-latin-regular'
-            as='font'
-            type='font/eot'
-            crossOrigin='anonymous'
-          /> */}
+          <meta name="description" content="The planner"></meta>
         </Head>
         <body>
           {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
-          <div id="modal" />
-          <div id="prompt" />
-          <div id="notification" />
         </body>
       </Html>
     )

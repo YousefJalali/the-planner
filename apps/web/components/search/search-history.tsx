@@ -1,4 +1,3 @@
-import { x } from '@xstyled/styled-components'
 import { useCookies } from 'react-cookie'
 import { FiClock, FiX } from 'react-icons/fi'
 
@@ -24,33 +23,30 @@ const SearchHistory = ({ onSearchItemClick }: Props) => {
   }
 
   return (
-    <x.section px={4} mt={3}>
-      <x.ul spaceY={3}>
+    <section className="px-6 mt-3">
+      <ul className="space-y-3">
         {cookie['search-history']?.map((item: string, i: number) => (
-          <x.li
+          <li
             key={i}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            color="content-subtle"
+            className="flex justify-between items-center opacity-60 p-1"
           >
-            <x.a
-              display="flex"
-              alignItems="center"
-              spaceX={2}
-              flex="1"
+            <button
+              className="flex items-center gap-2 flex-1 hover:underline"
               onClick={() => onSearchItemClick(item)}
             >
               <FiClock />
-              <x.span>{item}</x.span>
-            </x.a>
-            <x.a onClick={() => removeFromSearchHistory(item)}>
+              <span>{item}</span>
+            </button>
+            <button
+              className="btn btn-ghost btn-sm btn-circle -mr-3"
+              onClick={() => removeFromSearchHistory(item)}
+            >
               <FiX />
-            </x.a>
-          </x.li>
+            </button>
+          </li>
         ))}
-      </x.ul>
-    </x.section>
+      </ul>
+    </section>
   )
 }
 

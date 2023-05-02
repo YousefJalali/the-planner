@@ -1,4 +1,3 @@
-import { x } from '@xstyled/styled-components'
 import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
@@ -27,14 +26,9 @@ export function FlatList<T extends { id: string }>({
           >
             {({ data, index, style }) => {
               return (
-                <x.li
-                  key={data[index].id}
-                  style={style}
-                  borderBottom="1px solid"
-                  borderColor="layout-level0accent"
-                >
+                <li key={data[index].id} style={style}>
                   {children(data[index])}
-                </x.li>
+                </li>
               )
             }}
           </List>

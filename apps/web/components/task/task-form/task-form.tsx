@@ -52,13 +52,13 @@ export function TaskForm({
     ...defaultValues,
   }
 
-  // defValues = {
-  //   ...defValues,
-  //   startDate: stringToDate(defValues.startDate),
-  //   endDate: defValues.endDate && stringToDate(defValues.endDate),
-  //   startTime: defValues.startTime && stringToDate(defValues.startTime),
-  //   endTime: defValues.endTime && stringToDate(defValues.endTime),
-  // }
+  defValues = {
+    ...defValues,
+    startDate: stringToDate(defValues.startDate),
+    endDate: defValues.endDate && stringToDate(defValues.endDate),
+    startTime: defValues.startTime && stringToDate(defValues.startTime),
+    endTime: defValues.endTime && stringToDate(defValues.endTime),
+  }
 
   const {
     register,
@@ -70,6 +70,7 @@ export function TaskForm({
     clearErrors,
     getValues,
     watch,
+    setValue,
   } = useForm<Task>({
     defaultValues: defValues,
     resolver: yupResolver(taskFormValidation),
@@ -90,292 +91,316 @@ export function TaskForm({
     onSubmit(formData)
   }
 
-  console.log(errors)
-
   return (
     <>
-      <form className="space-y-6 p-6" onSubmit={handleSubmit(submitHandler)}>
-        <div className="form-control w-full">
-          <label htmlFor="title" className="label">
-            <span className="label-text">Title</span>
-          </label>
+      <form className="p-6 prose" onSubmit={handleSubmit(submitHandler)}>
+        <h1 className="">{id === 'create' ? 'New' : 'Update'} Task</h1>
 
-          <input
-            id="title"
-            type="text"
-            placeholder="Title..."
-            className={`input-bordered input w-full ${
-              errors?.title ? 'input-error' : ''
-            }`}
-            {...register('title')}
-          />
-
-          {errors?.title && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.title.message}
-              </span>
+        <fieldset
+          className="not-prose space-y-6"
+          disabled={id === 'create' && isSubmitting}
+        >
+          <div className="form-control w-full">
+            <label htmlFor="title" className="label">
+              <span className="label-text">Title</span>
             </label>
-          )}
-        </div>
 
-        <div className="form-control w-full">
-          <label htmlFor="title" className="label">
-            <span className="label-text">Project</span>
-          </label>
+            <input
+              id="title"
+              type="text"
+              placeholder="Title..."
+              className={`input-bordered input w-full ${
+                errors?.title ? 'input-error' : ''
+              }`}
+              {...register('title')}
+            />
 
-          <input
-            type="text"
-            placeholder="Select a project..."
-            className={`input-bordered input w-full ${
-              errors?.title ? 'input-error' : ''
-            }`}
-            {...register('projectId')}
-          />
-
-          {errors?.projectId && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.projectId.message}
-              </span>
-            </label>
-          )}
-        </div>
-
-        <div className="form-control w-full">
-          <label htmlFor="title" className="label">
-            <span className="label-text">Date & Time</span>
-
-            <div className="form-control">
-              <label className="label cursor-pointer gap-2 p-0">
-                <span className="label-text">Open task?</span>
-                <input
-                  type="checkbox"
-                  className="toggle toggle-primary"
-                  {...register('openTask')}
-                />
+            {errors?.title && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.title.message}
+                </span>
               </label>
-            </div>
-          </label>
-
-          <label htmlFor="title" className="label">
-            <span className="label-text">From</span>
-          </label>
-          <div className="flex gap-4">
-            <Controller
-              control={control}
-              name="startDate"
-              render={({ field: { onChange, value } }) => (
-                <DateInput
-                  dataTestId="task-form-start-date"
-                  selected={value}
-                  onChange={onChange}
-                  placeholderText="Click to select a date"
-                  selectsStart
-                  startDate={value}
-                  endDate={getValues('endDate')}
-                  popperPlacement="bottom-start"
-                  dateFormat={value ? dateFormatPattern(value) : undefined}
-                  customInput={
-                    <input
-                      type="text"
-                      className="input-bordered input w-full"
-                    />
-                  }
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="startTime"
-              render={({ field: { onChange, value } }) => (
-                <DateInput
-                  dataTestId="task-form-start-time"
-                  selected={value}
-                  onChange={onChange}
-                  placeholderText="hh:mm"
-                  disabled={watch('openTask')}
-                  popperPlacement="bottom-end"
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={30}
-                  timeCaption=""
-                  dateFormat="h:mm aa"
-                  customInput={
-                    <input
-                      type="text"
-                      className="input-bordered input w-full"
-                    />
-                  }
-                />
-              )}
-            />
-          </div>
-
-          <label htmlFor="title" className="label">
-            <span className="label-text">To (Optional)</span>
-          </label>
-          <div className="flex gap-4">
-            <Controller
-              control={control}
-              name="endDate"
-              render={({ field: { onChange, value } }) => (
-                <DateInput
-                  dataTestId="task-form-end-date"
-                  selected={value}
-                  onChange={onChange}
-                  placeholderText="Due date"
-                  popperPlacement="bottom-start"
-                  selectsEnd
-                  startDate={getValues('startDate')}
-                  endDate={value}
-                  minDate={getValues('startDate')}
-                  disabled={watch('openTask')}
-                  dateFormat={value ? dateFormatPattern(value) : undefined}
-                  customInput={
-                    <input
-                      type="text"
-                      className="input-bordered input w-full"
-                    />
-                  }
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="endTime"
-              render={({ field: { onChange, value } }) => (
-                <DateInput
-                  dataTestId="task-form-end-time"
-                  selected={value}
-                  onChange={onChange}
-                  placeholderText="hh:mm"
-                  disabled={watch('openTask')}
-                  popperPlacement="bottom-end"
-                  showTimeSelect
-                  showTimeSelectOnly
-                  timeIntervals={30}
-                  timeCaption=""
-                  dateFormat="h:mm aa"
-                  customInput={
-                    <input
-                      type="text"
-                      className="input-bordered input w-full"
-                    />
-                  }
-                />
-              )}
-            />
-          </div>
-
-          <label className="label">
-            <span className="label-text-alt">
-              End date & end time are optional
-            </span>
-          </label>
-
-          {errors?.startDate && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.startDate.message}
-              </span>
-            </label>
-          )}
-          {errors?.endDate && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.endDate.message}
-              </span>
-            </label>
-          )}
-          {errors?.startTime && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.startTime.message}
-              </span>
-            </label>
-          )}
-          {errors?.endTime && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.endTime.message}
-              </span>
-            </label>
-          )}
-        </div>
-
-        <div className="form-control w-full">
-          <label htmlFor="title" className="label">
-            <span className="label-text">Description</span>
-          </label>
-
-          <Controller
-            control={control}
-            name="description"
-            render={({ field: { onChange, value } }) => (
-              <TextEditor
-                id={id}
-                value={value}
-                onChange={onChange}
-                placeholder="A brief about the task..."
-                className="textarea textarea-bordered rich-text-editor"
-              />
             )}
-          />
+          </div>
 
-          {errors?.description && (
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.description.message}
-              </span>
+          <div className="form-control w-full">
+            <label htmlFor="title" className="label">
+              <span className="label-text">Project</span>
             </label>
-          )}
-        </div>
 
-        <div className="form-control w-full">
-          <label htmlFor="title" className="label">
-            <span className="label-text">Attachments</span>
-          </label>
-
-          <Controller
-            control={control}
-            name="attachments"
-            render={({ field: { onChange, value } }) => (
-              <>
-                <ImageInput
+            <Controller
+              control={control}
+              name="projectId"
+              render={({ field: { onChange, value } }) => (
+                <SelectProject
                   value={value}
                   onChange={onChange}
-                  max={10}
-                  multiple
+                  placeholder="Select a project"
+                  className={`input-bordered input w-full ${
+                    errors?.projectId ? 'input-error' : ''
+                  }`}
                 />
-                <label htmlFor="title" className="label">
-                  <span className="label-text">{`Photos • ${
-                    value ? value.length : 0
-                  }/10 `}</span>
-                </label>
-              </>
-            )}
-          />
+              )}
+            />
 
-          {errors?.attachments && (
+            {errors?.projectId && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.projectId.message}
+                </span>
+              </label>
+            )}
+          </div>
+
+          <div className="form-control w-full">
+            <label htmlFor="Description" className="label">
+              <span className="label-text">Description</span>
+            </label>
+
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, value } }) => (
+                <TextEditor
+                  id={id}
+                  value={value}
+                  onChange={onChange}
+                  placeholder="A brief about the task..."
+                  className="textarea textarea-bordered rich-text-editor"
+                />
+              )}
+            />
+
+            {errors?.description && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.description.message}
+                </span>
+              </label>
+            )}
+          </div>
+
+          <div className="divider"></div>
+
+          <div className="form-control w-full">
+            <label htmlFor="Date & Time" className="label">
+              <span className="label-text">Date & Time</span>
+
+              <div className="form-control">
+                <label className="label cursor-pointer gap-2 p-0">
+                  <span className="label-text">Open task?</span>
+                  <input
+                    type="checkbox"
+                    className="toggle toggle-primary"
+                    {...register('openTask')}
+                  />
+                </label>
+              </div>
+            </label>
+
+            <label htmlFor="From" className="label">
+              <span className="label-text">From</span>
+            </label>
+            <div className="flex gap-4">
+              <Controller
+                control={control}
+                name="startDate"
+                render={({ field: { onChange, value } }) => (
+                  <DateInput
+                    dataTestId="task-form-start-date"
+                    selected={value}
+                    onChange={onChange}
+                    placeholderText="Click to select a date"
+                    selectsStart
+                    startDate={value}
+                    endDate={getValues('endDate')}
+                    popperPlacement="bottom-start"
+                    dateFormat={value ? dateFormatPattern(value) : undefined}
+                    customInput={
+                      <input
+                        type="text"
+                        className={`input-bordered input w-full ${
+                          errors?.startDate ? 'input-error' : ''
+                        }`}
+                      />
+                    }
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="startTime"
+                render={({ field: { onChange, value } }) => (
+                  <DateInput
+                    dataTestId="task-form-start-time"
+                    selected={value}
+                    onChange={onChange}
+                    placeholderText="hh:mm"
+                    disabled={watch('openTask')}
+                    popperPlacement="bottom-end"
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    timeCaption=""
+                    dateFormat="h:mm aa"
+                    customInput={
+                      <input
+                        type="text"
+                        className={`input-bordered input w-full ${
+                          errors?.startTime ? 'input-error' : ''
+                        }`}
+                      />
+                    }
+                  />
+                )}
+              />
+            </div>
+
+            <label htmlFor="To" className="label">
+              <span className="label-text">To (Optional)</span>
+            </label>
+            <div className="flex gap-4">
+              <Controller
+                control={control}
+                name="endDate"
+                render={({ field: { onChange, value } }) => (
+                  <DateInput
+                    dataTestId="task-form-end-date"
+                    selected={value}
+                    onChange={onChange}
+                    placeholderText="Due date"
+                    popperPlacement="bottom-start"
+                    selectsEnd
+                    startDate={getValues('startDate')}
+                    endDate={value}
+                    minDate={getValues('startDate')}
+                    disabled={watch('openTask')}
+                    dateFormat={value ? dateFormatPattern(value) : undefined}
+                    customInput={
+                      <input
+                        type="text"
+                        className={`input-bordered input w-full ${
+                          errors?.endDate ? 'input-error' : ''
+                        }`}
+                      />
+                    }
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="endTime"
+                render={({ field: { onChange, value } }) => (
+                  <DateInput
+                    dataTestId="task-form-end-time"
+                    selected={value}
+                    onChange={onChange}
+                    placeholderText="hh:mm"
+                    disabled={watch('openTask')}
+                    popperPlacement="bottom-end"
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={30}
+                    timeCaption=""
+                    dateFormat="h:mm aa"
+                    customInput={
+                      <input
+                        type="text"
+                        className={`input-bordered input w-full ${
+                          errors?.endTime ? 'input-error' : ''
+                        }`}
+                      />
+                    }
+                  />
+                )}
+              />
+            </div>
+
             <label className="label">
-              <span className="label-text-alt text-error">
-                {errors.attachments.message}
+              <span className="label-text-alt">
+                End date & end time are optional
               </span>
             </label>
-          )}
-        </div>
 
-        <button
-          name="task-form"
-          type="submit"
-          className={`sticky z-10 bottom-6 btn btn-primary w-full shadow-xl ${
-            isSubmitting ? 'loading' : ''
-          }`}
-        >
-          {id === 'edit' ? 'Update' : 'Create'}
-        </button>
+            {errors?.startDate && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.startDate.message}
+                </span>
+              </label>
+            )}
+            {errors?.endDate && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.endDate.message}
+                </span>
+              </label>
+            )}
+            {errors?.startTime && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.startTime.message}
+                </span>
+              </label>
+            )}
+            {errors?.endTime && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.endTime.message}
+                </span>
+              </label>
+            )}
+          </div>
+
+          <div className="divider"></div>
+
+          <div className="form-control w-full">
+            <label htmlFor="Attachments" className="label">
+              <span className="label-text">Attachments</span>
+            </label>
+
+            <Controller
+              control={control}
+              name="attachments"
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <ImageInput
+                    value={value}
+                    onChange={onChange}
+                    max={10}
+                    multiple
+                  />
+                  <label htmlFor="title" className="label">
+                    <span className="label-text">{`Photos • ${
+                      value ? value.length : 0
+                    }/10 `}</span>
+                  </label>
+                </>
+              )}
+            />
+
+            {errors?.attachments && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.attachments.message}
+                </span>
+              </label>
+            )}
+          </div>
+
+          <button
+            name="task-form"
+            type="submit"
+            className={`sticky z-10 bottom-6 btn btn-primary w-full shadow-xl ${
+              isSubmitting ? 'loading' : ''
+            }`}
+          >
+            {id === 'edit' ? 'Update' : 'Create'} Task
+          </button>
+        </fieldset>
       </form>
+
       {/* <Form<Task | TaskWithProject>
         id={id}
         name="task-form"

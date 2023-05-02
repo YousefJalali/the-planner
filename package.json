@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
+    "@next/font": "^13.3.4",
     "@nx/next": "16.0.0",
     "@popperjs/core": "^2.11.2",
     "@prisma/client": "^3.13.0",

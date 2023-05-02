@@ -1,7 +1,5 @@
-import { Fieldset, Input } from '@the-planner/ui-web'
 import Head from 'next/head'
 import { InputHTMLAttributes } from 'react'
-import { FiSearch } from 'react-icons/fi'
 
 const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>) => {
   return (
@@ -13,20 +11,24 @@ const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>) => {
         ></meta>
       </Head>
 
-      <Fieldset
-        label="search"
-        hideLabel
-        supportiveText="type a word from title or description"
-        leftIcon={<FiSearch />}
-      >
-        <Input
-          {...props}
+      <div className="form-control w-full">
+        {/* <label className="label">
+          <span className="label-text invisible">Search</span>
+        </label> */}
+        <input
           type="search"
           name="keyword"
           placeholder="Search..."
           autoComplete="off"
+          className="input input-bordered w-full"
+          {...props}
         />
-      </Fieldset>
+        <label className="label">
+          <span className="label-text-alt">
+            Type a word from title or description
+          </span>
+        </label>
+      </div>
     </>
   )
 }

@@ -27,19 +27,28 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
       fullScreen: true,
       title: 'New Task',
       content: (
-        <TaskForm
-          id="create"
-          defaultValues={
-            defValues || {
-              ...(currentDate && {
-                startDate: parseUrlDate(currentDate as string),
-              }),
-              ...defaultValues,
+        <>
+          <button
+            className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
+            onClick={() => clearModal('task-create')}
+          >
+            ✕
+          </button>
+
+          <TaskForm
+            id="create"
+            defaultValues={
+              defValues || {
+                ...(currentDate && {
+                  startDate: parseUrlDate(currentDate as string),
+                }),
+                ...defaultValues,
+              }
             }
-          }
-          onSubmit={onSubmit}
-          serverErrors={serverErrors}
-        />
+            onSubmit={onSubmit}
+            serverErrors={serverErrors}
+          />
+        </>
       ),
     })
   }

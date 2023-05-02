@@ -1,24 +1,23 @@
 import { Project } from '@the-planner/types'
 import { useProjectsListModal } from '../../modals'
+import { ReactNode } from 'react'
 
 type Props = {
-  id: string
   onSelectProject: (project: Project) => void
+  children: ReactNode
+  className?: string
 }
 
-const SelectButton = ({ id, onSelectProject }: Props) => {
+const SelectButton = ({ onSelectProject, children, className }: Props) => {
   const { showModal, clearModal } = useProjectsListModal((project) => {
     onSelectProject(project)
     clearModal('project-list')
   })
 
   return (
-    <button
-      id={id}
-      type="button"
-      onClick={showModal}
-      className="absolute top-0 left-0 w-full h-full"
-    />
+    <button type="button" onClick={showModal} className={className}>
+      {children}
+    </button>
   )
 }
 

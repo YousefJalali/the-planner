@@ -1,5 +1,4 @@
 import { NextPage } from 'next'
-import { x } from '@xstyled/styled-components'
 import {
   PageHeader,
   ProjectCardsList,

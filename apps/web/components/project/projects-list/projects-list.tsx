@@ -1,9 +1,8 @@
-import { x } from '@xstyled/styled-components'
 import { ChangeEvent, FC, useMemo, useState, useCallback } from 'react'
 
 import { useProjects } from '@the-planner/data'
 import { Project } from '@the-planner/types'
-import { Spinner, FlatList } from '@the-planner/ui-web'
+import { FlatList } from '@the-planner/ui-web'
 import { useWindowSize } from '@the-planner/hooks'
 
 import ProjectItem from '../ProjectItem'
@@ -36,53 +35,43 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
     )
 
     if (data.length <= 0) {
-      return (
-        <x.div p={3} color="content-nonessential" textAlign="center">
-          No project found
-        </x.div>
-      )
+      return <div className="p-3 opacity-60 text-center">No project found</div>
     }
 
     return (
       <FlatList<Project> data={data} itemHeight={58}>
         {(item) => (
-          <x.a
-            display="block"
-            p={3}
+          <button
+            className="px-3 h-full w-full border-b hover:bg-base-200"
             onClick={() => selectHandler(item)}
             data-testid="projects-list-item"
           >
             <ProjectItem project={item} />
-          </x.a>
+          </button>
         )}
       </FlatList>
     )
   }, [projects, search])
 
   return error ? (
-    <x.div p={3} display="flex" justifyContent="center">
-      {error}
-    </x.div>
+    <div className="p-6">{error}</div>
   ) : isLoading ? (
-    <x.div p={4} display="flex" justifyContent="center">
-      <Spinner pathColor="brand-primary" trailColor="layout-level0accent" />
-    </x.div>
+    <span className="block p-6 text-center">Loading...</span>
   ) : (
-    <x.div position="relative" my={1} id="project-list-select">
+    <div className="relative" id="project-list-select">
       {projects?.length > 10 && (
         <Search value={search} onChange={searchHandler} />
       )}
 
-      <x.div
-        position="relative"
-        h="100%"
-        minHeight={height ? height * 0.7 : 300}
+      <div
+        className="relative h-full mx-3 overflow-y-scroll"
+        style={{ minHeight: height ? height * 0.7 : 300 }}
       >
         {renderList}
-      </x.div>
 
-      <CreateProjectButton onSelectProject={onSelectProject} />
-    </x.div>
+        <CreateProjectButton onSelectProject={onSelectProject} />
+      </div>
+    </div>
   )
 }
 

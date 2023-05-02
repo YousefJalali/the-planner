@@ -30,8 +30,9 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker-wrapper
     .react-datepicker__input-container
     > input {
-    @apply w-full;
+    @apply w-full cursor-pointer;
   }
+
   .date-picker .react-datepicker__tab-loop {
     @apply relative;
   }
@@ -39,7 +40,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__tab-loop
     .react-datepicker-popper
     .react-datepicker {
-    @apply text-sm text-neutral border-none shadow-xl rounded-2xl overflow-hidden;
+    @apply bg-base-100 text-sm text-neutral border-none shadow-xl rounded-2xl overflow-hidden;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -67,7 +68,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker-popper
     .react-datepicker
     .react-datepicker__navigation-icon::before {
-    @apply top-2;
+    @apply top-1;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -102,7 +103,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker-popper
     .react-datepicker
     .react-datepicker__time-container {
-    @apply w-auto bg-base-300 rounded-none;
+    @apply w-auto bg-base-200 rounded-none;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -183,7 +184,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker
     .react-datepicker__month-container
     .react-datepicker__header {
-    @apply bg-base-100 p-3 border-0 rounded-xl;
+    @apply bg-base-200 p-3 border-0 rounded-xl;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -246,7 +247,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__month-container
     .react-datepicker__month
     .react-datepicker__month-text {
-    @apply m-0 w-auto flex-1 pt-2 pb-3 bg-base-100;
+    @apply m-0 w-auto flex-1 py-3 px-4 bg-base-100;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -264,7 +265,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__month-container
     .react-datepicker__month
     .react-datepicker__month-text--today {
-    @apply border border-primary rounded-xl font-normal box-border;
+    @apply border border-primary rounded-xl box-border font-normal;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -323,7 +324,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__month
     .react-datepicker__week
     .react-datepicker__year-text--keyboard-selected {
-    @apply text-neutral bg-base-100 leading-normal flex-1 p-2 w-auto h-auto;
+    @apply leading-none text-neutral bg-base-100 flex-1 p-2 m-1 w-auto h-auto;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -343,7 +344,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__month
     .react-datepicker__week
     .react-datepicker__day--selected {
-    @apply bg-primary text-primary-content rounded-xl;
+    @apply bg-primary text-primary-content rounded-full;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -362,9 +363,9 @@ visibility={hidden ? 'hidden' : 'visible'}
     .react-datepicker__month-container
     .react-datepicker__month
     .react-datepicker__week
-    .react-datepicker__day--disabled
+    /* .react-datepicker__day--disabled */
     .react-datepicker__day--today {
-    @apply font-bold underline;
+    @apply border border-primary font-normal box-border rounded-full;
   }
   .date-picker
     .react-datepicker__tab-loop
@@ -410,7 +411,7 @@ visibility={hidden ? 'hidden' : 'visible'}
     @apply h-fit max-h-[calc(1.5rem*12)] overflow-y-scroll;
   }
   .rich-text-editor .ql-container {
-    @apply text-base h-full  !important;
+    @apply text-base h-full font-sans !important;
   }
   .rich-text-editor .ql-editor {
     @apply p-0 py-3 leading-7 !important;

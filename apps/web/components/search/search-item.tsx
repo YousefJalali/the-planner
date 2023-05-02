@@ -25,14 +25,14 @@ const SearchItem = ({ item }: Props) => {
   }
 
   return (
-    <a onClick={() => onDetails(item)}>
+    <button onClick={() => onDetails(item)} className="w-full text-left">
       {useMemo(
         () => (
           <SearchedTask task={item} />
         ),
         [item]
       )}
-    </a>
+    </button>
   )
 }
 

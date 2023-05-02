@@ -1,17 +1,17 @@
-import { forwardRef } from 'react'
+// import { forwardRef } from 'react'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import DatePickerWrapper from './date-picker.style'
-import { Input } from '@the-planner/ui-web'
+// import DatePickerWrapper from './date-picker.style'
+// import { Input } from '@the-planner/ui-web'
 
 export type DateInputProps = {
   dataTestId?: string
 } & ReactDatePickerProps
 
-const DefaultCustomInput = forwardRef<HTMLInputElement>((props, ref) => (
-  // <Input {...props} />
-  <input className="input-bordered input" {...props} />
-))
-DefaultCustomInput.displayName = 'DefaultCustomInput'
+// const DefaultCustomInput = forwardRef<HTMLInputElement>((props, ref) => (
+//   <input id="jola" ref={ref} className="input-bordered input" {...props} />
+// ))
+
+// DefaultCustomInput.displayName = 'DefaultCustomInput'
 
 export function DateInput(props: DateInputProps) {
   return (
@@ -24,11 +24,11 @@ export function DateInput(props: DateInputProps) {
             ;(document.activeElement as HTMLInputElement).blur()
           }
         }}
-        customInput={
-          props.customInput || (
-            <DefaultCustomInput data-testid={props.dataTestId} />
-          )
-        }
+        // customInput={
+        //   props.customInput || (
+        //     <DefaultCustomInput data-testid={props.dataTestId} />
+        //   )
+        // }
       />
     </div>
   )

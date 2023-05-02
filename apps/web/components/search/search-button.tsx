@@ -1,7 +1,6 @@
 import { FiSearch } from 'react-icons/fi'
 import { useModal } from '@the-planner/hooks'
 import { SearchPage } from './'
-import { ModalHeader } from '@the-planner/ui-web'
 
 export const SearchButton = () => {
   const { setModal, clearModal } = useModal()
@@ -12,9 +11,12 @@ export const SearchButton = () => {
       fullScreen: true,
       content: (
         <>
-          <ModalHeader onRequestClose={() => clearModal('search-modal')} p={4}>
-            Search
-          </ModalHeader>
+          <button
+            className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
+            onClick={() => clearModal('search-modal')}
+          >
+            ✕
+          </button>
           <SearchPage />
         </>
       ),
