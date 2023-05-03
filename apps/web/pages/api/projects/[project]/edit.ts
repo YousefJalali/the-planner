@@ -3,7 +3,7 @@ import { prisma } from '../../../../common/lib/prisma'
 import { apiYupValidation } from '@the-planner/hooks'
 import _ from 'lodash'
 import { Project, ProjectWithTasks } from '@the-planner/types'
-import { projectSchema } from '@the-planner/utils'
+// import { projectFormValidation } from '@the-planner/utils'
 
 const handler = async (
   req: NextApiRequest,
@@ -32,7 +32,7 @@ const handler = async (
     }
 
     //validate form
-    // const validate = await apiYupValidation<Project>(projectSchema, project)
+    // const validate = await apiYupValidation<Project>(projectFormValidation, project)
     // if (!_.isEmpty(validate.errors)) {
     //   return res.json({ validationErrors: validate.errors })
     // }

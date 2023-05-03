@@ -3,7 +3,7 @@ import { Project } from '@the-planner/types'
 import { prisma } from '../../../common/lib/prisma'
 import ObjectID from 'bson-objectid'
 import { apiYupValidation } from '@the-planner/hooks'
-import { projectSchema } from '@the-planner/utils'
+import { projectFormValidation } from '@the-planner/utils'
 import _ from 'lodash'
 
 const handler = async (
@@ -25,7 +25,7 @@ const handler = async (
   try {
     // projects.forEach(async (project: Project) => {
     //   //validate form
-    //   const validate = await apiYupValidation<Project>(projectSchema, project)
+    //   const validate = await apiYupValidation<Project>(projectFormValidation, project)
 
     //   if (!_.isEmpty(validate.errors)) {
     //     return res.json({ validationErrors: validate.errors })

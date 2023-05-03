@@ -5,8 +5,8 @@ import {
 } from '@the-planner/types'
 import { Status, Task } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
-import { apiYupValidation } from '@the-planner/hooks'
-import { projectSchema } from '@the-planner/utils'
+// import { apiYupValidation } from '@the-planner/hooks'
+// import { projectFormValidation } from '@the-planner/utils'
 import _, { indexOf } from 'lodash'
 import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
 
@@ -153,7 +153,7 @@ export const createProjectController = async (
 
   //validate form
   // const validate = await apiYupValidation<Project>(
-  //   projectSchema,
+  //   projectFormValidation,
   //   createdProject
   // )
 
@@ -178,7 +178,7 @@ export const editProjectController = async (
 
   //validate form
   // const validate = await apiYupValidation<Project>(
-  //   projectSchema,
+  //   projectFormValidation,
   //   updatedProject
   // )
   // if (!_.isEmpty(validate.errors)) {
