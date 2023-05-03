@@ -1,5 +1,3 @@
-import { x } from '@xstyled/styled-components'
-
 import { useState } from 'react'
 
 import { useSearch } from '@the-planner/data'

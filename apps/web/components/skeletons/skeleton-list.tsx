@@ -1,5 +1,4 @@
 import { ScrollableList } from '@the-planner/ui-web'
-import { x } from '@xstyled/styled-components'
 import { uniqueId } from 'lodash'
 import { FC } from 'react'
 
@@ -33,9 +32,9 @@ export const SkeletonList: FC<Props> = ({
       <Item length={length}>{component}</Item>
     </ScrollableList>
   ) : (
-    <x.ul spaceY={4}>
+    <ul className="space-y-6">
       <Item length={length}>{component}</Item>
-    </x.ul>
+    </ul>
   )
 }
 

@@ -1,7 +1,6 @@
 import { useEditTask } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
 import { Task } from '@the-planner/types'
-import { ModalHeader } from '@the-planner/ui-web'
 import { FiEdit3 } from 'react-icons/fi'
 import { TaskForm } from '../../task-form'
 import TaskOption from './task-option-item'
@@ -19,15 +18,6 @@ const EditTaskOption = ({ task }: Props) => {
       fullScreen: true,
       content: (
         <>
-          <ModalHeader
-            onRequestClose={() => {
-              clearModal('task-edit')
-              clearModal('task-options')
-            }}
-            p={3}
-          >
-            Edit Task
-          </ModalHeader>
           <TaskForm
             id="edit"
             defaultValues={defValues || task}

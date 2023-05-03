@@ -1,4 +1,3 @@
-import { Button } from '@the-planner/ui-web'
 import { x } from '@xstyled/styled-components'
 
 type Props = {
@@ -31,11 +30,7 @@ export const EmptyState = ({
       <x.p text="body.small" color="content-subtle">
         {description}
       </x.p>
-      {action && (
-        <Button name="empty-state-CTA" mt={2}>
-          Add Task
-        </Button>
-      )}
+      {action && <button name="empty-state-CTA">Add Task</button>}
     </x.div>
   )
 }

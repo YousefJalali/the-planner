@@ -1,4 +1,3 @@
-import { x } from '@xstyled/styled-components'
 import { FC } from 'react'
 type Props = {
   label: string
@@ -6,15 +5,14 @@ type Props = {
   height: number
 }
 export const Emoji: FC<Props> = ({ label, symbol, height }) => (
-  <x.span
-    h={height}
-    w={height}
+  <span
+    style={{ height, width: height }}
     className="emoji"
     role="img"
     aria-label={label}
     aria-hidden="false"
   >
     {symbol}
-  </x.span>
+  </span>
 )
 export default Emoji

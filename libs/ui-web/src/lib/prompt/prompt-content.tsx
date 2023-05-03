@@ -2,7 +2,6 @@ import { FC, useMemo } from 'react'
 import { motion, Variants } from 'framer-motion'
 import styled, { x } from '@xstyled/styled-components'
 import { PromptType } from '@the-planner/hooks'
-import { Button, Backdrop } from '@the-planner/ui-web'
 
 type Props = {
   prompt: PromptType
@@ -30,16 +29,16 @@ const Btn = ({
   onClick: () => void
 }) => (
   <x.div flex={1} display="flex" alignItems="center" justifyContent="center">
-    <Button
+    <button
       name={name}
-      variant="textOnly"
-      size="small"
-      color={color}
       onClick={onClick}
-      w="100%"
+      // variant="textOnly"
+      // size="small"
+      // color={color}
+      // w="100%"
     >
       {children}
-    </Button>
+    </button>
   </x.div>
 )
 
@@ -65,7 +64,7 @@ const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
       h="100vh"
       w="100vw"
     >
-      <Backdrop id={prompt.id} />
+      {/* <Backdrop id={prompt.id} /> */}
 
       <Motion
         transition={{ type: 'spring', duration: 0.3 }}

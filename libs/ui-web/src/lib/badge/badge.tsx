@@ -22,7 +22,7 @@ export const Badge: FC<Props> = ({ children, status, className, count }) => {
       style={{ color, backgroundColor: `${color}30` }}
     >
       {children}
-      {count && (
+      {count && count > 0 && (
         <div
           className="badge badge-ghost badge-xs text-base-100 border-0"
           style={{ backgroundColor: `${color}` }}

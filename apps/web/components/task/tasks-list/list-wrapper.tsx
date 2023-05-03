@@ -27,7 +27,7 @@ const ListWrapper = ({
       className={`${withDivider ? `rounded-lg p-2 h-fit` : 'pb-6'}`}
       style={{ backgroundColor: withDivider ? `${color}20` : undefined }}
     >
-      <Badge status={status} count={count}>
+      <Badge status={status} count={count} className="mb-2">
         {statusAlias(status)}
       </Badge>
 

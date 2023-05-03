@@ -1,8 +1,7 @@
-import { x } from '@xstyled/styled-components'
 import { FiPieChart } from 'react-icons/fi'
 
 import { useModal } from '@the-planner/hooks'
-import { Badge, Button } from '@the-planner/ui-web'
+import { Badge } from '@the-planner/ui-web'
 import { statusAlias } from '@the-planner/utils'
 import { Status } from '@the-planner/types'
 

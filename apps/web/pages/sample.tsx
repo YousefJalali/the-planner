@@ -1,5 +1,4 @@
-import { x } from '@xstyled/styled-components'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useCopyToClipboard } from '@the-planner/hooks'
 import { projects, tasks } from '../mocks/handlers'
 
@@ -26,13 +25,9 @@ const Sample: FC = () => {
         <div>loading...</div>
       ) : (
         <>
-          <x.button p={4} onClick={copyProjects}>
-            projects
-          </x.button>
+          <button onClick={copyProjects}>projects</button>
           <hr />
-          <x.button p={4} onClick={copyTasks}>
-            tasks
-          </x.button>
+          <button onClick={copyTasks}>tasks</button>
         </>
       )}
     </div>
