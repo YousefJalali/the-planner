@@ -1,7 +1,7 @@
 import ObjectID from 'bson-objectid'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { DateInput, ImageInput, TextEditor } from '@the-planner/ui-web'
+import { DateInput, ImageInput } from '@the-planner/ui-web'
 
 import { Task, Status } from '@the-planner/types'
 
@@ -158,19 +158,12 @@ export function TaskForm({
               <span className="label-text">Description</span>
             </label>
 
-            <Controller
-              control={control}
-              name="description"
-              render={({ field: { onChange, value } }) => (
-                <TextEditor
-                  id={id}
-                  value={value}
-                  onChange={onChange}
-                  placeholder="A brief about the task..."
-                  className="textarea textarea-bordered rich-text-editor"
-                />
-              )}
-            />
+            <textarea
+              id="description"
+              placeholder="A brief about the task..."
+              className="textarea-bordered textarea h-24"
+              {...register('description')}
+            ></textarea>
 
             {errors?.description && (
               <label className="label">

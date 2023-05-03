@@ -1,5 +1,3 @@
-import { TextEditor } from '@the-planner/ui-web'
-
 type Props = {
   title: string
   description: string
@@ -18,7 +16,7 @@ const TaskContent = ({ title, description, onClick }: Props) => {
 
       {description?.length > 0 && (
         <div className="mt-2 max-h-[200px] overflow-y-scroll opacity-60">
-          <TextEditor value={description} readOnly />
+          <p>{description}</p>
         </div>
       )}
     </div>

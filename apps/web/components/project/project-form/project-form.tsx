@@ -2,7 +2,7 @@ import ObjectID from 'bson-objectid'
 
 import { Project } from '@the-planner/types'
 
-import { TextEditor, ColorInput } from '@the-planner/ui-web'
+import { ColorInput } from '@the-planner/ui-web'
 import { projectFormValidation } from '@the-planner/utils'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -119,19 +119,12 @@ export function ProjectForm({
             <span className="label-text">Description</span>
           </label>
 
-          <Controller
-            control={control}
-            name="description"
-            render={({ field: { onChange, value } }) => (
-              <TextEditor
-                id={id}
-                value={value}
-                onChange={onChange}
-                placeholder="A brief about the project..."
-                className="textarea textarea-bordered rich-text-editor"
-              />
-            )}
-          />
+          <textarea
+            id="description"
+            placeholder="A brief about the project..."
+            className="textarea-bordered textarea h-24"
+            {...register('description')}
+          ></textarea>
 
           {errors?.description && (
             <label className="label">
