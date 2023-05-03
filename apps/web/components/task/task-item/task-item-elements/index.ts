@@ -1,4 +1,3 @@
-export * from './task-item-title'
 export * from './task-item-details'
 export * from './task-item-time'
 export * from './task-item-attachments'

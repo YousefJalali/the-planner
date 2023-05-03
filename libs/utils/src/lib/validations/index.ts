@@ -1,2 +1,2 @@
-export * from './projectSchema'
+export * from './projectFormValidation'
 export * from './taskFormValidation'

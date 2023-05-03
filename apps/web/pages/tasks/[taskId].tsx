@@ -1,8 +1,7 @@
-import { x } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import { useTask } from '@the-planner/data'
-import { Spinner, Button, Header } from '@the-planner/ui-web'
+import { Spinner, Header } from '@the-planner/ui-web'
 import TaskDetails from '../../components/task/task-details/task-details'
 import { TaskOptions } from '../../components/task/task-options'
 
@@ -13,32 +12,23 @@ const TaskDetailsPage = () => {
 
   return (
     <main>
-      <Header pageTitle={task ? task.title : ''}>
-        <Button
-          name="back"
-          variant="outline"
+      <Header pageTitle={task ? task.title : ''} className="p-6">
+        <a
           onClick={() => router.back()}
-          ml={4}
-          borderColor="layout-level0accent"
-          borderRadius="full"
-          p={1}
+          className="btn btn-sm btn-ghost btn-circle -ml-2"
         >
-          <x.span fontSize="1.5rem" color="content-contrast">
-            <FiArrowLeft />
-          </x.span>
-        </Button>
+          <FiArrowLeft size={24} />
+        </a>
 
         {task ? <TaskOptions task={task} inHeader /> : <div />}
       </Header>
 
       {isLoading ? (
-        <x.div px={4} display="flex" justifyContent="center">
+        <div className="flex justify-center px-6">
           <Spinner pathColor="brand-primary" />
-        </x.div>
+        </div>
       ) : error ? (
-        <x.div px={4} display="flex" justifyContent="center">
-          {error}
-        </x.div>
+        <div className="flex justify-center px-6">{error}</div>
       ) : (
         task && <TaskDetails task={task} />
       )}

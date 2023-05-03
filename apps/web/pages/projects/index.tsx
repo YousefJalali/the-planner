@@ -10,7 +10,7 @@ const Index: NextPage = () => {
       <PageHeader />
 
       <section className="overflow-hidden px-6">
-        <h1 className="text-3xl font-bold">Projects</h1>
+        <h1 className="text-3xl font-bold mb-4">Projects</h1>
 
         <ProjectCardsList />
       </section>

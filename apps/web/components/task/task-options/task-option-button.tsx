@@ -11,11 +11,9 @@ const TaskOptionsButton = ({ onClick, inHeader = false }: Props) => {
       data-testid="taskItem-kebab"
       name="task options"
       onClick={onClick}
-      className={`btn btn-circle btn-sm btn-ghost ${
-        inHeader ? 'mr-6 border-base-200 p-1' : ''
-      }`}
+      className={`btn btn-circle btn-sm btn-ghost ${inHeader ? '-mr-3' : ''}`}
     >
-      <FiMoreVertical size={18} />
+      <FiMoreVertical size={inHeader ? 24 : 18} />
     </button>
   )
 }

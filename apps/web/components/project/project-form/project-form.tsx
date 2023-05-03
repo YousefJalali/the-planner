@@ -1,19 +1,12 @@
-import { x } from '@xstyled/styled-components'
 import ObjectID from 'bson-objectid'
 
 import { Project } from '@the-planner/types'
 
-import {
-  Form,
-  Button,
-  TextEditor,
-  ColorInput,
-  Input,
-  Fieldset,
-  FormControl,
-  SupportiveText,
-} from '@the-planner/ui-web'
-import { projectSchema } from '@the-planner/utils'
+import { TextEditor, ColorInput } from '@the-planner/ui-web'
+import { projectFormValidation } from '@the-planner/utils'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ColorResult } from 'react-color'
 
 type Props = {
   id: 'edit' | 'create'
@@ -24,19 +17,20 @@ type Props = {
   serverErrors?: object
 }
 
-const initialDefaultValues: Project = {
-  id: ObjectID().toHexString(),
-  title: '',
-  description: '',
-  color: '#cccccc',
-  isHidden: false,
-  updatedAt: new Date(),
-  createdAt: new Date(),
-}
+const initialDefaultValues = () =>
+  ({
+    id: ObjectID().toHexString(),
+    title: '',
+    description: '',
+    color: '#cccccc',
+    isHidden: false,
+    updatedAt: new Date(),
+    createdAt: new Date(),
+  } as Project)
 
 export function ProjectForm({
   id,
-  defaultValues = initialDefaultValues,
+  defaultValues,
   onSubmit,
   isSubmitting,
   onDelete,
@@ -44,102 +38,136 @@ export function ProjectForm({
 }: Props) {
   const formName = 'project-form'
 
-  const deftValues = {
-    ...initialDefaultValues,
+  const defValues = {
+    ...initialDefaultValues(),
     ...defaultValues,
   }
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Project>({
+    defaultValues: defValues,
+    resolver: yupResolver(projectFormValidation),
+  })
 
   const submitHandler = async (data: Project) => {
     onSubmit(data)
   }
 
   return (
-    <Form
-      id={id}
-      name={formName}
-      submitHandler={submitHandler}
-      isSubmitting={isSubmitting}
-      // schema={projectSchema}
-      defaultValues={deftValues}
-      serverErrors={serverErrors}
-    >
-      <x.div>
-        <x.div display="flex" spaceX={2}>
-          {/* Title */}
-          <FormControl<Project, string> name="title">
-            {({ id, field: { value, onChange }, fieldStatus }) => (
-              <Fieldset id={id} label="title" fieldStatus={fieldStatus}>
-                <Input
-                  id={id}
-                  value={value}
-                  onChange={onChange}
-                  type="text"
-                  placeholder="i.e. speakers"
-                />
-              </Fieldset>
-            )}
-          </FormControl>
+    <form className="p-6 prose" onSubmit={handleSubmit(submitHandler)}>
+      <h1 className="">{id === 'create' ? 'New' : 'Update'} Project</h1>
 
-          {/* Color */}
-          <FormControl<Project, string> name="color">
-            {({ id, field: { value, onChange }, fieldStatus }) => (
-              <Fieldset
-                id={id}
-                label="color"
-                hideLabel
-                // fieldStatus={fieldStatus}
-                w="fit-content"
-              >
-                <ColorInput id={id} value={value} onChange={onChange} />
-              </Fieldset>
-            )}
-          </FormControl>
-        </x.div>
-        <SupportiveText>
-          select a color so it will be easy for you to organize your projects
-        </SupportiveText>
-      </x.div>
+      <fieldset
+        className="not-prose space-y-6"
+        disabled={id === 'create' && isSubmitting}
+      >
+        <div className="flex space-x-2">
+          <div className="form-control w-full">
+            <label htmlFor="title" className="label">
+              <span className="label-text">Title</span>
+            </label>
 
-      <FormControl<Project, string> name="description">
-        {({ id, field: { value, onChange }, fieldStatus }) => (
-          <Fieldset id={id} label="description" fieldStatus={fieldStatus}>
-            <TextEditor
-              id={id}
-              value={value}
-              onChange={onChange}
-              placeholder="A brief about the project..."
+            <input
+              id="title"
+              type="text"
+              placeholder="Title..."
+              className={`input-bordered input w-full ${
+                errors?.title ? 'input-error' : ''
+              }`}
+              {...register('title')}
             />
-          </Fieldset>
-        )}
-      </FormControl>
 
-      <x.div display="flex" spaceX={3}>
-        {onDelete && (
-          <Button
-            name="delete project"
-            type="button"
-            variant="outline"
-            color="critical"
-            size="large"
-            justifyContent="center"
-            w="30%"
-            onClick={onDelete}
+            <label htmlFor="title" className="label">
+              <span className="label-text-alt">
+                Select a color so it will be easy for you to organize your
+                projects
+              </span>
+            </label>
+
+            {errors?.title && (
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {errors.title.message}
+                </span>
+              </label>
+            )}
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="title" className="label invisible">
+              <span className="label-text">Color</span>
+            </label>
+            <Controller
+              control={control}
+              name="color"
+              render={({ field: { onChange, value } }) => (
+                <ColorInput
+                  color={value}
+                  onChange={(color: ColorResult) => onChange(color.hex)}
+                />
+              )}
+            />
+          </div>
+        </div>
+
+        <div className="form-control w-full">
+          <label htmlFor="Description" className="label">
+            <span className="label-text">Description</span>
+          </label>
+
+          <Controller
+            control={control}
+            name="description"
+            render={({ field: { onChange, value } }) => (
+              <TextEditor
+                id={id}
+                value={value}
+                onChange={onChange}
+                placeholder="A brief about the project..."
+                className="textarea textarea-bordered rich-text-editor"
+              />
+            )}
+          />
+
+          {errors?.description && (
+            <label className="label">
+              <span className="label-text-alt text-error">
+                {errors.description.message}
+              </span>
+            </label>
+          )}
+        </div>
+
+        <div className="flex gap-4">
+          {onDelete && (
+            <button
+              name="delete project"
+              type="button"
+              className={`btn btn-error btn-outline ${
+                isSubmitting ? 'loading' : ''
+              }`}
+              onClick={onDelete}
+            >
+              Delete
+            </button>
+          )}
+
+          <button
+            name="submit project"
+            type="submit"
+            className={`btn btn-primary flex-1 ${
+              isSubmitting ? 'loading' : ''
+            }`}
           >
-            Delete
-          </Button>
-        )}
-        <Button
-          name="submit project"
-          type="submit"
-          isLoading={isSubmitting}
-          size="large"
-          justifyContent="center"
-          w="100%"
-        >
-          {id === 'edit' ? 'Update' : 'Create'}
-        </Button>
-      </x.div>
-    </Form>
+            {id === 'edit' ? 'Update' : 'Create'} Project
+          </button>
+        </div>
+      </fieldset>
+    </form>
   )
 }
 

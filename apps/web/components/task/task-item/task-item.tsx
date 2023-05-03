@@ -1,5 +1,4 @@
 import { FC, memo } from 'react'
-
 import { TaskWithProject, Status } from '@the-planner/types'
 import { TaskOptions } from '../task-options/'
 import { Time, Attachments, Link, TaskCheckbox } from './task-item-elements'
@@ -14,16 +13,16 @@ export const TaskItem: FC<Props> = memo(({ task }) => {
   return (
     <div
       data-testid="task-item"
-      className="flex justify-between items-center relative bg-base-200 rounded-lg"
+      className="flex justify-between items-center relative bg-base-200 rounded-lg hover:bg-base-300 transition-all"
     >
       <div
         data-testid="taskItem-details"
-        className="group relative flex flex-col pr-1 flex-1 p-2"
+        className="relative flex flex-col pr-1 flex-1 p-2"
       >
         <Link task={task} />
 
         <h3
-          className={`group-hover:underline line-clamp-1 leading-relaxed ${
+          className={`line-clamp-1 leading-relaxed ${
             status === Status.COMPLETED ? 'line-through opacity-60' : ''
           }`}
         >
