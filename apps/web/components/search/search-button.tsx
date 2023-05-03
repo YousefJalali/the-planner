@@ -8,18 +8,8 @@ export const SearchButton = () => {
   const clickHandler = () => {
     setModal({
       id: 'search-modal',
-      fullScreen: true,
-      content: (
-        <>
-          <button
-            className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
-            onClick={() => clearModal('search-modal')}
-          >
-            ✕
-          </button>
-          <SearchPage />
-        </>
-      ),
+      closeButton: true,
+      content: <SearchPage />,
     })
   }
 

@@ -2,33 +2,30 @@ import { FC, memo, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useWindowSize, useModal, useMedia } from '@the-planner/hooks'
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks,
-} from 'body-scroll-lock'
+// import {
+//   disableBodyScroll,
+//   enableBodyScroll,
+//   clearAllBodyScrollLocks,
+// } from 'body-scroll-lock'
 
 const ContentWrapper = memo(
   ({
     id,
     clearModal,
     children,
-    fullScreen = false,
-    title,
+    closeButton = false,
     isMobile,
   }: {
     id: string
     clearModal: () => void
     children: JSX.Element | JSX.Element[]
-    fullScreen?: boolean
-    title?: string | JSX.Element
+    closeButton?: boolean
     isMobile: boolean
   }) => {
-    const { height } = useWindowSize()
+    // const { height } = useWindowSize()
+    // const modal = document.getElementById('modal') as HTMLDivElement
 
     const targetRef = useRef<HTMLDivElement>(null)
-
-    const modal = document.getElementById('modal') as HTMLDivElement
 
     // useEffect(() => {
     //   if (targetRef) {
@@ -86,7 +83,17 @@ const ContentWrapper = memo(
           exit="closed"
           transition={{ type: 'tween', duration: 0.2 }}
         >
-          <div id={id}>{children}</div>
+          {closeButton && (
+            <div id={id}>
+              <button
+                className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
+                onClick={clearModal}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          {children}
         </motion.div>
       </motion.div>
     )
@@ -109,8 +116,7 @@ export const Modal: FC = () => {
               <ContentWrapper
                 id={modal.id}
                 clearModal={() => clearModal(modal.id)}
-                fullScreen={modal.fullScreen}
-                title={modal.title}
+                closeButton={modal.closeButton}
                 isMobile={isMobile}
               >
                 {modal.content}

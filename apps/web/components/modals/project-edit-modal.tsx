@@ -21,7 +21,7 @@ export const useProjectEditModal = (project: Project) => {
     () =>
       setModal({
         id: 'project-edit',
-        title: 'Edit Project',
+        closeButton: true,
         content: (
           <ProjectForm
             id="edit"

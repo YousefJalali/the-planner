@@ -10,6 +10,7 @@ export const useTaskDetailsModal = (task: TaskWithProject) => {
     () =>
       setModal({
         id: 'task-details',
+        closeButton: true,
         content: (
           <TaskDetails task={task} onClose={() => clearModal('task-details')} />
         ),

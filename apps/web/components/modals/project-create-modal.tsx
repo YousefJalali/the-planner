@@ -15,7 +15,7 @@ export const useProjectCreateModal = ({ onSubmit }: Props) => {
     () =>
       setModal({
         id: 'project-create',
-        title: 'New Project',
+        closeButton: true,
         content: (
           <ProjectForm
             id="create"

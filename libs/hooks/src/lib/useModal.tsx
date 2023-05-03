@@ -10,8 +10,7 @@ import {
 export type ModalType = {
   id: string
   content: JSX.Element | JSX.Element[]
-  fullScreen?: boolean
-  title?: string | JSX.Element
+  closeButton?: boolean
 }
 
 type ModalContext = {
@@ -32,14 +31,6 @@ export const ModalCtxProvider = ({
   children: JSX.Element | JSX.Element[] | ReactNode
 }) => {
   const [modals, setModal] = useState<ModalType[]>([])
-
-  // const clearModalHandler = (id: string) => {
-  //   setModal((modals) => modals.filter((n) => n.id !== id))
-  // }
-
-  // const setModalHandler = (newModal: ModalType) => {
-  //   setModal((modals) => [...modals, newModal])
-  // }
 
   const clearModalHandler = useCallback(
     (id: string) => {

@@ -24,17 +24,9 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
   const showForm = (defValues?: Partial<Task>, serverErrors?: object) => {
     setModal({
       id: 'task-create',
-      fullScreen: true,
-      title: 'New Task',
+      closeButton: true,
       content: (
         <>
-          <button
-            className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
-            onClick={() => clearModal('task-create')}
-          >
-            ✕
-          </button>
-
           <TaskForm
             id="create"
             defaultValues={

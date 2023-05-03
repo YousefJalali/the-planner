@@ -38,7 +38,7 @@ export const SearchPage = () => {
           <RecentTasks />
         </>
       ) : isLoading ? (
-        <div className="mx-auto w-fit my-3">
+        <div className="mx-auto w-fit my-3 not-prose">
           <SearchLoading />
         </div>
       ) : searchedTasks?.length > 0 ? (

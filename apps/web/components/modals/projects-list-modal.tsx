@@ -10,6 +10,7 @@ export const useProjectsListModal = (onSelect: (project: Project) => void) => {
     () =>
       setModal({
         id: 'project-list',
+        closeButton: true,
         content: <ProjectsList onSelectProject={onSelect} />,
       }),
     [onSelect]

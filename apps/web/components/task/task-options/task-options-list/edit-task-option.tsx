@@ -15,7 +15,7 @@ const EditTaskOption = ({ task }: Props) => {
   const showTaskForm = (defValues?: Partial<Task>, serverErrors?: object) => {
     setModal({
       id: 'task-edit',
-      fullScreen: true,
+      closeButton: true,
       content: (
         <>
           <TaskForm

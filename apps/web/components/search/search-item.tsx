@@ -14,6 +14,7 @@ const SearchItem = ({ item }: Props) => {
   const onDetails = (task: TaskWithProject) => {
     setModal({
       id: 'task-details',
+      closeButton: true,
       content: (
         <TaskDetails
           task={task}
