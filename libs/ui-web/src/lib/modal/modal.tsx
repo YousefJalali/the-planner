@@ -30,23 +30,23 @@ const ContentWrapper = memo(
 
     const modal = document.getElementById('modal') as HTMLDivElement
 
-    useEffect(() => {
-      if (targetRef) {
-        if (targetRef.current) {
-          if (id) {
-            disableBodyScroll(targetRef.current)
-          } else {
-            enableBodyScroll(targetRef.current)
-          }
-        }
+    // useEffect(() => {
+    //   if (targetRef) {
+    //     if (targetRef.current) {
+    //       if (id) {
+    //         disableBodyScroll(targetRef.current)
+    //       } else {
+    //         enableBodyScroll(targetRef.current)
+    //       }
+    //     }
 
-        return () => {
-          if (!modal?.firstChild) {
-            clearAllBodyScrollLocks()
-          }
-        }
-      }
-    }, [id, height, modal])
+    //     return () => {
+    //       if (!modal?.firstChild) {
+    //         clearAllBodyScrollLocks()
+    //       }
+    //     }
+    //   }
+    // }, [id, height, modal])
 
     const variants = isMobile
       ? {
@@ -77,7 +77,7 @@ const ContentWrapper = memo(
         />
 
         <motion.div
-          // ref={targetRef}
+          ref={targetRef}
           className="modal-box z-50 transition-none p-0"
           id={`${id}-box`}
           variants={variants}
@@ -86,9 +86,7 @@ const ContentWrapper = memo(
           exit="closed"
           transition={{ type: 'tween', duration: 0.2 }}
         >
-          <div id={id} ref={targetRef}>
-            {children}
-          </div>
+          <div id={id}>{children}</div>
         </motion.div>
       </motion.div>
     )

@@ -8,6 +8,7 @@ import '../styles.css'
 import 'nprogress/nprogress.css'
 import 'react-quill/dist/quill.bubble.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import { theme, GlobalStyle, Layout } from '@the-planner/ui-web'
 
