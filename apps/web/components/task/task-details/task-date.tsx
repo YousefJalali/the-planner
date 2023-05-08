@@ -1,6 +1,6 @@
 import { Status } from '@the-planner/types'
 import { Badge } from '@the-planner/ui-web'
-import { formatDate, formatTime } from '@the-planner/utils'
+import { formatDate, formatTime, statusAlias } from '@the-planner/utils'
 
 type Props = {
   status: Status
@@ -28,7 +28,7 @@ const TaskDate = ({
             {startTime && <span>{formatTime(startTime)}</span>}
           </div>
 
-          <Badge status={status}>{status}</Badge>
+          <Badge status={status}>{statusAlias(status)}</Badge>
         </div>
       </div>
 

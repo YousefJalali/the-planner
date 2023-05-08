@@ -4,7 +4,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useNotification } from '@the-planner/hooks'
 import NotificationContent from './notification-content'
 
-const Notification: FC = () => {
+export const Notification: FC = () => {
   const { notification, clearNotification } = useNotification()
 
   if (typeof window === 'undefined') return null

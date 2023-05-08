@@ -15,7 +15,7 @@
     "@hookform/resolvers": "^2.9.11",
     "@next/font": "^13.3.4",
     "@nx/next": "16.0.0",
-    "@popperjs/core": "^2.11.2",
+    "@popperjs/core": "^2.11.7",
     "@prisma/client": "^3.13.0",
     "@xstyled/styled-components": "^3.5.1",
     "body-scroll-lock": "^3.1.5",

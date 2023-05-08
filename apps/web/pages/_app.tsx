@@ -9,13 +9,14 @@ import 'nprogress/nprogress.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { theme, GlobalStyle, Layout } from '@the-planner/ui-web'
+import { theme, GlobalStyle } from '@the-planner/ui-web'
 
 import {
   PromptCtxProvider,
   ModalCtxProvider,
   NotificationCtxProvider,
 } from '@the-planner/hooks'
+import Layout from '../components/layout/layout'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })

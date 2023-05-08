@@ -1,7 +1,7 @@
-import { FC, memo, useEffect, useRef } from 'react'
+import { FC, memo, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useWindowSize, useModal, useMedia } from '@the-planner/hooks'
+import { useModal, useMedia } from '@the-planner/hooks'
 // import {
 //   disableBodyScroll,
 //   enableBodyScroll,
@@ -51,7 +51,7 @@ const ContentWrapper = memo(
           open: { y: 0 },
         }
       : {
-          closed: { scale: 0.5, opacity: 0 },
+          closed: { scale: 0, opacity: 0 },
           open: { scale: 1, opacity: 1 },
         }
 
@@ -75,7 +75,7 @@ const ContentWrapper = memo(
 
         <motion.div
           ref={targetRef}
-          className="modal-box z-50 transition-none p-0"
+          className="relative modal-box z-50 transition-none p-0"
           id={`${id}-box`}
           variants={variants}
           initial="closed"

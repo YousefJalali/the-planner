@@ -22,7 +22,7 @@ export const TaskItem: FC<Props> = memo(({ task }) => {
         <Link task={task} />
 
         <h3
-          className={`line-clamp-1 leading-relaxed ${
+          className={`line-clamp-2 leading-relaxed ${
             status === Status.COMPLETED ? 'line-through opacity-60' : ''
           }`}
         >

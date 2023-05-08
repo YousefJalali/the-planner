@@ -14,13 +14,22 @@ export const SearchButton = () => {
   }
 
   return (
-    <button
-      name="search"
-      className="btn btn-ghost btn-circle"
-      onClick={clickHandler}
-    >
-      <FiSearch size={24} />
-    </button>
+    <>
+      <button
+        name="search"
+        className="btn btn-ghost btn-circle lg:hidden"
+        onClick={clickHandler}
+      >
+        <FiSearch size={24} />
+      </button>
+      <input
+        readOnly
+        type="search"
+        placeholder="Search..."
+        className="input input-bordered hidden lg:block"
+        onClick={clickHandler}
+      />
+    </>
   )
 }
 

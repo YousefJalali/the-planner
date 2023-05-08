@@ -16,7 +16,7 @@ export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
       />
 
       <div>
-        <span>{task.project.title}</span>
+        <span className="text-sm">{task.project.title}</span>
         <h3
           className={`line-clamp-1 leading-relaxed font-semibold ${
             task.status === Status.COMPLETED ? 'line-through opacity-60' : ''

@@ -21,9 +21,11 @@ export const ProjectCard: FC<Props> = ({ project, onClick }) => {
 
   return (
     <div
-      className="w-full h-[150px] p-4 flex justify-between rounded-xl cursor-pointer"
+      className="w-full h-[150px] p-4 flex justify-between rounded-xl cursor-pointer ring-2 hover:ring-offset-2 transition-all"
       style={{
         background: `linear-gradient(135deg, ${project.color}0D 0%, ${project.color}4D 100%)`,
+        //@ts-ignore
+        '--tw-ring-color': `${project.color}20`,
       }}
       onClick={onClick}
     >

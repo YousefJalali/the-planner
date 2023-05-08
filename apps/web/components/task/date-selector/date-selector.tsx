@@ -70,7 +70,7 @@ export const DateSelector: FC<Props> = ({ dateString, setUrlDate }) => {
   )
 
   return (
-    <div className="mb-6">
+    <div className="sticky top-0 z-50 bg-base-100 pb-6 pt-2">
       {month}
 
       <DaysList ref={listRef} date={parsedDate.toDateString()}>

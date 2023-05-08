@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useModal } from '@the-planner/hooks'
 import { useCreateTask } from '@the-planner/data'
-import { Task } from '@the-planner/types'
+import { Status, Task } from '@the-planner/types'
 import { TaskForm } from './task-form'
 import { parseUrlDate } from '@the-planner/utils'
 import { useRouter } from 'next/router'
@@ -9,9 +9,10 @@ import { FiPlus } from 'react-icons/fi'
 
 type Props = {
   date?: string
+  status?: Status
 }
 
-const CreateTaskButton: FC<Props> = ({ date }) => {
+const CreateTaskButton: FC<Props> = ({ date, status }) => {
   const router = useRouter()
 
   const urlDate =
@@ -34,6 +35,9 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
                 ...(currentDate && {
                   startDate: parseUrlDate(currentDate as string),
                 }),
+                ...(status && {
+                  status,
+                }),
                 ...defaultValues,
               }
             }
@@ -52,14 +56,26 @@ const CreateTaskButton: FC<Props> = ({ date }) => {
   )
 
   return (
-    <button
-      name="create task button"
-      id="create-task-button"
-      onClick={() => showForm()}
-      className="fixed bottom-6 right-6 btn btn-circle btn-primary shadow-xl"
-    >
-      <FiPlus size={24} />
-    </button>
+    <>
+      <button
+        name="create task button"
+        id="create-task-button"
+        onClick={() => showForm()}
+        className="fixed bottom-6 right-6 z-50 btn btn-circle btn-primary shadow-xl lg:hidden"
+      >
+        <FiPlus size={24} />
+      </button>
+
+      <button
+        name="create task button"
+        id="create-task-button"
+        onClick={() => showForm()}
+        className="hidden lg:flex btn btn-primary gap-2"
+      >
+        <FiPlus size={24} />
+        <span className="hidden lg:inline">Create task</span>
+      </button>
+    </>
   )
 }
 

@@ -9,18 +9,21 @@ const DateTasksList = ({ date }: { date: string }) => {
   const { dateTasks, isLoading, error } = useDateTasks(date)
 
   return (
-    <div className="px-6 overflow-hidden">
+    <div className="px-6">
       {error ? (
         <DateTasksError />
       ) : isLoading ? (
-        <div className="space-y-2">
-          <TagSkeleton />
-          <SkeletonList component={<TaskItemSkeleton />} />
+        <div className="space-y-2 py-6">
+          Loading tasks...
+          {/* <TagSkeleton />
+          <SkeletonList component={<TaskItemSkeleton />} /> */}
         </div>
       ) : dateTasks && dateTasks.length <= 0 ? (
         <DateTasksEmpty />
       ) : (
-        <TasksLists tasks={dateTasks} />
+        <section className="flex flex-col md:flex-row md:space-x-4 overflow-x-hidden lg:overflow-x-visible [&>div]:flex-1 max-w-none">
+          <TasksLists tasks={dateTasks} />
+        </section>
       )}
     </div>
   )

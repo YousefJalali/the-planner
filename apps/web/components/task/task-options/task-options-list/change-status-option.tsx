@@ -1,29 +1,18 @@
 import { FiPieChart } from 'react-icons/fi'
 
-import { useModal } from '@the-planner/hooks'
 import { Badge } from '@the-planner/ui-web'
 import { statusAlias } from '@the-planner/utils'
 import { Status } from '@the-planner/types'
 
-import TaskOption from '../task-option-item'
-import { useTaskStatusModal } from 'apps/web/components/modals'
+import TaskOption from './task-option-item'
+import { Dispatch, SetStateAction } from 'react'
 
 type Props = {
-  taskId: string
+  changeStatus: Dispatch<SetStateAction<boolean>>
   status: Status
 }
 
-export const ChangeStatusOption = ({ taskId, status }: Props) => {
-  const { showModal } = useTaskStatusModal(taskId, status)
-
-  const { clearModal } = useModal()
-
-  const statusListModal = () => {
-    clearModal('task-options')
-
-    showModal()
-  }
-
+export const ChangeStatusOption = ({ changeStatus, status }: Props) => {
   return (
     <TaskOption
       data-testid="change-status-option"
@@ -39,8 +28,8 @@ export const ChangeStatusOption = ({ taskId, status }: Props) => {
 
           <button
             name="change task status"
-            className="ml-2 btn btn-ghost btn-sm text-primary"
-            onClick={statusListModal}
+            className="btn btn-ghost btn-xs text-primary"
+            onClick={() => changeStatus(true)}
           >
             Change
           </button>

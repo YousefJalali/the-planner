@@ -29,8 +29,8 @@ export const ProjectsCardsList: FC = () => {
   }, [error])
 
   return (
-    <section className="mt-12">
-      <div className="flex justify-between items-center px-6 mb-1">
+    <>
+      <div className="flex justify-between items-center px-6 pb-1 bg-base-100 xl:sticky xl:top-0 xl:py-6 xl:pb-2 xl:z-50">
         <h1 className="text-2xl font-bold">Projects</h1>
         {projects && projects.length > 0 && (
           <button
@@ -57,7 +57,7 @@ export const ProjectsCardsList: FC = () => {
           <NewProjectCard />
         </div>
       ) : (
-        <ul className="flex snap-x overflow-x-scroll space-x-6 px-6">
+        <ul className="bg-base-100 flex snap-x overflow-x-scroll space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
           {projects.map((project) => (
             <li key={project.id} className="flex-[0_0_calc(100%-1.5rem)]">
               <ProjectCard
@@ -68,7 +68,7 @@ export const ProjectsCardsList: FC = () => {
           ))}
         </ul>
       )}
-    </section>
+    </>
   )
 }
 

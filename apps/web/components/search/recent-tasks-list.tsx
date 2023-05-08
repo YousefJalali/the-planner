@@ -9,7 +9,9 @@ const RecentTasks = () => {
     <section className="px-6 mt-6 prose">
       <h3 className="">Recent tasks</h3>
       {recentTasksLoading ? (
-        <SearchLoading />
+        <section className="not-prose">
+          <SearchLoading />
+        </section>
       ) : (
         recentTasks && (
           <section className="not-prose">

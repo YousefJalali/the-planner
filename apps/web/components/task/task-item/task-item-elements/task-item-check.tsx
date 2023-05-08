@@ -4,12 +4,7 @@ import { formatToUrlDate } from '@the-planner/utils'
 import { useCallback, useMemo } from 'react'
 
 export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
-  const {
-    id,
-    status,
-    project: { color },
-    startDate,
-  } = task
+  const { id, status, project, startDate } = task
 
   const { taskStatusHandler } = useUpdateTaskStatus({
     date: formatToUrlDate(startDate),
@@ -33,7 +28,7 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
         checked={status === Status.COMPLETED}
         onChange={checkHandler}
         style={{
-          borderColor: color,
+          borderColor: project?.color || '#ccc',
           borderWidth: 2,
         }}
       />
@@ -44,7 +39,7 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
       //   color={color}
       // />
     ),
-    [id, status, checkHandler, color]
+    [id, status, checkHandler, project]
   )
 }
 

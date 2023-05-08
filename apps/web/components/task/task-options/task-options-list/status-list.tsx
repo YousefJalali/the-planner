@@ -23,7 +23,7 @@ const StatusList: FC<Props> = ({ status, taskId }) => {
     taskStatusHandler({ taskId, newStatus })
 
   return (
-    <ul className="my-1 divide-y divide-base-200">
+    <ul className="my-1 divide-y divide-base-200 w-screen">
       {Object.values(Status).map((val) => (
         <li key={Status[val]} className="flex items-center">
           <div className="form-control w-full">
