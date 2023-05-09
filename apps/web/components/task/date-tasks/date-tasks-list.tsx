@@ -9,7 +9,7 @@ const DateTasksList = ({ date }: { date: string }) => {
   const { dateTasks, isLoading, error } = useDateTasks(date)
 
   return (
-    <div className="px-6">
+    <div className="px-6 h-full">
       {error ? (
         <DateTasksError />
       ) : isLoading ? (
@@ -21,7 +21,7 @@ const DateTasksList = ({ date }: { date: string }) => {
       ) : dateTasks && dateTasks.length <= 0 ? (
         <DateTasksEmpty />
       ) : (
-        <section className="flex flex-col md:flex-row md:space-x-4 overflow-x-hidden lg:overflow-x-visible [&>div]:flex-1 max-w-none">
+        <section className="h-full flex flex-col md:flex-row md:space-x-4 overflow-x-hidden lg:overflow-x-visible md:[&>div]:flex-1 max-w-none">
           <TasksLists tasks={dateTasks} />
         </section>
       )}

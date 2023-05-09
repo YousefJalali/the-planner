@@ -52,7 +52,7 @@ const MonthInput = ({ date, onChange }: Props) => {
   }
 
   return (
-    <div className="space-x-2 mx-6 mb-4 p-1 flex justify-between items-center rounded-xl border border-base-300 max-w-md">
+    <div className="space-x-2 mx-6 mb-4 p-1 flex justify-between items-center rounded-xl border border-base-300 flex-1 md:max-w-md">
       <Chevron
         name="previous month"
         onClick={() => onMonthArrowClick('previous')}
