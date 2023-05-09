@@ -4,6 +4,7 @@ import { BiCategoryAlt } from 'react-icons/bi'
 import Link from 'next/link'
 import { Montserrat } from '@next/font/google'
 import { Logo, Modal, Prompt, Notification } from '@the-planner/ui-web'
+import { useWindowSize } from '@the-planner/hooks'
 
 const font = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' })
 
@@ -11,8 +12,12 @@ type Props = {
   children: JSX.Element | JSX.Element[]
 }
 export const Layout: FC<Props> = ({ children }) => {
+  const { height } = useWindowSize()
   return (
-    <div className={`${font.variable} font-sans bg-primary`}>
+    <div
+      className={`${font.variable} font-sans bg-primary`}
+      style={{ minHeight: height, height }}
+    >
       <div className="drawer drawer-mobile">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center lg:p-2 w-full">
