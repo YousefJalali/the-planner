@@ -76,7 +76,7 @@ const ContentWrapper = memo(
 
         <motion.div
           ref={targetRef}
-          className="relative modal-box z-50 transition-none p-0 h-[calc(100%-5em)]"
+          className="relative modal-box z-50 transition-none p-0 max-h-[calc(100%-5em)]"
           id={`${id}-box`}
           variants={variants}
           initial="closed"
