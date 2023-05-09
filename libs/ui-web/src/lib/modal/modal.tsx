@@ -49,6 +49,7 @@ const ContentWrapper = memo(
       ? {
           closed: { y: '100%' },
           open: { y: 0 },
+          // open: { y: 0, height: height * 0.9 },
         }
       : {
           closed: { scale: 0, opacity: 0 },
@@ -75,13 +76,14 @@ const ContentWrapper = memo(
 
         <motion.div
           ref={targetRef}
-          className="relative modal-box z-50 transition-none p-0"
+          className="relative modal-box z-50 transition-none p-0 h-[calc(100%-5em)]"
           id={`${id}-box`}
           variants={variants}
           initial="closed"
           animate="open"
           exit="closed"
           transition={{ type: 'tween', duration: 0.2 }}
+          // style={{ maxHeight: height ? `calc(${height} - 5em)` : undefined }}
         >
           {closeButton && (
             <div id={id}>

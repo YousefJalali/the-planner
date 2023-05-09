@@ -15,7 +15,7 @@ export const Layout: FC<Props> = ({ children }) => {
   const { height } = useWindowSize()
   return (
     <div className={`${font.variable} font-sans bg-primary`}>
-      <div className="drawer drawer-mobile" style={{ height }}>
+      <div className="drawer drawer-mobile h-full md:h-screen">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center lg:p-2 w-full">
           <main className="w-full mx-auto bg-base-100 lg:bg-base-300 lg:overflow-y-hidden lg:rounded-2xl min-h-screen lg:min-h-fit">

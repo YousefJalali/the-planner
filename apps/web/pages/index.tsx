@@ -7,7 +7,6 @@ import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
 import DateTasks from '../components/task/date-tasks/date-tasks'
 import { SearchButton } from '../components/search/'
 import CreateTaskButton from '../components/task/create-task-button'
-import { useWindowSize } from '@the-planner/hooks'
 
 type Props = {
   // projects: Project[]
@@ -18,14 +17,12 @@ const Home: NextPage<Props> = (props) => {
   // console.log(props)
   // const [colorMode, setColorMode] = useColorMode()
 
-  const { height } = useWindowSize()
-
   console.log('%cindex rendered', 'color:green')
   // console.log(props.tasks)
 
   return (
     <>
-      <div className="drawer drawer-mobile drawer-end" style={{ height }}>
+      <div className="drawer drawer-mobile drawer-end h-full md:h-screen">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center relative lg:items-start mb-4">
           <Header pageTitle="" className="pt-2 w-full lg:p-4 xl:px-0">
