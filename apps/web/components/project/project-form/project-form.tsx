@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ColorResult } from 'react-color'
 import { ColorInput } from '../../ui'
+import randomColor from 'randomcolor'
 
 type Props = {
   id: 'edit' | 'create'
@@ -22,7 +23,7 @@ const initialDefaultValues = () =>
     id: ObjectID().toHexString(),
     title: '',
     description: '',
-    color: '#cccccc',
+    color: randomColor(),
     isHidden: false,
     updatedAt: new Date(),
     createdAt: new Date(),
