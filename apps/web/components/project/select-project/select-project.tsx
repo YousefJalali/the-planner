@@ -1,7 +1,7 @@
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
 
 import { Project } from '@the-planner/types'
-import { Spinner } from '@the-planner/ui-web'
+import { Spinner } from '../../ui'
 import { useProject } from '@the-planner/data'
 
 import SelectButton from './select-project-button'
@@ -50,16 +50,7 @@ Props) {
           </span>
         )}
         <div className="flex gap-2">
-          {value && isLoading && (
-            <Spinner
-              h={18}
-              w={18}
-              borderTop={2}
-              border={2}
-              pathColor="brand-primary"
-              trailColor="layout-level0accent"
-            />
-          )}
+          {value && isLoading && <Spinner />}
 
           <FiChevronDown size={20} />
         </div>

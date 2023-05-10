@@ -2,7 +2,7 @@ import { FiCalendar } from 'react-icons/fi'
 import { Status, TaskWithProject } from '@the-planner/types'
 import { formatDate, statusAlias } from '@the-planner/utils'
 import { Details } from './task-item-elements'
-import { Badge } from '@the-planner/ui-web'
+import { Badge } from '../../ui'
 
 export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
   return (

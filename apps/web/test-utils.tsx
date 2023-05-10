@@ -1,9 +1,6 @@
 import { ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
-import { ThemeProvider } from 'styled-components'
-import { ColorModeProvider } from '@xstyled/styled-components'
 import { NotificationCtxProvider } from '@the-planner/hooks'
-import { theme } from '@the-planner/ui-web'
 import '@testing-library/jest-dom'
 
 // Mocks useRouter
@@ -33,13 +30,7 @@ const AllTheProviders = ({
 }: {
   children: JSX.Element | JSX.Element[]
 }) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <ColorModeProvider>
-        <NotificationCtxProvider>{children}</NotificationCtxProvider>
-      </ColorModeProvider>
-    </ThemeProvider>
-  )
+  return <NotificationCtxProvider>{children}</NotificationCtxProvider>
 }
 
 const customRender = (

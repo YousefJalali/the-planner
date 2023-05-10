@@ -41,7 +41,7 @@ export const useDeleteTask = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: 'task deleted!',
-          variant: 'confirmation',
+          variant: 'success',
         })
 
         return deletedTask
@@ -49,7 +49,7 @@ export const useDeleteTask = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
           action: 'try again',
           actionFn: async () => {
             setReSubmit(true)
@@ -57,7 +57,7 @@ export const useDeleteTask = (callback?: (action?: any) => void) => {
             setNotification({
               id: uniqueId(),
               message: 'deleting...',
-              variant: 'critical',
+              variant: 'error',
               loading: isReSubmitting,
             })
 

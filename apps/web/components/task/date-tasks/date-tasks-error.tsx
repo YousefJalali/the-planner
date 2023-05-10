@@ -10,7 +10,7 @@ const DateTasksError = () => {
     setNotification({
       id: uuid(),
       message: 'Failed to fetch tasks, try again!',
-      variant: 'critical',
+      variant: 'error',
     })
   }, [])
 

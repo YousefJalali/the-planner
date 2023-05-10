@@ -1,13 +1,12 @@
 import { useInfiniteProjects } from '@the-planner/data'
 import { FilterType, Status } from '@the-planner/types'
-import { DynamicFlatList } from '@the-planner/ui-web'
+import { DynamicFlatList } from '../../ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
 import SearchInput from '../../search/search-input'
-import { ProjectCardSkeleton, SkeletonList } from '../../skeletons'
 import { NewProjectCard, ProjectCard } from '../project-card'
-import ProjectsFilter, { FILTERS } from './projects-filter'
+import { FILTERS } from './projects-filter'
 
 const ANIMATIONS = {
   initial: { y: 300 },
@@ -70,7 +69,7 @@ export const ProjectCardsList = () => {
       </div>
 
       {isLoading ? (
-        <SkeletonList component={<ProjectCardSkeleton />} />
+        <div>Loading...</div>
       ) : error ? (
         <div>{error}</div>
       ) : projects && projects.length <= 0 ? (

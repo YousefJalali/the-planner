@@ -1,4 +1,4 @@
-import { EmptyState, NoTasksSvg } from '@the-planner/ui-web'
+import { EmptyState, NoTasksSvg } from '../../ui'
 import { memo } from 'react'
 
 const DateTasksEmpty = memo(() => (

@@ -1,6 +1,5 @@
 import { useRecentTasks } from '@the-planner/data'
 import SearchItem from './search-item'
-import SearchLoading from './search-loading'
 
 const RecentTasks = () => {
   const { recentTasks, isLoading: recentTasksLoading } = useRecentTasks()
@@ -10,7 +9,7 @@ const RecentTasks = () => {
       <h3 className="">Recent tasks</h3>
       {recentTasksLoading ? (
         <section className="not-prose">
-          <SearchLoading />
+          <div>Loading...</div>
         </section>
       ) : (
         recentTasks && (

@@ -3,11 +3,10 @@ import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
 import NewProjectCard from './new-project-card/new-project-card'
-import { ProjectCardSkeleton, SkeletonList } from '../../skeletons/'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
 import { useRecentProjects } from '@the-planner/data'
-// import { ScrollableList } from '@the-planner/ui-web'
+// import { ScrollableList } from '../../ui'
 
 export const ProjectsCardsList: FC = () => {
   // console.log('ProjectsCardsList rendered')
@@ -23,7 +22,7 @@ export const ProjectsCardsList: FC = () => {
       setNotification({
         id: uniqueId(),
         message: 'Failed to fetch projects, try again!',
-        variant: 'critical',
+        variant: 'error',
       })
     }
   }, [error])
@@ -44,10 +43,7 @@ export const ProjectsCardsList: FC = () => {
       </div>
 
       {isLoading ? (
-        <SkeletonList
-          component={<ProjectCardSkeleton adj={24} />}
-          direction="horizontal"
-        />
+        <div>Loading...</div>
       ) : error ? (
         <div className="px-6">
           <NewProjectCard />

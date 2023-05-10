@@ -2,11 +2,11 @@ import ObjectID from 'bson-objectid'
 
 import { Project } from '@the-planner/types'
 
-import { ColorInput } from '@the-planner/ui-web'
 import { projectFormValidation } from '@the-planner/utils'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ColorResult } from 'react-color'
+import { ColorInput } from '../../ui'
 
 type Props = {
   id: 'edit' | 'create'

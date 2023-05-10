@@ -8,7 +8,7 @@ import {
   ErrorMessage,
   LinearProgress,
   Header,
-} from '@the-planner/ui-web'
+} from '../../components/ui'
 import { Status, TaskWithProject } from '@the-planner/types'
 import { useMemo } from 'react'
 import { TasksLists } from 'apps/web/components/task/tasks-list'
@@ -53,7 +53,7 @@ const Project = () => {
 
       {isLoading ? (
         <div className="px-6 flex justify-center">
-          <Spinner pathColor="brand-primary" />
+          <Spinner />
         </div>
       ) : error ? (
         <div className="px-6 flex justify-center">

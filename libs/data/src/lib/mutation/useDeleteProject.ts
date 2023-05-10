@@ -59,7 +59,7 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: error,
-          variant: 'critical',
+          variant: 'error',
           action: 'try again',
           actionFn: async () => {
             setReSubmit(true)
@@ -67,7 +67,7 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
             setNotification({
               id: uniqueId(),
               message: 'deleting...',
-              variant: 'critical',
+              variant: 'error',
               loading: isReSubmitting,
             })
 
@@ -80,7 +80,7 @@ export const useDeleteProject = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: 'project deleted!',
-          variant: 'confirmation',
+          variant: 'success',
         })
       }
     }

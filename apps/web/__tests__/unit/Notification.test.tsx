@@ -15,7 +15,7 @@ test('task options', () => {
 // const notification: NotificationType = {
 //   id: 'test-notification',
 //   message: 'test message',
-//   variant: 'critical',
+//   variant: 'error',
 // }
 
 // describe('Notification', () => {

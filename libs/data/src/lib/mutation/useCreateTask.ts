@@ -64,14 +64,14 @@ export const useCreateTask = (
 
         setNotification({
           message: 'task created!',
-          variant: 'confirmation',
+          variant: 'success',
         })
 
         return createdTask
       } catch (error) {
         setNotification({
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
           action: 'try again',
           actionFn: () => showForm(formData),
         })

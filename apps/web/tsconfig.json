@@ -29,5 +29,9 @@
     "../web-e2e/src/integration/TaskForm.spec.ts",
     "../../babel.config.js"
   ],
+  "paths": {
+    // "@web/components/*": ["components/*"],
+    // "@web/ui": ["ui/index.ts"]
+  },
   "exclude": ["node_modules", "jest.config.ts"]
 }

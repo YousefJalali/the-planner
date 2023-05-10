@@ -37,7 +37,7 @@ export const ProjectCard: FC<Props> = ({ project, onClick }) => {
       <div
         className="radial-progress"
         //@ts-ignore
-        style={{ '--value': 70, color: project.color }}
+        style={{ '--value': progress, color: project.color }}
       >
         {progress}%
       </div>

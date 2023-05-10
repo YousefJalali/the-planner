@@ -2,11 +2,11 @@ import { ChangeEvent, FC, useMemo, useState, useCallback } from 'react'
 
 import { useProjects } from '@the-planner/data'
 import { Project } from '@the-planner/types'
-import { FlatList } from '@the-planner/ui-web'
 import { useWindowSize } from '@the-planner/hooks'
 
 import ProjectItem from '../ProjectItem'
 import CreateProjectButton from './projects-list-create'
+import { FlatList } from '../../ui'
 
 type Props = {
   onSelectProject: (project: Project) => void

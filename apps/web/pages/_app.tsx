@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app'
-import { ThemeProvider, ColorModeProvider } from '@xstyled/styled-components'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import { SWRConfig } from 'swr'
@@ -7,16 +6,13 @@ import { CookiesProvider } from 'react-cookie'
 import '../styles.css'
 import 'nprogress/nprogress.css'
 import 'react-datepicker/dist/react-datepicker.css'
-import 'react-loading-skeleton/dist/skeleton.css'
-
-import { theme, GlobalStyle } from '@the-planner/ui-web'
 
 import {
   PromptCtxProvider,
   ModalCtxProvider,
   NotificationCtxProvider,
 } from '@the-planner/hooks'
-import Layout from '../components/layout/layout'
+import Layout from '../components/ui/layout/layout'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -32,37 +28,32 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <ColorModeProvider>
-          <GlobalStyle />
-          {/* <SessionProvider
+      {/* <SessionProvider
             session={pageProps.session}
             refetchInterval={2 * 60 * 60}
           > */}
-          <CookiesProvider>
-            <SWRConfig
-              value={
-                {
-                  // refreshInterval: 3000,
-                  // fetcher: (resource, init) =>
-                  //   fetch(resource, init).then((res) => res.json()),
-                }
-              }
-            >
-              <NotificationCtxProvider>
-                <PromptCtxProvider>
-                  <ModalCtxProvider>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
-                  </ModalCtxProvider>
-                </PromptCtxProvider>
-              </NotificationCtxProvider>
-            </SWRConfig>
-          </CookiesProvider>
-          {/* </SessionProvider> */}
-        </ColorModeProvider>
-      </ThemeProvider>
+      <CookiesProvider>
+        <SWRConfig
+          value={
+            {
+              // refreshInterval: 3000,
+              // fetcher: (resource, init) =>
+              //   fetch(resource, init).then((res) => res.json()),
+            }
+          }
+        >
+          <NotificationCtxProvider>
+            <PromptCtxProvider>
+              <ModalCtxProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ModalCtxProvider>
+            </PromptCtxProvider>
+          </NotificationCtxProvider>
+        </SWRConfig>
+      </CookiesProvider>
+      {/* </SessionProvider> */}
     </>
   )
 }

@@ -2,11 +2,10 @@ import { useState } from 'react'
 
 import { useSearch } from '@the-planner/data'
 
-import { NoSearchDataSvg, EmptyState } from '@the-planner/ui-web'
+import { NoSearchDataSvg, EmptyState } from '../ui'
 
 import SearchHistory from './search-history'
 import SearchList from './search-list'
-import SearchLoading from './search-loading'
 import RecentTasks from './recent-tasks-list'
 import SearchInput from './search-input'
 import { useSearchHistory } from '@the-planner/hooks'
@@ -27,7 +26,7 @@ export const SearchPage = () => {
         <SearchInput
           value={val}
           onChange={(e) => setVal(e.target.value)}
-          autoFocus
+          // autoFocus
           onKeyDown={(e) => handler(e)}
         />
       </section>
@@ -39,7 +38,7 @@ export const SearchPage = () => {
         </>
       ) : isLoading ? (
         <div className="mx-auto w-fit my-3 not-prose">
-          <SearchLoading />
+          <div>Loading...</div>
         </div>
       ) : searchedTasks?.length > 0 ? (
         <section className="p-6 h-full">

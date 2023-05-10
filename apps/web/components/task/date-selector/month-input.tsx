@@ -1,4 +1,4 @@
-import { DateInput } from '@the-planner/ui-web'
+import { DateInput } from '../../ui'
 import format from 'date-fns/format'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 

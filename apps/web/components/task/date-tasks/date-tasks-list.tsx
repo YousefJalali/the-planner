@@ -1,5 +1,4 @@
 import { useDateTasks } from '@the-planner/data'
-import { SkeletonList, TagSkeleton, TaskItemSkeleton } from '../../skeletons'
 
 import { TasksLists } from '../tasks-list'
 import DateTasksEmpty from './date-tasks-empty'
@@ -13,11 +12,7 @@ const DateTasksList = ({ date }: { date: string }) => {
       {error ? (
         <DateTasksError />
       ) : isLoading ? (
-        <div className="space-y-2 py-6">
-          Loading tasks...
-          {/* <TagSkeleton />
-          <SkeletonList component={<TaskItemSkeleton />} /> */}
-        </div>
+        <div className="space-y-2 py-6">Loading tasks...</div>
       ) : dateTasks && dateTasks.length <= 0 ? (
         <DateTasksEmpty />
       ) : (

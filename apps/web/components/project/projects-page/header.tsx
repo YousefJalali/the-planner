@@ -1,4 +1,4 @@
-import { Header } from '@the-planner/ui-web'
+import { Header } from '../../ui'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import NewProject from './new-project'

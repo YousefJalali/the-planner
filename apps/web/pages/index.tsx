@@ -2,7 +2,7 @@ import type { GetStaticProps, NextPage } from 'next'
 import { v2 as cloudinary } from 'cloudinary'
 
 import ProjectsCardsList from '../components/project/project-card/project-cards-list'
-import { ToggleButton, Logo, Emoji, Header } from '@the-planner/ui-web'
+import { ToggleButton, Logo, Emoji, Header } from '../components/ui'
 
 import DateTasks from '../components/task/date-tasks/date-tasks'
 import { SearchButton } from '../components/search/'

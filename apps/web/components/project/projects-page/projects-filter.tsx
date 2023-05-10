@@ -1,5 +1,4 @@
 import { FilterType, Status } from '@the-planner/types'
-import { Filter } from '@the-planner/ui-web'
 import { statusAlias } from '@the-planner/utils'
 
 export const FILTERS: FilterType[] = [
@@ -25,7 +24,9 @@ const ProjectsFilter = ({ filter, setFilter }: Props) => {
     )
   }
 
-  return <Filter active={filter} setActive={filterHandler} items={FILTERS} />
+  return <div />
+
+  // return <Filter active={filter} setActive={filterHandler} items={FILTERS} />
 }
 
 export default ProjectsFilter

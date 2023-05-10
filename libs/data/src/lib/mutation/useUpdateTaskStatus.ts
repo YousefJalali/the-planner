@@ -48,7 +48,7 @@ export const useUpdateTaskStatus = ({ callback, date }: Props) => {
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
         })
 
         return null

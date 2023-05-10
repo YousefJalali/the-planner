@@ -1,6 +1,6 @@
 import { FiPieChart } from 'react-icons/fi'
 
-import { Badge } from '@the-planner/ui-web'
+import { Badge } from '../../../ui'
 import { statusAlias } from '@the-planner/utils'
 import { Status } from '@the-planner/types'
 

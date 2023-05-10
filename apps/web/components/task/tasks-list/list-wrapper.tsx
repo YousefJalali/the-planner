@@ -1,5 +1,5 @@
 import { Status } from '@the-planner/types'
-import { Badge } from '@the-planner/ui-web'
+import { Badge } from '../../ui'
 import { statusAlias } from '@the-planner/utils'
 
 type Props = {

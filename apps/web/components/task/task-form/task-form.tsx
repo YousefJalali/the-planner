@@ -1,7 +1,7 @@
 import ObjectID from 'bson-objectid'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { DateInput, ImageInput } from '@the-planner/ui-web'
+import { DateInput, ImageInput } from '../../ui'
 
 import { Task, Status } from '@the-planner/types'
 

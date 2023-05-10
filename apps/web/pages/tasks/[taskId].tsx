@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import { useTask } from '@the-planner/data'
-import { Spinner, Header } from '@the-planner/ui-web'
+import { Spinner, Header } from '../../components/ui'
 import TaskDetails from '../../components/task/task-details/task-details'
 import { TaskOptions } from '../../components/task/task-options'
 
@@ -25,7 +25,7 @@ const TaskDetailsPage = () => {
 
       {isLoading ? (
         <div className="flex justify-center px-6">
-          <Spinner pathColor="brand-primary" />
+          <Spinner />
         </div>
       ) : error ? (
         <div className="flex justify-center px-6">{error}</div>

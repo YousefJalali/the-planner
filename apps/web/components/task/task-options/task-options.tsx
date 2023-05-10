@@ -3,7 +3,7 @@ import { TaskWithProject } from '@the-planner/types'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useMedia, useModal } from '@the-planner/hooks'
 import { TaskOptionsList } from './task-options-list'
-import { Dropdown } from '@the-planner/ui-web'
+import { Dropdown } from '../../ui'
 
 type Props = {
   task: TaskWithProject
@@ -20,6 +20,7 @@ export const TaskOptions: FC<Props> = ({ task, inHeader }) => {
       setModal({
         id: 'task-options',
         content: <TaskOptionsList task={task} />,
+        closesWhenClickedOutside: true,
       }),
     [task]
   )

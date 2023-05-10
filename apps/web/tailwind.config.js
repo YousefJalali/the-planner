@@ -2,6 +2,7 @@ const { createGlobPatternsForDependencies } = require('@nx/react/tailwind')
 const { join } = require('path')
 
 module.exports = {
+  presets: [require('../../tailwind-workspace-preset.ts')],
   content: [
     join(
       __dirname,
@@ -15,10 +16,16 @@ module.exports = {
         title: ['var(--font-title)'],
         text: ['var(--font-text)'],
       },
+      // keyframes: {
+      //   spin: {
+      //     '0%': { transform: 'rotate(0deg)' },
+      //     '100%': { transform: 'rotate(360deg)' },
+      //   },
+      // },
     },
   },
 
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  // plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
     themes: [
       {
@@ -26,16 +33,8 @@ module.exports = {
           ...require('daisyui/src/colors/themes')['[data-theme=winter]'],
           primary: '#4E63F2',
           secondary: '#C7D9FF',
-          // "secondary-content": "#333333",
-          // secondary: "#9BC4E2",
           accent: '#FF7F50',
           transparent: 'transparent',
-          '.status-INPROGRESS': {
-            'background-color': '#935aea',
-          },
-          // PROPOSED: '#935aea',
-          // INPROGRESS: '#ae9900',
-          // COMPLETED: '#008f20',
         },
         dark: {
           ...require('daisyui/src/colors/themes')['[data-theme=dark]'],

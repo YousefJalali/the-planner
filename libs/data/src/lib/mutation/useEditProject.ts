@@ -36,7 +36,7 @@ export const useEditProject = (callback: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: 'project updated!',
-          variant: 'confirmation',
+          variant: 'success',
         })
 
         return updatedProject
@@ -44,7 +44,7 @@ export const useEditProject = (callback: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
           // action: 'try again',
           // actionFn: () => showForm(formData),
         })

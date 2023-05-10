@@ -9,7 +9,7 @@ import {
 export type NotificationType = {
   id?: string
   message: string
-  variant: 'action' | 'information' | 'warning' | 'critical' | 'confirmation'
+  variant: 'info' | 'success' | 'warning' | 'error'
   action?: 'view' | 'try again'
   actionFn?: (args?: any) => void
   loading?: boolean

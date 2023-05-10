@@ -41,7 +41,7 @@ export const useEditTask = (
         setNotification({
           id: uniqueId(),
           message: 'task updated!',
-          variant: 'confirmation',
+          variant: 'success',
         })
 
         return updatedTask
@@ -49,7 +49,7 @@ export const useEditTask = (
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
           action: 'try again',
           actionFn: () => showForm(formData),
         })

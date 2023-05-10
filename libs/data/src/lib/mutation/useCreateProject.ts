@@ -63,7 +63,7 @@ export const useCreateProject = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: 'project created!',
-          variant: 'confirmation',
+          variant: 'success',
         })
 
         return createdProject as ProjectWithTasksAndCount
@@ -71,7 +71,7 @@ export const useCreateProject = (callback?: (action?: any) => void) => {
         setNotification({
           id: uniqueId(),
           message: getErrorMessage(error),
-          variant: 'critical',
+          variant: 'error',
           // action: 'try again',
           // actionFn: () => showForm(projectFormData),
         })
