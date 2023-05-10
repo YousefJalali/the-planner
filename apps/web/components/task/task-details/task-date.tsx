@@ -18,7 +18,7 @@ const TaskDate = ({
   endTime,
 }: Props) => {
   return (
-    <section className="space-y-2">
+    <section className="space-y-2 ">
       <div>
         <span className="label-text">Created On</span>
 

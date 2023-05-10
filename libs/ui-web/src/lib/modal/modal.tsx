@@ -15,12 +15,14 @@ const ContentWrapper = memo(
     children,
     closeButton = false,
     isMobile,
+    closesWhenClickedOutside,
   }: {
     id: string
     clearModal: () => void
     children: JSX.Element | JSX.Element[]
     closeButton?: boolean
     isMobile: boolean
+    closesWhenClickedOutside: boolean
   }) => {
     // const { height } = useWindowSize()
     // const modal = document.getElementById('modal') as HTMLDivElement
@@ -57,22 +59,16 @@ const ContentWrapper = memo(
         }
 
     return (
-      <motion.div
+      <div
         className="modal modal-open modal-bottom transition-none sm:modal-middle"
         // style={style}
       >
-        <motion.div
-          className="absolute top-0 left-0 h-full w-full bg-black"
-          onClick={clearModal}
-          variants={{
-            closed: { opacity: 0 },
-            open: { opacity: 0.1 },
-          }}
-          transition={{ duration: 0.2 }}
-          initial="closed"
-          animate="open"
-          exit="closed"
-        />
+        {closesWhenClickedOutside && (
+          <div
+            className="absolute top-0 left-0 h-full w-full"
+            onClick={clearModal}
+          />
+        )}
 
         <motion.div
           ref={targetRef}
@@ -97,7 +93,7 @@ const ContentWrapper = memo(
           )}
           {children}
         </motion.div>
-      </motion.div>
+      </div>
     )
   }
 )
@@ -120,6 +116,7 @@ export const Modal: FC = () => {
                 clearModal={() => clearModal(modal.id)}
                 closeButton={modal.closeButton}
                 isMobile={isMobile}
+                closesWhenClickedOutside={modal.closesWhenClickedOutside}
               >
                 {modal.content}
               </ContentWrapper>,

@@ -16,7 +16,7 @@ const DayItem = ({
   return (
     <li
       onClick={() => onClick(day)}
-      className={`flex flex-col items-center min-w-[3rem] rounded-lg border border-base-300 p-2 cursor-pointer select-none ${
+      className={`flex flex-col items-center min-w-[3rem] rounded-lg border border-base-300 hover:border-primary p-2 cursor-pointer select-none ${
         active
           ? 'bg-primary'
           : isToday(setDate(new Date(date), day))

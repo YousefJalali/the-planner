@@ -22,8 +22,8 @@ const Home: NextPage<Props> = (props) => {
 
   return (
     <>
-      <div className="drawer drawer-mobile drawer-end h-full md:h-screen">
-        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer drawer-mobile drawer-end">
+        <input id="projects-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center relative lg:items-start mb-4">
           <Header pageTitle="" className="pt-2 w-full lg:p-4 xl:px-0">
             <div className="h-12 lg:invisible">
@@ -66,10 +66,12 @@ const Home: NextPage<Props> = (props) => {
             <ProjectsCardsList />
           </section>
 
-          <DateTasks />
+          <section className="my-12 w-full bg-base-100 lg:rounded-2xl lg:w-[calc(100%-2rem)] lg:m-4 xl:mr-0 xl:w-[calc(100%-1rem)]">
+            <DateTasks />
+          </section>
         </div>
         <div className="drawer-side m-4 pl-0 !hidden xl:!grid">
-          <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+          <label htmlFor="projects-drawer" className="drawer-overlay"></label>
           <div className="relative mb-12 w-80 rounded-2xl overflow-y-scroll pb-6 h-[calc(100%-1rem)] bg-base-100">
             <ProjectsCardsList />
           </div>

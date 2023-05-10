@@ -11,6 +11,7 @@ export type ModalType = {
   id: string
   content: JSX.Element | JSX.Element[]
   closeButton?: boolean
+  closesWhenClickedOutside?: boolean
 }
 
 type ModalContext = {

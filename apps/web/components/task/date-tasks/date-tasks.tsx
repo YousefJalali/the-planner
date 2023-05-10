@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { formatToUrlDate, parseUrlDate } from '@the-planner/utils'
 
 import { DateSelector } from '../date-selector'
-import CreateTaskButton from '../create-task-button'
 import DateTasksList from './date-tasks-list'
 
 export const DateTasks = () => {
@@ -43,15 +42,11 @@ export const DateTasks = () => {
 
   return (
     <>
-      <section className="my-12 w-full bg-base-100 lg:rounded-2xl lg:w-[calc(100%-2rem)] lg:m-4 xl:mr-0 xl:w-[calc(100%-1rem)]">
-        <h1 className="text-2xl font-bold px-6 lg:mt-6 w-full">Tasks</h1>
+      <h1 className="text-2xl font-bold px-6 lg:mt-6 w-full">Tasks</h1>
 
-        {dateSelect}
+      {dateSelect}
 
-        <DateTasksList date={urlDate} />
-      </section>
-
-      {/* <CreateTaskButton date={urlDate} /> */}
+      <DateTasksList date={urlDate} />
     </>
   )
 }

@@ -15,7 +15,7 @@ const TaskContent = ({ title, description, onClick }: Props) => {
       </a>
 
       {description?.length > 0 && (
-        <div className="mt-2 max-h-[200px] overflow-y-scroll opacity-60">
+        <div className="font-text mt-2 max-h-[200px] overflow-y-scroll opacity-60 leading-relaxed">
           <p>{description}</p>
         </div>
       )}

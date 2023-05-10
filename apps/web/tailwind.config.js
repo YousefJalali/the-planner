@@ -12,7 +12,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-montserrat)'],
+        title: ['var(--font-title)'],
+        text: ['var(--font-text)'],
       },
     },
   },

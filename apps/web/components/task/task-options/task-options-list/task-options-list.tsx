@@ -37,7 +37,7 @@ export const TaskOptionsList: FC<Props> = ({ task }) => {
         <div>
           <button
             onClick={() => setChangeMode(false)}
-            className="btn btn-ghost btn-circle"
+            className="btn btn-sm btn-ghost btn-circle ml-2 mt-2"
           >
             <FiArrowLeft size={20} />
           </button>

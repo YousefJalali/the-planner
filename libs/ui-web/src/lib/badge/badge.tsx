@@ -18,7 +18,7 @@ export const Badge: FC<Props> = ({ children, status, className, count }) => {
 
   return (
     <div
-      className={`badge badge-ghost gap-2 border-0 ${className}`}
+      className={`font-text badge badge-ghost gap-2 border-0 ${className}`}
       style={{ color, backgroundColor: `${color}30` }}
     >
       {children}

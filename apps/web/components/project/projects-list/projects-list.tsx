@@ -6,7 +6,6 @@ import { FlatList } from '@the-planner/ui-web'
 import { useWindowSize } from '@the-planner/hooks'
 
 import ProjectItem from '../ProjectItem'
-import Search from './projects-list-search'
 import CreateProjectButton from './projects-list-create'
 
 type Props = {
@@ -58,18 +57,29 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
   ) : isLoading ? (
     <span className="block p-6 text-center">Loading...</span>
   ) : (
-    <div className="relative" id="project-list-select">
-      {projects?.length > 10 && (
-        <Search value={search} onChange={searchHandler} />
-      )}
+    <div id="project-list-select">
+      <div className="relative flex mx-3 mt-12 pb-2 gap-x-2">
+        {projects?.length > 10 && (
+          <div className="sticky top-0 z-50 flex-1">
+            <input
+              type="search"
+              name="keyword"
+              placeholder="Search..."
+              autoComplete="off"
+              className="input input-bordered w-full"
+              value={search}
+              onChange={searchHandler}
+            />
+          </div>
+        )}
+        <CreateProjectButton onSelectProject={onSelectProject} />
+      </div>
 
       <div
         className="relative h-full mx-3 overflow-y-scroll"
         style={{ minHeight: height ? height * 0.7 : 300 }}
       >
         {renderList}
-
-        <CreateProjectButton onSelectProject={onSelectProject} />
       </div>
     </div>
   )

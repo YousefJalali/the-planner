@@ -22,14 +22,14 @@ export const TaskItem: FC<Props> = memo(({ task }) => {
         <Link task={task} />
 
         <h3
-          className={`line-clamp-2 leading-relaxed ${
+          className={`font-text line-clamp-2 leading-relaxed ${
             status === Status.COMPLETED ? 'line-through opacity-60' : ''
           }`}
         >
           {title}
         </h3>
 
-        <div className="flex space-y-3">
+        <div className="flex gap-x-3 flex-wrap">
           <Time
             openTask={openTask}
             startTime={startTime}

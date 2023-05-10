@@ -6,6 +6,10 @@ body {
   @apply text-neutral;
 }
 
+.label-text {
+  @apply font-text;
+}
+
 /* <x.label
 display="block"
 font-size="sm"
