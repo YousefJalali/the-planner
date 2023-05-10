@@ -23,11 +23,13 @@ export const ProjectCardsList = () => {
   const { projects, error, isLoading, size, setSize, hasReachedEnd } =
     useInfiniteProjects(search)
 
+  console.log({ hasReachedEnd })
+
   const renderProjects = useMemo(() => {
     return projects.length > 0 ? (
       projects.map((project, i) => {
         return (
-          <motion.li key={project.id} {...ANIMATIONS}>
+          <motion.li key={project.id} {...ANIMATIONS} className="flex-1">
             <ProjectCard
               project={project}
               onClick={() => router.push(`/projects/${project.id}`)}
@@ -61,7 +63,7 @@ export const ProjectCardsList = () => {
         <ProjectsFilter filter={filter} setFilter={setFilter} />
       </x.div> */}
 
-      <div className="mb-6">
+      <div className="py-2">
         <SearchInput
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -76,13 +78,24 @@ export const ProjectCardsList = () => {
         <EmptyState />
       ) : (
         <AnimatePresence>
-          <DynamicFlatList
-            dataLength={projects.length}
-            next={() => setSize(size + 1)}
-            hasMore={!hasReachedEnd}
-          >
-            {renderProjects}
-          </DynamicFlatList>
+          <div className="md:h-screen md:pb-[250px] md:overflow-y-scroll py-6">
+            <DynamicFlatList
+              dataLength={projects.length}
+              next={() => setSize(size + 1)}
+              hasMore={!hasReachedEnd}
+            >
+              <ul className="p-1 space-y-6 md:space-y-0 md:gap-6 flex flex-col md:flex-row md:flex-wrap">
+                {renderProjects}
+              </ul>
+            </DynamicFlatList>
+            <button
+              className="hidden md:flex btn btn-outline mx-auto mt-6"
+              onClick={() => setSize(size + 1)}
+              disabled={hasReachedEnd}
+            >
+              load more
+            </button>
+          </div>
         </AnimatePresence>
       )}
     </>

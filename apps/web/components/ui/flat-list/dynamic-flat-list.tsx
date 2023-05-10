@@ -6,12 +6,14 @@ type Props = {
   dataLength: number
   next: () => void
   hasMore: boolean
+  className?: string
 }
 export const DynamicFlatList = ({
   children,
   dataLength,
   next,
   hasMore,
+  className,
 }: Props) => {
   return (
     <InfiniteScroll
@@ -19,12 +21,13 @@ export const DynamicFlatList = ({
       next={next}
       hasMore={hasMore}
       loader={
-        <div className="flex justify-center py-3">
+        <div className="flex justify-center py-3 md:hidden">
           <Spinner />
         </div>
       }
+      className={className}
     >
-      <ul className="pb-3 space-y-4">{children}</ul>
+      {children}
     </InfiniteScroll>
   )
 }

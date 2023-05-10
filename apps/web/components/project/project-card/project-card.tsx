@@ -21,7 +21,7 @@ export const ProjectCard: FC<Props> = ({ project, onClick }) => {
 
   return (
     <div
-      className="w-full h-[150px] p-4 flex justify-between rounded-xl cursor-pointer ring-2 hover:ring-offset-2 transition-all"
+      className="w-full h-[150px] p-4 flex gap-4 justify-between rounded-xl cursor-pointer ring-2 hover:ring-offset-2 transition-all min-w-[300px]"
       style={{
         background: `linear-gradient(135deg, ${project.color}0D 0%, ${project.color}4D 100%)`,
         //@ts-ignore
@@ -30,12 +30,12 @@ export const ProjectCard: FC<Props> = ({ project, onClick }) => {
       onClick={onClick}
     >
       <div className="flex flex-col justify-between">
-        <h1 className="text-2xl font-semibold">{project.title}</h1>
+        <h1 className="text-2xl font-semibold line-clamp-2">{project.title}</h1>
         <p className="mt-4 text-sm opacity-60">{project._count.tasks} Tasks</p>
       </div>
 
       <div
-        className="radial-progress"
+        className="radial-progress aspect-square"
         //@ts-ignore
         style={{ '--value': progress, color: project.color }}
       >

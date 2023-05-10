@@ -1,15 +1,12 @@
-import NewProject from './create-button'
+import CreateProject from '../../CreateProject'
 
 export const NewProjectCard = () => {
   return (
-    <div className="card w-full bg-secondary text-secondary-content">
-      <div className="card-body p-6">
-        <h2 className="card-title">No active projects</h2>
-        <p>Create your first project now</p>
-        <div className="card-actions justify-end">
-          <NewProject />
-        </div>
-      </div>
+    <div className="prose w-full bg-base-100 mx-auto flex flex-col items-center text-center">
+      <h3>No active projects</h3>
+      <p>Create your first project now</p>
+
+      <CreateProject />
     </div>
   )
 }

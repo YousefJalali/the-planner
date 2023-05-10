@@ -61,7 +61,7 @@ const CreateTaskButton: FC<Props> = ({ date, status }) => {
         name="create task button"
         id="create-task-button"
         onClick={() => showForm()}
-        className="fixed bottom-6 right-6 z-[1000] btn btn-circle btn-primary shadow-xl lg:hidden"
+        className="fixed bottom-6 right-6 z-40 btn btn-circle btn-primary shadow-xl lg:hidden"
       >
         <FiPlus size={24} />
       </button>

@@ -31,7 +31,7 @@ export const Layout: FC<Props> = ({ children }) => {
       <div className="drawer drawer-mobile h-full md:h-screen">
         <input id="side-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center lg:p-2 w-full">
-          <main className="w-full mx-auto bg-base-100 lg:bg-base-300 lg:overflow-y-hidden lg:rounded-2xl min-h-screen lg:min-h-fit">
+          <main className="w-full mx-auto bg-base-100 lg:bg-base-200 lg:overflow-y-hidden lg:rounded-2xl min-h-screen lg:min-h-fit">
             {children}
             <Modal />
             <Notification />

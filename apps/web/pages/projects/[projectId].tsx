@@ -3,16 +3,11 @@ import { useRouter } from 'next/router'
 import { useProject } from '@the-planner/data'
 
 import CreateTaskButton from '../../components/task/create-task-button'
-import {
-  Spinner,
-  ErrorMessage,
-  LinearProgress,
-  Header,
-} from '../../components/ui'
+import { ErrorMessage, LinearProgress, Header } from '../../components/ui'
 import { Status, TaskWithProject } from '@the-planner/types'
 import { useMemo } from 'react'
 import { TasksLists } from 'apps/web/components/task/tasks-list'
-import { FiArrowLeft, FiChevronLeft } from 'react-icons/fi'
+import { FiChevronLeft } from 'react-icons/fi'
 import EditProject from 'apps/web/components/project/EditProject'
 
 const Project = () => {
@@ -35,7 +30,7 @@ const Project = () => {
   }, [project])
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen flex flex-col">
       <Header pageTitle={project ? project.title : ''} className="py-3">
         <a
           onClick={() => router.back()}
@@ -46,18 +41,16 @@ const Project = () => {
         </a>
 
         <div className="flex gap-4">
-          {project && <EditProject project={project} />}
-          {project && <CreateTaskButton />}
+          {project && !error && !isLoading && <EditProject project={project} />}
+          {project && !error && !isLoading && <CreateTaskButton />}
         </div>
       </Header>
 
       {isLoading ? (
-        <div className="px-6 flex justify-center">
-          <Spinner />
-        </div>
+        <div className="px-6 flex justify-center">Loading...</div>
       ) : error ? (
         <div className="px-6 flex justify-center">
-          <ErrorMessage error={error} />
+          <ErrorMessage error={'error'} />
         </div>
       ) : (
         project && (
@@ -77,7 +70,7 @@ const Project = () => {
             </section>
 
             <h1 className="text-2xl px-6 mt-12 mb-2 font-bold">Tasks</h1>
-            <section className="flex overflow-x-scroll space-x-3 mb-6 scroll-pl-9 px-6 snap-x [&>div]:snap-start [&>div]:flex-[0_0_calc(100%-1.5rem)] [&>div]:max-w-md lg:overflow-x-hidden lg:[&>div]:flex-1 lg:[&>div]:max-w-none">
+            <section className="flex-1 flex overflow-x-scroll space-x-3 scroll-pl-9 px-6 snap-x [&>div]:snap-start [&>div]:flex-[0_0_calc(100%-1.5rem)] [&>div]:max-w-md lg:overflow-x-hidden lg:[&>div]:flex-1 lg:[&>div]:max-w-none">
               <TasksLists
                 tasks={project.tasks as TaskWithProject[]}
                 showEmptyList

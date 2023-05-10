@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
@@ -6,7 +6,6 @@ import NewProjectCard from './new-project-card/new-project-card'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
 import { useRecentProjects } from '@the-planner/data'
-// import { ScrollableList } from '../../ui'
 
 export const ProjectsCardsList: FC = () => {
   // console.log('ProjectsCardsList rendered')
@@ -17,21 +16,21 @@ export const ProjectsCardsList: FC = () => {
 
   const { setNotification } = useNotification()
 
-  useEffect(() => {
-    if (error) {
-      setNotification({
-        id: uniqueId(),
-        message: 'Failed to fetch projects, try again!',
-        variant: 'error',
-      })
-    }
-  }, [error])
+  // useEffect(() => {
+  // if (error) {
+  //   setNotification({
+  //     id: uniqueId(),
+  //     message: 'Failed to fetch projects, try again!',
+  //     variant: 'error',
+  //   })
+  // }
+  // }, [error])
 
   return (
     <>
       <div className="flex justify-between items-center px-6 pb-1 bg-base-100 xl:sticky xl:top-0 xl:py-6 xl:pb-2 xl:z-50">
         <h1 className="text-2xl font-bold">Projects</h1>
-        {projects && projects.length > 0 && (
+        {projects && projects.length > 0 && !error && !isLoading && (
           <button
             name="see all projects"
             className="btn btn-ghost btn-xs -mr-3"
@@ -43,13 +42,13 @@ export const ProjectsCardsList: FC = () => {
       </div>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <div className="p-6">Loading...</div>
       ) : error ? (
-        <div className="px-6">
+        <div className="p-6">
           <NewProjectCard />
         </div>
       ) : projects.length === 0 ? (
-        <div className="px-6">
+        <div className="p-6">
           <NewProjectCard />
         </div>
       ) : (

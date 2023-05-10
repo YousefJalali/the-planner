@@ -12,7 +12,7 @@ import { projectsKey } from '../keys'
 
 type ProjectWithTasksCount = Project & ProjectTasksCount
 
-export const LIMIT = 6
+export const LIMIT = 16
 
 const getKey = (
   pageIndex: number,
