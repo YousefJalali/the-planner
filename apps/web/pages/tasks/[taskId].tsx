@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import { useTask } from '@the-planner/data'
 import { Spinner, Header } from '../../components/ui'
-import TaskDetails from '../../components/task/task-details/task-details'
+import TaskDetails from '../../components/task/task-details'
 import { TaskOptions } from '../../components/task/task-options'
 
 const TaskDetailsPage = () => {

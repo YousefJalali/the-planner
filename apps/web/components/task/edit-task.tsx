@@ -1,15 +1,15 @@
-import { useEditTask } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
 import { Task } from '@the-planner/types'
-import { FiEdit3 } from 'react-icons/fi'
-import { TaskForm } from '../../task-form'
-import TaskOption from './task-option-item'
+import TaskForm from './task-form'
+import { useEditTask } from '@the-planner/data'
 
-type Props = {
+export default function EditTask({
+  children,
+  task,
+}: {
+  children: (handler: () => void) => JSX.Element
   task: Task
-}
-
-const EditTaskOption = ({ task }: Props) => {
+}) {
   const { setModal, clearModal } = useModal()
 
   const showTaskForm = (defValues?: Partial<Task>, serverErrors?: object) => {
@@ -34,19 +34,10 @@ const EditTaskOption = ({ task }: Props) => {
     clearModal('task-options')
   })
 
-  const onEdit = () => {
+  const editHandler = () => {
     clearModal('task-options')
     showTaskForm()
   }
 
-  return (
-    <TaskOption
-      data-testid="edit-task-option"
-      onClick={onEdit}
-      icon={<FiEdit3 />}
-      content="Edit task"
-    />
-  )
+  return children(editHandler)
 }
-
-export default EditTaskOption

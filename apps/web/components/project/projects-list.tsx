@@ -4,9 +4,9 @@ import { useProjects } from '@the-planner/data'
 import { Project } from '@the-planner/types'
 import { useWindowSize } from '@the-planner/hooks'
 
-import ProjectItem from '../ProjectItem'
-import CreateProjectButton from './projects-list-create'
-import { FlatList } from '../../ui'
+import { FlatList } from '../ui'
+import CreateProject from './create-project'
+import { FiCircle } from 'react-icons/fi'
 
 type Props = {
   onSelectProject: (project: Project) => void
@@ -45,7 +45,10 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
             onClick={() => selectHandler(item)}
             data-testid="projects-list-item"
           >
-            <ProjectItem project={item} />
+            <span className="flex items-center gap-2">
+              <FiCircle fill={item.color} strokeWidth={0} />
+              {item.title}
+            </span>
           </button>
         )}
       </FlatList>
@@ -72,7 +75,9 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
             />
           </div>
         )}
-        <CreateProjectButton onSelectProject={onSelectProject} />
+
+        <CreateProject />
+        {/* <CreateProjectButton onSelectProject={onSelectProject} /> */}
       </div>
 
       <div

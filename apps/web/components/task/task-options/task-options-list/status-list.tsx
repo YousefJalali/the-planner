@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { Status } from '@the-planner/types'
 import { statusAlias } from '@the-planner/utils'
 import { useUpdateTaskStatus } from '@the-planner/data'
@@ -10,7 +10,16 @@ type Props = {
 }
 
 const StatusList: FC<Props> = ({ status, taskId }) => {
-  const { clearModal } = useModal()
+  const { setModal, clearModal } = useModal()
+
+  const showModal = useCallback(
+    () =>
+      setModal({
+        id: 'task-status',
+        content: <StatusList taskId={taskId} status={status} />,
+      }),
+    [taskId, status]
+  )
 
   const { taskStatusHandler } = useUpdateTaskStatus({
     callback: () => {

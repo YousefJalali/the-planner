@@ -8,13 +8,15 @@ const CreateProject = ({
   children,
   className,
   noIcon,
+  callback,
 }: {
   children?: ReactNode
   className?: string
   noIcon?: boolean
+  callback?: () => void
 }) => {
-  const { onSubmit } = useCreateProject()
-  const { setModal } = useModal()
+  const { setModal, clearModal } = useModal()
+  const { onSubmit } = useCreateProject(() => clearModal('project-create'))
 
   const showModal = useCallback(
     () =>
@@ -25,6 +27,8 @@ const CreateProject = ({
       }),
     []
   )
+
+  console.log('here')
 
   return useMemo(
     () => (

@@ -6,7 +6,7 @@ import { projectFormValidation } from '@the-planner/utils'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ColorResult } from 'react-color'
-import { ColorInput } from '../../ui'
+import { ColorInput } from '../ui'
 import randomColor from 'randomcolor'
 
 type Props = {

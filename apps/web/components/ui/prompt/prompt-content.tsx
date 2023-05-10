@@ -8,7 +8,7 @@ type Props = {
 
 const Prompt: FC<Props> = ({ prompt, clearPrompt }) => {
   return (
-    <div className="absolute top-0 left-0 z-[100] h-screen w-screen">
+    <div className="absolute top-0 left-0 z-[2000] h-screen w-screen">
       {/* <Backdrop id={prompt.id} /> */}
       <div className="absolute top-0 left-0 w-full h-full bg-black opacity-10" />
 

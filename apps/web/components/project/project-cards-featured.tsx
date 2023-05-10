@@ -2,12 +2,12 @@ import { FC } from 'react'
 import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
-import NewProjectCard from './new-project-card/new-project-card'
+import NewProjectCard from './new-project-card'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
 import { useRecentProjects } from '@the-planner/data'
 
-export const ProjectsCardsList: FC = () => {
+export const ProjectsCardsFeatured: FC = () => {
   // console.log('ProjectsCardsList rendered')
 
   const router = useRouter()
@@ -67,4 +67,4 @@ export const ProjectsCardsList: FC = () => {
   )
 }
 
-export default ProjectsCardsList
+export default ProjectsCardsFeatured

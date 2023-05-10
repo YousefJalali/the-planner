@@ -1,11 +1,12 @@
 import { FC, useState } from 'react'
 import { TaskWithProject } from '@the-planner/types'
-import EditTaskOption from './edit-task-option'
-import DeleteTaskOption from './delete-task-option'
 import StatusList from './status-list'
-import { FiArrowLeft } from 'react-icons/fi'
-import ViewTaskOption from './view-task-option'
+import { FiArrowLeft, FiEdit3, FiList, FiTrash2 } from 'react-icons/fi'
 import ChangeStatusOption from './change-status-option'
+import ViewTask from '../../view-task'
+import TaskOption from './task-option-item'
+import DeleteTask from '../../delete-task'
+import EditTask from '../../edit-task'
 
 type Props = {
   task: TaskWithProject
@@ -22,16 +23,46 @@ export const TaskOptionsList: FC<Props> = ({ task }) => {
         } transition-all`}
       >
         <ul className="divide-y divide-base-200 flex-[0_0_100%]">
-          <ViewTaskOption task={task} />
+          <ViewTask task={task}>
+            {(showModal) => (
+              <TaskOption
+                data-testid="view-task-option"
+                onClick={showModal}
+                icon={<FiList />}
+                content="View task"
+              />
+            )}
+          </ViewTask>
 
           <ChangeStatusOption
             status={task.status}
             changeStatus={setChangeMode}
           />
 
-          <EditTaskOption task={task} />
+          <EditTask task={task}>
+            {(editHandler) => (
+              <TaskOption
+                data-testid="edit-task-option"
+                onClick={editHandler}
+                icon={<FiEdit3 />}
+                content="Edit task"
+              />
+            )}
+          </EditTask>
 
-          <DeleteTaskOption taskId={task.id} />
+          <DeleteTask>
+            {(deleteTaskHandler) => (
+              <TaskOption
+                data-testid="delete-task-option"
+                onClick={() => deleteTaskHandler(task.id)}
+                icon={<FiTrash2 />}
+                content="Delete task"
+                color="text-error"
+              />
+            )}
+          </DeleteTask>
+
+          {/* <DeleteTaskOption taskId={task.id} /> */}
         </ul>
 
         <div>

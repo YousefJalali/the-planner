@@ -1,4 +1,4 @@
-import CreateProject from '../../CreateProject'
+import CreateProject from './create-project'
 
 export const NewProjectCard = () => {
   return (

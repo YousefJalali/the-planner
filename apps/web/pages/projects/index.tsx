@@ -1,9 +1,9 @@
 import { NextPage } from 'next'
-import { ProjectCardsList } from '../../components/project/projects-page/'
 import { Header } from 'apps/web/components/ui'
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
-import CreateProject from 'apps/web/components/project/CreateProject'
+import CreateProject from 'apps/web/components/project/create-project'
+import ProjectCardsList from 'apps/web/components/project/project-cards-list'
 
 const Index: NextPage = () => {
   const router = useRouter()

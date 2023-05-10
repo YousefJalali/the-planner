@@ -1,9 +1,17 @@
 import { useModal } from '@the-planner/hooks'
 import { TaskWithProject } from '@the-planner/types'
 import { useCallback } from 'react'
-import { TaskDetails } from '../task/task-details'
+import TaskDetails from './task-details'
 
-export const useTaskDetailsModal = (task: TaskWithProject) => {
+export default function ViewTask({
+  children,
+  task,
+  className,
+}: {
+  children: (showModal: () => void) => JSX.Element
+  task: TaskWithProject
+  className?: string
+}) {
   const { setModal, clearModal } = useModal()
 
   const showModal = useCallback(
@@ -18,7 +26,5 @@ export const useTaskDetailsModal = (task: TaskWithProject) => {
     [task]
   )
 
-  return { showModal }
+  return children(showModal)
 }
-
-export default useTaskDetailsModal

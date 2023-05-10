@@ -1,12 +1,13 @@
 import { useInfiniteProjects } from '@the-planner/data'
 import { FilterType, Status } from '@the-planner/types'
-import { DynamicFlatList } from '../../ui'
+import { DynamicFlatList } from '../ui'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { useMemo, useState } from 'react'
-import SearchInput from '../../search/search-input'
-import { NewProjectCard, ProjectCard } from '../project-card'
+import SearchInput from '../search/search-input'
 import { FILTERS } from './projects-filter'
+import ProjectCard from './project-card'
+import NewProjectCard from './new-project-card'
 
 const ANIMATIONS = {
   initial: { y: 300 },

@@ -1,11 +1,16 @@
-import { useDeleteProject, useEditProject } from '@the-planner/data'
-import { useModal } from '@the-planner/hooks'
+import { useCallback, useMemo } from 'react'
 import { Project } from '@the-planner/types'
+import { FC } from 'react'
+import { useModal } from '@the-planner/hooks'
 import { useRouter } from 'next/router'
-import { useCallback } from 'react'
-import { ProjectForm } from '../project/project-form'
+import { useDeleteProject, useEditProject } from '@the-planner/data'
+import ProjectForm from './project-form'
 
-export const useProjectEditModal = (project: Project) => {
+type Props = {
+  project: Project
+}
+
+export const EditProject: FC<Props> = ({ project }) => {
   const router = useRouter()
 
   const { setModal, clearModal } = useModal()
@@ -34,7 +39,18 @@ export const useProjectEditModal = (project: Project) => {
     [project]
   )
 
-  return { showModal }
+  return useMemo(
+    () => (
+      <button
+        name="edit project"
+        onClick={showModal}
+        className="btn btn-ghost -mr-4 lg:btn-secondary lg:mr-0"
+      >
+        Edit <span className="hidden lg:inline">&nbsp;Project</span>
+      </button>
+    ),
+    [showModal]
+  )
 }
 
-export default useProjectEditModal
+export default EditProject

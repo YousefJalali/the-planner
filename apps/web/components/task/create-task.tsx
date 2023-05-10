@@ -12,7 +12,7 @@ type Props = {
   status?: Status
 }
 
-const CreateTaskButton: FC<Props> = ({ date, status }) => {
+const CreateTask: FC<Props> = ({ date, status }) => {
   const router = useRouter()
 
   const urlDate =
@@ -79,4 +79,4 @@ const CreateTaskButton: FC<Props> = ({ date, status }) => {
   )
 }
 
-export default CreateTaskButton
+export default CreateTask

@@ -1,12 +1,12 @@
 import type { GetStaticProps, NextPage } from 'next'
 import { v2 as cloudinary } from 'cloudinary'
 
-import ProjectsCardsList from '../components/project/project-card/project-cards-list'
+import ProjectsCardsList from '../components/project/project-cards-featured'
 import { ToggleButton, Logo, Emoji, Header } from '../components/ui'
 
 import DateTasks from '../components/task/date-tasks/date-tasks'
 import { SearchButton } from '../components/search/'
-import CreateTaskButton from '../components/task/create-task-button'
+import CreateTaskButton from '../components/task/create-task'
 
 type Props = {
   // projects: Project[]

@@ -1,14 +1,8 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { NotificationType } from '@the-planner/hooks'
-import {
-  FiAlertTriangle,
-  FiCheck,
-  FiInfo,
-  FiX,
-  FiXCircle,
-} from 'react-icons/fi'
+import { FiX } from 'react-icons/fi'
 import {
   TbAlertTriangle,
   TbCircleCheck,
@@ -39,7 +33,7 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
   }
 
   return (
-    <div className="toast mb-3 w-full min-w-0 px-6 md:max-w-lg">
+    <div className="toast mb-3 w-full min-w-0 px-6 md:max-w-lg z-[3000]">
       <div className={`alert ${variants[notification.variant]}`}>
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-2 ">

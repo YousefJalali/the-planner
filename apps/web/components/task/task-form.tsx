@@ -1,7 +1,7 @@
 import ObjectID from 'bson-objectid'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { DateInput, ImageInput } from '../../ui'
+import { DateInput, ImageInput } from '../ui'
 
 import { Task, Status } from '@the-planner/types'
 
@@ -11,9 +11,9 @@ import {
   stringToDate,
   taskFormValidation,
 } from '@the-planner/utils'
-import { SelectProject } from '../../project/select-project/'
 
 import { Controller, useForm } from 'react-hook-form'
+import SelectProject from '../project/select-project'
 
 type Props = {
   id: 'create' | 'edit'

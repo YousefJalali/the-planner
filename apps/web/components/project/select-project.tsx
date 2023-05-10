@@ -1,10 +1,12 @@
 import { FiChevronDown, FiCircle } from 'react-icons/fi'
 
 import { Project } from '@the-planner/types'
-import { Spinner } from '../../ui'
+import { Spinner } from '../ui'
 import { useProject } from '@the-planner/data'
 
-import SelectButton from './select-project-button'
+import { useModal } from '@the-planner/hooks'
+import { useCallback } from 'react'
+import ProjectsList from './projects-list'
 
 type Props = {
   onChange: (v: string) => void
@@ -21,6 +23,24 @@ export function SelectProject({
 }: // taskProject,
 Props) {
   const { project, isLoading } = useProject(value)
+  const { setModal, clearModal } = useModal()
+
+  const showModal = useCallback(
+    () =>
+      setModal({
+        id: 'project-list',
+        closeButton: true,
+        content: (
+          <ProjectsList
+            onSelectProject={(project) => {
+              selectHandler(project)
+              clearModal('project-list')
+            }}
+          />
+        ),
+      }),
+    []
+  )
 
   const selectHandler = (project: Project) => {
     if (project?.id) {
@@ -29,7 +49,7 @@ Props) {
   }
 
   return (
-    <SelectButton onSelectProject={selectHandler} className={className}>
+    <button type="button" onClick={showModal} className={className}>
       <div className="flex justify-between items-center">
         {project ? (
           <div className="flex items-center">
@@ -55,7 +75,7 @@ Props) {
           <FiChevronDown size={20} />
         </div>
       </div>
-    </SelectButton>
+    </button>
   )
 }
 

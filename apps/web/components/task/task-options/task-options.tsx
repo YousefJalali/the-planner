@@ -30,9 +30,7 @@ export const TaskOptions: FC<Props> = ({ task, inHeader }) => {
       className="btn btn-circle btn-sm btn-ghost"
       btnComp={<FiMoreVertical size={inHeader ? 24 : 18} />}
     >
-      <>
-        <TaskOptionsList task={task} />
-      </>
+      <TaskOptionsList task={task} />
     </Dropdown>
   ) : (
     <button

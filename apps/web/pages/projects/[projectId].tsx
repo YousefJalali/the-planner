@@ -2,13 +2,13 @@ import { useRouter } from 'next/router'
 
 import { useProject } from '@the-planner/data'
 
-import CreateTaskButton from '../../components/task/create-task-button'
+import CreateTaskButton from '../../components/task/create-task'
 import { ErrorMessage, LinearProgress, Header } from '../../components/ui'
 import { Status, TaskWithProject } from '@the-planner/types'
 import { useMemo } from 'react'
 import { TasksLists } from 'apps/web/components/task/tasks-list'
 import { FiChevronLeft } from 'react-icons/fi'
-import EditProject from 'apps/web/components/project/EditProject'
+import EditProject from 'apps/web/components/project/edit-project'
 
 const Project = () => {
   const router = useRouter()
