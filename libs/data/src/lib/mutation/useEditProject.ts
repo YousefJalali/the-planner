@@ -1,84 +1,52 @@
-import * as _ from 'lodash'
-import { uniqueId } from 'lodash'
-import { useRouter } from 'next/router'
-import { editProject } from '../actions'
+import useSWRMutation from 'swr/mutation'
+
 import { useNotification } from '@the-planner/hooks'
-import { useProject } from '../query'
-import { Project } from '@the-planner/types'
+import { Project, ProjectWithTasksAndCount } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
-export const useEditProject = (callback: (action?: any) => void) => {
+import { editProject } from '../actions'
+
+export const useEditProject = ({ projectId }: { projectId: string }) => {
+  const { trigger, error, isMutating } = useSWRMutation(
+    '/api/projects',
+    (url, arg) =>
+      editProject([url, `?${new URLSearchParams(projectId).toString()}`], arg)
+  )
+
   const { setNotification } = useNotification()
 
-  const router = useRouter()
-  const { projectId } = router.query
-  const { mutate: mutateProject, project } = useProject(projectId as string)
-
-  const onSubmit = async (formData: Project) => {
-    const request = async () => {
-      try {
-        const {
-          data: updatedProject,
-          error,
-          validationErrors,
-        } = await editProject(_.omit(formData, 'tasks', '_count'))
-        // } = await editProject(formData)
-
-        // if (validationErrors) {
-        //   showForm(formData, validationErrors)
-        //   return null
-        // }
-
-        if (error) {
-          throw new Error(error)
-        }
-
+  const onSubmit = async (
+    formData: Project,
+    callback?: (action?: any) => void
+  ) => {
+    //@ts-ignore
+    trigger(formData, {
+      optimisticData: (data: any) => ({
+        data: {
+          ...data.data,
+          ...formData,
+        },
+      }),
+      rollbackOnError: true,
+      throwOnError: false,
+      onError: (err) => {
         setNotification({
-          id: uniqueId(),
+          message: getErrorMessage(err),
+          variant: 'error',
+        })
+      },
+      onSuccess: () => {
+        setNotification({
           message: 'project updated!',
           variant: 'success',
         })
 
-        return updatedProject
-      } catch (error) {
-        setNotification({
-          id: uniqueId(),
-          message: getErrorMessage(error),
-          variant: 'error',
-          // action: 'try again',
-          // actionFn: () => showForm(formData),
-        })
-      }
-    }
-
-    const updatedProject = {
-      data: {
-        ...formData,
-      },
-    }
-
-    mutateProject(
-      async () => {
-        const updatedProject = await request()
-
-        if (!updatedProject) {
-          return { data: project }
-        }
-
-        return {
-          data: updatedProject,
+        if (callback) {
+          callback()
         }
       },
-      {
-        optimisticData: updatedProject,
-        rollbackOnError: true,
-      }
-    )
-
-    callback()
+    })
   }
 
-  return { onSubmit }
+  return { onSubmit, error, isMutating }
 }
-
-export default useEditProject

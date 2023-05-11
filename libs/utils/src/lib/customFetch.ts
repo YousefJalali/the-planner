@@ -1,23 +1,23 @@
-// function logout() {
-//   window.localStorage.removeItem(localStorageKey)
-// }
-
 export async function customFetch<T>(
-  url: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  bodyData?: T
+  url: string | [string, string],
+  {
+    method = 'GET',
+    bodyData,
+    token,
+  }: {
+    method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+    bodyData?: T
+    token?: string
+  }
 ) {
-  // const token = window.localStorage.getItem(localStorageKey)
-  const headers = { 'Content-Type': 'application/json' }
-  // if (token) {
-  //   headers.Authorization = `Bearer ${token}`
-  // }
+  const requestHeaders = { 'Content-Type': 'application/json' }
 
-  const res = await fetch(url, {
+  const res = await fetch(typeof url === 'string' ? url : url.join(''), {
     method,
     ...(bodyData && { body: JSON.stringify(bodyData) }),
     headers: {
-      ...headers,
+      ...requestHeaders,
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   })
 
@@ -28,11 +28,11 @@ export async function customFetch<T>(
   // }
 
   if (!res.ok) {
-    const err = new Error(res.statusText)
-    const { error } = await res.json()
-    err.message = error
-    throw err
-    // throw getErrorMessage(err)
+    const error = new Error(res.statusText)
+    const { error: err, validationErrors } = await res.json()
+
+    error.message = err
+    throw { error, validationErrors }
   }
 
   return await res.json()

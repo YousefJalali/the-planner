@@ -1,7 +1,7 @@
 import { mockNextUseRouter, render } from '../../../../test-utils'
 import { TaskWithProject } from '@the-planner/types'
-import { TaskOptionsList } from '../task-options-list'
 import { taskSample } from './task-sample'
+import { TaskOptions } from '../task-options'
 
 mockNextUseRouter({
   route: '/',
@@ -17,7 +17,7 @@ mockNextUseRouter({
 })
 
 function setup(task: TaskWithProject = taskSample) {
-  const utils = render(<TaskOptionsList task={taskSample} />)
+  const utils = render(<TaskOptions task={taskSample} />)
 
   const list = utils.getAllByTestId(/-option/i) as HTMLUListElement[]
 

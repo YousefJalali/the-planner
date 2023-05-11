@@ -1,8 +1,6 @@
 const baseURL = '/api'
 // const baseURL = ''
 
-export const projectKey = (id: string) => `${baseURL}/projects/${id}`
-
 export const projectsKey = () => `${baseURL}/projects`
 
 //task

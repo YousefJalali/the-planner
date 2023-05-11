@@ -1,16 +1,11 @@
 import useSWR from 'swr'
-import { requestLogger } from '../middlewares/requestLogger'
 import { ProjectWithTasksAndCount } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectKey } from '../keys'
 
 export const useProject = (projectId: string | null) => {
   const { data, error, mutate } = useSWR(
-    projectId ? projectKey(projectId) : null,
-    customFetch,
-    {
-      use: [requestLogger],
-    }
+    !projectId ? null : `/api/projects?projectId=${projectId}`,
+    (url) => customFetch(url, {})
   )
 
   const project: ProjectWithTasksAndCount = data?.data || null

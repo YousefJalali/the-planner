@@ -24,8 +24,6 @@ export const ProjectCardsList = () => {
   const { projects, error, isLoading, size, setSize, hasReachedEnd } =
     useInfiniteProjects(search)
 
-  console.log({ hasReachedEnd })
-
   const renderProjects = useMemo(() => {
     return projects.length > 0 ? (
       projects.map((project, i) => {

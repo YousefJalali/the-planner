@@ -15,12 +15,13 @@ export const EditProject: FC<Props> = ({ project }) => {
 
   const { setModal, clearModal } = useModal()
 
-  const { onSubmit } = useEditProject(() => clearModal('project-edit'))
+  const { onSubmit } = useEditProject({ projectId: project.id })
 
-  const { deleteProjectHandler } = useDeleteProject(() => {
-    clearModal('project-edit')
-    router.back()
-  })
+  const { onDelete } = useDeleteProject({ projectId: project.id })
+  // const { deleteProjectHandler } = useDeleteProject(() => {
+  //   clearModal('project-edit')
+  //   router.back()
+  // })
 
   const showModal = useCallback(
     () =>
@@ -30,9 +31,16 @@ export const EditProject: FC<Props> = ({ project }) => {
         content: (
           <ProjectForm
             id="edit"
-            onSubmit={onSubmit}
+            onSubmit={(formData) =>
+              onSubmit(formData, () => clearModal('project-edit'))
+            }
             defaultValues={project}
-            onDelete={() => deleteProjectHandler(project)}
+            onDelete={() =>
+              onDelete(project, () => {
+                clearModal('project-edit')
+                router.back()
+              })
+            }
           />
         ),
       }),

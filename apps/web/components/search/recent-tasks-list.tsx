@@ -1,8 +1,10 @@
-import { useRecentTasks } from '@the-planner/data'
+import { useTasks } from '@the-planner/data'
 import SearchItem from './search-item'
 
 const RecentTasks = () => {
-  const { recentTasks, isLoading: recentTasksLoading } = useRecentTasks()
+  const { tasks: recentTasks, isLoading: recentTasksLoading } = useTasks({
+    limit: '5',
+  })
 
   return (
     <section className="px-6 mt-6 prose">

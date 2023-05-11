@@ -16,7 +16,7 @@ const CreateProject = ({
   callback?: () => void
 }) => {
   const { setModal, clearModal } = useModal()
-  const { onSubmit } = useCreateProject(() => clearModal('project-create'))
+  const { onSubmit } = useCreateProject()
 
   const showModal = useCallback(
     () =>
@@ -27,8 +27,6 @@ const CreateProject = ({
       }),
     []
   )
-
-  console.log('here')
 
   return useMemo(
     () => (

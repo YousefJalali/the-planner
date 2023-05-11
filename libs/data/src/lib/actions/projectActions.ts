@@ -1,12 +1,29 @@
-import { projectKey, projectsKey } from '@the-planner/data'
 import { Project } from '@the-planner/types'
 import { customFetch } from '@the-planner/utils'
 
-export const createProject = async (project: Project) =>
-  await customFetch(`${projectsKey()}/create`, 'POST', project)
+export const createProject = async (
+  url: string | [string, string],
+  { arg }: { arg: Project }
+) =>
+  await customFetch(url, {
+    method: 'POST',
+    bodyData: arg,
+  })
 
-export const editProject = async (project: Project) =>
-  await customFetch(`${projectKey(project.id)}/edit`, 'PUT', project)
+export const editProject = async (
+  url: string | [string, string],
+  { arg }: { arg: Project }
+) =>
+  await customFetch(url, {
+    method: 'PUT',
+    bodyData: arg,
+  })
 
-export const deleteProject = async (projectId: string) =>
-  await customFetch(`${projectKey(projectId)}/delete`, 'DELETE')
+export const deleteProject = async (
+  url: string | [string, string],
+  { arg }: { arg: string }
+) =>
+  await customFetch(url, {
+    method: 'DELETE',
+    // bodyData: arg,
+  })

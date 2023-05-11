@@ -2,8 +2,8 @@ import { FC, useCallback } from 'react'
 import { TaskWithProject } from '@the-planner/types'
 import { FiMoreVertical } from 'react-icons/fi'
 import { useMedia, useModal } from '@the-planner/hooks'
-import { TaskOptionsList } from './task-options-list'
 import { Dropdown } from '../../ui'
+import TaskOptionsList from './task-options-list'
 
 type Props = {
   task: TaskWithProject

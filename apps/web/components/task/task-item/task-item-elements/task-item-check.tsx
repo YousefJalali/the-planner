@@ -1,37 +1,43 @@
-import { useUpdateTaskStatus } from '@the-planner/data'
 import { Status, TaskWithProject } from '@the-planner/types'
-import { formatToUrlDate } from '@the-planner/utils'
 import { useCallback, useMemo } from 'react'
+import EditTaskStatus from '../../edit-task-status'
 
 export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
-  const { id, status, project, startDate } = task
+  const { id, status, project } = task
 
-  const { taskStatusHandler } = useUpdateTaskStatus({
-    date: formatToUrlDate(startDate),
-  })
+  const checkHandler = useCallback(
+    (onSubmit: (task: TaskWithProject) => void) => {
+      const newStatus =
+        status === Status.PROPOSED || status === Status.INPROGRESS
+          ? Status.COMPLETED
+          : Status.PROPOSED
 
-  const checkHandler = useCallback(() => {
-    const newStatus =
-      status === Status.PROPOSED || status === Status.INPROGRESS
-        ? Status.COMPLETED
-        : Status.PROPOSED
-
-    taskStatusHandler({ taskId: id, newStatus })
-  }, [taskStatusHandler])
+      onSubmit({
+        ...task,
+        status: newStatus,
+      })
+    },
+    []
+  )
 
   return useMemo(
     () => (
-      <input
-        id={id}
-        type="checkbox"
-        className="checkbox checkbox-secondary rounded-full"
-        checked={status === Status.COMPLETED}
-        onChange={checkHandler}
-        style={{
-          borderColor: project?.color || '#ccc',
-          borderWidth: 2,
-        }}
-      />
+      <EditTaskStatus taskId={task.id}>
+        {(onSubmit) => (
+          <input
+            id={id}
+            type="checkbox"
+            className="checkbox checkbox-secondary rounded-full"
+            checked={status === Status.COMPLETED}
+            onChange={() => checkHandler(onSubmit)}
+            style={{
+              borderColor: project?.color || '#ccc',
+              borderWidth: 2,
+            }}
+          />
+        )}
+      </EditTaskStatus>
+
       // <Checkbox
       //   id={id}
       // checked={status === Status.COMPLETED}

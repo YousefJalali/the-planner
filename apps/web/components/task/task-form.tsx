@@ -86,8 +86,6 @@ export function TaskForm({
       endDate,
     }
 
-    console.log(formData)
-
     onSubmit(formData)
   }
 
@@ -97,7 +95,7 @@ export function TaskForm({
         <h1 className="">{id === 'create' ? 'New' : 'Update'} Task</h1>
 
         <fieldset
-          className="not-prose space-y-6"
+          className="not-prose space-y-6 "
           disabled={id === 'create' && isSubmitting}
         >
           <div className="form-control w-full">

@@ -1,11 +1,11 @@
-import { useDateTasks } from '@the-planner/data'
+import { useTasks } from '@the-planner/data'
 
 import { TasksLists } from '../tasks-list'
 import DateTasksEmpty from './date-tasks-empty'
 import DateTasksError from './date-tasks-error'
 
 const DateTasksList = ({ date }: { date: string }) => {
-  const { dateTasks, isLoading, error } = useDateTasks(date)
+  const { tasks: dateTasks, isLoading, error } = useTasks({ d: date })
 
   return (
     <div className="px-6 h-full">

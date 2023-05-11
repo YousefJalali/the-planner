@@ -5,25 +5,27 @@ import ProjectCard from './project-card'
 import NewProjectCard from './new-project-card'
 import { useNotification } from '@the-planner/hooks'
 import { uniqueId } from 'lodash'
-import { useRecentProjects } from '@the-planner/data'
+import { useProjects } from '@the-planner/data'
 
 export const ProjectsCardsFeatured: FC = () => {
   // console.log('ProjectsCardsList rendered')
 
   const router = useRouter()
 
-  const { projects, error, isLoading } = useRecentProjects()
+  // const { projects, error, isLoading } = useRecentProjects()
+  const { projects, error, isLoading } = useProjects({ limit: '5' })
 
   const { setNotification } = useNotification()
 
   // useEffect(() => {
-  // if (error) {
-  //   setNotification({
-  //     id: uniqueId(),
-  //     message: 'Failed to fetch projects, try again!',
-  //     variant: 'error',
-  //   })
-  // }
+  if (error) {
+    console.log({ error })
+    setNotification({
+      id: uniqueId(),
+      message: 'Failed to fetch projects, try again!',
+      variant: 'error',
+    })
+  }
   // }, [error])
 
   return (

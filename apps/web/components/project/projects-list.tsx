@@ -16,7 +16,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
   const [search, setSearch] = useState('')
   const { height } = useWindowSize()
 
-  const { projects, error, isLoading } = useProjects('list')
+  const { projects, error, isLoading } = useProjects({})
 
   const selectHandler = (project: Project) => {
     setSearch('')
@@ -62,19 +62,17 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
   ) : (
     <div id="project-list-select">
       <div className="relative flex mx-3 mt-12 pb-2 gap-x-2">
-        {projects?.length > 10 && (
-          <div className="sticky top-0 z-50 flex-1">
-            <input
-              type="search"
-              name="keyword"
-              placeholder="Search..."
-              autoComplete="off"
-              className="input input-bordered w-full"
-              value={search}
-              onChange={searchHandler}
-            />
-          </div>
-        )}
+        <div className="sticky top-0 z-50 flex-1">
+          <input
+            type="search"
+            name="keyword"
+            placeholder="Search..."
+            autoComplete="off"
+            className="input input-bordered w-full"
+            value={search}
+            onChange={searchHandler}
+          />
+        </div>
 
         <CreateProject />
         {/* <CreateProjectButton onSelectProject={onSelectProject} /> */}

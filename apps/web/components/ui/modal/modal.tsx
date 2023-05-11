@@ -73,7 +73,7 @@ const ContentWrapper = memo(
         <motion.div
           ref={targetRef}
           className="relative modal-box z-50 transition-none p-0 max-h-[calc(100%-5em)]"
-          id={`${id}-box`}
+          id={`${id}-modal`}
           variants={variants}
           initial="closed"
           animate="open"
@@ -82,14 +82,12 @@ const ContentWrapper = memo(
           // style={{ maxHeight: height ? `calc(${height} - 5em)` : undefined }}
         >
           {closeButton && (
-            <div id={id}>
-              <button
-                className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
-                onClick={clearModal}
-              >
-                ✕
-              </button>
-            </div>
+            <button
+              className="btn btn-sm btn-circle btn-outline absolute right-2 top-2"
+              onClick={clearModal}
+            >
+              ✕
+            </button>
           )}
           {children}
         </motion.div>
@@ -109,7 +107,7 @@ export const Modal: FC = () => {
       {modals &&
         modals.length > 0 &&
         modals.map((modal) => (
-          <>
+          <div key={modal.id}>
             {createPortal(
               <ContentWrapper
                 id={modal.id}
@@ -122,7 +120,7 @@ export const Modal: FC = () => {
               </ContentWrapper>,
               document.getElementById('modal') as HTMLDivElement
             )}
-          </>
+          </div>
         ))}
     </AnimatePresence>
   )

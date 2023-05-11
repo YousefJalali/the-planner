@@ -1,4 +1,4 @@
-const TaskOption = ({
+const TaskOptionItem = ({
   icon,
   onClick,
   content,
@@ -30,4 +30,4 @@ const TaskOption = ({
   </li>
 )
 
-export default TaskOption
+export default TaskOptionItem

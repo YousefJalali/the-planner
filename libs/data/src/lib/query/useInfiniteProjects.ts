@@ -1,28 +1,21 @@
 import { Status } from '@prisma/client'
 import * as _ from 'lodash'
 import useSWRInfinite from 'swr/infinite'
-import { requestLogger } from '../middlewares/requestLogger'
-import {
-  ProjectTasksCount,
-  Project,
-  ProjectWithTasks,
-} from '@the-planner/types'
+import { ProjectWithTasksAndCount } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectsKey } from '../keys'
-
-type ProjectWithTasksCount = Project & ProjectTasksCount
 
 export const LIMIT = 16
 
 const getKey = (
   pageIndex: number,
   previousPageData: {
-    data: (ProjectWithTasks & ProjectTasksCount)[]
+    data: ProjectWithTasksAndCount[]
     nextCursor: string
   },
   filter?: Omit<Status, 'proposed'> | null
 ) => {
-  const key = projectsKey()
+  // const key = projectsKey()
+  const key = '/api/projects'
 
   const baseURL = filter
     ? `${key}?limit=${LIMIT}&q=${filter.toLowerCase()}`
@@ -45,17 +38,15 @@ const getKey = (
 export const useInfiniteProjects = (
   filter?: Omit<Status, 'proposed'> | null
 ) => {
-  const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite<
-    {
-      data: (ProjectWithTasks & ProjectTasksCount)[]
-      nextCursor?: string
+  let key: string | null = ''
+  const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
+    (pageIndex, previousPageData) => {
+      key = getKey(pageIndex, previousPageData, filter)
+      return '/api/projects'
     },
-    { error: Error }
-  >(
-    (pageIndex, previousPageData) =>
-      getKey(pageIndex, previousPageData, filter),
-    customFetch,
-    { use: [requestLogger] }
+    () => {
+      return key ? customFetch(key, {}) : null
+    }
   )
 
   const p = data?.map((d) => [...d.data])
@@ -64,6 +55,8 @@ export const useInfiniteProjects = (
   const isLoading = !error && !data
   const hasReachedEnd =
     p?.[0]?.length === 0 || (p && p[p.length - 1]?.length < LIMIT)
+
+  console.log(projects)
 
   return {
     projects,
