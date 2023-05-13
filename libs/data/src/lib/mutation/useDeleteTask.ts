@@ -18,7 +18,7 @@ export const useDeleteTask = (taskId: string) => {
     //@ts-ignore
     trigger(taskId, {
       optimisticData: (data: any) => {
-        console.log(data)
+        // console.log(data)
         return data
       },
       rollbackOnError: true,

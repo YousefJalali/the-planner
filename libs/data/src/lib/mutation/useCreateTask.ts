@@ -22,7 +22,7 @@ export const useCreateTask = () => {
     trigger(formData, {
       //@ts-ignore
       optimisticData: (data: any) => {
-        console.log(data)
+        // console.log(data)
 
         return data
       },

@@ -9,7 +9,7 @@ const Index: NextPage = () => {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen">
+    <>
       <Header pageTitle="Projects" className="py-3 lg:py-6">
         <a
           onClick={() => router.push('/')}
@@ -28,7 +28,7 @@ const Index: NextPage = () => {
 
         <ProjectCardsList />
       </section>
-    </div>
+    </>
   )
 }
 

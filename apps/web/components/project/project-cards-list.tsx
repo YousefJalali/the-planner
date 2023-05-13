@@ -62,7 +62,7 @@ export const ProjectCardsList = () => {
         <ProjectsFilter filter={filter} setFilter={setFilter} />
       </x.div> */}
 
-      <div className="py-2">
+      <div className="py-2 max-w-md">
         <SearchInput
           value={search}
           onChange={(e) => setSearch(e.target.value)}

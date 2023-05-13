@@ -22,7 +22,7 @@ export const useEditTask = ({ taskId }: { taskId: string }) => {
     //@ts-ignore
     trigger(formData, {
       optimisticData: (data: any) => {
-        console.log(data)
+        // console.log(data)
         return data
       },
       rollbackOnError: true,

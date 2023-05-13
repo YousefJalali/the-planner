@@ -8,8 +8,6 @@ import { uniqueId } from 'lodash'
 import { useProjects } from '@the-planner/data'
 
 export const ProjectsCardsFeatured: FC = () => {
-  // console.log('ProjectsCardsList rendered')
-
   const router = useRouter()
 
   // const { projects, error, isLoading } = useRecentProjects()
@@ -19,7 +17,6 @@ export const ProjectsCardsFeatured: FC = () => {
 
   // useEffect(() => {
   if (error) {
-    console.log({ error })
     setNotification({
       id: uniqueId(),
       message: 'Failed to fetch projects, try again!',
@@ -44,7 +41,7 @@ export const ProjectsCardsFeatured: FC = () => {
       </div>
 
       {isLoading ? (
-        <div className="p-6">Loading...</div>
+        <div className="m-6 min-w-[300px] h-[150px]">Loading...</div>
       ) : error ? (
         <div className="p-6">
           <NewProjectCard />

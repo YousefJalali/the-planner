@@ -42,7 +42,9 @@ const Project = () => {
 
         <div className="flex gap-4">
           {project && !error && !isLoading && <EditProject project={project} />}
-          {project && !error && !isLoading && <CreateTaskButton />}
+          {project && !error && !isLoading && (
+            <CreateTaskButton projectId={project.id} />
+          )}
         </div>
       </Header>
 

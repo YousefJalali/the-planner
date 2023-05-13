@@ -56,8 +56,6 @@ export const useInfiniteProjects = (
   const hasReachedEnd =
     p?.[0]?.length === 0 || (p && p[p.length - 1]?.length < LIMIT)
 
-  console.log(projects)
-
   return {
     projects,
     error: getErrorMessage(error),

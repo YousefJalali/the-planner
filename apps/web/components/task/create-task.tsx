@@ -7,19 +7,11 @@ import { parseUrlDate } from '@the-planner/utils'
 import { useRouter } from 'next/router'
 import { FiPlus } from 'react-icons/fi'
 
-export default function CreateTask({
-  date,
-  status,
-}: {
-  date?: string
-  status?: Status
-}) {
+export default function CreateTask({ projectId }: { projectId?: string }) {
   const router = useRouter()
 
   const urlDate =
     typeof router.query.d === 'string' ? String(router.query.d) : null
-
-  const currentDate = urlDate || date
 
   const { setModal, clearModal } = useModal()
 
@@ -34,11 +26,11 @@ export default function CreateTask({
           <TaskForm
             id="create"
             defaultValues={{
-              ...(currentDate && {
-                startDate: parseUrlDate(currentDate as string),
+              ...(urlDate && {
+                startDate: parseUrlDate(urlDate as string),
               }),
-              ...(status && {
-                status,
+              ...(projectId && {
+                projectId,
               }),
             }}
             onSubmit={(formData) =>
