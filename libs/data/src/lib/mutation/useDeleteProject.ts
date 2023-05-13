@@ -8,9 +8,8 @@ import { editProject } from '../actions'
 
 export const useDeleteProject = ({ projectId }: { projectId: string }) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    '/api/projects',
-    (url, arg) =>
-      editProject([url, `?${new URLSearchParams(projectId).toString()}`], arg)
+    ['/api/projects', `?${new URLSearchParams(projectId).toString()}`],
+    (url, arg) => editProject(url, arg)
   )
 
   const { setNotification } = useNotification()

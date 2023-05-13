@@ -1,13 +1,18 @@
 import { useCallback } from 'react'
 import { useModal } from '@the-planner/hooks'
 import { useCreateTask } from '@the-planner/data'
-import { Status, Task } from '@the-planner/types'
 import { TaskForm } from './task-form'
 import { parseUrlDate } from '@the-planner/utils'
 import { useRouter } from 'next/router'
 import { FiPlus } from 'react-icons/fi'
 
-export default function CreateTask({ projectId }: { projectId?: string }) {
+export default function CreateTask({
+  children,
+  projectId,
+}: {
+  children?: (handler: () => void) => JSX.Element
+  projectId?: string
+}) {
   const router = useRouter()
 
   const urlDate =
@@ -44,7 +49,9 @@ export default function CreateTask({ projectId }: { projectId?: string }) {
     []
   )
 
-  return (
+  return children ? (
+    children(showModal)
+  ) : (
     <>
       <button
         name="create task button"

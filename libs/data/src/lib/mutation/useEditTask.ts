@@ -8,9 +8,8 @@ import { editTask } from '../actions'
 
 export const useEditTask = ({ taskId }: { taskId: string }) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    '/api/tasks',
-    (url, arg) =>
-      editTask([url, `?${new URLSearchParams(taskId).toString()}`], arg)
+    ['/api/tasks', `?${new URLSearchParams(taskId).toString()}`],
+    (url, arg) => editTask(url, arg)
   )
 
   const { setNotification } = useNotification()

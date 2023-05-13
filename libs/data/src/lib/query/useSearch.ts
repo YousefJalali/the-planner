@@ -3,7 +3,9 @@ import { TaskWithProject } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
 
 export const useSearch = (query: string | null) => {
-  const res = useSWR(query ? `/api/search?q=${query}` : null, customFetch)
+  const res = useSWR(query ? `/api/search?q=${query}` : null, customFetch, {
+    keepPreviousData: true,
+  })
 
   const { data, error, mutate } = res
 

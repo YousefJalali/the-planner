@@ -4,6 +4,7 @@ import { BiCategoryAlt } from 'react-icons/bi'
 import Link from 'next/link'
 import { Montserrat, Open_Sans, Inter } from '@next/font/google'
 import { Logo, Modal, Prompt, Notification } from '../'
+import { formatToUrlDate } from '@the-planner/utils'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -51,7 +52,7 @@ export const Layout: FC<Props> = ({ children }) => {
             </div>
             <ul className="menu">
               <li>
-                <Link href="/">
+                <Link href={`/?d=${formatToUrlDate(new Date())}`}>
                   <FaTasks />
                   Tasks
                 </Link>

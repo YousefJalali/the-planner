@@ -10,7 +10,7 @@ export const Header: FC<Props> = ({ children, pageTitle = '', className }) => {
   return (
     <>
       <Head>
-        <title>Za Blanner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title>
+        <title>The Planner {pageTitle !== '' ? `| ${pageTitle}` : ''}</title>
         <meta charSet="utf-8" />
       </Head>
       <header className={`flex justify-between items-center px-6 ${className}`}>

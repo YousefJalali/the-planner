@@ -20,9 +20,13 @@ export const useProjects = (query: Query<QueryType>) => {
   // const { data, error, mutate } = useSWR(key, customFetch, {
   //   use: [requestLogger],
   // })
-  const { data, error, mutate } = useSWR('/api/projects', (url) =>
-    customFetch([url, `?${new URLSearchParams(query).toString()}`], {})
+  const { data, error, mutate } = useSWR(
+    ['/api/projects', `?${new URLSearchParams(query).toString()}`],
+    (url) => customFetch(url, {})
   )
+  // const { data, error, mutate } = useSWR('/api/projects', (url) =>
+  //   customFetch([url, `?${new URLSearchParams(query).toString()}`], {})
+  // )
 
   // console.log(data)
 

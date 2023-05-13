@@ -8,8 +8,8 @@ import { deleteTask } from '../actions'
 
 export const useDeleteTask = (taskId: string) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    '/api/tasks',
-    (url, arg) => deleteTask([url, `?taskId=${taskId}`], arg)
+    ['/api/tasks', `?taskId=${taskId}`],
+    (url, arg) => deleteTask(url, arg)
   )
 
   const { setNotification } = useNotification()

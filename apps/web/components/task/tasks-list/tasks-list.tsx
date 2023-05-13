@@ -24,7 +24,7 @@ export const TasksLists: FC<Props> = ({
         const status = Status[val]
         const filteredTasks = tasks.filter((task) => task.status === status)
 
-        if (filteredTasks.length <= 0 && !showEmptyList) return null
+        // if (filteredTasks.length <= 0 && !showEmptyList) return null
 
         return (
           <ListWrapper
@@ -33,8 +33,8 @@ export const TasksLists: FC<Props> = ({
             status={status}
             count={filteredTasks.length}
           >
-            {filteredTasks.length <= 0 && showEmptyList ? (
-              <span className="block capitalize opacity-60 text-sm  text-center">
+            {filteredTasks.length <= 0 ? (
+              <span className="block capitalize opacity-60 text-sm bg-base-200 p-2 rounded-lg">
                 No {statusAlias(status)} tasks
               </span>
             ) : (
@@ -48,6 +48,17 @@ export const TasksLists: FC<Props> = ({
                 </AnimatedItem>
               </ul>
             )}
+            {/* <CreateTask>
+              {(showModal) => (
+                <button
+                  onClick={showModal}
+                  className="btn btn-ghost text-primary btn-sm items-center justify-center gap-2 w-full mt-2 border border-dashed border-base-300"
+                >
+                  <FiPlus size={20} />
+                  Add task
+                </button>
+              )}
+            </CreateTask> */}
           </ListWrapper>
         )
       })}

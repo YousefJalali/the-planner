@@ -8,9 +8,13 @@ import { changeTaskStatus } from '../actions'
 
 export const useUpdateTaskStatus = ({ taskId }: { taskId: string }) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    '/api/tasks',
-    (url, arg) => changeTaskStatus([url, `?taskId=${taskId}`], arg)
+    ['/api/tasks', `?taskId=${taskId}`],
+    (url, arg) => changeTaskStatus(url, arg)
   )
+  // const { trigger, error, isMutating } = useSWRMutation(
+  //   '/api/tasks',
+  //   (url, arg) => changeTaskStatus([url, `?taskId=${taskId}`], arg)
+  // )
 
   const { setNotification } = useNotification()
 

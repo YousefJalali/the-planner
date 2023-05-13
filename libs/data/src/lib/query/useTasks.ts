@@ -13,8 +13,12 @@ type Query<Type> = {
 }
 
 export const useTasks = (query: Query<QueryType>) => {
+  // const { data, error, mutate } = useSWR(
+  //   `/api/tasks?${new URLSearchParams(query).toString()}`,
+  //   (url) => customFetch(url, {})
+  // )
   const { data, error, mutate } = useSWR(
-    `/api/tasks?${new URLSearchParams(query).toString()}`,
+    ['/api/tasks', `?${new URLSearchParams(query).toString()}`],
     (url) => customFetch(url, {})
   )
   // const { data, error, mutate } = useSWR('/api/tasks', (url) =>
