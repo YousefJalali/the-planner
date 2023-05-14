@@ -50,17 +50,26 @@ export const useUpdateTaskStatus = ({ task }: { task: Task }) => {
           variant: 'error',
         })
       },
-      onSuccess: () => {
-        setNotification({
-          message: 'status updated!',
-          variant: 'success',
-        })
+      // onSuccess: () => {
+      //   setNotification({
+      //     message: 'status updated!',
+      //     variant: 'success',
+      //   })
 
-        if (callback) {
-          callback()
-        }
-      },
+      //   if (callback) {
+      //     callback()
+      //   }
+      // },
     })
+
+    setNotification({
+      message: 'status updated!',
+      variant: 'success',
+    })
+
+    if (callback) {
+      callback()
+    }
   }
 
   return { onSubmit, error, isMutating }
