@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Task } from '@the-planner/types'
+import { Attachment, Task } from '@the-planner/types'
 import { prisma } from '../../common/lib/prisma'
 import { isValid } from 'date-fns'
 import {
@@ -11,7 +11,6 @@ import {
 } from '@the-planner/utils'
 import { FieldErrors } from 'react-hook-form'
 import ObjectID from 'bson-objectid'
-import { Image } from '@prisma/client'
 import _ from 'lodash'
 
 import { v2 as cloudinary } from 'cloudinary'
@@ -132,7 +131,9 @@ const handler = async (
         })
       }
 
-      const paths = task.attachments.map((attachment: Image) => attachment.path)
+      const paths = task.attachments.map(
+        (attachment: Attachment) => attachment.path
+      )
       const { images, error } = await uploadImages(
         paths,
         task.projectId,

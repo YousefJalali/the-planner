@@ -14,7 +14,7 @@ export const EmptyState = ({
   size = '50%',
 }: Props) => {
   return (
-    <div className="flex flex-col justify-center items-center my-6">
+    <div className="flex flex-col justify-center items-center my-6 h-fit">
       <div style={{ width: `${size}px` }} className="max-w-[12rem] mb-4">
         {illustration}
       </div>

@@ -18,7 +18,7 @@ const Home: NextPage<Props> = (props) => {
   // console.log(props)
   // const [colorMode, setColorMode] = useColorMode()
 
-  console.log('%cindex rendered', 'color:green')
+  // console.log('%cindex rendered', 'color:green')
   // console.log(props.tasks)
 
   return (

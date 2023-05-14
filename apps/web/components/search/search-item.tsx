@@ -17,7 +17,7 @@ const SearchItem = ({ item }: Props) => {
       closeButton: true,
       content: (
         <TaskDetails
-          task={task}
+          taskId={task.id}
           onClose={() => clearModal('task-details')}
           onRoute={() => clearModal('search-modal')}
         />

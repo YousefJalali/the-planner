@@ -20,7 +20,11 @@ export default function ViewTask({
         id: 'task-details',
         closeButton: true,
         content: (
-          <TaskDetails task={task} onClose={() => clearModal('task-details')} />
+          <TaskDetails
+            taskId={task.id}
+            onClose={() => clearModal('task-details')}
+          />
+          // <TaskDetails task={task} onClose={() => clearModal('task-details')} />
         ),
       }),
     [task]

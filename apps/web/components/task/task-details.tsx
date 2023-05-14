@@ -3,18 +3,39 @@ import { useRouter } from 'next/router'
 
 import { TaskWithProject } from '@the-planner/types'
 import { formatDate, formatTime, statusAlias } from '@the-planner/utils'
-import { Badge } from '../ui'
+import { Badge, ErrorMessage, Spinner } from '../ui'
 import Image from 'next/image'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import { useTask } from '@the-planner/data'
 
 type Props = {
-  task: TaskWithProject
+  taskId: string
   onClose?: () => void
   onRoute?: (action?: any) => void
 }
 
-export const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
+export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
+  const router = useRouter()
+
+  const { task, error, isLoading } = useTask(taskId)
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center px-6">
+        <Spinner />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="px-6 flex justify-center">
+        <ErrorMessage error={error} />
+      </div>
+    )
+  }
+
   const {
     id,
     title,
@@ -28,8 +49,6 @@ export const TaskDetails: FC<Props> = ({ task, onClose, onRoute }) => {
     endTime,
     status,
   } = task
-
-  const router = useRouter()
 
   const linkHandler = (route: string) => {
     router.push(route)

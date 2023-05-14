@@ -1,4 +1,4 @@
-import { Image } from '@prisma/client'
+import { Attachment } from '@the-planner/types'
 import {
   UploadApiOptions,
   UploadApiResponse,
@@ -17,7 +17,7 @@ export const uploadImageR = async (
   folderName: string,
   fn: UploadFnType
 ) =>
-  new Promise<Image>((resolve, reject) => {
+  new Promise<Attachment>((resolve, reject) => {
     fn(path, { folder: folderName }, function (error, result) {
       if (error) reject(error)
 

@@ -1,9 +1,9 @@
-import { Image } from '@prisma/client'
+import { Attachment } from '@the-planner/types'
 import * as _ from 'lodash'
 
 export const compareAttachments = (
-  oldAttachments: Image[],
-  newAttachments: Image[]
+  oldAttachments: Attachment[],
+  newAttachments: Attachment[]
 ) => {
   const toBeRemoved = _.differenceBy(oldAttachments, newAttachments, 'id')
   const toBeUploaded = _.differenceBy(newAttachments, oldAttachments, 'id')
