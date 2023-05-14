@@ -4,27 +4,42 @@ import TaskItem from '../task-item/task-item'
 import AnimatedItem from './animated-item'
 import ListWrapper from './list-wrapper'
 import { FC } from 'react'
+import { useTasks } from '@the-planner/data'
+import EmptyTasks from '../empty-tasks'
+import TasksError from '../tasks-error'
 
 type Props = {
-  tasks: TaskWithProject[]
-  showEmptyList?: boolean
   withDivider?: boolean
+  query?: {
+    d?: string
+    projectId?: string
+  }
 }
 
-export const TasksLists: FC<Props> = ({
-  tasks,
-  showEmptyList = false,
-  withDivider = false,
-}) => {
-  if (!tasks) return null
+export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
+  const { tasks, isLoading, error } = useTasks({
+    ...(query?.d && { d: query.d }),
+    ...(query?.projectId && { projectId: query.projectId }),
+  })
 
-  return (
+  if (isLoading) {
+    return <div className="py-6">Loading Tasks...</div>
+  }
+  if (error) {
+    return (
+      <div>
+        <TasksError />
+      </div>
+    )
+  }
+
+  return tasks?.length <= 0 ? (
+    <EmptyTasks />
+  ) : (
     <>
       {Object.values(Status).map((val) => {
         const status = Status[val]
         const filteredTasks = tasks.filter((task) => task.status === status)
-
-        // if (filteredTasks.length <= 0 && !showEmptyList) return null
 
         return (
           <ListWrapper

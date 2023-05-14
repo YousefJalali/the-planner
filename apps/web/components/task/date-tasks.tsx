@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { formatToUrlDate, parseUrlDate } from '@the-planner/utils'
 
-import { DateSelector } from '../date-selector'
-import DateTasksList from './date-tasks-list'
+import { DateSelector } from './date-selector'
+import { TasksLists } from './tasks-list'
 
 export const DateTasks = () => {
   const router = useRouter()
@@ -46,7 +46,9 @@ export const DateTasks = () => {
 
       {dateSelect}
 
-      <DateTasksList date={urlDate} />
+      <section className="px-6 h-full flex flex-col md:flex-row md:space-x-4 overflow-x-hidden lg:overflow-x-visible md:[&>div]:flex-1 max-w-none">
+        <TasksLists query={{ d: urlDate }} />
+      </section>
     </>
   )
 }

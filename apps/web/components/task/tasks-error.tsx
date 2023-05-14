@@ -1,9 +1,9 @@
 import { useNotification } from '@the-planner/hooks'
 import { useEffect } from 'react'
-import DateTasksEmpty from './date-tasks-empty'
+import EmptyTasks from './empty-tasks'
 import { v4 as uuid } from 'uuid'
 
-const DateTasksError = () => {
+const TasksError = () => {
   const { setNotification } = useNotification()
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const DateTasksError = () => {
     })
   }, [])
 
-  return <DateTasksEmpty />
+  return <EmptyTasks />
 }
 
-export default DateTasksError
+export default TasksError

@@ -2,11 +2,12 @@ import type { GetStaticProps, NextPage } from 'next'
 import { v2 as cloudinary } from 'cloudinary'
 
 import ProjectsCardsList from '../components/project/project-cards-featured'
-import { ToggleButton, Logo, Emoji, Header } from '../components/ui'
+import { Logo, Emoji } from '../components/ui'
 
-import DateTasks from '../components/task/date-tasks/date-tasks'
+import DateTasks from '../components/task/date-tasks'
 import { SearchButton } from '../components/search/'
 import CreateTaskButton from '../components/task/create-task'
+import Head from 'next/head'
 
 type Props = {
   // projects: Project[]
@@ -25,7 +26,11 @@ const Home: NextPage<Props> = (props) => {
       <div className="drawer drawer-mobile drawer-end">
         <input id="projects-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center relative lg:items-start mb-4">
-          <Header pageTitle="" className="pt-2 w-full lg:p-4 xl:px-0">
+          <Head>
+            <title>The Planner </title>
+            <meta charSet="utf-8" />
+          </Head>
+          <header className="flex justify-between items-center px-6 pt-2 w-full lg:p-4 xl:px-0">
             <div className="h-12 lg:invisible">
               <Logo />
             </div>
@@ -45,7 +50,8 @@ const Home: NextPage<Props> = (props) => {
 
               <CreateTaskButton />
             </div>
-          </Header>
+          </header>
+
           <section className="px-6 mt-6 w-full">
             <span className="text-2xl">
               <span className="font-light opacity-60">Hello mate, </span>

@@ -22,7 +22,7 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
 
   return useMemo(
     () => (
-      <EditTaskStatus taskId={task.id}>
+      <EditTaskStatus task={task}>
         {(onSubmit) => (
           <input
             id={id}

@@ -26,13 +26,13 @@ const handler = async (
   }>
 ) => {
   if (req.method === 'GET') {
-    const { d, limit, taskId } = req.query
+    const { d, limit, taskId, projectId } = req.query
 
     try {
-      // Get project by taskId
+      // Get task by taskId
       if (taskId) {
         if (typeof taskId !== 'string') {
-          return res.status(404).json({ error: 'project not found' })
+          return res.status(404).json({ error: 'task not found' })
         }
 
         const task = await prisma.task.findFirst({
@@ -47,6 +47,26 @@ const handler = async (
         }
 
         return res.status(200).json({ data: task })
+      }
+
+      // Get tasks by projectId
+      if (projectId) {
+        if (typeof projectId !== 'string') {
+          return res.status(404).json({ error: 'project not found' })
+        }
+
+        const tasks = await prisma.task.findMany({
+          where: {
+            projectId,
+          },
+          include: { project: { select: { title: true, color: true } } },
+        })
+
+        if (!tasks) {
+          return res.status(404).json({ error: 'tasks not found' })
+        }
+
+        return res.status(200).json({ data: tasks })
       }
 
       const date = parseUrlDate(d as string)

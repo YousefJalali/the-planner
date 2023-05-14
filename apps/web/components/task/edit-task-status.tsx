@@ -1,16 +1,16 @@
 import { useUpdateTaskStatus } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
-import { TaskWithProject } from '@the-planner/types'
+import { Task, TaskWithProject } from '@the-planner/types'
 
 export default function EditTaskStatus({
-  taskId,
+  task,
   children,
 }: {
-  taskId: string
+  task: Task
   children: (handler: (task: TaskWithProject) => void) => JSX.Element
 }) {
   const { clearModal } = useModal()
-  const { onSubmit } = useUpdateTaskStatus({ taskId })
+  const { onSubmit } = useUpdateTaskStatus({ task })
 
   return children((task) =>
     onSubmit(task, () => {

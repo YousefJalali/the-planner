@@ -25,7 +25,7 @@ const StatusList: FC<Props> = ({ task }) => {
             <label className="label cursor-pointer flex-row-reverse justify-end gap-2 p-4 hover:bg-base-200 transition-all">
               <span className="">{statusAlias(Status[val])}</span>
 
-              <EditTaskStatus taskId={task.id}>
+              <EditTaskStatus task={task}>
                 {(onSubmit) => (
                   <input
                     type="radio"

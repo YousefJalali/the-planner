@@ -1,15 +1,23 @@
 import useSWRMutation from 'swr/mutation'
+import { useRouter } from 'next/router'
 
 import { useNotification } from '@the-planner/hooks'
-import { TaskWithProject } from '@the-planner/types'
-import { getErrorMessage } from '@the-planner/utils'
+import { Task, TaskWithProject } from '@the-planner/types'
+import { formatToUrlDate, getErrorMessage } from '@the-planner/utils'
 
 import { changeTaskStatus } from '../actions'
 
-export const useUpdateTaskStatus = ({ taskId }: { taskId: string }) => {
+export const useUpdateTaskStatus = ({ task }: { task: Task }) => {
+  const router = useRouter()
+
   const { trigger, error, isMutating } = useSWRMutation(
-    ['/api/tasks', `?taskId=${taskId}`],
-    (url, arg) => changeTaskStatus(url, arg)
+    [
+      '/api/tasks',
+      router.query?.projectId
+        ? `?projectId=${router.query.projectId}`
+        : `?d=${formatToUrlDate(task.startDate)}`,
+    ],
+    (url, arg) => changeTaskStatus([url.join(''), `?taskId=${task.id}`], arg)
   )
   // const { trigger, error, isMutating } = useSWRMutation(
   //   '/api/tasks',

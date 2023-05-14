@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
 import { FiArrowLeft } from 'react-icons/fi'
 import { useTask } from '@the-planner/data'
-import { Spinner, Header } from '../../components/ui'
+import { Spinner } from '../../components/ui'
 import TaskDetails from '../../components/task/task-details'
 import { TaskOptions } from '../../components/task/task-options'
+import Head from 'next/head'
 
 const TaskDetailsPage = () => {
   const router = useRouter()
@@ -12,7 +13,11 @@ const TaskDetailsPage = () => {
 
   return (
     <main>
-      <Header pageTitle={task ? task.title : ''} className="p-6">
+      <Head>
+        <title>The Planner | {task?.title || ''}</title>
+        <meta charSet="utf-8" />
+      </Head>
+      <header className="flex justify-between items-center px-6 p-6">
         <a
           onClick={() => router.back()}
           className="btn btn-sm btn-ghost btn-circle -ml-2"
@@ -21,7 +26,7 @@ const TaskDetailsPage = () => {
         </a>
 
         {task ? <TaskOptions task={task} inHeader /> : <div />}
-      </Header>
+      </header>
 
       {isLoading ? (
         <div className="flex justify-center px-6">
