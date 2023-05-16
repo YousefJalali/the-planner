@@ -6,8 +6,10 @@ import { getErrorMessage } from '@the-planner/utils'
 
 import { deleteProject } from '../actions'
 import { mutate } from 'swr'
+import { useInfiniteProjects } from '../query'
 
 export const useDeleteProject = ({ projectId }: { projectId: string }) => {
+  const { mutate: mutateInfiniteProjects } = useInfiniteProjects()
   const { trigger, error, isMutating } = useSWRMutation(
     ['/api/projects', `?projectId=${projectId}`],
     (url, arg) => deleteProject(url, arg)
@@ -34,7 +36,9 @@ export const useDeleteProject = ({ projectId }: { projectId: string }) => {
         })
       },
       onSuccess: () => {
-        mutate('/api/projects')
+        mutate(['/api/projects', '?']) //project list
+        mutate(['/api/projects', '?limit=5']) //featured projects
+        mutateInfiniteProjects()
       },
     })
 
