@@ -13,6 +13,7 @@ import {
   NotificationCtxProvider,
 } from '@the-planner/hooks'
 import Layout from '../components/ui/layout/layout'
+import { ErrorBoundary } from 'react-error-boundary'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -27,11 +28,7 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      {/* <SessionProvider
-            session={pageProps.session}
-            refetchInterval={2 * 60 * 60}
-          > */}
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
       <CookiesProvider>
         <SWRConfig
           value={
@@ -53,8 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </NotificationCtxProvider>
         </SWRConfig>
       </CookiesProvider>
-      {/* </SessionProvider> */}
-    </>
+    </ErrorBoundary>
   )
 }
 

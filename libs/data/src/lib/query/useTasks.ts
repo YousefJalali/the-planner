@@ -5,7 +5,6 @@ import { customFetch, getErrorMessage } from '@the-planner/utils'
 type QueryType = {
   limit?: number
   d?: string
-  taskId?: string
   projectId?: string
 }
 

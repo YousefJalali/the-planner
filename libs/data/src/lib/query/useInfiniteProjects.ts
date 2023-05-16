@@ -41,12 +41,16 @@ export const useInfiniteProjects = (
   let key: string | null = ''
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
     (pageIndex, previousPageData) => {
+      // return getKey(pageIndex, previousPageData, filter)
       key = getKey(pageIndex, previousPageData, filter)
       return '/api/projects'
     },
-    () => {
+    (url) => {
+      // console.log(url)
+      // return customFetch(url, {})
       return key ? customFetch(key, {}) : null
-    }
+    },
+    { revalidateAll: true }
   )
 
   const p = data?.map((d) => [...d.data])

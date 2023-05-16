@@ -1,12 +1,17 @@
 import useSWRMutation from 'swr/mutation'
 
 import { useNotification } from '@the-planner/hooks'
-import { Project, ProjectWithTasksAndCount } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
 import { createProject } from '../actions'
+import { mutate } from 'swr'
+import { useRouter } from 'next/router'
+import { useInfiniteProjects } from '../query'
 
 export const useCreateProject = () => {
+  const router = useRouter()
+  const { mutate: mutateInfiniteProjects } = useInfiniteProjects()
   const { trigger, error, isMutating } = useSWRMutation(
     '/api/projects',
     (url, arg) => createProject(url, arg)
@@ -21,17 +26,21 @@ export const useCreateProject = () => {
     //@ts-ignore
     trigger(formData, {
       //@ts-ignore
-      optimisticData: (data: any) => ({
-        ...data,
-        data: [
-          {
-            ...formData,
-            tasks: [],
-            _count: { tasks: 0 },
-          },
-          ...data.data,
-        ],
-      }),
+      optimisticData: (data: any) => {
+        return data?.data
+          ? {
+              ...data,
+              data: [
+                {
+                  ...formData,
+                  tasks: [],
+                  _count: { tasks: 0 },
+                },
+                ...data.data,
+              ],
+            }
+          : data
+      },
       rollbackOnError: true,
       throwOnError: false,
       onError: (err) => {
@@ -40,98 +49,24 @@ export const useCreateProject = () => {
           variant: 'error',
         })
       },
-      onSuccess: () => {
-        setNotification({
-          message: 'project created!',
-          variant: 'success',
-        })
-
-        if (callback) {
-          callback()
-        }
+      onSuccess: (data) => {
+        mutateInfiniteProjects()
+        mutate(['/api/projects', '?']) //project list
+        mutate(['/api/projects', '?limit=5']) //featured projects
       },
     })
+
+    setNotification({
+      message: `Project '${formData.title}' created!`,
+      variant: 'success',
+      action: 'view',
+      actionFn: () => router.push(`/projects/${formData.id}`),
+    })
+
+    if (callback) {
+      callback()
+    }
   }
 
   return { onSubmit, error, isMutating }
-
-  // const { setNotification } = useNotification()
-
-  // const router = useRouter()
-  // const { pathname } = router
-
-  // const { mutate: mutateInfiniteProjects, projects: infiniteProjects } =
-  //   useInfiniteProjects()
-  // const { mutate: mutateProjects, projects } = useProjects({})
-
-  // const onSubmit = async (formData: Project) => {
-  //   const projectFormData = {
-  //     ...formData,
-  //     id: ObjectID().toHexString(),
-  //   }
-
-  //   const request = async () => {
-  //     try {
-  //       const {
-  //         data: createdProject,
-  //         error,
-  //         validationErrors,
-  //       } = await createProject(projectFormData)
-
-  //       // if (validationErrors) {
-  //       //   showForm(projectFormData, validationErrors)
-  //       //   return null
-  //       // }
-
-  //       if (error) {
-  //         throw new Error(error)
-  //       }
-
-  //       setNotification({
-  //         id: uniqueId(),
-  //         message: 'project created!',
-  //         variant: 'success',
-  //       })
-
-  //       return createdProject as ProjectWithTasksAndCount
-  //     } catch (error) {
-  //       setNotification({
-  //         id: uniqueId(),
-  //         message: getErrorMessage(error),
-  //         variant: 'error',
-  //         // action: 'try again',
-  //         // actionFn: () => showForm(projectFormData),
-  //       })
-  //     }
-  //   }
-
-  //   if (pathname === '/projects') {
-  //     await request()
-  //     mutateInfiniteProjects()
-  //   } else {
-  //     const updatedProjects = {
-  //       data: [{ ...projectFormData }, ...projects],
-  //     }
-
-  //     mutateProjects(
-  //       async () => {
-  //         const createdProject = await request()
-
-  //         return {
-  //           data: createdProject ? [createdProject, ...projects] : projects,
-  //         }
-  //       },
-  //       {
-  //         optimisticData: updatedProjects,
-  //         rollbackOnError: true,
-  //       }
-  //     )
-  //   }
-
-  //   if (callback) {
-  //     callback()
-  //   }
-  // }
-
-  // return { onSubmit }
 }

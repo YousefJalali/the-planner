@@ -15,12 +15,12 @@ const Index: NextPage = ({
   [key: string]: ProjectWithTasks[]
 }) => {
   return (
-    <>
+    <section className="min-h-screen">
       <Head>
         <title>The Planner | Projects</title>
         <meta charSet="utf-8" />
       </Head>
-      <header className="flex justify-between items-center px-6 py-3 lg:py-6">
+      <header className="flex justify-between items-center px-6 py-3 lg:p-4">
         <Link href="/" className="btn btn-ghost btn-circle -ml-4 lg:hidden">
           <FiArrowLeft size={24} />
         </Link>
@@ -30,14 +30,14 @@ const Index: NextPage = ({
         <CreateProject className="-mr-4 lg:m-0" />
       </header>
 
-      <section className="overflow-hidden px-6">
+      <section className="overflow-hidden px-6 lg:px-4">
         <h1 className="text-3xl font-bold mb-4 lg:hidden">Projects</h1>
 
         <SWRConfig value={{ fallback }}>
           <ProjectCardsList />
         </SWRConfig>
       </section>
-    </>
+    </section>
   )
 }
 

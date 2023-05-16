@@ -34,7 +34,7 @@ export default function EditTask({
           />
         ),
       }),
-    []
+    [task]
   )
 
   return children(showModal)

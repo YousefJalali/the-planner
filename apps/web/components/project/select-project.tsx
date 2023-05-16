@@ -39,7 +39,7 @@ Props) {
           />
         ),
       }),
-    []
+    [value]
   )
 
   const selectHandler = (project: Project) => {

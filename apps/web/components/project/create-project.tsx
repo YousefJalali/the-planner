@@ -1,20 +1,10 @@
 import { useCreateProject } from '@the-planner/data'
 import { useModal } from '@the-planner/hooks'
-import { ReactNode, useCallback, useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { ProjectForm } from './project-form'
 
-const CreateProject = ({
-  children,
-  className,
-  noIcon,
-  callback,
-}: {
-  children?: ReactNode
-  className?: string
-  noIcon?: boolean
-  callback?: () => void
-}) => {
+const CreateProject = ({ className }: { className?: string }) => {
   const { setModal, clearModal } = useModal()
   const { onSubmit } = useCreateProject()
 
@@ -23,7 +13,16 @@ const CreateProject = ({
       setModal({
         id: 'project-create',
         closeButton: true,
-        content: <ProjectForm id="create" onSubmit={onSubmit} />,
+        content: (
+          <ProjectForm
+            id="create"
+            onSubmit={(formData) =>
+              onSubmit(formData, () => {
+                clearModal('project-create')
+              })
+            }
+          />
+        ),
       }),
     []
   )

@@ -4,7 +4,7 @@ import { customFetch, getErrorMessage } from '@the-planner/utils'
 
 export const useProject = (projectId: string | null) => {
   const { data, error, mutate } = useSWR(
-    !projectId ? null : `/api/projects?projectId=${projectId}`,
+    !projectId ? null : ['/api/projects', `?projectId=${projectId}`],
     (url) => customFetch(url, {})
   )
 

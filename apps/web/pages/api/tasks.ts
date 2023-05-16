@@ -58,6 +58,7 @@ const handler = async (
           where: {
             projectId,
           },
+          orderBy: { createdAt: 'desc' },
           include: { project: { select: { title: true, color: true } } },
         })
 

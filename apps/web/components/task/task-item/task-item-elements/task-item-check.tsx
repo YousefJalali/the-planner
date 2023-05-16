@@ -17,7 +17,7 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
         status: newStatus,
       })
     },
-    []
+    [task]
   )
 
   return useMemo(

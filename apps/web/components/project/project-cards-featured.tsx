@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
@@ -15,15 +15,15 @@ export const ProjectsCardsFeatured: FC = () => {
 
   const { setNotification } = useNotification()
 
-  // useEffect(() => {
-  if (error) {
-    setNotification({
-      id: uniqueId(),
-      message: 'Failed to fetch projects, try again!',
-      variant: 'error',
-    })
-  }
-  // }, [error])
+  useEffect(() => {
+    if (error) {
+      setNotification({
+        id: uniqueId(),
+        message: 'Failed to fetch projects, try again!',
+        variant: 'error',
+      })
+    }
+  }, [error])
 
   return (
     <>

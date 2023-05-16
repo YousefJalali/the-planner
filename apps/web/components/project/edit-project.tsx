@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { Project } from '@the-planner/types'
 import { useModal } from '@the-planner/hooks'
 import { useRouter } from 'next/router'
@@ -19,10 +19,6 @@ export function EditProject({
   const { onSubmit } = useEditProject({ projectId: project.id })
 
   const { onDelete } = useDeleteProject({ projectId: project.id })
-  // const { deleteProjectHandler } = useDeleteProject(() => {
-  //   clearModal('project-edit')
-  //   router.back()
-  // })
 
   const showModal = useCallback(
     () =>
@@ -38,8 +34,8 @@ export function EditProject({
             defaultValues={project}
             onDelete={() =>
               onDelete(project, () => {
-                clearModal('project-edit')
                 router.back()
+                clearModal('project-edit')
               })
             }
           />
@@ -49,19 +45,6 @@ export function EditProject({
   )
 
   return children(showModal)
-
-  // return useMemo(
-  //   () => (
-  //     <button
-  //       name="edit project"
-  //       onClick={showModal}
-  //       className="btn btn-ghost -mr-4 lg:btn-secondary lg:mr-0"
-  //     >
-  //       Edit <span className="hidden lg:inline">&nbsp;Project</span>
-  //     </button>
-  //   ),
-  //   [showModal]
-  // )
 }
 
 export default EditProject

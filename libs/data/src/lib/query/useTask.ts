@@ -4,7 +4,7 @@ import { customFetch, getErrorMessage } from '@the-planner/utils'
 
 export const useTask = (taskId: string | null) => {
   const { data, error, mutate } = useSWR(
-    !taskId ? null : `/api/tasks?taskId=${taskId}`,
+    !taskId ? null : ['/api/tasks', `?taskId=${taskId}`],
     (url) => customFetch(url, {})
   )
 

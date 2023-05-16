@@ -1,14 +1,11 @@
 import useSWR from 'swr'
-import { requestLogger } from '../middlewares/requestLogger'
-import { Project, ProjectWithTasksAndCount } from '@the-planner/types'
+import { ProjectWithTasksAndCount } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
-import { projectsKey } from '../keys'
 
 type QueryType = {
-  cursor?: string
   limit?: number
   q?: string
-  id?: string
+  projectId?: string
 }
 
 type Query<Type> = {

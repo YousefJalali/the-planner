@@ -1,14 +1,14 @@
 import useSWRMutation from 'swr/mutation'
 
 import { useNotification } from '@the-planner/hooks'
-import { Project, ProjectWithTasksAndCount } from '@the-planner/types'
+import { Project } from '@the-planner/types'
 import { getErrorMessage } from '@the-planner/utils'
 
 import { editProject } from '../actions'
 
 export const useEditProject = ({ projectId }: { projectId: string }) => {
   const { trigger, error, isMutating } = useSWRMutation(
-    ['/api/projects', `?${new URLSearchParams(projectId).toString()}`],
+    ['/api/projects', `?projectId=${projectId}`],
     (url, arg) => editProject(url, arg)
   )
 
@@ -20,12 +20,7 @@ export const useEditProject = ({ projectId }: { projectId: string }) => {
   ) => {
     //@ts-ignore
     trigger(formData, {
-      optimisticData: (data: any) => ({
-        data: {
-          ...data.data,
-          ...formData,
-        },
-      }),
+      optimisticData: (data: any) => ({ data: { ...formData } }),
       rollbackOnError: true,
       throwOnError: false,
       onError: (err) => {
@@ -34,17 +29,17 @@ export const useEditProject = ({ projectId }: { projectId: string }) => {
           variant: 'error',
         })
       },
-      onSuccess: () => {
-        setNotification({
-          message: 'project updated!',
-          variant: 'success',
-        })
-
-        if (callback) {
-          callback()
-        }
-      },
+      onSuccess: () => {},
     })
+
+    setNotification({
+      message: 'project updated!',
+      variant: 'success',
+    })
+
+    if (callback) {
+      callback()
+    }
   }
 
   return { onSubmit, error, isMutating }

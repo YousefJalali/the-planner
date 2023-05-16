@@ -16,11 +16,14 @@ export default function CreateTask({
   const router = useRouter()
 
   const urlDate =
-    typeof router.query.d === 'string' ? String(router.query.d) : null
+    typeof router.query.d === 'string' ? String(router.query.d) : undefined
 
   const { setModal, clearModal } = useModal()
 
-  const { onSubmit, isMutating } = useCreateTask()
+  const { onSubmit, isMutating } = useCreateTask({
+    projectId,
+    date: urlDate,
+  })
 
   const showModal = useCallback(
     () =>

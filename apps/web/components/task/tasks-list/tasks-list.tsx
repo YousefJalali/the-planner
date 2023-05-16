@@ -41,6 +41,8 @@ export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
         const status = Status[val]
         const filteredTasks = tasks.filter((task) => task.status === status)
 
+        console.log(filteredTasks)
+
         return (
           <ListWrapper
             key={status}

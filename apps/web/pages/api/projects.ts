@@ -211,7 +211,7 @@ const handler = async (
   }
 
   if (req.method === 'DELETE') {
-    const projectId = req.query.project
+    const { projectId } = req.query
 
     if (!projectId || typeof projectId !== 'string')
       return res.status(400).json({ error: 'unsupported type' })

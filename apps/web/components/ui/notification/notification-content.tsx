@@ -49,10 +49,11 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
               <Spinner />
             </div>
           ) : (
-            <>
+            <div className="flex items-center gap-2">
               <button
                 onClick={notification.actionFn}
                 data-testid={`${id}-action`}
+                className="link link-hover capitalize"
               >
                 {notification.action}
               </button>
@@ -62,9 +63,9 @@ const Notification: FC<Props> = ({ notification, clearNotification }) => {
                 data-testid={`${notification.id}-close`}
                 className="btn-ghost btn-sm btn-circle btn -mr-2"
               >
-                <FiX />
+                <FiX size={20} />
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>
