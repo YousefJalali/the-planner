@@ -10,7 +10,7 @@ export const Notification: FC = () => {
   if (typeof window === 'undefined') return null
 
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       {notification && (
         <>
           {createPortal(

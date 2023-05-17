@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { Status } from '@the-planner/types'
 import EditProject from './edit-project'
 import { FiEdit2 } from 'react-icons/fi'
+import ProjectDetailsPlaceholder from './project-details-placeholder'
 
 export default function ProjectDetails({ projectId }: { projectId: string }) {
   const { project, error, isLoading } = useProject(projectId)
@@ -22,7 +23,7 @@ export default function ProjectDetails({ projectId }: { projectId: string }) {
   }, [project])
 
   if (isLoading) {
-    return <div className="px-6">Loading Project...</div>
+    return <ProjectDetailsPlaceholder />
   }
 
   if (error) {

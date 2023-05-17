@@ -10,7 +10,7 @@ export const Prompt: FC = () => {
   if (typeof window === 'undefined') return null
 
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence mode="wait">
       {prompt && (
         <>
           {createPortal(

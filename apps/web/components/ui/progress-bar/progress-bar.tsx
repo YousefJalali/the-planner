@@ -8,7 +8,7 @@ type Props = {
 export const LinearProgress: FC<Props> = ({ color, percentage }) => {
   return (
     <div className="w-full">
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-2">
         <span className="text-sm opacity-60">Progress</span>
         <span className="text-sm opacity-60">{percentage}%</span>
       </div>

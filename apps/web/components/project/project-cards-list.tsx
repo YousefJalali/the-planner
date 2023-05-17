@@ -8,6 +8,7 @@ import SearchInput from '../search/search-input'
 import { FILTERS } from './projects-filter'
 import ProjectCard from './project-card'
 import NewProjectCard from './new-project-card'
+import ProjectCardPlaceholder from './project-card-placeholder'
 
 const ANIMATIONS = {
   initial: { y: 300 },
@@ -28,12 +29,13 @@ export const ProjectCardsList = () => {
     return projects.length > 0 ? (
       projects.map((project, i) => {
         return (
-          <motion.li key={project.id} {...ANIMATIONS} className="flex-1">
+          // <motion.li key={project.id} {...ANIMATIONS} className="flex-1">
+          <li key={project.id} className="flex-1">
             <ProjectCard
               project={project}
               onClick={() => router.push(`/projects/${project.id}`)}
             />
-          </motion.li>
+          </li>
         )
       })
     ) : (
@@ -70,7 +72,13 @@ export const ProjectCardsList = () => {
       </div>
 
       {isLoading ? (
-        <div>Loading...</div>
+        <ul className="p-1 space-y-6 md:space-y-0 md:gap-6 flex flex-col md:flex-row md:flex-wrap">
+          {new Array(5).fill(0).map((e, i) => (
+            <li key={i} className="flex-1">
+              <ProjectCardPlaceholder />
+            </li>
+          ))}
+        </ul>
       ) : error ? (
         <div>{error}</div>
       ) : projects && projects.length <= 0 ? (

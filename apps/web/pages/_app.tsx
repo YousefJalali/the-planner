@@ -6,6 +6,7 @@ import { CookiesProvider } from 'react-cookie'
 import '../styles.css'
 import 'nprogress/nprogress.css'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import {
   PromptCtxProvider,

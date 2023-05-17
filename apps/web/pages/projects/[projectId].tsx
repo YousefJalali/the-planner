@@ -31,7 +31,7 @@ const Project = ({
   const router = useRouter()
 
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col bg-base-100">
       <Head>
         <title>The Planner | {projectTitle}</title>
         <meta charSet="utf-8" />

@@ -1,29 +1,15 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
 import NewProjectCard from './new-project-card'
-import { useNotification } from '@the-planner/hooks'
 import { useProjects } from '@the-planner/data'
-import { v4 as uuid } from 'uuid'
+import ProjectCardPlaceholder from './project-card-placeholder'
 
 export const ProjectsCardsFeatured: FC = () => {
   const router = useRouter()
 
-  // const { projects, error, isLoading } = useRecentProjects()
   const { projects, error, isLoading } = useProjects({ limit: '5' })
-
-  const { setNotification } = useNotification()
-
-  useEffect(() => {
-    if (error) {
-      setNotification({
-        id: uuid(),
-        message: 'Failed to fetch projects, try again!',
-        variant: 'error',
-      })
-    }
-  }, [error])
 
   return (
     <>
@@ -41,11 +27,15 @@ export const ProjectsCardsFeatured: FC = () => {
       </div>
 
       {isLoading ? (
-        <div className="m-6 min-w-[300px] h-[150px]">Loading...</div>
+        <ul className="bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
+          {new Array(5).fill(0).map((e, i) => (
+            <li key={i} className="flex-[0_0_calc(100%-1.5rem)]">
+              <ProjectCardPlaceholder />
+            </li>
+          ))}
+        </ul>
       ) : error ? (
-        <div className="p-6">
-          <NewProjectCard />
-        </div>
+        <div className="p-6">Something went wrong</div>
       ) : projects.length === 0 ? (
         <div className="p-6">
           <NewProjectCard />

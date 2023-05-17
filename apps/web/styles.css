@@ -10,20 +10,11 @@ body {
   @apply font-text;
 }
 
-/* <x.label
-display="block"
-font-size="sm"
-lineHeight="relaxed"
-color={error ? 'utility-critical' : 'content-subtle'}
-textTransform={{ firstLetter: 'uppercase' }}
-visibility={hidden ? 'hidden' : 'visible'}
-{...props}
->
-{children}{' '}
-{optional && <x.span color="content-nonessential">(optional)</x.span>}
-</x.label> */
-
 @layer components {
+  .react-loading-skeleton {
+    --base-color: theme('colors.base-200') !important;
+    --highlight-color: theme('colors.base-300') !important;
+  }
   .date-picker {
     @apply w-full;
   }
