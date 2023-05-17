@@ -1,7 +1,6 @@
 import { FC } from 'react'
 import { useRouter } from 'next/router'
 
-import { TaskWithProject } from '@the-planner/types'
 import { formatDate, formatTime, statusAlias } from '@the-planner/utils'
 import { Badge, ErrorMessage, Spinner } from '../ui'
 import Image from 'next/image'
@@ -22,7 +21,7 @@ export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center px-6">
+      <div className="flex justify-center p-6">
         <Spinner />
       </div>
     )

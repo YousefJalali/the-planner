@@ -1,21 +1,22 @@
 import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import SearchItem from './search-item'
-import { TaskWithProject } from '@the-planner/types'
+import { useSearch } from '@the-planner/data'
+import { EmptyState, NoSearchDataSvg } from '../ui'
 
-type Props = {
-  data: TaskWithProject[]
-}
+const SearchList = ({ query }: { query: string }) => {
+  const { searchedTasks, isLoading } = useSearch(query)
 
-const SearchList = ({ data }: Props) => {
-  return (
+  return isLoading ? (
+    <div>Loading ...</div>
+  ) : searchedTasks.length > 0 ? (
     <AutoSizer>
       {({ height, width }) => {
         return (
           <List
             innerElementType="ul"
-            itemData={data}
-            itemCount={data.length}
+            itemData={searchedTasks}
+            itemCount={searchedTasks.length}
             itemSize={96 + 16}
             height={height || 0}
             width={width || 0}
@@ -31,6 +32,13 @@ const SearchList = ({ data }: Props) => {
         )
       }}
     </AutoSizer>
+  ) : (
+    <EmptyState
+      illustration={<NoSearchDataSvg />}
+      title=" No data found"
+      description="Try other words"
+      size="20%"
+    />
   )
 }
 

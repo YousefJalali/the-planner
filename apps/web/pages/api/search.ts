@@ -8,11 +8,15 @@ const handler = async (
 ) => {
   const { q } = req.query
 
+  if (typeof q !== 'string') {
+    return res.status(404).json({ error: 'type not supported' })
+  }
+
   try {
     const tasks = await prisma.task.findMany({
       where: {
         title: {
-          contains: q as string,
+          contains: q,
           mode: 'insensitive',
         },
       },

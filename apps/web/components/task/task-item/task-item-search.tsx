@@ -8,7 +8,7 @@ export const SearchedTask = ({ task }: { task: TaskWithProject }) => {
   return (
     <div
       data-testid="task-item-search"
-      className="relative flex flex-col justify-between pl-6 py-2 bg-base-200 rounded-lg h-[96px] overflow-hidden"
+      className="relative flex flex-col justify-between pl-6 pb-2 bg-base-200 rounded-lg h-[96px] overflow-hidden hover:bg-base-300 transition-all"
     >
       <div
         className="absolute top-2 left-2 w-1 h-[calc(100%-1rem)] rounded-lg"

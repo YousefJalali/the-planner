@@ -5,8 +5,8 @@ import AnimatedItem from './animated-item'
 import ListWrapper from './list-wrapper'
 import { FC } from 'react'
 import { useTasks } from '@the-planner/data'
-import EmptyTasks from '../empty-tasks'
 import TasksError from '../tasks-error'
+import TaskItemPlaceholder from '../task-item/task-item-placeholder'
 
 type Props = {
   withDivider?: boolean
@@ -22,9 +22,6 @@ export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
     ...(query?.projectId && { projectId: query.projectId }),
   })
 
-  if (isLoading) {
-    return <div className="py-6">Loading Tasks...</div>
-  }
   if (error) {
     return (
       <div>
@@ -33,11 +30,23 @@ export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
     )
   }
 
-  return tasks?.length <= 0 ? (
-    <EmptyTasks />
-  ) : (
+  return (
     <>
       {Object.values(Status).map((val) => {
+        if (isLoading) {
+          return (
+            <div className="space-y-3">
+              <TaskItemPlaceholder />
+              <TaskItemPlaceholder />
+              <TaskItemPlaceholder />
+            </div>
+          )
+        }
+
+        // if (tasks?.length <= 0 && val === Status.PROPOSED) {
+        //   return <EmptyTasks />
+        // }
+
         const status = Status[val]
         const filteredTasks = tasks.filter((task) => task.status === status)
 
@@ -63,17 +72,6 @@ export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
                 </AnimatedItem>
               </ul>
             )}
-            {/* <CreateTask>
-              {(showModal) => (
-                <button
-                  onClick={showModal}
-                  className="btn btn-ghost text-primary btn-sm items-center justify-center gap-2 w-full mt-2 border border-dashed border-base-300"
-                >
-                  <FiPlus size={20} />
-                  Add task
-                </button>
-              )}
-            </CreateTask> */}
           </ListWrapper>
         )
       })}
