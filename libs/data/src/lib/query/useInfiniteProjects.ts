@@ -12,13 +12,16 @@ const getKey = (
     data: ProjectWithTasksAndCount[]
     nextCursor: string
   },
-  filter?: Omit<Status, 'proposed'> | null
+  status?: Omit<Status, 'proposed'> | null,
+  query?: string
 ) => {
   // const key = projectsKey()
   const key = '/api/projects'
 
-  const baseURL = filter
-    ? `${key}?limit=${LIMIT}&q=${filter.toLowerCase()}`
+  const baseURL = status
+    ? `${key}?limit=${LIMIT}&status=${status.toLowerCase()}`
+    : query
+    ? `${key}?limit=${LIMIT}&q=${query.toLowerCase()}`
     : `${key}?limit=${LIMIT}`
 
   // reached the end
@@ -36,20 +39,14 @@ const getKey = (
 }
 
 export const useInfiniteProjects = (
-  filter?: Omit<Status, 'proposed'> | null
+  query?: string,
+  status?: Status | undefined
 ) => {
   let key: string | null = ''
   const { data, error, size, setSize, isValidating, mutate } = useSWRInfinite(
-    (pageIndex, previousPageData) => {
-      // return getKey(pageIndex, previousPageData, filter)
-      key = getKey(pageIndex, previousPageData, filter)
-      return '/api/projects'
-    },
-    (url) => {
-      // console.log(url)
-      // return customFetch(url, {})
-      return key ? customFetch(key, {}) : null
-    },
+    (pageIndex, previousPageData) =>
+      getKey(pageIndex, previousPageData, status, query),
+    (url) => customFetch(url, {}),
     { revalidateAll: true }
   )
 

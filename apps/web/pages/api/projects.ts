@@ -12,7 +12,7 @@ const handler = async (
   }>
 ) => {
   if (req.method === 'GET') {
-    const { cursor, limit, q, projectId } = req.query
+    const { cursor, limit, status, q, projectId } = req.query
 
     try {
       // Get project by projectId
@@ -54,10 +54,11 @@ const handler = async (
         //   }),
 
         ...(q &&
-          q !== 'undefined' && {
+          q !== 'undefined' &&
+          typeof q === 'string' && {
             where: {
               title: {
-                contains: q as string,
+                contains: q,
                 mode: 'insensitive',
               },
             },

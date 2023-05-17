@@ -18,12 +18,12 @@ const ANIMATIONS = {
 
 export const ProjectCardsList = () => {
   const [filter, setFilter] = useState<FilterType>(FILTERS[0])
-  const [search, setSearch] = useState<string>('')
+  const [query, setQuery] = useState<string>('')
 
   const router = useRouter()
 
   const { projects, error, isLoading, size, setSize, hasReachedEnd } =
-    useInfiniteProjects(search)
+    useInfiniteProjects(query)
 
   const renderProjects = useMemo(() => {
     return projects.length > 0 ? (
@@ -65,10 +65,7 @@ export const ProjectCardsList = () => {
       </x.div> */}
 
       <div className="py-2 max-w-md">
-        <SearchInput
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <SearchInput value={query} onChange={(e) => setQuery(e.target.value)} />
       </div>
 
       {isLoading ? (
