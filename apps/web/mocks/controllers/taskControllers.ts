@@ -1,13 +1,13 @@
 import { Status, Task, TaskWithProject } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
 import { Project } from '@the-planner/types'
-import _, { indexOf } from 'lodash'
 import { taskFormValidation } from '@the-planner/utils'
 import { apiYupValidation } from '@the-planner/hooks'
 
 import { FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'
 import isValid from 'date-fns/isValid'
+import indexOf from 'lodash-es/indexof'
 
 //-----------------get date tasks-----------------
 export const getDateTasksController = (

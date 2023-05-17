@@ -1,9 +1,8 @@
 import { FC, useMemo } from 'react'
-import { ProjectTasksCount, ProjectWithTasks } from '@the-planner/types'
-import { Status } from '@prisma/client'
+import { ProjectWithTasksAndCount, Status } from '@the-planner/types'
 
 type Props = {
-  project: ProjectWithTasks & ProjectTasksCount
+  project: ProjectWithTasksAndCount
   onClick: () => void
 }
 

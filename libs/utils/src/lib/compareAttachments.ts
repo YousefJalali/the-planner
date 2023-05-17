@@ -1,12 +1,12 @@
 import { Attachment } from '@the-planner/types'
-import * as _ from 'lodash'
+import differenceBy from 'lodash-es/differenceBy'
 
 export const compareAttachments = (
   oldAttachments: Attachment[],
   newAttachments: Attachment[]
 ) => {
-  const toBeRemoved = _.differenceBy(oldAttachments, newAttachments, 'id')
-  const toBeUploaded = _.differenceBy(newAttachments, oldAttachments, 'id')
+  const toBeRemoved = differenceBy(oldAttachments, newAttachments, 'id')
+  const toBeUploaded = differenceBy(newAttachments, oldAttachments, 'id')
 
   return { toBeRemoved, toBeUploaded }
 }

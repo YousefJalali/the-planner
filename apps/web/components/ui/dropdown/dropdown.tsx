@@ -1,5 +1,5 @@
 import { createPopper } from '@popperjs/core'
-import { FC, ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 
 export const Dropdown = ({
   children,

@@ -1,4 +1,4 @@
-import { Status } from '@prisma/client'
+import { Status } from '@the-planner/types'
 import { FC } from 'react'
 
 type Props = {

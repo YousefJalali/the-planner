@@ -1,6 +1,6 @@
-import * as _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import { Attachment } from '@the-planner/types'
+import compact from 'lodash-es/compact'
 
 const getPath = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -54,11 +54,11 @@ export const parseImage = async (uploadedFiles: FileList | File[]) => {
   if (!(uploadedFiles instanceof File) && !(uploadedFiles instanceof FileList))
     return
 
-  const files: File[] = _.values(uploadedFiles)
+  const files: File[] = Object.values(uploadedFiles)
 
   const images = await constructImage(files)
 
-  return _.compact(images)
+  return compact(images)
 }
 
 export default parseImage

@@ -1,8 +1,8 @@
 import { Status } from '@prisma/client'
-import * as _ from 'lodash'
 import useSWRInfinite from 'swr/infinite'
-import { ProjectWithTasksAndCount } from '@the-planner/types'
 import { customFetch, getErrorMessage } from '@the-planner/utils'
+import compact from 'lodash-es/compact'
+import { ProjectWithTasksAndCount } from '@the-planner/types'
 
 export const LIMIT = 16
 
@@ -55,7 +55,7 @@ export const useInfiniteProjects = (
 
   const p = data?.map((d) => [...d.data])
 
-  const projects = p ? _.compact(p.flat()) : []
+  const projects: ProjectWithTasksAndCount[] = p ? compact(p.flat()) : []
   const isLoading = !error && !data
   const hasReachedEnd =
     p?.[0]?.length === 0 || (p && p[p.length - 1]?.length < LIMIT)

@@ -1,8 +1,6 @@
-import _ from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Project } from '@the-planner/types'
 import { prisma } from '../../common/lib/prisma'
-import { Status } from '@the-planner/types'
 import ObjectID from 'bson-objectid'
 
 const handler = async (
@@ -225,11 +223,11 @@ const handler = async (
         },
       })
 
-      const ids = _.flatten(
-        deletedProject.tasks.map((task) =>
-          task.attachments.map((attachment) => attachment.id)
-        )
-      )
+      // const ids = _.flatten(
+      //   deletedProject.tasks.map((task) =>
+      //     task.attachments.map((attachment) => attachment.id)
+      //   )
+      // )
 
       // const ha = await deleteWholeProject(deletedProject.id)
 

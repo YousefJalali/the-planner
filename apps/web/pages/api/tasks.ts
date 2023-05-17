@@ -11,7 +11,7 @@ import {
 } from '@the-planner/utils'
 import { FieldErrors } from 'react-hook-form'
 import ObjectID from 'bson-objectid'
-import _ from 'lodash'
+import omit from 'lodash-es/omit'
 
 import { v2 as cloudinary } from 'cloudinary'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
@@ -186,7 +186,7 @@ const handler = async (
       }
 
       //remove project key from task object
-      let task = _.omit(taskForm, 'project') as Task
+      let task = omit(taskForm, 'project') as Task
 
       //validate form
       // const validate = await apiYupValidation<Task>(taskFormValidation, task)
@@ -217,11 +217,13 @@ const handler = async (
       )
 
       if (toBeRemoved.length > 0) {
-        const ids = toBeRemoved.map((attachment) => attachment.id)
+        const ids = toBeRemoved.map((attachment: Attachment) => attachment.id)
         // await deleteImages(ids)
       }
       if (toBeUploaded.length > 0) {
-        const paths = toBeUploaded.map((attachment) => attachment.path)
+        const paths = toBeUploaded.map(
+          (attachment: Attachment) => attachment.path
+        )
 
         const { images, error } = await uploadImages(
           paths,
@@ -240,7 +242,7 @@ const handler = async (
       //push updated task
       const updatedTask = await prisma.task.update({
         where: { id: task.id },
-        data: _.omit(task, 'id'),
+        data: omit(task, 'id'),
         include: { project: { select: { title: true, color: true } } },
       })
 

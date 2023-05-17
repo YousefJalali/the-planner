@@ -1,13 +1,14 @@
 import {
-  ProjectTasksCount,
+  ProjectWithTaskCount,
   Project,
   ProjectWithTasks,
 } from '@the-planner/types'
 import { Status, Task } from '@the-planner/types'
 import { v4 as uuidv4 } from 'uuid'
+import indexOf from 'lodash-es/indexof'
+import findIndex from 'lodash-es/findindex'
 // import { apiYupValidation } from '@the-planner/hooks'
 // import { projectFormValidation } from '@the-planner/utils'
-import _, { indexOf } from 'lodash'
 import { countTasksInProject, GET, populateTask, POST, PUT } from '../handlers'
 
 export const getInfiniteProjects = (
@@ -29,7 +30,7 @@ export const getInfiniteProjects = (
     const limit = +qLimit
 
     if (qCursor) {
-      const findIndexOfCursor = _.findIndex(projects, function (o) {
+      const findIndexOfCursor = findIndex(projects, function (o) {
         return o.id === qCursor
       })
       indexOfCursor = findIndexOfCursor + 1 || 0
@@ -82,7 +83,7 @@ export const getProjectById = (
     }
   }
 
-  const populatedProject: ProjectWithTasks & ProjectTasksCount = {
+  const populatedProject: ProjectWithTasks & ProjectWithTaskCount = {
     ...project,
     tasks: tasksInProject.map((task) => populateTask(task)),
     _count: { tasks: countTasksInProject(project) },

@@ -1,10 +1,11 @@
 import { Task, Status, Attachment } from '@the-planner/types'
 import { Project } from '@the-planner/types'
 import faker from '@faker-js/faker'
-import _ from 'lodash'
 import ObjectID from 'bson-objectid'
 import { setHours } from 'date-fns'
 import set from 'date-fns/set'
+import sample from 'lodash-es/sample'
+import flatten from 'lodash-es/flatten'
 
 function randomInteger(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -14,7 +15,7 @@ export const task: (projects: Project[], initialDate: Date) => Task = (
   projects,
   initialDate
 ) => {
-  const project = _.sample(projects)!
+  const project = sample(projects)!
 
   const openTask = Math.random() < 0.5
 
@@ -59,7 +60,7 @@ export const task: (projects: Project[], initialDate: Date) => Task = (
           path: faker.image.imageUrl(375, 812, 'business'),
         } as Attachment)
     ),
-    status: _.sample(Object.values(Status)) as Status,
+    status: sample(Object.values(Status)) as Status,
     createdAt: new Date(),
     updatedAt: new Date(),
   }
@@ -76,5 +77,5 @@ export const multipleTasks: (projects: Project[]) => Task[] = (projects) => {
     return new Array(5).fill(0).map((t, i) => task(projects, date))
   })
 
-  return _.flatten(tasks)
+  return flatten(tasks)
 }

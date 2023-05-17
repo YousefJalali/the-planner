@@ -4,8 +4,8 @@ import ProjectCard from './project-card'
 
 import NewProjectCard from './new-project-card'
 import { useNotification } from '@the-planner/hooks'
-import { uniqueId } from 'lodash'
 import { useProjects } from '@the-planner/data'
+import { v4 as uuid } from 'uuid'
 
 export const ProjectsCardsFeatured: FC = () => {
   const router = useRouter()
@@ -18,7 +18,7 @@ export const ProjectsCardsFeatured: FC = () => {
   useEffect(() => {
     if (error) {
       setNotification({
-        id: uniqueId(),
+        id: uuid(),
         message: 'Failed to fetch projects, try again!',
         variant: 'error',
       })

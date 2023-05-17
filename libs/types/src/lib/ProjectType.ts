@@ -5,8 +5,12 @@ export type Project = ProjectType
 export type ProjectWithTasks = Project & {
   tasks: Task[]
 }
-export type ProjectTasksCount = Project & {
+export type ProjectWithTaskCount = Project & {
   _count: { tasks: number }
 }
 
-export type ProjectWithTasksAndCount = ProjectWithTasks & ProjectTasksCount
+// export type ProjectWithTaskStatus = Project & {
+//   tasks: {  }
+// }
+
+export type ProjectWithTasksAndCount = ProjectWithTasks & ProjectWithTaskCount
