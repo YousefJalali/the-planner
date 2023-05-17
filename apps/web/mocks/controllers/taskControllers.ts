@@ -7,7 +7,7 @@ import { apiYupValidation } from '@the-planner/hooks'
 import { FieldErrors } from 'react-hook-form'
 import { GET, populateTask, POST, PUT } from '../handlers'
 import isValid from 'date-fns/isValid'
-import indexOf from 'lodash-es/indexof'
+import indexOf from 'lodash-es/indexOf'
 
 //-----------------get date tasks-----------------
 export const getDateTasksController = (
