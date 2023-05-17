@@ -47,7 +47,7 @@ export const useInfiniteProjects = (
     (pageIndex, previousPageData) =>
       getKey(pageIndex, previousPageData, status, query),
     (url) => customFetch(url, {}),
-    { revalidateAll: true }
+    { revalidateAll: true, keepPreviousData: true }
   )
 
   const p = data?.map((d) => [...d.data])
