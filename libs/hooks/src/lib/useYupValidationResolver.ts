@@ -8,8 +8,10 @@ import {
 } from 'react-hook-form'
 
 export const useYupValidationResolver = <T>(
+  //@ts-ignore
   validationSchema: ObjectSchema<T>
 ) =>
+  //@ts-ignore
   useCallback<Resolver<T>>(
     async (data) => {
       try {
@@ -20,6 +22,7 @@ export const useYupValidationResolver = <T>(
         return {
           values,
           errors: {},
+          //@ts-ignore
         } as ResolverSuccess<T>
       } catch (errors) {
         return {
@@ -36,6 +39,7 @@ export const useYupValidationResolver = <T>(
             }),
             {}
           ),
+          //@ts-ignore
         } as ResolverError<T>
       }
     },
@@ -43,6 +47,7 @@ export const useYupValidationResolver = <T>(
   )
 
 export const apiYupValidation = async <T>(
+  //@ts-ignore
   validationSchema: ObjectSchema<T>,
   data: T
 ) => {

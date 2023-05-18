@@ -15,6 +15,7 @@ import {
 } from '@the-planner/hooks'
 import Layout from '../components/ui/layout/layout'
 import { ErrorBoundary } from 'react-error-boundary'
+import { AuthContextProvider } from '../common/AuthCtx'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -40,15 +41,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
           }
         >
-          <NotificationCtxProvider>
-            <PromptCtxProvider>
-              <ModalCtxProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ModalCtxProvider>
-            </PromptCtxProvider>
-          </NotificationCtxProvider>
+          <AuthContextProvider>
+            <NotificationCtxProvider>
+              <PromptCtxProvider>
+                <ModalCtxProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </ModalCtxProvider>
+              </PromptCtxProvider>
+            </NotificationCtxProvider>
+          </AuthContextProvider>
         </SWRConfig>
       </CookiesProvider>
     </ErrorBoundary>

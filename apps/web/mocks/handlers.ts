@@ -28,12 +28,14 @@ import {
 } from 'msw'
 
 export type POST<T> = {
+  //@ts-ignore
   req: RestRequest<T>
   res: ResponseComposition<DefaultRequestBody>
   ctx: RestContext
 }
 
 export type PUT<T> = {
+  //@ts-ignore
   req: RestRequest<T>
   res: ResponseComposition<DefaultRequestBody>
   ctx: RestContext

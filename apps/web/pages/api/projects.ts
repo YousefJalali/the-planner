@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Project } from '@the-planner/types'
 import { prisma } from '../../common/lib/prisma'
+import { Project } from '@the-planner/types'
 import ObjectID from 'bson-objectid'
 
 const handler = async (

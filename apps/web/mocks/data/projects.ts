@@ -6,6 +6,7 @@ import { Project } from '@the-planner/types'
 export const project: () => Project = () => {
   return {
     id: ObjectID().toHexString(),
+    userId: ObjectID().toHexString(),
     title: faker.company.companyName(),
     description: faker.lorem.paragraph(),
     color: randomColor(),

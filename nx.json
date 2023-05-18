@@ -8,12 +8,7 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "YTIzNmNiM2MtMjUyMS00ZGU0LWExYzAtNjQ2NjE5YmM1ODlmfHJlYWQtd3JpdGU="
       }
     }
@@ -22,6 +17,9 @@
     "@nx/react": {
       "application": {
         "babel": true
+      },
+      "library": {
+        "unitTestRunner": "jest"
       }
     },
     "@nx/next": {
@@ -34,23 +32,16 @@
   "defaultProject": "web",
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "e2e": {
+      "inputs": ["default", "^production"]
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [],
-    "production": [
-      "default"
-    ]
+    "production": ["default"]
   }
 }

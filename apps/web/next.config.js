@@ -27,6 +27,12 @@ const nextConfig = {
       use: ['@svgr/webpack'],
     })
 
+    // config.resolve.fallback = {
+    //   ...(!isServer && { fs: false }),
+    //   tls: false,
+    //   net: false,
+    // }
+
     return config
   },
 

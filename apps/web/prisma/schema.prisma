@@ -24,6 +24,15 @@ type Attachment {
   path   String
 }
 
+model User {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  uid       String    @unique
+  // name      String
+  // email     String   @unique
+  projects  Project[]
+  createdAt DateTime  @default(now())
+}
+
 model Project {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
@@ -31,6 +40,8 @@ model Project {
   color       String
   tasks       Task[]
   isHidden    Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String   @db.ObjectId
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
