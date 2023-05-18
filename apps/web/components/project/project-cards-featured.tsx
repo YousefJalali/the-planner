@@ -29,7 +29,7 @@ export const ProjectsCardsFeatured: FC = () => {
       {isLoading ? (
         <ul className="bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
           {new Array(5).fill(0).map((e, i) => (
-            <li key={i} className="flex-[0_0_calc(100%-1.5rem)]">
+            <li key={i} className="flex-1">
               <ProjectCardPlaceholder />
             </li>
           ))}
@@ -43,7 +43,7 @@ export const ProjectsCardsFeatured: FC = () => {
       ) : (
         <ul className="bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
           {projects.map((project) => (
-            <li key={project.id} className="flex-[0_0_calc(100%-1.5rem)]">
+            <li key={project.id} className="flex-1">
               <ProjectCard
                 project={project}
                 onClick={() => router.push(`/projects/${project.id}`)}

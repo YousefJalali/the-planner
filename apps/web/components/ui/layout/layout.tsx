@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { FaTasks } from 'react-icons/fa'
 import { BiCategoryAlt } from 'react-icons/bi'
 import Link from 'next/link'
-import { Montserrat, Open_Sans, Inter } from '@next/font/google'
+import { Montserrat, Open_Sans } from '@next/font/google'
 import { Logo, Modal, Prompt, Notification } from '../'
 import { formatToUrlDate } from '@the-planner/utils'
 
@@ -11,10 +11,10 @@ const montserrat = Montserrat({
   variable: '--font-title',
 })
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-title',
-})
+// const inter = Inter({
+//   subsets: ['latin'],
+//   variable: '--font-title',
+// })
 
 const openSans = Open_Sans({
   subsets: ['latin'],

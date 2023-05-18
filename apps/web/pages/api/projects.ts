@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../common/lib/prisma'
 import { Project } from '@the-planner/types'
 import ObjectID from 'bson-objectid'
+import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 
 const handler = async (
   req: NextApiRequest,
@@ -11,6 +12,14 @@ const handler = async (
     nextCursor?: string
   }>
 ) => {
+  let user = null
+  const uid = await isAuthenticated(req)
+  if (uid) {
+    user = await prisma.user.findFirst({
+      where: { uid },
+    })
+  }
+
   if (req.method === 'GET') {
     const { cursor, limit, status, q, projectId } = req.query
 
@@ -107,6 +116,10 @@ const handler = async (
 
   // Create project
   if (req.method === 'POST') {
+    if (!user) {
+      return res.status(401).json({ error: 'not authorized' })
+    }
+
     const project = req.body
 
     if (!project) {
@@ -132,6 +145,8 @@ const handler = async (
       const createdProject = await prisma.project.create({
         data: {
           ...project,
+          userId: user.id,
+          title: project.title.trim().toLowerCase(),
           id,
         },
         include: {

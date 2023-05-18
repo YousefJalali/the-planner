@@ -70,7 +70,7 @@ export default function ProfilePage() {
       if (user) {
         reset({ displayName: user.displayName })
       } else {
-        router.push('/login')
+        router.push('/auth/login')
       }
     }
   }, [isLoading, user, reset, router])

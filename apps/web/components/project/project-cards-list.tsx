@@ -82,13 +82,13 @@ export const ProjectCardsList = () => {
         <EmptyState />
       ) : (
         <AnimatePresence>
-          <div className="md:h-screen md:pb-[250px] md:overflow-y-scroll py-6">
+          <div className="md:h-screen md:pb-[250px] md:overflow-y-scroll">
             <DynamicFlatList
               dataLength={projects.length}
               next={() => setSize(size + 1)}
               hasMore={!hasReachedEnd}
             >
-              <ul className="p-1 space-y-6 md:space-y-0 md:gap-6 flex flex-col md:flex-row md:flex-wrap">
+              <ul className="p-1 space-y-6 md:space-y-0 md:gap-6 flex flex-col md:flex-row md:flex-wrap [&>li]:max-w-md">
                 {renderProjects}
               </ul>
             </DynamicFlatList>

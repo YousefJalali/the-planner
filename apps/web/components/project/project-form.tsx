@@ -21,6 +21,7 @@ type Props = {
 const initialDefaultValues = () =>
   ({
     id: ObjectID().toHexString(),
+    userId: '',
     title: '',
     description: '',
     color: randomColor(),
