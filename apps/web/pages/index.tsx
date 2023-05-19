@@ -8,6 +8,7 @@ import DateTasks from '../components/task/date-tasks'
 import { SearchButton } from '../components/search/'
 import CreateTaskButton from '../components/task/create-task'
 import Head from 'next/head'
+import ProfileButton from '../components/profile/ProfileButton'
 
 type Props = {
   // projects: Project[]
@@ -35,7 +36,7 @@ const Home: NextPage<Props> = (props) => {
               <Logo />
             </div>
 
-            <div className="flex items-center gap-3 -mr-3 lg:m-0">
+            <div className="flex items-center -mr-3 lg:m-0">
               {/* <ToggleButton
                 id="color-mode"
                 height={24}
@@ -47,6 +48,29 @@ const Home: NextPage<Props> = (props) => {
               /> */}
 
               <SearchButton />
+
+              <label
+                htmlFor="side-drawer"
+                className="btn-ghost drawer-button btn-circle btn -mr-1 p-0 lg:hidden"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="inline-block h-6 w-6 stroke-current"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </label>
+
+              {/* <div className="lg:hidden">
+                <ProfileButton />
+              </div> */}
 
               <CreateTaskButton />
             </div>

@@ -1,20 +1,12 @@
 import { FC } from 'react'
-import { FaTasks } from 'react-icons/fa'
-import { BiCategoryAlt } from 'react-icons/bi'
-import Link from 'next/link'
 import { Montserrat, Open_Sans } from '@next/font/google'
-import { Logo, Modal, Prompt, Notification } from '../'
-import { formatToUrlDate } from '@the-planner/utils'
+import { Modal, Prompt, Notification } from '../'
+import SideDrawer from './SideDrawer'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-title',
 })
-
-// const inter = Inter({
-//   subsets: ['latin'],
-//   variable: '--font-title',
-// })
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -44,27 +36,7 @@ export const Layout: FC<Props> = ({ children }) => {
           <div id="notification" />
         </div>
 
-        <div className="drawer-side">
-          <label htmlFor="side-drawer" className="drawer-overlay"></label>
-          <div className="p-4 w-52 bg-transparent text-primary-content">
-            <div className="[&>svg]:w-1/3 [&>svg]:mx-auto [&>svg>path]:fill-primary-content mb-16">
-              <Logo />
-            </div>
-            <ul className="menu">
-              <li>
-                <Link href={`/?d=${formatToUrlDate(new Date())}`}>
-                  <FaTasks />
-                  Tasks
-                </Link>
-              </li>
-              <li>
-                <Link href="/projects">
-                  <BiCategoryAlt /> Projects
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <SideDrawer />
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { FiEdit2, FiLogOut } from 'react-icons/fi'
+import { FiArrowLeft, FiEdit2, FiLogOut } from 'react-icons/fi'
 import { updateProfile } from 'firebase/auth'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Head from 'next/head'
@@ -13,6 +13,7 @@ import { logout } from '@the-planner/data'
 import Avatar from 'apps/web/components/profile/Avatar'
 import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 import { UpdateProfile } from '@the-planner/types'
+import Link from 'next/link'
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false)
@@ -90,15 +91,16 @@ export default function ProfilePage() {
         <title>Profile | VRBTM</title>
       </Head>
 
-      <main className="p-6 min-h-screen bg-base-100">
-        <header className="mb-6 flex justify-end lg:hidden">
-          {/* <SideDrawerButton /> */}
-        </header>
+      <header className="flex justify-between items-center px-6 py-3 lg:p-6 bg-base-100">
+        <Link href="/" className="btn btn-ghost btn-circle -ml-4 lg:hidden">
+          <FiArrowLeft size={24} />
+        </Link>
 
-        <div className="prose">
-          <h1>Profile</h1>
-        </div>
+        <h1 className="text-4xl font-bold hidden lg:inline-block">Profile</h1>
+      </header>
 
+      <main className="px-6 min-h-screen bg-base-100">
+        <h1 className="text-3xl font-bold mb-4 lg:hidden">Profile</h1>
         <div className="py-12 lg:max-w-lg">
           <div className="flex flex-col gap-12 lg:flex-row">
             <div className="flex w-full flex-col items-center lg:w-1/2">

@@ -7,7 +7,6 @@ import { auth } from 'apps/web/config/firebase'
 import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 import { confirmPasswordReset } from 'firebase/auth'
 import { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -68,82 +67,75 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <>
-      <Head>
-        <title>The Planner | Reset Password</title>
-      </Head>
-      <AuthLayout>
-        <div className="prose text-center">
-          <h1>New password</h1>
-          <p>
-            {
-              "Don't worry, we've got you covered. Please enter your email to reset your password."
-            }
-          </p>
-        </div>
+    <AuthLayout title="Reset Password">
+      <div className="prose text-center">
+        <h1>New password</h1>
+        <p>
+          {
+            "Don't worry, we've got you covered. Please enter your email to reset your password."
+          }
+        </p>
+      </div>
 
-        <div className="mt-8 rounded-xl bg-base-100 p-6 shadow">
-          <form className="space-y-6" onSubmit={handleSubmit(submitHandler)}>
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="••••••"
-                className={`error input-bordered input w-full ${
-                  errors?.password?.message ? 'input-error' : ''
-                }`}
-                {...register('password')}
-              />
-              <label
-                className={`label ${
-                  !errors?.password?.message ? 'hidden' : ''
-                }`}
-              >
-                <span className="label-text-alt text-error">
-                  {errors?.password?.message}
-                </span>
-              </label>
-            </div>
+      <div className="mt-8 rounded-xl bg-base-100 p-6 shadow">
+        <form className="space-y-6" onSubmit={handleSubmit(submitHandler)}>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="••••••"
+              className={`error input-bordered input w-full ${
+                errors?.password?.message ? 'input-error' : ''
+              }`}
+              {...register('password')}
+            />
+            <label
+              className={`label ${!errors?.password?.message ? 'hidden' : ''}`}
+            >
+              <span className="label-text-alt text-error">
+                {errors?.password?.message}
+              </span>
+            </label>
+          </div>
 
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">Confirm Password</span>
-              </label>
-              <input
-                type="password"
-                placeholder="••••••"
-                className={`error input-bordered input w-full ${
-                  errors?.confirmPassword?.message ? 'input-error' : ''
-                }`}
-                {...register('confirmPassword')}
-              />
-              <label
-                className={`label ${
-                  !errors?.confirmPassword?.message ? 'hidden' : ''
-                }`}
-              >
-                <span className="label-text-alt text-error">
-                  {errors?.confirmPassword?.message}
-                </span>
-              </label>
-            </div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Confirm Password</span>
+            </label>
+            <input
+              type="password"
+              placeholder="••••••"
+              className={`error input-bordered input w-full ${
+                errors?.confirmPassword?.message ? 'input-error' : ''
+              }`}
+              {...register('confirmPassword')}
+            />
+            <label
+              className={`label ${
+                !errors?.confirmPassword?.message ? 'hidden' : ''
+              }`}
+            >
+              <span className="label-text-alt text-error">
+                {errors?.confirmPassword?.message}
+              </span>
+            </label>
+          </div>
 
-            <div>
-              <button
-                type="submit"
-                className={`btn-primary btn-block btn ${
-                  loading ? 'loading' : ''
-                }`}
-              >
-                Change password
-              </button>
-            </div>
-          </form>
-        </div>
-      </AuthLayout>
-    </>
+          <div>
+            <button
+              type="submit"
+              className={`btn-primary btn-block btn ${
+                loading ? 'loading' : ''
+              }`}
+            >
+              Change password
+            </button>
+          </div>
+        </form>
+      </div>
+    </AuthLayout>
   )
 }
 

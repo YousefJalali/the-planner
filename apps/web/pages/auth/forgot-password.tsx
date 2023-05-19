@@ -7,7 +7,6 @@ import { auth } from 'apps/web/config/firebase'
 import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { GetServerSideProps } from 'next'
-import Head from 'next/head'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -69,72 +68,66 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <>
-      <Head>
-        <title>The Planner | Forgot password</title>
-      </Head>
+    <AuthLayout title="Forgot password">
+      <div className="prose text-center">
+        <h1>Forgot your password?</h1>
+        <p>
+          Enter your email and we will send you a link to reset your password.
+        </p>
+      </div>
 
-      <AuthLayout>
-        <div className="prose text-center">
-          <h1>Forgot your password?</h1>
-          <p>
-            Enter your email and we will send you a link to reset your password.
-          </p>
-        </div>
+      <div className="mt-8 rounded-xl bg-base-100 p-6 shadow">
+        <form className="space-y-6" onSubmit={handleSubmit(submitHandler)}>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Email address</span>
+            </label>
+            <input
+              type="text"
+              placeholder="johndoe@example.com"
+              className={`error input-bordered input w-full ${
+                errors?.email?.message ? 'input-error' : ''
+              }`}
+              {...register('email')}
+            />
+            <label
+              className={`label ${!errors?.email?.message ? 'hidden' : ''}`}
+            >
+              <span className="label-text-alt text-error first-letter:uppercase">
+                {errors?.email?.message}
+              </span>
+            </label>
+          </div>
 
-        <div className="mt-8 rounded-xl bg-base-100 p-6 shadow">
-          <form className="space-y-6" onSubmit={handleSubmit(submitHandler)}>
-            <div className="form-control w-full">
-              <label className="label">
-                <span className="label-text">Email address</span>
-              </label>
-              <input
-                type="text"
-                placeholder="johndoe@example.com"
-                className={`error input-bordered input w-full ${
-                  errors?.email?.message ? 'input-error' : ''
-                }`}
-                {...register('email')}
-              />
-              <label
-                className={`label ${!errors?.email?.message ? 'hidden' : ''}`}
-              >
-                <span className="label-text-alt text-error first-letter:uppercase">
-                  {errors?.email?.message}
-                </span>
-              </label>
+          <div>
+            <button
+              type="submit"
+              className={`btn-primary btn-block btn ${
+                loading ? 'loading' : ''
+              }`}
+            >
+              Send Reset Link
+            </button>
+          </div>
+
+          {success && (
+            <div className="mt-6">
+              <p className="text-primary">
+                An email has been sent to your address.
+              </p>
+              <p className="text-sm opacity-80">
+                If you do not see it in your inbox, please check your spam
+                folder.
+              </p>
             </div>
+          )}
 
-            <div>
-              <button
-                type="submit"
-                className={`btn-primary btn-block btn ${
-                  loading ? 'loading' : ''
-                }`}
-              >
-                Send Reset Link
-              </button>
-            </div>
-
-            {success && (
-              <div className="mt-6">
-                <p className="text-primary">
-                  An email has been sent to your address.
-                </p>
-                <p className="text-sm opacity-80">
-                  If you do not see it in your inbox, please check your spam
-                  folder.
-                </p>
-              </div>
-            )}
-
-            {/* <div className="mt-6">
+          {/* <div className="mt-6">
         <p className="text-red-500">{error}</p>
       </div> */}
-          </form>
-        </div>
-      </AuthLayout>
-    </>
+        </form>
+      </div>
+    </AuthLayout>
   )
 }
 

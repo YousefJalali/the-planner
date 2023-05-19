@@ -6,7 +6,7 @@ export default function Avatar({ large = false }: { large?: boolean }) {
   return (
     <div className="placeholder avatar">
       <div
-        className={`rounded-full bg-neutral-focus text-neutral-content ${
+        className={`rounded-full bg-secondary text-secondary-content ${
           large ? 'w-40' : 'w-12'
         }`}
       >

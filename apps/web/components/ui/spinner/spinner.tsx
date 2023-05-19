@@ -8,7 +8,7 @@ type Props = {
 export const Spinner: FC<Props> = (props) => {
   return (
     <div className="flex animate-spin">
-      <CgSpinnerTwo className="fill-primary" size={props.size || 20} />
+      <CgSpinnerTwo className="[&>path]:fill-primary" size={props.size || 20} />
     </div>
   )
 }
