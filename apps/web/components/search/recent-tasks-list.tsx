@@ -1,5 +1,6 @@
 import { useTasks } from '@the-planner/data'
-import SearchItem from './search-item'
+import { SearchedTask } from '../task/task-item'
+import ViewTask from '../task/view-task'
 
 const RecentTasks = () => {
   const { tasks: recentTasks, isLoading: recentTasksLoading } = useTasks({
@@ -19,7 +20,13 @@ const RecentTasks = () => {
             <ul className="space-y-3">
               {recentTasks.map((task) => (
                 <li key={task.id}>
-                  <SearchItem item={task} />
+                  <ViewTask task={task}>
+                    {(showModal) => (
+                      <button onClick={showModal} className="w-full text-left">
+                        <SearchedTask task={task} />
+                      </button>
+                    )}
+                  </ViewTask>
                 </li>
               ))}
             </ul>

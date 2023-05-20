@@ -1,24 +1,17 @@
 import { FiSearch } from 'react-icons/fi'
-import { useModal } from '@the-planner/hooks'
 import { SearchPage } from './'
+import { useState } from 'react'
+import { Modal } from '../ui'
 
 export const SearchButton = () => {
-  const { setModal, clearModal } = useModal()
-
-  const clickHandler = () => {
-    setModal({
-      id: 'search-modal',
-      closeButton: true,
-      content: <SearchPage />,
-    })
-  }
+  const [modal, showModal] = useState(false)
 
   return (
     <>
       <button
         name="search"
         className="btn btn-sm btn-ghost btn-circle lg:hidden"
-        onClick={clickHandler}
+        onClick={() => showModal(true)}
       >
         <FiSearch size={24} />
       </button>
@@ -27,8 +20,17 @@ export const SearchButton = () => {
         type="search"
         placeholder="Search..."
         className="input input-bordered hidden lg:block"
-        onClick={clickHandler}
+        onClick={() => showModal(true)}
       />
+
+      <Modal
+        id="search-modal"
+        isOpen={modal}
+        dismiss={() => showModal(false)}
+        closeButton
+      >
+        <SearchPage />
+      </Modal>
     </>
   )
 }

@@ -1,9 +1,9 @@
-import { useCallback } from 'react'
+import { useState } from 'react'
 import { Project } from '@the-planner/types'
-import { useModal } from '@the-planner/hooks'
 import { useRouter } from 'next/router'
 import { useDeleteProject, useEditProject } from '@the-planner/data'
 import ProjectForm from './project-form'
+import { Modal } from '../ui'
 
 export function EditProject({
   project,
@@ -12,39 +12,38 @@ export function EditProject({
   project: Project
   children: (handler: () => void) => JSX.Element
 }) {
-  const router = useRouter()
+  const [modal, showModal] = useState(false)
 
-  const { setModal, clearModal } = useModal()
+  const router = useRouter()
 
   const { onSubmit } = useEditProject({ projectId: project.id })
 
   const { onDelete } = useDeleteProject({ projectId: project.id })
 
-  const showModal = useCallback(
-    () =>
-      setModal({
-        id: 'project-edit',
-        closeButton: true,
-        content: (
-          <ProjectForm
-            id="edit"
-            onSubmit={(formData) =>
-              onSubmit(formData, () => clearModal('project-edit'))
-            }
-            defaultValues={project}
-            onDelete={() =>
-              onDelete(project, () => {
-                router.back()
-                clearModal('project-edit')
-              })
-            }
-          />
-        ),
-      }),
-    [project]
-  )
+  return (
+    <>
+      {children(() => showModal(true))}
 
-  return children(showModal)
+      <Modal
+        id="project-edit"
+        isOpen={modal}
+        dismiss={() => showModal(false)}
+        closeButton
+      >
+        <ProjectForm
+          id="edit"
+          onSubmit={(formData) => onSubmit(formData, () => showModal(false))}
+          defaultValues={project}
+          onDelete={() =>
+            onDelete(project, () => {
+              router.back()
+              showModal(false)
+            })
+          }
+        />
+      </Modal>
+    </>
+  )
 }
 
 export default EditProject

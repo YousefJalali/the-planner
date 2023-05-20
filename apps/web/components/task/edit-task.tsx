@@ -1,8 +1,8 @@
-import { useModal } from '@the-planner/hooks'
 import { Task } from '@the-planner/types'
 import TaskForm from './task-form'
 import { useEditTask } from '@the-planner/data'
-import { useCallback } from 'react'
+import { useState } from 'react'
+import { Modal } from '../ui'
 
 export default function EditTask({
   children,
@@ -11,31 +11,32 @@ export default function EditTask({
   children: (handler: () => void) => JSX.Element
   task: Task
 }) {
-  const { setModal, clearModal } = useModal()
+  const [modal, showModal] = useState(false)
 
   const { onSubmit } = useEditTask({ taskId: task.id })
 
-  const showModal = useCallback(
-    () =>
-      setModal({
-        id: 'task-edit',
-        closeButton: true,
-        content: (
-          <TaskForm
-            id="edit"
-            defaultValues={task}
-            onSubmit={(formData) =>
-              onSubmit(formData, () => {
-                clearModal('task-edit')
-                clearModal('task-options')
-              })
-            }
-            // serverErrors={serverErrors}
-          />
-        ),
-      }),
-    [task]
-  )
+  return (
+    <>
+      {children(() => showModal(true))}
 
-  return children(showModal)
+      <Modal
+        id="task-edit"
+        isOpen={modal}
+        dismiss={() => showModal(false)}
+        closeButton
+      >
+        <TaskForm
+          id="edit"
+          defaultValues={task}
+          onSubmit={(formData) =>
+            onSubmit(formData, () => {
+              showModal(false)
+              // clearModal('task-options')
+            })
+          }
+          // serverErrors={serverErrors}
+        />
+      </Modal>
+    </>
+  )
 }

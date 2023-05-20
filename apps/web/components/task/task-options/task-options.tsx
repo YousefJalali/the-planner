@@ -1,8 +1,8 @@
-import { FC, useCallback } from 'react'
+import { FC, useState } from 'react'
 import { TaskWithProject } from '@the-planner/types'
 import { FiMoreVertical } from 'react-icons/fi'
-import { useMedia, useModal } from '@the-planner/hooks'
-import { Dropdown } from '../../ui'
+import { useMedia } from '@the-planner/hooks'
+import { Dropdown, Modal } from '../../ui'
 import TaskOptionsList from './task-options-list'
 
 type Props = {
@@ -11,19 +11,9 @@ type Props = {
 }
 
 export const TaskOptions: FC<Props> = ({ task, inHeader }) => {
+  const [modal, showModal] = useState(false)
+
   const isMobile = useMedia('(max-width: 768px)')
-
-  const { setModal } = useModal()
-
-  const showModal = useCallback(
-    () =>
-      setModal({
-        id: 'task-options',
-        content: <TaskOptionsList task={task} />,
-        closesWhenClickedOutside: true,
-      }),
-    [task]
-  )
 
   return !isMobile ? (
     <Dropdown
@@ -33,14 +23,25 @@ export const TaskOptions: FC<Props> = ({ task, inHeader }) => {
       <TaskOptionsList task={task} />
     </Dropdown>
   ) : (
-    <button
-      data-testid="taskItem-kebab"
-      name="task options"
-      onClick={showModal}
-      className={`btn btn-circle btn-sm btn-ghost ${inHeader ? '-mr-3' : ''}`}
-    >
-      <FiMoreVertical size={inHeader ? 24 : 18} />
-    </button>
+    <>
+      <button
+        data-testid="taskItem-kebab"
+        name="task options"
+        onClick={() => showModal(true)}
+        className={`btn btn-circle btn-sm btn-ghost ${inHeader ? '-mr-3' : ''}`}
+      >
+        <FiMoreVertical size={inHeader ? 24 : 18} />
+      </button>
+
+      <Modal
+        id="task-options"
+        isOpen={modal}
+        dismiss={() => showModal(false)}
+        closesWhenClickedOutside
+      >
+        <TaskOptionsList task={task} />
+      </Modal>
+    </>
   )
 }
 

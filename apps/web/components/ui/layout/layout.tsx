@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Montserrat, Open_Sans } from '@next/font/google'
-import { Modal, Prompt, Notification } from '../'
+import { Prompt, Notification } from '../'
 import SideDrawer from './SideDrawer'
 
 const montserrat = Montserrat({
@@ -26,7 +26,6 @@ export const Layout: FC<Props> = ({ children }) => {
         <div className="drawer-content flex flex-col items-center justify-center lg:p-2 w-full">
           <main className="w-full mx-auto bg-base-100 lg:bg-base-200 lg:overflow-y-hidden lg:rounded-2xl min-h-screen lg:min-h-fit">
             {children}
-            <Modal />
             <Notification />
             <Prompt />
           </main>

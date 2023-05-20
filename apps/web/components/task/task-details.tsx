@@ -1,22 +1,12 @@
-import { FC } from 'react'
-import { useRouter } from 'next/router'
-
 import { formatDate, formatTime, statusAlias } from '@the-planner/utils'
 import { Badge, ErrorMessage, Spinner } from '../ui'
 import Image from 'next/image'
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import { useTask } from '@the-planner/data'
+import Link from 'next/link'
 
-type Props = {
-  taskId: string
-  onClose?: () => void
-  onRoute?: (action?: any) => void
-}
-
-export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
-  const router = useRouter()
-
+export const TaskDetails = ({ taskId }: { taskId: string }) => {
   const { task, error, isLoading } = useTask(taskId)
 
   if (isLoading) {
@@ -49,16 +39,6 @@ export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
     status,
   } = task
 
-  const linkHandler = (route: string) => {
-    router.push(route)
-    if (onClose) {
-      onClose()
-    }
-    if (onRoute) {
-      onRoute()
-    }
-  }
-
   return (
     <>
       <section className="px-6 my-6 space-y-5">
@@ -72,12 +52,11 @@ export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
             <div>
               <span className="label-text">Project</span>
 
-              <h1
-                className="text-2xl leading-tight font-bold"
-                onClick={() => linkHandler(`/projects/${projectId}`)}
-              >
-                {project.title}
-              </h1>
+              <Link href={`/projects/${projectId}`}>
+                <h1 className="text-2xl leading-tight font-bold">
+                  {project.title}
+                </h1>
+              </Link>
             </div>
           </div>
         </section>
@@ -85,14 +64,14 @@ export const TaskDetails: FC<Props> = ({ taskId, onClose, onRoute }) => {
         {/* task */}
         <div>
           <span className="label-text">Task</span>
-          <a onClick={() => linkHandler(`/tasks/${id}`)}>
+          <Link href={`/tasks/${id}`}>
             <h2
               data-testid="taskDetails-title"
               className="text-xl font-semibold"
             >
               {title}
             </h2>
-          </a>
+          </Link>
 
           {description?.length > 0 && (
             <div className="font-text mt-2 max-h-[200px] overflow-y-scroll opacity-60 leading-relaxed">

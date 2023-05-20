@@ -1,8 +1,9 @@
 import { FixedSizeList as List } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import SearchItem from './search-item'
 import { useSearch } from '@the-planner/data'
 import { EmptyState, NoSearchDataSvg } from '../ui'
+import ViewTask from '../task/view-task'
+import { SearchedTask } from '../task/task-item'
 
 const SearchList = ({ query }: { query: string }) => {
   const { searchedTasks, isLoading } = useSearch(query)
@@ -24,7 +25,13 @@ const SearchList = ({ query }: { query: string }) => {
             {({ data, index, style }) => {
               return (
                 <i key={data[index].id} style={style}>
-                  <SearchItem item={data[index]} />
+                  <ViewTask task={data[index]}>
+                    {(showModal) => (
+                      <button onClick={showModal} className="w-full text-left">
+                        <SearchedTask task={data[index]} />
+                      </button>
+                    )}
+                  </ViewTask>
                 </i>
               )
             }}

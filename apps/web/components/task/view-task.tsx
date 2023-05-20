@@ -1,7 +1,7 @@
-import { useModal } from '@the-planner/hooks'
 import { TaskWithProject } from '@the-planner/types'
-import { useCallback } from 'react'
+import { useState } from 'react'
 import TaskDetails from './task-details'
+import { Modal } from '../ui'
 
 export default function ViewTask({
   children,
@@ -12,23 +12,20 @@ export default function ViewTask({
   task: TaskWithProject
   className?: string
 }) {
-  const { setModal, clearModal } = useModal()
+  const [modal, showModal] = useState(false)
 
-  const showModal = useCallback(
-    () =>
-      setModal({
-        id: 'task-details',
-        closeButton: true,
-        content: (
-          <TaskDetails
-            taskId={task.id}
-            onClose={() => clearModal('task-details')}
-          />
-          // <TaskDetails task={task} onClose={() => clearModal('task-details')} />
-        ),
-      }),
-    [task]
+  return (
+    <>
+      {children(() => showModal(true))}
+
+      <Modal
+        id="task-details"
+        isOpen={modal}
+        dismiss={() => showModal(false)}
+        closeButton
+      >
+        <TaskDetails taskId={task.id} />
+      </Modal>
+    </>
   )
-
-  return children(showModal)
 }
