@@ -8,7 +8,7 @@ import 'nprogress/nprogress.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import { PromptCtxProvider, NotificationCtxProvider } from '@the-planner/hooks'
+import { NotificationCtxProvider } from '@the-planner/hooks'
 import Layout from '../components/ui/layout/layout'
 import { ErrorBoundary } from 'react-error-boundary'
 import { AuthContextProvider } from '../common/AuthCtx'
@@ -39,11 +39,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         >
           <AuthContextProvider>
             <NotificationCtxProvider>
-              <PromptCtxProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </PromptCtxProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </NotificationCtxProvider>
           </AuthContextProvider>
         </SWRConfig>
