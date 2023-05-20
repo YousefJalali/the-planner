@@ -17,14 +17,10 @@ export default function AuthLayout({
         <title>The Planner | {title}</title>
       </Head>
 
-      <header className="flex justify-between items-center px-6 py-3 lg:p-6 bg-base-200">
-        <Link href="/" className="btn btn-ghost btn-circle -ml-4 lg:hidden">
+      <header className="flex justify-between items-center px-6 py-3 lg:p-6 bg-base-200 lg:hidden">
+        <Link href="/" className="btn btn-ghost btn-circle -ml-4">
           <FiArrowLeft size={24} />
         </Link>
-      </header>
-
-      <header className="fixed top-0 right-0 flex w-full justify-end bg-base-200 px-6 pt-3 pb-0 lg:hidden">
-        {/* <SideDrawerButton /> */}
       </header>
 
       <div className="flex min-h-screen flex-col justify-center bg-base-200 p-6 lg:mt-0">

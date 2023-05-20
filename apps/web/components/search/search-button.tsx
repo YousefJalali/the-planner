@@ -17,7 +17,7 @@ export const SearchButton = () => {
     <>
       <button
         name="search"
-        className="btn btn-ghost btn-circle lg:hidden"
+        className="btn btn-sm btn-ghost btn-circle lg:hidden"
         onClick={clickHandler}
       >
         <FiSearch size={24} />

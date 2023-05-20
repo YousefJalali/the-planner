@@ -134,7 +134,7 @@ export function TaskForm({
                 <SelectProject
                   value={value}
                   onChange={onChange}
-                  placeholder="Select a project"
+                  placeholder="Select a project..."
                   className={`input-bordered input w-full ${
                     errors?.projectId ? 'input-error' : ''
                   }`}

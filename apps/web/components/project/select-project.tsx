@@ -65,7 +65,7 @@ Props) {
             )}
           </div>
         ) : (
-          <span className="text-neutral opacity-60 leading-normal">
+          <span className="text-neutral opacity-40 leading-normal">
             {placeholder}
           </span>
         )}

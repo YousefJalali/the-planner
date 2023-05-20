@@ -30,14 +30,14 @@ export const Layout: FC<Props> = ({ children }) => {
             <Notification />
             <Prompt />
           </main>
-
-          <div id="modal" />
-          <div id="prompt" />
-          <div id="notification" />
         </div>
 
         <SideDrawer />
       </div>
+
+      <div id="modal" />
+      <div id="prompt" />
+      <div id="notification" />
     </div>
   )
 }

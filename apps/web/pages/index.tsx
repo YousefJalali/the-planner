@@ -36,7 +36,7 @@ const Home: NextPage<Props> = (props) => {
               <Logo />
             </div>
 
-            <div className="flex items-center -mr-3 lg:m-0">
+            <div className="flex items-center -mr-3 lg:m-0 gap-2">
               {/* <ToggleButton
                 id="color-mode"
                 height={24}
@@ -51,7 +51,7 @@ const Home: NextPage<Props> = (props) => {
 
               <label
                 htmlFor="side-drawer"
-                className="btn-ghost drawer-button btn-circle btn -mr-1 p-0 lg:hidden"
+                className="btn-ghost btn-sm drawer-button btn-circle btn -mr-1 p-0 lg:hidden"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
