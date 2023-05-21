@@ -2,6 +2,7 @@ import { Status, TaskWithProject } from '@the-planner/types'
 
 export const taskSample = {
   id: 'task-id',
+  userId: '',
   title: 'test task item',
   description: 'task item to be tested',
   projectId: 'test project',

@@ -42,6 +42,7 @@ export const task: (projects: Project[], initialDate: Date) => Task = (
 
   return {
     id: ObjectID().toHexString(),
+    userId: ObjectID().toHexString(),
     title: faker.lorem.sentence(),
     description: faker.lorem.paragraph(),
     projectId: project.id,

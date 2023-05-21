@@ -26,6 +26,7 @@ type Props = {
 export const initialDefaultValues = () =>
   ({
     id: ObjectID().toHexString(),
+    userId: '',
     title: '',
     projectId: '',
     openTask: true,
