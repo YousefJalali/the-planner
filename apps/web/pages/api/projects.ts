@@ -26,13 +26,15 @@ const handler = async (
     try {
       // Get project by projectId
       if (projectId) {
-        if (typeof projectId !== 'string') {
+        if (typeof projectId !== 'string')
           return res.status(404).json({ error: 'project not found' })
-        }
+
+        if (!user) return res.status(401).json({ error: 'not authorized' })
 
         const project = await prisma.project.findFirst({
           where: {
             id: projectId,
+            userId: user.id,
           },
           include: {
             tasks: true,
@@ -44,11 +46,14 @@ const handler = async (
           },
         })
 
-        if (!project) {
+        if (!project)
           return res.status(404).json({ error: 'project not found' })
-        }
 
         return res.status(200).json({ data: project })
+      }
+
+      if (!user) {
+        return res.status(200).json({ data: [] })
       }
 
       const projects = await prisma.project.findMany({
@@ -62,16 +67,17 @@ const handler = async (
         //     },
         //   }),
 
-        ...(q &&
-          q !== 'undefined' &&
-          typeof q === 'string' && {
-            where: {
+        where: {
+          userId: user.id,
+          ...(q &&
+            q !== 'undefined' &&
+            typeof q === 'string' && {
               title: {
                 contains: q,
                 mode: 'insensitive',
               },
-            },
-          }),
+            }),
+        },
 
         ...(limit &&
           limit !== 'undefined' && {
@@ -172,6 +178,10 @@ const handler = async (
 
   // update project
   if (req.method === 'PUT') {
+    if (!user) {
+      return res.status(401).json({ error: 'not authorized' })
+    }
+
     const project: Project = req.body
 
     if (!project) {
@@ -225,6 +235,10 @@ const handler = async (
   }
 
   if (req.method === 'DELETE') {
+    if (!user) {
+      return res.status(401).json({ error: 'not authorized' })
+    }
+
     const { projectId } = req.query
 
     if (!projectId || typeof projectId !== 'string')
@@ -268,92 +282,3 @@ const handler = async (
 }
 
 export default handler
-
-// const handler = async (
-//   req: NextApiRequest,
-//   res: NextApiResponse<{
-//     data?: Project[] | Partial<Project>[]
-//     error?: Error | unknown
-//     nextCursor?: string
-//   }>
-// ) => {
-//   const { cursor, limit, q } = req.query
-
-//   try {
-//     if (q === 'list') {
-//       const projects: Partial<Project>[] = await prisma.project.findMany({
-//         select: {
-//           id: true,
-//           color: true,
-//           title: true,
-//         },
-//         orderBy: { createdAt: 'desc' },
-//       })
-
-//       return res.status(200).json({ data: projects })
-//     }
-
-//     const projects = await prisma.project.findMany({
-//       // ...(q &&
-//       //   q !== 'undefined' &&
-//       //   q === Status.COMPLETED.toLowerCase() && {
-//       //     where: {
-//       //       progressPercentage: {
-//       //         equals: 100,
-//       //       },
-//       //     },
-//       //   }),
-
-//       ...(q &&
-//         q !== 'undefined' && {
-//           where: {
-//             title: {
-//               contains: q as string,
-//               mode: 'insensitive',
-//             },
-//           },
-//         }),
-
-//       ...(limit &&
-//         limit !== 'undefined' && {
-//           take: +limit,
-//         }),
-
-//       ...(cursor &&
-//         cursor !== 'undefined' && {
-//           skip: 1,
-//           cursor: {
-//             id: cursor as string,
-//           },
-//         }),
-
-//       orderBy: { createdAt: 'desc' },
-
-//       include: {
-//         tasks: {
-//           select: {
-//             status: true,
-//           },
-//         },
-//         _count: {
-//           select: {
-//             tasks: true,
-//           },
-//         },
-//       },
-//     })
-
-//     const nextCursor =
-//       projects[+(limit || 1) - 1]?.id || projects[projects.length - 1]?.id
-
-//     return res
-//       .status(200)
-//       .json({ data: projects, ...(limit && { nextCursor }) })
-//     // .json({ data: projects, nextCursor })
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).json({ error })
-//   }
-// }
-
-// export default handler

@@ -5,29 +5,40 @@ import { ProjectForm } from './project-form'
 import ProtectedComponent from '../auth/ProtectedComp'
 import { Modal } from '../ui'
 
-const CreateProject = ({ className }: { className?: string }) => {
+const CreateProject = ({
+  children,
+  className,
+}: {
+  children?: (handler: () => void) => JSX.Element
+  className?: string
+}) => {
   const [modal, showModal] = useState(false)
 
   const { onSubmit } = useCreateProject()
 
   return (
     <>
-      <button
-        name="create project"
-        onClick={() => showModal(true)}
-        className={`btn btn-primary btn-ghost btn-circle md:hidden ${className}`}
-      >
-        <FiPlus className="h-6 w-6" />
-      </button>
-
-      <button
-        name="create project"
-        onClick={() => showModal(true)}
-        className={`btn gap-2 btn-ghost text-primary lg:btn-primary hidden md:flex ${className}`}
-      >
-        <FiPlus className="h-6 w-6" />
-        Create Project
-      </button>
+      {children ? (
+        children(() => showModal(true))
+      ) : (
+        <>
+          <button
+            name="create project"
+            onClick={() => showModal(true)}
+            className={`btn btn-primary btn-ghost btn-circle md:hidden ${className}`}
+          >
+            <FiPlus className="h-6 w-6" />
+          </button>
+          <button
+            name="create project"
+            onClick={() => showModal(true)}
+            className={`btn gap-2 btn-ghost text-primary lg:btn-primary hidden md:flex ${className}`}
+          >
+            <FiPlus className="h-6 w-6" />
+            Create Project
+          </button>
+        </>
+      )}
 
       <Modal
         id="project-create"

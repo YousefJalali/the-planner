@@ -14,7 +14,7 @@ export default function ProfileButton({ onClick }: { onClick?: () => void }) {
       <div className="flex flex-col items-start">
         <span className="text-sm font-light">Welcome back,</span>
         <span className="font-semibold first-letter:capitalize">
-          {user.displayName.split(' ')[0]}
+          {user.displayName?.split(' ')[0] || ''}
         </span>
       </div>
     </Link>

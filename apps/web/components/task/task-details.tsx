@@ -9,37 +9,17 @@ import Link from 'next/link'
 export const TaskDetails = ({ taskId }: { taskId: string }) => {
   const { task, error, isLoading } = useTask(taskId)
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center p-6">
-        <Spinner />
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="px-6 flex justify-center">
-        <ErrorMessage error={error} />
-      </div>
-    )
-  }
-
-  const {
-    id,
-    title,
-    project,
-    projectId,
-    attachments,
-    description,
-    startDate,
-    endDate,
-    startTime,
-    endTime,
-    status,
-  } = task
-
-  return (
+  return isLoading ? (
+    <div className="flex justify-center p-6">
+      <Spinner />
+    </div>
+  ) : error ? (
+    <div className="px-6 flex justify-center">
+      <ErrorMessage error={error} />
+    </div>
+  ) : !task ? (
+    <div className="flex justify-center p-6">Task not found</div>
+  ) : (
     <>
       <section className="px-6 my-6 space-y-5">
         {/* project */}
@@ -47,14 +27,14 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
           <div className="flex">
             <div
               className="w-1 mr-2 rounded-xl"
-              style={{ backgroundColor: project.color }}
+              style={{ backgroundColor: task.project.color }}
             />
             <div>
               <span className="label-text">Project</span>
 
-              <Link href={`/projects/${projectId}`}>
+              <Link href={`/projects/${task.projectId}`}>
                 <h1 className="text-2xl leading-tight font-bold">
-                  {project.title}
+                  {task.project.title}
                 </h1>
               </Link>
             </div>
@@ -64,18 +44,18 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
         {/* task */}
         <div>
           <span className="label-text">Task</span>
-          <Link href={`/tasks/${id}`}>
+          <Link href={`/tasks/${task.id}`}>
             <h2
               data-testid="taskDetails-title"
               className="text-xl font-semibold"
             >
-              {title}
+              {task.title}
             </h2>
           </Link>
 
-          {description?.length > 0 && (
+          {task.description?.length > 0 && (
             <div className="font-text mt-2 max-h-[200px] overflow-y-scroll opacity-60 leading-relaxed">
-              <p>{description}</p>
+              <p>{task.description}</p>
             </div>
           )}
         </div>
@@ -87,22 +67,22 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
 
             <div className="flex justify-between items-center">
               <div className="flex gap-3">
-                <span>{formatDate(startDate)}</span>
-                {startTime && <span>{formatTime(startTime)}</span>}
+                <span>{formatDate(task.startDate)}</span>
+                {task.startTime && <span>{formatTime(task.startTime)}</span>}
               </div>
 
-              <Badge status={status}>{statusAlias(status)}</Badge>
+              <Badge status={task.status}>{statusAlias(task.status)}</Badge>
             </div>
           </div>
 
           {/* Due Date */}
-          {endDate && (
+          {task.endDate && (
             <div>
               <span className="label-text">Due Date</span>
 
               <div className="flex gap-3">
-                <span>{formatDate(endDate)}</span>
-                {endTime && <span>{formatTime(endTime)}</span>}
+                <span>{formatDate(task.endDate)}</span>
+                {task.endTime && <span>{formatTime(task.endTime)}</span>}
               </div>
             </div>
           )}
@@ -111,13 +91,13 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
 
       {/* attachments */}
       <>
-        {attachments.length > 0 && (
+        {task.attachments.length > 0 && (
           <section className="my-4">
             <div className="ml-6 mb-1">
               <span className="label-text">Attachments</span>
             </div>
             <div className="space-x-3 flex overflow-x-scroll w-full px-6">
-              {attachments.map((img) => (
+              {task.attachments.map((img) => (
                 <div
                   key={img.id}
                   className="rounded-xl overflow-hidden h-[156px]"
@@ -128,7 +108,7 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
                   <Zoom>
                     <Image
                       src={img.path}
-                      alt={title}
+                      alt={task.title}
                       height={img.height}
                       width={img.width}
                     />

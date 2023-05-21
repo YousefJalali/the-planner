@@ -8,7 +8,7 @@ export const useProject = (projectId: string | null) => {
     (url) => customFetch(url, {})
   )
 
-  const project: ProjectWithTasksAndCount = data?.data || null
+  const project: ProjectWithTasksAndCount | undefined = data?.data || undefined
   const isLoading = !error && !data
 
   return { project, mutate, error: getErrorMessage(error), isLoading }

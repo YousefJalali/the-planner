@@ -9,6 +9,8 @@ import { SearchButton } from '../components/search/'
 import CreateTaskButton from '../components/task/create-task'
 import Head from 'next/head'
 import ProfileButton from '../components/profile/ProfileButton'
+import CreateProject from '../components/project/create-project'
+import { FiPlus } from 'react-icons/fi'
 
 type Props = {
   // projects: Project[]
@@ -71,6 +73,18 @@ const Home: NextPage<Props> = (props) => {
               {/* <div className="lg:hidden">
                 <ProfileButton />
               </div> */}
+
+              <CreateProject>
+                {(showModal) => (
+                  <button
+                    onClick={showModal}
+                    className="btn btn-secondary gap-2 hidden lg:flex"
+                  >
+                    <FiPlus className="h-6 w-6" />
+                    new Project
+                  </button>
+                )}
+              </CreateProject>
 
               <CreateTaskButton />
             </div>

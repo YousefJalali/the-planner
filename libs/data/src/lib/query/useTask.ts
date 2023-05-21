@@ -8,7 +8,7 @@ export const useTask = (taskId: string | null) => {
     (url) => customFetch(url, {})
   )
 
-  const task: TaskWithProject = data?.data || null
+  const task: TaskWithProject | null = data?.data || undefined
   const isLoading = !error && !data
 
   return { task, error: getErrorMessage(error), isLoading, mutate }

@@ -11,14 +11,14 @@ export default function Avatar({ large = false }: { large?: boolean }) {
         }`}
       >
         <span className={`${large ? 'text-6xl' : ''} uppercase`}>
-          {!isLoading &&
-            user &&
-            user.displayName.split(' ')[0].split('')[0] +
+          {!isLoading && user && typeof user.displayName === 'string'
+            ? user.displayName.split(' ')[0].split('')[0] +
               (user.displayName.split(' ').length - 1 === 0
                 ? ''
                 : user.displayName
                     .split(' ')
-                    [user.displayName.split(' ').length - 1].split('')[0])}
+                    [user.displayName.split(' ').length - 1].split('')[0])
+            : ''}
         </span>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { parseUrlDate } from '@the-planner/utils'
 import { useRouter } from 'next/router'
 import { FiPlus } from 'react-icons/fi'
 import { Modal } from '../ui'
+import ProtectedComponent from '../auth/ProtectedComp'
 
 export default function CreateTask({
   children,
@@ -47,7 +48,7 @@ export default function CreateTask({
             className="hidden lg:flex btn btn-primary gap-2"
           >
             <FiPlus size={24} />
-            <span className="hidden lg:inline">Create task</span>
+            <span className="hidden lg:inline">new task</span>
           </button>
         </>
       )}
@@ -58,20 +59,26 @@ export default function CreateTask({
         dismiss={() => showModal(false)}
         closeButton
       >
-        <TaskForm
-          id="create"
-          defaultValues={{
-            ...(urlDate && {
-              startDate: parseUrlDate(urlDate as string),
-            }),
-            ...(projectId && {
-              projectId,
-            }),
-          }}
-          onSubmit={(formData) => onSubmit(formData, () => showModal(false))}
-          isSubmitting={isMutating}
-          // serverErrors={serverErrors}
-        />
+        <ProtectedComponent
+          title="Create Task"
+          description="To create a new task, you need to have an account. Please log in
+          or sign up to start creating your personal tasks."
+        >
+          <TaskForm
+            id="create"
+            defaultValues={{
+              ...(urlDate && {
+                startDate: parseUrlDate(urlDate as string),
+              }),
+              ...(projectId && {
+                projectId,
+              }),
+            }}
+            onSubmit={(formData) => onSubmit(formData, () => showModal(false))}
+            isSubmitting={isMutating}
+            // serverErrors={serverErrors}
+          />
+        </ProtectedComponent>
       </Modal>
     </>
   )

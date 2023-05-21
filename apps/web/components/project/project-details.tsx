@@ -22,19 +22,15 @@ export default function ProjectDetails({ projectId }: { projectId: string }) {
     )
   }, [project])
 
-  if (isLoading) {
-    return <ProjectDetailsPlaceholder />
-  }
-
-  if (error) {
-    return (
-      <div className="px-6 flex justify-center">
-        <ErrorMessage error={error} />
-      </div>
-    )
-  }
-
-  return (
+  return isLoading ? (
+    <ProjectDetailsPlaceholder />
+  ) : error ? (
+    <div className="px-6 flex justify-center">
+      <ErrorMessage error={error} />
+    </div>
+  ) : !project ? (
+    <div className="px-6 flex justify-center">Project not found</div>
+  ) : (
     <section className="overflow-hidden px-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-bold leading-relaxed">{project.title}</h1>

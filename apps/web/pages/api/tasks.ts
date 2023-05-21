@@ -15,6 +15,7 @@ import omit from 'lodash-es/omit'
 
 import { v2 as cloudinary } from 'cloudinary'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 
 const handler = async (
   req: NextApiRequest,
@@ -24,6 +25,14 @@ const handler = async (
     validationErrors?: any
   }>
 ) => {
+  let user = null
+  const uid = await isAuthenticated(req)
+  if (uid) {
+    user = await prisma.user.findFirst({
+      where: { uid },
+    })
+  }
+
   if (req.method === 'GET') {
     const { d, limit, taskId, projectId } = req.query
 
@@ -34,9 +43,14 @@ const handler = async (
           return res.status(404).json({ error: 'task not found' })
         }
 
+        if (!user) {
+          return res.status(401).json({ error: 'not authorized' })
+        }
+
         const task = await prisma.task.findFirst({
           where: {
             id: taskId,
+            userId: user.id,
           },
           include: { project: { select: { title: true, color: true } } },
         })
@@ -54,9 +68,14 @@ const handler = async (
           return res.status(404).json({ error: 'project not found' })
         }
 
+        if (!user) {
+          return res.status(401).json({ error: 'not authorized' })
+        }
+
         const tasks = await prisma.task.findMany({
           where: {
             projectId,
+            userId: user.id,
           },
           orderBy: { createdAt: 'desc' },
           include: { project: { select: { title: true, color: true } } },
@@ -69,17 +88,22 @@ const handler = async (
         return res.status(200).json({ data: tasks })
       }
 
+      if (!user) {
+        return res.status(200).json({ data: [] })
+      }
+
       const date = parseUrlDate(d as string)
       const startDate = UTCDate(addCurrentTime(date))
 
       const tasks = await prisma.task.findMany({
-        ...(d &&
-          typeof d === 'string' &&
-          isValid(date) && {
-            where: {
+        where: {
+          userId: user.id,
+          ...(d &&
+            typeof d === 'string' &&
+            isValid(date) && {
               startDate,
-            },
-          }),
+            }),
+        },
 
         ...(limit &&
           limit !== 'undefined' && {
@@ -100,11 +124,12 @@ const handler = async (
   if (req.method === 'POST') {
     const task: Task = req.body
 
-    if (!task) {
+    if (!task)
       return res
         .status(400)
         .json({ error: 'Something went wrong, please try again' })
-    }
+
+    if (!user) return res.status(401).json({ error: 'not authorized' })
 
     try {
       //validate form
@@ -115,9 +140,10 @@ const handler = async (
       // }
 
       //check if project exist in DB
-      const project = await prisma.project.findUnique({
+      const project = await prisma.project.findFirst({
         where: {
           id: task.projectId,
+          userId: user.id,
         },
       })
 
@@ -142,9 +168,7 @@ const handler = async (
         cloudinary.uploader.upload
       )
 
-      if (error) {
-        return res.status(400).json({ error })
-      }
+      if (error) return res.status(400).json({ error })
 
       let id = task.id
       if (!ObjectID.isValid(id)) {
@@ -158,6 +182,7 @@ const handler = async (
           attachments: images,
           startDate: UTCDate(task.startDate),
           endDate: task.endDate ? UTCDate(task.endDate) : null,
+          userId: user.id,
         },
         include: { project: { select: { title: true, color: true } } },
       })
@@ -172,14 +197,14 @@ const handler = async (
   if (req.method === 'PUT') {
     const taskForm = req.body
 
-    if (!taskForm) {
-      return res.status(400).json({ error: 'Task not fount' })
-    }
+    if (!taskForm) return res.status(400).json({ error: 'Task not fount' })
+
+    if (!user) return res.status(401).json({ error: 'not authorized' })
 
     try {
       //check if task exist in DB
-      const existedTask = await prisma.task.findUnique({
-        where: { id: taskForm.id },
+      const existedTask = await prisma.task.findFirst({
+        where: { id: taskForm.id, userId: user.id },
       })
       if (!existedTask) {
         return res.status(400).json({ error: 'Task not found' })
@@ -195,9 +220,10 @@ const handler = async (
       // }
 
       //check if project exist in DB
-      const project = await prisma.project.findUnique({
+      const project = await prisma.project.findFirst({
         where: {
           id: task.projectId,
+          userId: user.id,
         },
       })
       if (!project) {
@@ -256,12 +282,21 @@ const handler = async (
   if (req.method === 'DELETE') {
     const { taskId } = req.query
 
-    if (!taskId || typeof taskId !== 'string')
+    if (typeof taskId !== 'string')
       return res.status(404).json({ error: 'Task not found!' })
 
+    if (!user) return res.status(401).json({ error: 'not authorized' })
+
     try {
+      const taskToBeDeleted = await prisma.task.findFirst({
+        where: { id: taskId, userId: user.id },
+      })
+
+      if (!taskToBeDeleted)
+        return res.status(401).json({ error: 'Task not found' })
+
       const deletedTask = await prisma.task.delete({
-        where: { id: taskId },
+        where: { id: taskToBeDeleted.id },
       })
 
       if (deletedTask.attachments.length > 0) {
