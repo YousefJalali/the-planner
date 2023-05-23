@@ -37,7 +37,7 @@ export default function SideDrawer() {
           <Link
             href="/"
             onClick={clickHandler}
-            className="[&>svg]:w-1/3 [&>svg]:mx-auto [&>svg>path]:fill-primary-content mb-6 hover:bg-transparent"
+            className="[&>svg]:w-full [&>svg]:mx-auto mb-6 hover:bg-transparent"
           >
             <Logo />
           </Link>

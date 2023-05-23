@@ -27,7 +27,7 @@ export const TaskCheckbox = ({ task }: { task: TaskWithProject }) => {
           <input
             id={id}
             type="checkbox"
-            className="checkbox checkbox-secondary rounded-full"
+            className="checkbox checkbox-accent rounded-full"
             checked={status === Status.COMPLETED}
             onChange={() => checkHandler(onSubmit)}
             style={{

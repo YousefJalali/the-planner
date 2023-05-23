@@ -35,7 +35,7 @@ export const TasksLists: FC<Props> = ({ query, withDivider = false }) => {
       {Object.values(Status).map((val, i) => {
         if (isLoading) {
           return (
-            <div className="space-y-3" key={i}>
+            <div className="space-y-3 pb-6" key={i}>
               <TaskItemPlaceholder />
               <TaskItemPlaceholder />
               <TaskItemPlaceholder />

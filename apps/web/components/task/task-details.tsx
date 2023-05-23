@@ -33,7 +33,7 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
               <span className="label-text">Project</span>
 
               <Link href={`/projects/${task.projectId}`}>
-                <h1 className="text-2xl leading-tight font-bold">
+                <h1 className="text-2xl leading-tight font-bold hover:underline transition-all">
                   {task.project.title}
                 </h1>
               </Link>
@@ -47,7 +47,7 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
           <Link href={`/tasks/${task.id}`}>
             <h2
               data-testid="taskDetails-title"
-              className="text-xl font-semibold"
+              className="text-xl font-semibold hover:underline transition-all"
             >
               {task.title}
             </h2>

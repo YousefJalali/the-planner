@@ -38,7 +38,7 @@ export const Dropdown = ({
       <div
         ref={menuRef}
         tabIndex={0}
-        className="dropdown-content shadow bg-base-100 rounded-box max-w-[18rem] overflow-hidden"
+        className="dropdown-content shadow bg-base-100 rounded-box max-w-[19rem] overflow-hidden"
       >
         {children}
       </div>
