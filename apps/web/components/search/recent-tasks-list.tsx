@@ -27,7 +27,8 @@ const RecentTasks = () => {
           </section>
         </>
       ) : (
-        tasks && (
+        tasks &&
+        tasks.length > 0 && (
           <>
             <h3>Recent tasks</h3>
             <section className="not-prose">

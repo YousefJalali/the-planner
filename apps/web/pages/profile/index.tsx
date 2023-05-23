@@ -86,7 +86,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
+    <div className="min-h-screen">
       <Head>
         <title>Profile | VRBTM</title>
       </Head>
@@ -195,7 +195,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   )
 }
 
