@@ -11,30 +11,11 @@ type Props = {
 export const TaskItem: FC<Props> = memo(({ task }) => {
   const { title, openTask, startTime, endTime, attachments, status } = task
 
-  // const colors = useMemo(
-  //   () => ({
-  //     bg: `${chroma(task?.project?.color || '#fff')
-  //       .set('hsv.s', '*0.2')
-  //       .set('hsv.v', '0.9')}`,
-  //     text: `${chroma(task?.project?.color || '#fff').darken(2)}`,
-  //   }),
-  //   [task]
-  // )
-
   return (
     <div
       data-testid="task-item"
       className="relative bg-base-200 rounded-lg hover:bg-base-300 transition-all h-fit"
     >
-      {/* {task?.project?.title && searchView && (
-        <span
-          className="inline-block m-2 mb-0 px-2 py-1 rounded-lg text-sm"
-          style={{ backgroundColor: colors.bg, color: colors.text }}
-        >
-          {task.project.title}
-        </span>
-      )} */}
-
       <div className="flex justify-between items-center">
         <div
           data-testid="taskItem-details"

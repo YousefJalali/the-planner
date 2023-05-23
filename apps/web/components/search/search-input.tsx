@@ -12,9 +12,6 @@ const SearchInput = (props: InputHTMLAttributes<HTMLInputElement>) => {
       </Head>
 
       <div className="form-control w-full">
-        {/* <label className="label">
-          <span className="label-text invisible">Search</span>
-        </label> */}
         <input
           type="search"
           name="keyword"

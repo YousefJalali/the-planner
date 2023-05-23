@@ -4,12 +4,17 @@ import { useSearch } from '@the-planner/data'
 import { EmptyState, NoSearchDataSvg } from '../ui'
 import ViewTask from '../task/view-task'
 import { SearchedTask } from '../task/task-item'
+import TaskItemSearchPlaceholder from '../task/task-item/task-item-search-placeholder'
 
 const SearchList = ({ query }: { query: string }) => {
   const { searchedTasks, isLoading } = useSearch(query)
 
   return isLoading ? (
-    <div>Loading ...</div>
+    <ul className="space-y-4">
+      {new Array(5).fill(0).map((ele, i) => (
+        <TaskItemSearchPlaceholder />
+      ))}
+    </ul>
   ) : searchedTasks.length > 0 ? (
     <AutoSizer>
       {({ height, width }) => {
