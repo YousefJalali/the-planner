@@ -4,7 +4,7 @@ import { ReactElement } from 'react'
 export default class MyDocument extends Document {
   render(): ReactElement {
     return (
-      <Html lang="en" data-theme="winter">
+      <Html lang="en">
         <Head>
           <meta name="description" content="The planner"></meta>
         </Head>

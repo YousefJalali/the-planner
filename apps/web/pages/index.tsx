@@ -34,8 +34,8 @@ const Home: NextPage<Props> = (props) => {
             <meta charSet="utf-8" />
           </Head>
           <header className="flex justify-between items-center px-6 pt-2 w-full lg:p-4 xl:px-0">
-            <div className="h-12 lg:invisible">
-              <Logo />
+            <div className="w-9 lg:invisible">
+              <Logo logoOnly />
             </div>
 
             <div className="flex items-center -mr-3 lg:m-0 gap-2">
@@ -126,20 +126,6 @@ const Home: NextPage<Props> = (props) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  // const startDate = UTCDate(addCurrentTime(new Date()))
-
-  // const res = await prisma.task.findMany({
-  //   where: {
-  //     startDate,
-  //   },
-  //   orderBy: { createdAt: 'desc' },
-  //   include: { project: { select: { title: true, color: true } } },
-  // })
-
-  // const tasks = JSON.parse(JSON.stringify(res))
-
-  // console.log(tasks)
-
   const {
     hostname: cloud_name,
     username: api_key,

@@ -16,31 +16,18 @@ module.exports = {
         title: ['var(--font-title)'],
         text: ['var(--font-text)'],
       },
-      // keyframes: {
-      //   spin: {
-      //     '0%': { transform: 'rotate(0deg)' },
-      //     '100%': { transform: 'rotate(360deg)' },
-      //   },
-      // },
     },
   },
 
-  // plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {
     themes: [
       {
-        winter: {
-          ...require('daisyui/src/colors/themes')['[data-theme=winter]'],
+        light: {
+          ...require('daisyui/src/colors/themes')['[data-theme=light]'],
           primary: '#148d85',
           secondary: '#8dcfb0',
           accent: '#f9f7fb',
           transparent: 'transparent',
-        },
-        dark: {
-          ...require('daisyui/src/colors/themes')['[data-theme=dark]'],
-          primary: '#4E63F2',
-          secondary: '#474554',
-          accent: '#FF5D67',
         },
       },
     ],
