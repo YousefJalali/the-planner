@@ -244,22 +244,43 @@ const handler = async (
 
       if (toBeRemoved.length > 0) {
         const ids = toBeRemoved.map((attachment: Attachment) => attachment.id)
-        // await deleteImages(ids)
+        try {
+          await cloudinary.api.delete_resources(ids, function (error, result) {
+            if (error) {
+              return res
+                .status(400)
+                .json({ error: 'Error while deleting attachments' })
+            }
+          })
+        } catch (error) {
+          return res
+            .status(400)
+            .json({ error: 'Error while deleting attachments' })
+        }
       }
+
       if (toBeUploaded.length > 0) {
         const paths = toBeUploaded.map(
           (attachment: Attachment) => attachment.path
         )
 
-        const { images, error } = await uploadImages(
-          paths,
-          task.projectId,
-          task.id,
-          cloudinary.uploader.upload
-        )
+        let images: Attachment[] = []
 
-        if (error || !images) {
-          return res.status(400).json({ error })
+        try {
+          const { images, error } = await uploadImages(
+            paths,
+            task.projectId,
+            task.id,
+            cloudinary.uploader.upload
+          )
+
+          if (error || !images) {
+            return res.status(400).json({ error })
+          }
+        } catch (error) {
+          return res
+            .status(400)
+            .json({ error: 'Error while uploading attachments' })
         }
 
         task = { ...task, attachments: [...images, ...task.attachments] }
@@ -301,7 +322,20 @@ const handler = async (
 
       if (deletedTask.attachments.length > 0) {
         const ids = deletedTask.attachments.map((attachment) => attachment.id)
-        // await deleteImages(ids)
+
+        try {
+          await cloudinary.api.delete_resources(ids, function (error, result) {
+            if (error) {
+              return res
+                .status(400)
+                .json({ error: 'Error while deleting attachments' })
+            }
+          })
+        } catch (error) {
+          return res
+            .status(400)
+            .json({ error: 'Error while deleting attachments' })
+        }
       }
 
       return res.status(200).json({ data: deletedTask })
