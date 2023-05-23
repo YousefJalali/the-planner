@@ -116,7 +116,7 @@ const Home: NextPage<Props> = (props) => {
         </div>
         <div className="drawer-side m-4 pl-0 !hidden xl:!grid">
           <label htmlFor="projects-drawer" className="drawer-overlay"></label>
-          <div className="relative mb-12 w-fit rounded-2xl overflow-y-scroll pb-6 h-[calc(100%-1rem)] bg-base-100">
+          <div className="relative mb-12 w-fit max-w-[348px] rounded-2xl overflow-y-scroll pb-6 h-[calc(100%-1rem)] bg-base-100">
             <ProjectsCardsList />
           </div>
         </div>

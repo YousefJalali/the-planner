@@ -2,7 +2,7 @@ import CreateProject from './create-project'
 
 export const NewProjectCard = () => {
   return (
-    <div className="prose w-full bg-base-100 mx-auto flex flex-col items-center text-center">
+    <div className="prose w-full bg-base-100 mx-auto flex flex-col items-center text-center min-w-[300px]">
       <h3>No active projects</h3>
       <p>Create your first project now</p>
 

@@ -9,7 +9,7 @@ import ProjectCardPlaceholder from './project-card-placeholder'
 export const ProjectsCardsFeatured: FC = () => {
   const router = useRouter()
 
-  const { projects, error, isLoading } = useProjects({ limit: '5' })
+  const { projects, error, isLoading } = useProjects({ limit: '10' })
 
   return (
     <>

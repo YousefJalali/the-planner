@@ -31,9 +31,9 @@ module.exports = {
       {
         winter: {
           ...require('daisyui/src/colors/themes')['[data-theme=winter]'],
-          primary: '#4E63F2',
-          secondary: '#C7D9FF',
-          accent: '#FF7F50',
+          primary: '#148d85',
+          secondary: '#8dcfb0',
+          accent: '#f9f7fb',
           transparent: 'transparent',
         },
         dark: {

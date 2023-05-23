@@ -45,7 +45,7 @@ Props) {
                   <div className="mr-2 flex items-center justify-center">
                     <FiCircle fill={project.color} strokeWidth={0} size={16} />
                   </div>
-                  <span className="leading-normal text-neutral">
+                  <span className="leading-normal text-neutral capitalize">
                     {project.title}
                   </span>
                 </>

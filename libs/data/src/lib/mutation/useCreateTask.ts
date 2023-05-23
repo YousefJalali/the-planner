@@ -2,7 +2,7 @@ import useSWRMutation from 'swr/mutation'
 
 import { useNotification } from '@the-planner/hooks'
 import { Task } from '@the-planner/types'
-import { getErrorMessage } from '@the-planner/utils'
+import { formatToUrlDate, getErrorMessage } from '@the-planner/utils'
 
 import { createTask } from '../actions'
 
@@ -16,7 +16,11 @@ export const useCreateTask = ({
   const { trigger, error, isMutating } = useSWRMutation(
     [
       '/api/tasks',
-      projectId ? `?projectId=${projectId}` : date ? `?d=${date}` : '',
+      projectId
+        ? `?projectId=${projectId}`
+        : date
+        ? `?d=${date}`
+        : `?d=${formatToUrlDate(new Date())}`,
     ],
     (url, arg) => createTask(url, arg)
   )

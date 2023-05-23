@@ -53,6 +53,7 @@ export const useUpdateTaskStatus = ({ task }: { task: Task }) => {
       },
       onSuccess: () => {
         mutate(['/api/projects', `?projectId=${formData.projectId}`])
+        mutate(['/api/projects', `?limit=10`])
       },
     })
 

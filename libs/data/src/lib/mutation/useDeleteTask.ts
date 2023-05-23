@@ -33,6 +33,7 @@ export const useDeleteTask = (taskId: string) => {
         if (data?.data) {
           mutate(['/api/tasks', `?projectId=${data.data?.projectId}`])
           mutate(['/api/tasks', `?d=${formatToUrlDate(data.data?.startDate)}`])
+          mutate(['/api/projects', `?limit=10`])
         }
       },
     })

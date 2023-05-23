@@ -37,7 +37,7 @@ export const useDeleteProject = ({ projectId }: { projectId: string }) => {
       },
       onSuccess: () => {
         mutate(['/api/projects', '?']) //project list
-        mutate(['/api/projects', '?limit=5']) //featured projects
+        mutate(['/api/projects', '?limit=10']) //featured projects
         mutateInfiniteProjects()
       },
     })

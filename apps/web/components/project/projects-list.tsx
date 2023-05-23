@@ -45,7 +45,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
             onClick={() => selectHandler(item)}
             data-testid="projects-list-item"
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 capitalize">
               <FiCircle fill={item.color} strokeWidth={0} />
               {item.title}
             </span>

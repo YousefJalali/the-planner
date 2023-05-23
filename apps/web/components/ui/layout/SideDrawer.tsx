@@ -32,7 +32,7 @@ export default function SideDrawer() {
         className="drawer-overlay"
       ></label>
 
-      <ul className="menu w-80 space-y-2 p-6 bg-primary text-primary-content [&>li>a.active]:bg-base-100 [&>li>a.active]:text-primary">
+      <ul className="menu w-64 space-y-2 p-6 bg-primary text-primary-content [&>li>a.active]:bg-base-100 [&>li>a.active]:text-primary">
         <li className="mb-6">
           <Link
             href="/"
