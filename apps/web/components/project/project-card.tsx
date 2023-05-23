@@ -29,7 +29,7 @@ export const ProjectCard: FC<Props> = ({ project, onClick }) => {
       onClick={onClick}
     >
       <div className="flex flex-col justify-between">
-        <h1 className="text-xl font-semibold line-clamp-2 capitalize">
+        <h1 className="text-xl font-semibold line-clamp-3 capitalize">
           {project.title}
         </h1>
         <p className="mt-4 text-sm opacity-60">{project._count.tasks} Tasks</p>
