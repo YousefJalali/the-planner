@@ -37,7 +37,7 @@ export default function SideDrawer() {
           <Link
             href="/"
             onClick={clickHandler}
-            className="[&>svg]:w-1/3 [&>svg]:mx-auto [&>svg>path]:fill-primary-content mb-16 hover:bg-transparent"
+            className="[&>svg]:w-1/3 [&>svg]:mx-auto [&>svg>path]:fill-primary-content mb-6 hover:bg-transparent"
           >
             <Logo />
           </Link>
@@ -70,7 +70,7 @@ export default function SideDrawer() {
         </li>
 
         <ul className="menu flex flex-1 justify-end space-y-2 [&>li>a.active]:bg-base-100 [&>li>a.active]:text-primary">
-          <li className="rounded-xl border overflow-hidden">
+          <li className="bg-transparent">
             <ProfileButton onClick={clickHandler} />
           </li>
 

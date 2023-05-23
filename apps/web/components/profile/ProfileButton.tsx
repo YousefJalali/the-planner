@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Avatar from './Avatar'
 import { useUser } from 'apps/web/common/AuthCtx'
-import { Spinner } from '../ui'
 
 export default function ProfileButton({ onClick }: { onClick?: () => void }) {
   const { user, isLoading } = useUser()
@@ -9,7 +8,11 @@ export default function ProfileButton({ onClick }: { onClick?: () => void }) {
   return isLoading ? (
     <span className="hidden lg:inline-block">Loading...</span>
   ) : user ? (
-    <Link href="/profile" onClick={onClick}>
+    <Link
+      href="/profile"
+      onClick={onClick}
+      className="rounded-xl border overflow-hidden"
+    >
       <Avatar />
       <div className="flex flex-col items-start">
         <span className="text-sm font-light">Welcome back,</span>
