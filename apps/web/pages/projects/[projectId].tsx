@@ -12,6 +12,7 @@ import { GetServerSideProps } from 'next'
 import { customFetch } from '@the-planner/utils'
 import { SWRConfig, unstable_serialize } from 'swr'
 import ProjectDetails from 'apps/web/components/project/project-details'
+import cookie from 'cookie'
 
 type FallbackProp = {
   [key: string]: {
@@ -82,12 +83,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { projectId } = context.params
 
   try {
-    // const { auth_token } = cookie.parse(context.req.headers.cookie || "")
+    const { auth_token } = cookie.parse(context.req.headers.cookie || '')
 
     const { data: project, error } = await customFetch(
       `${baseUrl}/api/projects?projectId=${projectId}`,
-      { method: 'GET', bodyData: null }
-      // { method: "GET", bodyData: null, token: auth_token }
+      { method: 'GET', bodyData: null, token: auth_token }
     )
 
     if (error) {

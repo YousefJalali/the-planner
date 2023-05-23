@@ -1,5 +1,5 @@
 import { useProject } from '@the-planner/data'
-import { ErrorMessage, LinearProgress } from '../ui'
+import { LinearProgress } from '../ui'
 import { useMemo } from 'react'
 import { Status } from '@the-planner/types'
 import EditProject from './edit-project'
@@ -25,8 +25,8 @@ export default function ProjectDetails({ projectId }: { projectId: string }) {
   return isLoading ? (
     <ProjectDetailsPlaceholder />
   ) : error ? (
-    <div className="px-6 flex justify-center">
-      <ErrorMessage error={error} />
+    <div className="px-6 text-center opacity-60">
+      <span>Oops! Unable to fetch the project. Please try again later.</span>
     </div>
   ) : !project ? (
     <div className="px-6 flex justify-center">Project not found</div>

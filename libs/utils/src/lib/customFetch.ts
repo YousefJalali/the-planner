@@ -21,12 +21,6 @@ export async function customFetch<T>(
     },
   })
 
-  // if (res.status === 401) {
-  //   logout()
-  //   window.location.assign(window.location)
-  //   return
-  // }
-
   if (!res.ok) {
     const error = new Error(res.statusText)
     const { error: err, validationErrors } = await res.json()

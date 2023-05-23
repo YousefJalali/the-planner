@@ -7,6 +7,7 @@ import { SWRConfig, unstable_serialize } from 'swr'
 import { customFetch } from '@the-planner/utils'
 import { GetServerSideProps } from 'next'
 import { TaskWithProject } from '@the-planner/types'
+import cookie from 'cookie'
 
 type FallbackProp = {
   [key: string]: {
@@ -57,12 +58,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { taskId } = context.params
 
   try {
-    // const { auth_token } = cookie.parse(context.req.headers.cookie || "")
+    const { auth_token } = cookie.parse(context.req.headers.cookie || '')
 
     const { data: task, error } = await customFetch(
       `${baseUrl}/api/tasks?taskId=${taskId}`,
-      { method: 'GET', bodyData: null }
-      // { method: "GET", bodyData: null, token: auth_token }
+      { method: 'GET', bodyData: null, token: auth_token }
     )
 
     if (error) {

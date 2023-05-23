@@ -13,17 +13,10 @@ type Query<Type> = {
 }
 
 export const useTasks = (query: Query<QueryType>) => {
-  // const { data, error, mutate } = useSWR(
-  //   `/api/tasks?${new URLSearchParams(query).toString()}`,
-  //   (url) => customFetch(url, {})
-  // )
   const { data, error, mutate } = useSWR(
     ['/api/tasks', `?${new URLSearchParams(query).toString()}`],
     (url) => customFetch(url, {})
   )
-  // const { data, error, mutate } = useSWR('/api/tasks', (url) =>
-  //   customFetch([url, `?${new URLSearchParams(query).toString()}`], {})
-  // )
 
   const tasks: TaskWithProject[] = data?.data || []
   const isLoading = !data && !error

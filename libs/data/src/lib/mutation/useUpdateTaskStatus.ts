@@ -10,6 +10,7 @@ import {
 } from '@the-planner/utils'
 
 import { changeTaskStatus } from '../actions'
+import { mutate } from 'swr'
 
 export const useUpdateTaskStatus = ({ task }: { task: Task }) => {
   const router = useRouter()
@@ -50,10 +51,13 @@ export const useUpdateTaskStatus = ({ task }: { task: Task }) => {
           variant: 'error',
         })
       },
+      onSuccess: () => {
+        mutate(['/api/projects', `?projectId=${formData.projectId}`])
+      },
     })
 
     setNotification({
-      message: `task is ${statusAlias(formData.status)}!`,
+      message: `task moved to ${statusAlias(formData.status)}!`,
       variant: 'success',
     })
 
