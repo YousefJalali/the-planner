@@ -14,6 +14,7 @@ import Avatar from 'apps/web/components/profile/Avatar'
 import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 import { UpdateProfile } from '@the-planner/types'
 import Link from 'next/link'
+import VerifyEmail from 'apps/web/components/auth/VerifyEmail'
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false)
@@ -21,6 +22,8 @@ export default function ProfilePage() {
   const router = useRouter()
   const { user, isLoading } = useUser()
   const { setNotification } = useNotification()
+
+  console.log(user)
 
   const {
     register,
@@ -85,6 +88,9 @@ export default function ProfilePage() {
     return <main className="p-6">Loading...</main>
   }
 
+  const progress: number =
+    50 + ((user?.emailVerified && 25) || 0) + ((user?.photoURL && 25) || 0)
+
   return (
     <div className="min-h-screen">
       <Head>
@@ -101,27 +107,51 @@ export default function ProfilePage() {
 
       <main className="px-6 min-h-screen bg-base-100">
         <h1 className="text-3xl font-bold mb-4 lg:hidden">Profile</h1>
-        <div className="py-12 lg:max-w-lg">
-          <div className="flex flex-col gap-12 lg:flex-row">
-            <div className="flex w-full flex-col items-center lg:w-1/2">
-              <Avatar large />
-              {/* <button className="btn-ghost btn-sm btn mt-1 block">
-              Edit photo
-            </button> */}
+        <div className="py-12">
+          <div className="flex flex-col gap-16 lg:flex-row">
+            <div className="flex w-full flex-col items-center lg:max-w-[300px] lg:w-1/2">
+              <div className="relative h-fit">
+                <div
+                  className="radial-progress text-warning absolute -top-[10%] -left-[10%] w-[120%] h-[120%] z-10 after:opacity-0"
+                  //@ts-ignore
+                  style={{ '--value': progress }}
+                ></div>
+                <Avatar large />
+              </div>
+              <button className="btn-outline btn-sm btn mt-10 block">
+                Edit photo
+              </button>
+              <div className="text-center mt-6 leading-relaxed">
+                <span className="block text-lg">
+                  Your profile is {progress}% completed.
+                </span>
+                <span className="opacity-60 text-sm">
+                  Unlock your profile's true potential! Verify your email, add
+                  an avatar, and embark on a personalized journey.
+                </span>
+              </div>
             </div>
 
             <form className="w-full" onSubmit={handleSubmit(submitHandler)}>
-              <fieldset disabled={loading} className="space-y-4">
+              <fieldset disabled={loading} className="space-y-6">
                 <div className="form-control w-full">
                   <label className="label px-0 opacity-60">
-                    <span className="label-text">Email</span>
+                    <span className="label-text">
+                      Email
+                      <div className="badge badge-error ml-2">Unverified</div>
+                    </span>
                   </label>
                   <span className="input w-full p-0 leading-[3rem]">
                     {user?.email}
                   </span>
+                  <label className="label">
+                    <span className="label-text-alt">
+                      <VerifyEmail />
+                    </span>
+                  </label>
                 </div>
 
-                <div className="form-control w-full">
+                <div className="form-control w-full max-w-sm">
                   <label className="label px-0 opacity-60">
                     <span className="label-text">Name</span>
                   </label>
@@ -146,7 +176,7 @@ export default function ProfilePage() {
                   </label>
                 </div>
 
-                <div className="mt-12 flex space-x-2">
+                <div className="pt-4 flex space-x-2">
                   {!editMode ? (
                     <>
                       <button
