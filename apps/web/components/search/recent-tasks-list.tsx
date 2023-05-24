@@ -3,7 +3,8 @@ import { SearchedTask } from '../task/task-item'
 import ViewTask from '../task/view-task'
 import TaskItemSearchPlaceholder from '../task/task-item/task-item-search-placeholder'
 import Skeleton from 'react-loading-skeleton'
-import { RiKeyLine } from 'react-icons/ri'
+import { HiOutlineLightBulb } from 'react-icons/hi'
+import CreateTask from '../task/create-task'
 
 const RecentTasks = () => {
   const { tasks, isLoading } = useTasks({
@@ -47,12 +48,15 @@ const RecentTasks = () => {
           </section>
         </>
       ) : (
-        <p className="text-center pt-4">
-          <RiKeyLine size={48} className="mx-auto mb-2" />
-          While you may not have any tasks yet, creating an account and starting
-          to add tasks will empower you to seize control of your time, set clear
-          goals, celebrate your progress, stay organized, and reduce stress.
-        </p>
+        <div className="flex flex-col items-center">
+          <p className="text-center">
+            <HiOutlineLightBulb size={48} className="mx-auto mb-2" />
+            Creating an account and starting to add tasks will empower you to
+            seize control of your time, set clear goals, celebrate your
+            progress, stay organized, and reduce stress.
+          </p>
+          <CreateTask />
+        </div>
       )}
     </section>
   )

@@ -15,7 +15,7 @@ export const SearchPage = () => {
     <main className="h-screen py-6">
       <section className="px-6 prose pt-6">
         <h3 className="w-[calc(100%-2rem)]">
-          What task or project are you looking for?
+          Which task or project are you looking for?
         </h3>
 
         <SearchInput
