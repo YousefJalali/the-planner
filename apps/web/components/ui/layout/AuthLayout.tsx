@@ -13,7 +13,7 @@ export default function AuthLayout({
   return (
     <>
       <Head>
-        <meta name="theme-color" content="#F2F7FF"></meta>
+        <meta name="theme-color" content="#F2F2F2"></meta>
         <title>The Planner | {title}</title>
       </Head>
 
