@@ -55,7 +55,7 @@ export default function VerifyEmail() {
       </span>
     </>
   ) : (
-    <a onClick={submitHandler} className="link link-hover">
+    <a onClick={submitHandler} className="link link-hover link-primary">
       Click here to verify your email
     </a>
   )

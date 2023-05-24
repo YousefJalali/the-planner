@@ -2,7 +2,13 @@ import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { FiArrowLeft, FiEdit2, FiLogOut } from 'react-icons/fi'
+import {
+  FiArrowLeft,
+  FiCheckCircle,
+  FiCircle,
+  FiEdit2,
+  FiLogOut,
+} from 'react-icons/fi'
 import { updateProfile } from 'firebase/auth'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Head from 'next/head'
@@ -22,8 +28,6 @@ export default function ProfilePage() {
   const router = useRouter()
   const { user, isLoading } = useUser()
   const { setNotification } = useNotification()
-
-  console.log(user)
 
   const {
     register,
@@ -80,8 +84,8 @@ export default function ProfilePage() {
   }, [isLoading, user, reset, router])
 
   const handleLogout = async () => {
-    await logout()
     router.push('/')
+    await logout()
   }
 
   if (isLoading) {
@@ -109,46 +113,82 @@ export default function ProfilePage() {
         <h1 className="text-3xl font-bold mb-4 lg:hidden">Profile</h1>
         <div className="py-12">
           <div className="flex flex-col gap-16 lg:flex-row">
-            <div className="flex w-full flex-col items-center lg:max-w-[300px] lg:w-1/2">
+            <div className="flex flex-col items-center flex-1">
               <div className="relative h-fit">
                 <div
-                  className="radial-progress text-warning absolute -top-[10%] -left-[10%] w-[120%] h-[120%] z-10 after:opacity-0"
+                  className="radial-progress text-primary absolute -top-[10%] -left-[10%] w-[120%] h-[120%] z-10 after:opacity-0"
                   //@ts-ignore
                   style={{ '--value': progress }}
                 ></div>
                 <Avatar large />
               </div>
-              <button className="btn-outline btn-sm btn mt-10 block">
-                Edit photo
+              <button className="btn-outline btn-primary btn-sm btn mt-10 block">
+                upload photo
               </button>
               <div className="text-center mt-6 leading-relaxed">
                 <span className="block text-lg">
-                  Your profile is {progress}% completed.
+                  Your profile is <b>{progress}%</b> completed.
                 </span>
-                <span className="opacity-60 text-sm">
-                  Unlock your profile's true potential! Verify your email, add
-                  an avatar, and embark on a personalized journey.
+
+                <ul className="w-fit mx-auto flex flex-col items-center my-2 space-y-1">
+                  {[
+                    {
+                      cond: user?.emailVerified,
+                      text: 'Verify your email',
+                      tooltip: 'Verify your email',
+                    },
+                    {
+                      cond: user?.photoURL,
+                      text: 'Add an avatar',
+                      tooltip: 'Upload your photo',
+                    },
+                  ].map(({ text, cond, tooltip }) => (
+                    <li
+                      key={text}
+                      className={`${cond ? 'text-primary line-through' : ''}`}
+                    >
+                      <div
+                        className="tooltip flex gap-1 items-center"
+                        data-tip={tooltip}
+                      >
+                        {cond ? <FiCheckCircle /> : <FiCircle />}
+                        {text}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <span className="opacity-60 text-sm max-w-sm block">
+                  Unlock your profile's true potential and embark on a
+                  personalized journey.
                 </span>
               </div>
             </div>
 
-            <form className="w-full" onSubmit={handleSubmit(submitHandler)}>
+            <form className="flex-1" onSubmit={handleSubmit(submitHandler)}>
               <fieldset disabled={loading} className="space-y-6">
                 <div className="form-control w-full">
                   <label className="label px-0 opacity-60">
                     <span className="label-text">
                       Email
-                      <div className="badge badge-error ml-2">Unverified</div>
+                      <div
+                        className={`badge ml-2 ${
+                          user?.emailVerified ? 'badge-success' : 'badge-error'
+                        }`}
+                      >
+                        {user?.emailVerified ? 'Verified' : 'Unverified'}
+                      </div>
                     </span>
                   </label>
                   <span className="input w-full p-0 leading-[3rem]">
                     {user?.email}
                   </span>
-                  <label className="label">
-                    <span className="label-text-alt">
-                      <VerifyEmail />
-                    </span>
-                  </label>
+                  {!user?.emailVerified && (
+                    <label className="label">
+                      <span className="label-text-alt">
+                        <VerifyEmail />
+                      </span>
+                    </label>
+                  )}
                 </div>
 
                 <div className="form-control w-full max-w-sm">
@@ -158,7 +198,6 @@ export default function ProfilePage() {
                   <input
                     readOnly={!editMode}
                     type="text"
-                    // placeholder="johndoe@example.com"
                     className={`input-bordered input w-full read-only:border-0 read-only:p-0 read-only:focus:ring-0 ${
                       errors?.displayName?.message ? 'input-error' : ''
                     }`}
@@ -235,7 +274,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   if (!user) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/auth/login',
         permanent: false,
       },
     }
