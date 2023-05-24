@@ -15,7 +15,7 @@ export const ProjectsCardsFeatured: FC = () => {
     <>
       <div className="flex justify-between items-center px-6 pb-1 bg-base-100 xl:sticky xl:top-0 xl:py-6 xl:pb-2 xl:z-50">
         <h1 className="text-2xl font-bold">Projects</h1>
-        {projects && projects.length > 0 && !error && !isLoading && (
+        {projects && projects.length > 5 && !error && !isLoading && (
           <button
             name="see all projects"
             className="btn btn-ghost btn-xs -mr-3"
