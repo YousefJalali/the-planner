@@ -5,6 +5,7 @@ import TaskItemSearchPlaceholder from '../task/task-item/task-item-search-placeh
 import Skeleton from 'react-loading-skeleton'
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import CreateTask from '../task/create-task'
+import { FiPlus } from 'react-icons/fi'
 
 const RecentTasks = () => {
   const { tasks, isLoading } = useTasks({
@@ -55,7 +56,14 @@ const RecentTasks = () => {
             seize control of your time, set clear goals, celebrate your
             progress, stay organized, and reduce stress.
           </p>
-          <CreateTask />
+          <CreateTask>
+            {(showModal) => (
+              <button onClick={showModal} className="btn btn-primary gap-2">
+                <FiPlus size={20} />
+                New Task
+              </button>
+            )}
+          </CreateTask>
         </div>
       )}
     </section>
