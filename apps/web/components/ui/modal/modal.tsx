@@ -51,7 +51,7 @@ export const Modal = ({
 
               <motion.div
                 ref={targetRef}
-                className="relative modal-box z-50 transition-none p-0 max-h-full bg-transparent rounded-none"
+                className="relative modal-box z-50 transition-none p-0 max-h-full bg-transparent rounded-none lg:rounded-2xl lg:max-h-[calc(100%-32px)]"
                 id={`${id}-modal`}
                 variants={variants}
                 initial="closed"
