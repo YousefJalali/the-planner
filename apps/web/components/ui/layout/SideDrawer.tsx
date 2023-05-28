@@ -12,7 +12,7 @@ export default function SideDrawer() {
   // const [theme, setTheme] = useState<string | null>(null)
   const labelRef = useRef<HTMLLabelElement>(null)
   const router = useRouter()
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
 
   // useEffect(() => {
   //   setTheme(localStorage.getItem('theme'))
@@ -74,7 +74,7 @@ export default function SideDrawer() {
             <ProfileButton onClick={clickHandler} />
           </li>
 
-          {!user && (
+          {!user && !isLoading && (
             <>
               <li>
                 <Link

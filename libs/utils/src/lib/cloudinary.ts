@@ -12,7 +12,7 @@ type UploadFnType = (
   callback?: UploadResponseCallback
 ) => Promise<UploadApiResponse>
 
-export const uploadImageR = async (
+export const uploadImage = async (
   path: string,
   folderName: string,
   fn: UploadFnType
@@ -65,7 +65,7 @@ export const uploadImages = async (
       images: await Promise.all(
         paths.map(
           async (path) =>
-            await uploadImageR(path, `${projectId}/${taskId}`, uploadFn)
+            await uploadImage(path, `${projectId}/${taskId}`, uploadFn)
         )
       ),
     }

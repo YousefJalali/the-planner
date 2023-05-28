@@ -21,6 +21,7 @@ import { isAuthenticated } from 'apps/web/config/isAuthenticated'
 import { UpdateProfile } from '@the-planner/types'
 import Link from 'next/link'
 import VerifyEmail from 'apps/web/components/auth/VerifyEmail'
+import AddAvatar from 'apps/web/components/profile/AddAvatar'
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false)
@@ -81,7 +82,7 @@ export default function ProfilePage() {
         router.push('/auth/login')
       }
     }
-  }, [isLoading, user, reset, router])
+  }, [isLoading, user, reset])
 
   const handleLogout = async () => {
     router.push('/')
@@ -89,7 +90,7 @@ export default function ProfilePage() {
   }
 
   if (isLoading) {
-    return <main className="p-6">Loading...</main>
+    return <main className="p-6 min-h-screen">Loading...</main>
   }
 
   const progress: number =
@@ -114,18 +115,19 @@ export default function ProfilePage() {
         <div className="py-12">
           <div className="flex flex-col gap-16 lg:flex-row">
             <div className="flex flex-col items-center flex-1">
-              <div className="relative h-fit">
+              <div className="relative w-fit h-fit flex">
                 <div
-                  className="radial-progress text-primary absolute -top-[10%] -left-[10%] w-[120%] h-[120%] z-10 after:opacity-0"
+                  className="radial-progress text-primary absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[calc(100%+32px)] h-[calc(100%+32px)] z-10 after:opacity-0"
                   //@ts-ignore
                   style={{ '--value': progress }}
                 ></div>
-                <Avatar large />
+                <div className="relative flex overflow-hidden rounded-full">
+                  <Avatar large />
+                  <AddAvatar />
+                </div>
               </div>
-              <button className="btn-outline btn-primary btn-sm btn mt-10 block">
-                upload photo
-              </button>
-              <div className="text-center mt-6 leading-relaxed">
+
+              <div className="text-center mt-10 leading-relaxed">
                 <span className="block text-lg">
                   Your profile is <b>{progress}%</b> completed.
                 </span>
