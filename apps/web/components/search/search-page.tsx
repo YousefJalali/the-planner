@@ -12,7 +12,7 @@ export const SearchPage = () => {
   const { handler } = useSearchHistory()
 
   return (
-    <main className="h-screen py-6">
+    <main className="py-6 pb-12">
       <section className="px-6 prose pt-6">
         <h3 className="w-[calc(100%-2rem)]">
           Which task or project are you looking for?
