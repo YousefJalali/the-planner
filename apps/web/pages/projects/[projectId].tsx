@@ -5,7 +5,7 @@ import { baseUrl } from '@the-planner/data'
 import CreateTaskButton from '../../components/task/create-task'
 import { Project } from '@the-planner/types'
 import { TasksLists } from 'apps/web/components/task/tasks-list'
-import { FiChevronLeft, FiPlus } from 'react-icons/fi'
+import { FiArrowLeft, FiPlus } from 'react-icons/fi'
 import Head from 'next/head'
 import { ErrorBoundary } from 'react-error-boundary'
 import { GetServerSideProps } from 'next'
@@ -42,7 +42,7 @@ const Project = ({
           onClick={() => router.back()}
           className="btn btn-ghost btn-circle -ml-5 lg:w-fit lg:px-3 lg:rounded-lg lg:gap-2"
         >
-          <FiChevronLeft size={24} />
+          <FiArrowLeft size={24} />
           <span className="hidden lg:inline-block">Back</span>
         </a>
       </header>
