@@ -61,7 +61,11 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
     <span className="block p-6 text-center">Loading...</span>
   ) : (
     <div id="project-list-select">
-      <div className="relative flex mx-3 mt-12 pb-2 gap-x-2">
+      <div className="prose p-6">
+        <h1>Select project</h1>
+      </div>
+
+      <div className="relative flex mx-3 pb-2 gap-x-2">
         <div className="sticky top-0 z-50 flex-1">
           <input
             type="search"
