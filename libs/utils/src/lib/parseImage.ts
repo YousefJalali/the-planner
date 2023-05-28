@@ -23,7 +23,7 @@ const getPath = (file: File) =>
     fileReader.readAsDataURL(file)
   })
 
-const getSize = (path: string) => {
+const getDimensions = (path: string) => {
   const image = new Image()
   return new Promise<{ width: number; height: number }>((resolve, reject) => {
     image.onerror = () => reject(new Error(`Could not load image at ${path}`))
@@ -38,14 +38,14 @@ const constructImage = async (files: File[]) =>
   await Promise.all(
     files.map(async (file) => {
       const path = await getPath(file)
-      const size = await getSize(path)
+      const dimensions = await getDimensions(path)
 
       return {
         id: uuidv4(),
         name: file.name,
         path,
-        height: size.height,
-        width: size.width,
+        height: dimensions.height,
+        width: dimensions.width,
       } as Attachment
     })
   )

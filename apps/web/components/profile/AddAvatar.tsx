@@ -16,6 +16,16 @@ export default function AddAvatar() {
 
     const images = await parseImage(e.target.files)
 
+    if (+(e.target.files[0].size / 1024 / 1024).toFixed(4) > 4) {
+      setLoading(false)
+
+      setNotification({
+        message: 'Size must be less than 4 mb',
+        variant: 'error',
+      })
+      return
+    }
+
     if (images) {
       try {
         setLoading(true)
@@ -25,7 +35,15 @@ export default function AddAvatar() {
           bodyData: images[0].path,
         })
 
-        if (!image) return
+        if (!image) {
+          setLoading(false)
+
+          setNotification({
+            message: 'Failed to upload the image. Try again',
+            variant: 'error',
+          })
+          return
+        }
 
         updateProfile(user, {
           photoURL: image?.data?.path || '',
@@ -49,7 +67,7 @@ export default function AddAvatar() {
               //   break
               default:
                 setNotification({
-                  message: 'Something is wrong; try again later.',
+                  message: 'Something is wrong, try again later.',
                   variant: 'error',
                 })
                 break
@@ -67,7 +85,7 @@ export default function AddAvatar() {
       className="absolute bottom-0 left-0 z-20 w-full text-center cursor-pointer py-2 flex justify-center items-center"
     >
       {loading ? (
-        <Spinner className="[&>path]:fill-base-100" size={24} />
+        <Spinner className="[&>path]:!fill-base-100" size={24} />
       ) : (
         <FiPlus className="stroke-base-100 z-30" size={24} />
       )}
