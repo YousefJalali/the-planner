@@ -112,7 +112,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   } catch (error) {
     return {
-      notFound: true,
+      props: {
+        fallback: {
+          [unstable_serialize([
+            // '/api/projects',
+            `/api/projects?projectId=${projectId}`,
+          ])]: {
+            data: JSON.parse(JSON.stringify({})),
+          },
+        },
+        projectId,
+        projectTitle: '',
+      },
     }
   }
 }

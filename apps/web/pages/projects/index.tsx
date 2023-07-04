@@ -44,20 +44,31 @@ const Index: NextPage = ({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // const { auth_token } = cookie.parse(context.req.headers.cookie || "")
 
-  const { data: notebooks } = await customFetch(
-    `${baseUrl}/api/projects`,
-    { method: 'GET', bodyData: null }
-    // { method: "GET", bodyData: null, token: auth_token }
-  )
+  try {
+    const { data: notebooks } = await customFetch(`${baseUrl}/api/projects`, {
+      method: 'GET',
+      bodyData: null,
+    })
 
-  return {
-    props: {
-      fallback: {
-        [unstable_serialize(['/api/projects'])]: JSON.parse(
-          JSON.stringify(notebooks)
-        ),
+    return {
+      props: {
+        fallback: {
+          [unstable_serialize(['/api/projects'])]: JSON.parse(
+            JSON.stringify(notebooks)
+          ),
+        },
       },
-    },
+    }
+  } catch (error) {
+    return {
+      props: {
+        fallback: {
+          [unstable_serialize(['/api/projects'])]: JSON.parse(
+            JSON.stringify([])
+          ),
+        },
+      },
+    }
   }
 }
 
