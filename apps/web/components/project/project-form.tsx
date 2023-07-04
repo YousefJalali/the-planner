@@ -60,7 +60,7 @@ export function ProjectForm({
   }
 
   return (
-    <form className="p-6 prose" onSubmit={handleSubmit(submitHandler)}>
+    <form className="p-6 prose prose-sm" onSubmit={handleSubmit(submitHandler)}>
       <h1 className="">{id === 'create' ? 'New' : 'Update'} Project</h1>
 
       <fieldset

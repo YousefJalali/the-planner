@@ -32,24 +32,29 @@ export default function ProjectDetails({ projectId }: { projectId: string }) {
     <div className="px-6 flex justify-center">Project not found</div>
   ) : (
     <section className="overflow-hidden px-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-4xl font-bold leading-relaxed">{project.title}</h1>
-        <EditProject project={project}>
-          {(showModal) => (
-            <button
-              onClick={showModal}
-              className="btn btn-secondary btn-sm gap-2"
-            >
-              <FiEdit2 size={12} />
-              edit
-            </button>
-          )}
-        </EditProject>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl md:text-4xl font-bold leading-relaxed first-letter:uppercase">
+          {project.title}
+        </h1>
+        <div className="absolute top-6 right-6">
+          <EditProject project={project}>
+            {(showModal) => (
+              <button
+                onClick={showModal}
+                className="btn btn-ghost btn-sm -mr-3"
+              >
+                edit
+              </button>
+            )}
+          </EditProject>
+        </div>
       </div>
 
       {project.description?.length > 0 && (
-        <div className="mb-4 max-h-[128px] overflow-y-scroll">
-          <p>{project.description}</p>
+        <div className="mb-4 relative after:content[' '] after:absolute after:bottom-0 after:left-0 after:w-full after:h-8 after:bg-gradient-to-t from-base-100">
+          <p className="leading-relaxed opacity-60 font-text max-h-[116px] overflow-y-scroll pb-8">
+            {project.description}
+          </p>
         </div>
       )}
 

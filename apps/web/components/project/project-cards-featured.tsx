@@ -1,10 +1,16 @@
-import { FC } from 'react'
+import { FC, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import ProjectCard from './project-card'
 
 import NewProjectCard from './new-project-card'
 import { useProjects } from '@the-planner/data'
 import ProjectCardPlaceholder from './project-card-placeholder'
+
+const List = ({ children }: { children: ReactNode }) => (
+  <ul className="scrollbar-hide bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
+    {children}
+  </ul>
+)
 
 export const ProjectsCardsFeatured: FC = () => {
   const router = useRouter()
@@ -27,13 +33,13 @@ export const ProjectsCardsFeatured: FC = () => {
       </div>
 
       {isLoading ? (
-        <ul className="bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
+        <List>
           {new Array(5).fill(0).map((e, i) => (
             <li key={i} className="flex-1">
               <ProjectCardPlaceholder />
             </li>
           ))}
-        </ul>
+        </List>
       ) : error ? (
         <div className="p-6">Something went wrong</div>
       ) : projects.length === 0 ? (
@@ -41,7 +47,7 @@ export const ProjectsCardsFeatured: FC = () => {
           <NewProjectCard />
         </div>
       ) : (
-        <ul className="bg-base-100 flex snap-x overflow-auto space-x-6 px-6 py-1 xl:flex-col xl:overflow-x-hidden xl:overflow-y-scroll xl:space-x-0 xl:space-y-6 [&>li]:max-w-sm">
+        <List>
           {projects.map((project) => (
             <li key={project.id} className="flex-1">
               <ProjectCard
@@ -50,7 +56,7 @@ export const ProjectsCardsFeatured: FC = () => {
               />
             </li>
           ))}
-        </ul>
+        </List>
       )}
     </>
   )

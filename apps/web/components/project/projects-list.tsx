@@ -47,7 +47,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
           >
             <span className="flex items-center gap-2 capitalize">
               <FiCircle fill={item.color} strokeWidth={0} />
-              {item.title}
+              <span className="text-left truncate">{item.title}</span>
             </span>
           </button>
         )}
@@ -61,7 +61,7 @@ export const ProjectsList: FC<Props> = ({ onSelectProject }) => {
     <span className="block p-6 text-center">Loading...</span>
   ) : (
     <div id="project-list-select">
-      <div className="prose p-6">
+      <div className="prose prose-sm p-6">
         <h1>Select project</h1>
       </div>
 

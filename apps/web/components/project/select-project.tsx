@@ -39,16 +39,14 @@ Props) {
       >
         <div className="flex justify-between items-center">
           {project ? (
-            <div className="flex items-center">
+            <div className="flex items-center overflow-hidden">
               {project.color.length > 0 && (
-                <>
-                  <div className="mr-2 flex items-center justify-center">
-                    <FiCircle fill={project.color} strokeWidth={0} size={16} />
-                  </div>
-                  <span className="leading-normal text-neutral capitalize">
+                <span className="flex items-center justify-center gap-2 leading-normal text-neutral">
+                  <FiCircle fill={project.color} strokeWidth={0} size={16} />
+                  <span className="line-clamp-1 first-letter:uppercase text-left">
                     {project.title}
                   </span>
-                </>
+                </span>
               )}
             </div>
           ) : (
@@ -57,9 +55,7 @@ Props) {
             </span>
           )}
           <div className="flex gap-2">
-            {value && isLoading && <Spinner />}
-
-            <FiChevronDown size={20} />
+            {(value && isLoading && <Spinner />) || <FiChevronDown size={20} />}
           </div>
         </div>
       </button>

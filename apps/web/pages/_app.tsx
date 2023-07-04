@@ -12,6 +12,7 @@ import { NotificationCtxProvider } from '@the-planner/hooks'
 import Layout from '../components/ui/layout/layout'
 import { ErrorBoundary } from 'react-error-boundary'
 import { AuthContextProvider } from '../common/AuthCtx'
+import Head from 'next/head'
 
 //loading progress bar
 NProgress.configure({ showSpinner: false })
@@ -26,27 +27,33 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ErrorBoundary fallback={<div>Something went wrong</div>}>
-      <CookiesProvider>
-        <SWRConfig
-          value={
-            {
-              // refreshInterval: 3000,
-              // fetcher: (resource, init) =>
-              //   fetch(resource, init).then((res) => res.json()),
+    <>
+      <Head>
+        <title>Binder</title>
+        <meta charSet="utf-8" />
+      </Head>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <CookiesProvider>
+          <SWRConfig
+            value={
+              {
+                // refreshInterval: 3000,
+                // fetcher: (resource, init) =>
+                //   fetch(resource, init).then((res) => res.json()),
+              }
             }
-          }
-        >
-          <AuthContextProvider>
-            <NotificationCtxProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </NotificationCtxProvider>
-          </AuthContextProvider>
-        </SWRConfig>
-      </CookiesProvider>
-    </ErrorBoundary>
+          >
+            <AuthContextProvider>
+              <NotificationCtxProvider>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </NotificationCtxProvider>
+            </AuthContextProvider>
+          </SWRConfig>
+        </CookiesProvider>
+      </ErrorBoundary>
+    </>
   )
 }
 

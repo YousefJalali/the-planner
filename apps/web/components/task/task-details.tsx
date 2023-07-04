@@ -21,7 +21,7 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
     <div className="flex justify-center p-6">Task not found</div>
   ) : (
     <>
-      <section className="px-6 my-6 space-y-5">
+      <section className="p-6 space-y-5">
         {/* project */}
         <section className="flex justify-between">
           <div className="flex">
@@ -54,8 +54,10 @@ export const TaskDetails = ({ taskId }: { taskId: string }) => {
           </Link>
 
           {task.description?.length > 0 && (
-            <div className="font-text mt-2 max-h-[200px] overflow-y-scroll opacity-60 leading-relaxed">
-              <p>{task.description}</p>
+            <div className="mt-2 relative after:content[' '] after:absolute after:bottom-0 after:left-0 after:w-full after:h-8 after:bg-gradient-to-t from-base-100 relative after:content[' '] after:absolute after:bottom-0 after:left-0 after:w-full after:h-8 after:bg-gradient-to-t from-base-100">
+              <p className="font-text pb-8 max-h-[200px] overflow-y-scroll opacity-60 leading-relaxed  ">
+                {task.description}
+              </p>
             </div>
           )}
         </div>

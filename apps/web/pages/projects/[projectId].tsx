@@ -56,7 +56,7 @@ const Project = ({
         <CreateTaskButton projectId={projectId}>
           {(showModal) => (
             <button
-              className="btn btn-primary btn-sm gap-2"
+              className="btn text-primary btn-ghost btn-xs -mr-2 gap-2"
               onClick={showModal}
             >
               <FiPlus size={16} />

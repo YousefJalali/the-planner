@@ -92,7 +92,10 @@ export function TaskForm({
 
   return (
     <>
-      <form className="p-6 prose" onSubmit={handleSubmit(submitHandler)}>
+      <form
+        className="p-6 prose prose-sm"
+        onSubmit={handleSubmit(submitHandler)}
+      >
         <h1 className="">{id === 'create' ? 'New' : 'Update'} Task</h1>
 
         <fieldset
@@ -136,7 +139,7 @@ export function TaskForm({
                   value={value}
                   onChange={onChange}
                   placeholder="Select a project..."
-                  className={`input-bordered input w-full ${
+                  className={`input-bordered input overflow-hidden ${
                     errors?.projectId ? 'input-error' : ''
                   }`}
                 />
