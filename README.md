@@ -20,10 +20,10 @@ The Binder App is a powerful tool that helps you stay organized and manage your 
 
 To use the Binder App, follow these steps:
 
-1. Clone the repository: git clone https://github.com/your-username/the-planner.git
+1. Clone the repository: git clone https://github.com/YousefJalali/the-planner.git
 2. Navigate to the app's directory: cd the-planner
 3. Install the necessary dependencies: npm install
-4. Start the app: npm start
+4. Start the app: npx nx serve
 5. Access the app in your web browser by visiting http://localhost:3000.
 
 ## Usage
