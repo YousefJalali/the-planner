@@ -1,90 +1,60 @@
-# ThePlanner
-
-This project was generated using [Nx](https://nx.dev).
+# Binder
 
 <p style="text-align: center;"><img src="https://jalaliyousef.com/_next/image?url=%2Fbinder.png&w=3840&q=75" width="450"></p>
 
-🔎 **Smart, Fast and Extensible Build System**
+The Binder App is a powerful tool that helps you stay organized and manage your tasks and projects efficiently. With this app, you can create tasks, assign them to projects, set due dates, prioritize your work, and organize them into categories. Whether you're a student, professional, or simply someone who wants to stay on top of their to-do list, the Binder App has got you covered.
 
-## Adding capabilities to your workspace
+## Features
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+- **Task Creation**: Create new tasks with detailed descriptions and assign them to specific projects.
+- **Project Management**: Organize your tasks by assigning them to different projects for better categorization.
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+- **Due Dates**: Set due dates for your tasks to ensure timely completion and stay on track.
+- **Priority Levels**: Prioritize your tasks by assigning them different levels of importance, helping you focus on what matters most.
+- **Categorization**: Organize your tasks into categories or tags, making it easier to filter and search for specific tasks.
+- **Notifications and Reminders**: Receive timely notifications and reminders for approaching due dates or important tasks.
+- **Task Completion**: Mark tasks as completed once finished to track your progress and maintain a sense of accomplishment.
+- **Multi-Device Accessibility**: Access and manage your tasks and projects seamlessly from multiple devices, including smartphones, tablets, and desktop computers.
 
-Below are our core plugins:
+## Installation
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nx/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nx/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nx/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nx/node`
+To use the Binder App, follow these steps:
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+1. Clone the repository: git clone https://github.com/your-username/the-planner.git
+2. Navigate to the app's directory: cd the-planner
+3. Install the necessary dependencies: npm install
+4. Start the app: npm start
+5. Access the app in your web browser by visiting http://localhost:3000.
 
-## Generate an application
+## Usage
 
-Run `nx g @nx/react:app my-app` to generate an application.
+1. Launch the Binder App on your device.
+2. Create a new account or log in if you already have one.
+3. Once logged in, you will be directed to the dashboard.
+4. Start by creating a project to organize your tasks. Give it a meaningful name and description.
+5. Within each project, you can create individual tasks by clicking on the "New Task" button.
+6. Provide a detailed description, set a due date, assign it a priority level, and optionally assign it to a category or tag.
+7. Save the task and repeat the process for additional tasks.
+8. Navigate through the app to view and manage your tasks, projects, and categories.
+9. Receive notifications and reminders as due dates approach.
+10. Mark tasks as completed when finished to keep track of your progress.
 
-> You can use any of the plugins above to generate applications as well.
+## Contributing
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+We welcome contributions to the Binder App! To contribute, please follow these steps:
 
-## Generate a library
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix: git checkout -b my-feature
+3. Make the necessary changes and commit them: git commit -m "Add feature"
+4. Push your changes to your forked repository: git push origin my-feature
+5. Submit a pull request to the main repository.
 
-Run `nx g @nx/react:lib my-lib` to generate a library.
+Please ensure your code adheres to the app's coding conventions and includes appropriate documentation and tests.
 
-> You can also use any of the plugins above to generate libraries as well.
+## Support
 
-Libraries are shareable across libraries and applications. They can be imported from `@the-planner/mylib`.
+If you encounter any issues or have any questions or suggestions, please open an issue in the GitHub repository.
 
-## Development server
+## About
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nx/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+The Binder App was developed by Yousef Jalali. It is an open-source project aimed at helping users stay organized and productive. We hope you find it useful!
